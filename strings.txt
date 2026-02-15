@@ -1,0 +1,245 @@
+Skip
+Everything Your Class Needs- In One Place
+Educology brings your classes, lessons, and homework into one simple app.
+Stay organized and focus more on learning, not managing tasks.
+Attend Classes & Access Lessons
+Class & Student Management Made Simple
+Manage classes, track attendance, and monitor student progress from one dashboard.
+Track Progress & Stay Updated
+Submit homework, check attendance, and monitor your learning progress.
+Everything you need to succeed—clear, simple, and in one place.
+Get Started
+Welcome to educology
+Manage your classes, lessons, and progress—all in one smart learning app.
+Select your role to continue
+I’m a Student
+Sign in / Sign up as a Student
+I’m a Parent
+Sign in / Sign up as a Parent
+I’m a Teacher
+Sign in / Sign up as a Teacher
+I’m an Assistant
+Sign in / Sign up as an Assistant
+Next
+Create An Account
+Fill in your information.
+Name
+Enter your name
+Email
+Enter your email
+Phone
+Enter your email
+New Password
+Enter your Password
+Confirm Password
+Enter your Password
+I agree with this Terms of Use  and Privacy Policy.
+Sign Up
+Already have an account? Sign In
+5:13
+Verify your email
+We’ve sent an mail with an activation code to your Email
+00:07
+Didn’t get the code?
+Resend
+Confirm Code
+Note: If you have not received the email in your inbox, please check your spam or junk folder.
+space
+return
+Welcome to educology
+Sign in to access your account
+Email
+Enter your email
+Password
+Enter your Password
+Forget Password?
+Sign In
+Don’t have an account? Sign Up
+Forget Your Password?
+Enter your email address to reset your password.
+Email
+Enter your email
+Get Verification Code
+space
+return
+Verify your email
+We’ve sent an mail with an activation code to your Email
+Didn’t get the code?
+Resend
+Confirm Code
+Note: If you have not received the email in your inbox, please check your spam or junk folder.
+return
+Reset Your Password
+Password  must have 6-8 characters.
+New Password
+Enter your Password
+Confirm Password
+Enter your Password
+Confirm
+Password changed
+Your password has been changed successfully
+Back To Sign in
+Account Pending Approval
+Your account is currently under review by the admin.
+You will be able to access your dashboard once your account is approved.
+Got it
+Notification
+Welcome Back!
+Welcome to Educology
+Your teaching space is ready. Manage your classes, lessons, and student progress from one place.
+Total Courses
+Total Students
+My Assign Courses
+Class Details
+Active
+Total Enrolled Student :
+Attendance
+HomeWork Submitted
+Avg. Grade
+Overdue Tasks
+Generate Report
+Class Overview
+Participants
+Classes
+Examination
+Announcement
+Add Class
+Add Homework
+Add Exam
+Announcement
+Class Overview
+On Track
+Needs Attention
+Falling Behind
+Critical Risk
+Student
+Critical
+Attention
+Behind
+View
+Participate
+Search by name or phone no.
+Assistants
+Student Progress
+View Attendance
+View Exams
+Total Completed Class:
+Class Name
+Class Start
+Attendance
+View All MArks
+View Answer
+Results will be published soon
+You did not attend or submit this exam
+Late submitted
+Students Report
+Student Name
+Attendance
+H.w. Completed
+H.w. Pending
+Exam Grade
+Add Class
+Tittle
+Enter Class Name
+Expected Live Class starting Date & Time
+Add Class Details
+Paragraph
+Attached Document (Optional)
+Upload File
+Share Zoom Link
+Paste your class link here...
+Upload
+Add Homework
+Start  Date and Time
+Deadline
+Attached Question
+Add Announcement
+Create Announcement
+Paste any any link here...
+Share Link(Optional)
+Class Details
+Start Class
+Attendance
+Add Comment
+Task/ Exam
+Time Over
+Check Answer
+Here In pdf has your question. Check this question. And provide your Answer in a pdf with in due time. After due time any one cannot submit there answer
+Homework/ Exam
+In Time
+View Answer
+Provide Mark
+Late
+Upload Corrected Answer papaer
+Provide mark
+Provide here
+Provide a short feedback
+Provide here
+Student
+Join Time
+Attendance
+Write Comment
+write comment here
+Submit
+Profile
+Edit Profile
+Support
+Settings
+Logout
+Edit Profile
+Name
+Enter your name
+Email
+Enter your email
+Date of Birth
+DD-MM-YYYY
+Gender
+Male
+About Me
+Write about you
+Max : 200 word
+Update
+Support
+Settings
+Change Password
+About Us
+Terms & Conditions
+Privacy Policy
+Delete Account
+Change Password
+Password must be Min 8 characters, include letters & numbers.
+Current Password
+Enter your Password
+New Password
+Enter your Password
+Confirm Password
+Enter your Password
+Update
+Log Out
+Do you want to log out your account?
+Cancel
+Delete Card
+Do you want to delete your Card?
+Cancel
+Delete
+Your learning journey will begin soon.
+Your account has been created successfully, but you haven’t been enrolled in any courses yet.
+Courses are added by the admin. Once you are assigned to a course, it will appear here automatically.
+Helpful Note
+If you think this is a mistake, please contact your school or administrator.
+Email
+Phone
+My Progress
+participants
+Participate
+View Attendance
+View Exams
+Class Name
+Class Start
+Attendance
+View All Marks
+Results will be published soon
+You did not attend or submit this exam
+Join Class
+Submit Answer
+##################STUDENT PROFILE REMAINING##############
