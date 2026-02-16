@@ -1,0 +1,29 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
+
+class AppColors {
+
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color grey78 = Color(0xFF787878);
+  static const Color black = Color(0xFF000000);
+  static const Color primaryGold = Color(0xFFD5A85E);
+
+  static const LinearGradient primaryButtonGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+      colors: [
+        Color(0xFFB2905F),
+        Color(0xFFD5A85E),
+  ]
+  );
+
+  static const LinearGradient onboardingGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+      colors: [
+        Color(0xFFFFFFFF),
+        Color(0xFF64937D),
+  ]
+  );
+}

@@ -40,7 +40,7 @@ void main() {
     ..writeln('}');
 
   // Save output file
-  final outputFile = File('lib/core/constants/app_strings.dart');
+  final outputFile = File('lib/core/utils/app_strings.dart');
   outputFile.createSync(recursive: true);
   outputFile.writeAsStringSync(buffer.toString());
 
