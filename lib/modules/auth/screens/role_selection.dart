@@ -1,8 +1,11 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
+import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 
@@ -27,26 +30,44 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
+              //const SizedBox(height: 20),
               // Logo Section
-              SvgPicture.asset( Assets.icons.appLogo, height: 120),
+              SvgPicture.asset(
+                  Assets.icons.appLogo,
+                  height: 190.h,
+                width: 225.w,
+              ),
               const SizedBox(height: 12),
 
               // Header Text
-              const Text(
-                AppStrings.welcomeToEducology,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF4A6D65), // Deep teal/green
-                ),
+              RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Welcome to",
+                        style: TextStyle(
+                          color: AppColors.secondaryGreen,
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold
+                        )
+                      ),
+                      TextSpan(
+                          text: "educology",
+                          style: TextStyle(
+                              color: AppColors.secondaryDarkBlue,
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold
+                          )
+                      )
+                    ]
+                  )
               ),
               const SizedBox(height: 8),
               const Text( AppStrings.manageYourClasses,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+                style: TextStyle(fontSize: 14, color: AppColors.grey4E),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 12),
 
               const Text(
                 AppStrings.selectYourRole,
@@ -74,26 +95,10 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
               ButtonWidget(
                   label: AppStrings.next,
                 gradient: AppColors.primaryButtonGradient,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: _selectedRole == null ? null : () {
-                    //Navigate to next screen
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFC9A66B), // Golden tan color
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: const Text(
-                    'Next',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                ),
+                isEnabled: _selectedRole != null,
+                onPressed: (){
+                    Get.toNamed(AppRoutes.signUp);
+                },
               ),
               const SizedBox(height: 20),
             ],
@@ -109,8 +114,8 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
     return GestureDetector(
       onTap: () => setState(() => _selectedRole = title),
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(12),
+        margin: const EdgeInsets.only(bottom: 6),
+        padding: const EdgeInsets.all(0),
         decoration: BoxDecoration(
           color: isSelected ? Colors.white : const Color(0xFFF8F8F8),
           borderRadius: BorderRadius.circular(12),
@@ -126,9 +131,11 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
               width: 60,
               height: 60,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12),
               ),
-              child: SvgPicture.asset(assetPath, fit: BoxFit.contain),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
+                  child: SvgPicture.asset(assetPath, fit: BoxFit.contain)),
             ),
             const SizedBox(width: 16),
             // Text Details

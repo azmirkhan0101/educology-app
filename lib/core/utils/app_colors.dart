@@ -5,9 +5,12 @@ import 'package:flutter/cupertino.dart';
 class AppColors {
 
   static const Color white = Color(0xFFFFFFFF);
+  static const Color grey4E = Color(0xFF4E4E4E);
   static const Color grey78 = Color(0xFF787878);
   static const Color black = Color(0xFF000000);
   static const Color primaryGold = Color(0xFFD5A85E);
+  static const Color secondaryGreen = Color(0xFF64937D);
+  static const Color secondaryDarkBlue = Color(0xFF33526A);
 
   static const LinearGradient primaryButtonGradient = LinearGradient(
     begin: Alignment.centerLeft,

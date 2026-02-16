@@ -25,9 +25,11 @@ class ButtonWidget extends StatelessWidget {
   final Color? iconColor;
   final double? iconSize;
   final double borderWidth;
-
-  // Added Gradient Property
   final Gradient? gradient;
+
+  // New properties for state control
+  final bool isEnabled;
+  final Color disabledColor;
 
   const ButtonWidget({
     super.key,
@@ -51,30 +53,38 @@ class ButtonWidget extends StatelessWidget {
     this.iconColor,
     this.iconSize,
     this.borderWidth = 0,
-    this.gradient, // Initialize here
+    this.gradient,
+    this.isEnabled = true, // Defaulting to true
+    this.disabledColor = Colors.grey, // Default disabled color
   });
 
   @override
   Widget build(BuildContext context) {
+    // Logic to determine the background color based on state
+    final Color effectiveBackgroundColor = isEnabled ? backgroundColor : disabledColor;
+
     return Container(
       height: buttonHeight.h,
       width: buttonWidth?.w,
       decoration: BoxDecoration(
-        // Apply gradient if provided, otherwise use backgroundColor
-        gradient: gradient,
-        color: gradient == null ? backgroundColor : null,
+        // We only show the gradient if enabled and provided
+        gradient: isEnabled ? gradient : null,
+        color: (isEnabled && gradient != null) ? null : effectiveBackgroundColor,
         borderRadius: BorderRadius.circular(buttonRadius.r),
         border: borderColor != null
             ? Border.all(color: borderColor!, width: borderWidth.r)
             : null,
       ),
       child: ElevatedButton(
-        onPressed: onPressed,
+        // Passing null to onPressed disables the button
+        onPressed: isEnabled ? onPressed : null,
         style: ElevatedButton.styleFrom(
           padding: padding,
-          // We make the button background transparent to show the Container's decoration
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
+          // Defines the look when isEnabled is false
+          disabledBackgroundColor: Colors.transparent,
+          disabledForegroundColor: textColor.withOpacity(0.6),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(buttonRadius.r),
           ),
@@ -85,11 +95,15 @@ class ButtonWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (prefixIcon != null)
-              Icon(prefixIcon, color: prefixIconColor, size: prefixIconSize.r),
+              Icon(
+                  prefixIcon,
+                  color: isEnabled ? prefixIconColor : prefixIconColor.withOpacity(0.5),
+                  size: prefixIconSize.r
+              ),
             if (prefixIcon != null) SizedBox(width: 12.w),
             TextWidget(
               text: label,
-              fontColor: textColor,
+              fontColor: isEnabled ? textColor : textColor.withOpacity(0.6),
               fontSize: fontSize.sp,
               fontWeight: fontWeight,
             ),
@@ -97,7 +111,7 @@ class ButtonWidget extends StatelessWidget {
             if (icon != null)
               Icon(
                 icon,
-                color: iconColor ?? textColor,
+                color: isEnabled ? (iconColor ?? textColor) : (iconColor ?? textColor).withOpacity(0.5),
                 size: iconSize ?? fontSize,
               ),
           ],

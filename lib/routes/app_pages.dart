@@ -1,4 +1,6 @@
 import 'package:dr_dina_educology/modules/auth/screens/role_selection.dart';
+import 'package:dr_dina_educology/modules/auth/screens/signin_screen.dart';
+import 'package:dr_dina_educology/modules/auth/screens/signup_screen.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_one.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_three.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_two.dart';
@@ -40,6 +42,12 @@ class AppPages {
         name: AppRoutes.roleSelection,
         page: (){
           return RoleSelectionScreen();
+        }
+    ),
+    GetPage(
+        name: AppRoutes.signUp,
+        page: (){
+          return SignupScreen();
         }
     ),
   ];
