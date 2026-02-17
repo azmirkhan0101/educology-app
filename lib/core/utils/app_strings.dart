@@ -33,6 +33,7 @@ class AppStrings {
   static const String email = "Email";
   static const String enterYourEmail = "Enter your email";
   static const String phone = "Phone";
+  static const String enterYourPhoneNumber = "Enter your phone number";
   static const String newPassword = "New Password";
   static const String enterYourPassword = "Enter your Password";
   static const String confirmPassword = "Confirm Password";
@@ -49,7 +50,7 @@ class AppStrings {
   static const String rReturn = "return";
   static const String signInToAccessYourAccount = "Sign in to access your account";
   static const String password = "Password";
-  static const String forgetPassword = "Forget Password?";
+  static const String forgotPassword = "Forgot Password?";
   static const String signIn = "Sign In";
   static const String dontHaveAnAccountSignUp = "Don’t have an account? Sign Up";
   static const String forgetYourPassword = "Forget Your Password?";
@@ -173,7 +174,7 @@ class AppStrings {
   static const String doYouWantToLogOut = "Do you want to log out your account?";
   static const String cancel = "Cancel";
   static const String deleteCard = "Delete Card";
-  static const String doYouWantToDeleteYourCard = "Do you want to delete your Card?";
+  static const String doYouWantToDeleteYourAccount = "Do you want to delete your account?";
   static const String delete = "Delete";
   static const String yourLearningJourney = "Your learning journey will begin soon.";
   static const String yourAccountHasBeenCreated = "Your account has been created successfully, but you haven’t been enrolled in any courses yet.";

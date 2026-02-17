@@ -11,7 +11,22 @@ class AppRoutes {
   static const String roleSelection = '/role_selection';
   static const String signIn = '/signIn';
   static const String signUp = '/signUp';
-  static const String verifyEmail = '/verifyEmail';
-  static const String resetPassword = '/resetPassword';
+  static const String forgotPassword = '/forgot_password';
+  static const String verifyEmail = '/verify_email';
+  static const String resetPassword = '/reset_password';
+  static const String accountApproval = '/account_approval';
+  static const String notification = '/notification';
 
+
+  static const String mainNav = '/main_nav';
+
+
+  static const String profile = '/profile';
+  static const String editProfile = '/edit_profile';
+  static const String support = '/support';
+  static const String settings = '/settings';
+  static const String changePassword = '/change_password';
+  static const String aboutUs = '/about_us';
+  static const String termsConditions = '/terms_conditions';
+  static const String privacyPolicy = '/privacy_policy';
 }

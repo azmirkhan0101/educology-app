@@ -23,7 +23,7 @@ class TextWidget extends StatelessWidget {
     super.key,
     required this.text,
     this.fontWeight = FontWeight.w400,
-    this.fontSize = 18,
+    this.fontSize = 16,
     this.fontStyle = FontStyle.normal,
     this.fontColor = AppColors.black,
     this.overflow,

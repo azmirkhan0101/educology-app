@@ -1,4 +1,10 @@
+import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/utils/app_strings.dart';
+import 'package:dr_dina_educology/core/widgets/button_widget.dart';
+import 'package:dr_dina_educology/routes/app_pages.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -25,67 +31,83 @@ class SignupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Get.back(),
-        ),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           children: [
+            AppBar(
+              forceMaterialTransparency: true,
+              toolbarHeight: 30,
+              leading: IconButton(
+                  onPressed: (){
+                    Get.back();
+              }, icon: Icon(Icons.arrow_back)
+              ),
+            ),
             // Logo Section
             SvgPicture.asset(
               Assets.icons.appLogo, // Ensure path is correct
-              height: 120,
+              height: 190.h,
+              width: 225.w,
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 5),
 
-            const Text(
-              'Create An Account',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF2D5669), // Match the dark teal
-              ),
+            RichText(
+                text: TextSpan(
+                    children: [
+                      TextSpan(
+                          text: "Create an ",
+                          style: TextStyle(
+                              color: AppColors.secondaryGreen,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold
+                          )
+                      ),
+                      TextSpan(
+                          text: "account",
+                          style: TextStyle(
+                              color: AppColors.secondaryDarkBlue,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold
+                          )
+                      )
+                    ]
+                )
             ),
             const SizedBox(height: 8),
             const Text(
-              'Fill in your information.',
-              style: TextStyle(color: Colors.grey, fontSize: 16),
+              AppStrings.fillIn,
+              style: TextStyle(color: AppColors.grey4E, fontSize: 16),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 12),
 
             // Form Fields
-            _buildTextField(label: 'Name', hint: 'Enter your name'),
-            const SizedBox(height: 16),
-            _buildTextField(label: 'Email', hint: 'Enter your email'),
-            const SizedBox(height: 16),
-            _buildTextField(label: 'Phone', hint: 'Enter your phone number'), // Fixed hint from image
-            const SizedBox(height: 16),
+            _buildTextField(label: AppStrings.name, hint: AppStrings.enterYourName),
+            const SizedBox(height: 10),
+            _buildTextField(label: AppStrings.email, hint: AppStrings.enterYourEmail),
+            const SizedBox(height: 10),
+            _buildTextField(label: AppStrings.phone, hint: AppStrings.enterYourPhoneNumber), // Fixed hint from image
+            const SizedBox(height: 10),
 
             // Password Field
             Obx(() => _buildTextField(
-              label: 'New Password',
-              hint: 'Enter your Password',
+              label: AppStrings.newPassword,
+              hint: AppStrings.enterYourPassword,
               isPassword: true,
               obscureText: controller.isObscurePassword.value,
               onToggle: controller.togglePassword,
             )),
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
 
             // Confirm Password Field
             Obx(() => _buildTextField(
-              label: 'Confirm Password',
-              hint: 'Enter your Password',
+              label: AppStrings.confirmPassword,
+              hint: AppStrings.enterYourPassword,
               isPassword: true,
               obscureText: controller.isObscureConfirmPassword.value,
               onToggle: controller.toggleConfirmPassword,
             )),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
 
             // Terms and Privacy Checkbox
             Obx(() => Row(
@@ -95,19 +117,27 @@ class SignupScreen extends StatelessWidget {
                   onChanged: controller.toggleAgreement,
                   activeColor: const Color(0xFF2D5669),
                 ),
-                const Expanded(
+                 Expanded(
                   child: Text.rich(
                     TextSpan(
                       text: 'I agree with this ',
                       children: [
                         TextSpan(
                           text: 'Terms of Use',
-                          style: TextStyle(color: Color(0xFF2D5669), fontWeight: FontWeight.bold),
+                          style: TextStyle(color: AppColors.secondaryDarkBlue, fontWeight: FontWeight.bold),
+                        recognizer: TapGestureRecognizer()
+                            ..onTap = (){
+                            //TODO: SHOW TERMS
+                        }
                         ),
                         TextSpan(text: ' and '),
                         TextSpan(
                           text: 'Privacy Policy',
-                          style: TextStyle(color: Color(0xFF2D5669), fontWeight: FontWeight.bold),
+                          style: TextStyle(color: AppColors.secondaryDarkBlue, fontWeight: FontWeight.bold),
+                        recognizer: TapGestureRecognizer()
+                            ..onTap = (){
+                            //TODO: SHOW POLICY
+                            }
                         ),
                       ],
                     ),
@@ -116,39 +146,29 @@ class SignupScreen extends StatelessWidget {
                 ),
               ],
             )),
-            const SizedBox(height: 32),
-
+            const SizedBox(height: 18),
             // Sign Up Button
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFD4A762), // Muted gold/brown
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  'Sign Up',
-                  style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ),
+            ButtonWidget(
+                label: AppStrings.signUp,
+              gradient: AppColors.primaryButtonGradient,
+              onPressed: (){
+                  Get.toNamed(AppRoutes.verifyEmail);
+              },
             ),
-            const SizedBox(height: 24),
-
+            const SizedBox(height: 18),
             // Sign In Footer
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text('Already have an account? '),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(AppRoutes.signIn);
+                  },
                   child: const Text(
                     'Sign In',
                     style: TextStyle(
-                      color: Color(0xFF2D5669),
+                      color: AppColors.secondaryDarkBlue,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -194,7 +214,7 @@ class SignupScreen extends StatelessWidget {
               onPressed: onToggle,
             )
                 : null,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
