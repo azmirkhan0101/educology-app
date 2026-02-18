@@ -1,4 +1,5 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 
@@ -17,8 +19,20 @@ class RoleSelectionScreen extends StatefulWidget {
 }
 
 class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
+
+  //WILL USE IN RETRIEVE
+  // Role readRole() {
+  //   final roleString = storage.read(roleKey);
+  //
+  //   return Role.values.firstWhere(
+  //         (e) => e.name == roleString,
+  //     orElse: () => Role.student,
+  //   );
+  // }
   // Track which role is selected
   String? _selectedRole;
+  final storage = GetStorage();
+  Role? role;
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +97,18 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
               Expanded(
                 child: ListView(
                   children: [
-                    _buildRoleCard('a Student', Assets.icons.student),
-                    _buildRoleCard('a Parent', Assets.icons.parents),
-                    _buildRoleCard('a Teacher', Assets.icons.teacher),
-                    _buildRoleCard('an Assistant', Assets.icons.assistant),
+                    _buildRoleCard('a Student', Assets.icons.student, (){
+                      role = Role.student;
+                    }),
+                    _buildRoleCard('a Parent', Assets.icons.parents, (){
+                      role = Role.parents;
+                    }),
+                    _buildRoleCard('a Teacher', Assets.icons.teacher, (){
+                      role = Role.teacher;
+                    }),
+                    _buildRoleCard('an Assistant', Assets.icons.assistant, (){
+                      role = Role.assistant;
+                    }),
                   ],
                 ),
               ),
@@ -96,7 +118,8 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                   label: AppStrings.next,
                 gradient: AppColors.primaryButtonGradient,
                 isEnabled: _selectedRole != null,
-                onPressed: (){
+                onPressed: () async{
+                    await storage.write( roleKey, role?.name ?? Role.student.name );
                     Get.toNamed(AppRoutes.signUp);
                 },
               ),
@@ -108,11 +131,14 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
     );
   }
 
-  Widget _buildRoleCard(String title, String assetPath) {
+  Widget _buildRoleCard(String title, String assetPath, VoidCallback onSelect) {
     bool isSelected = _selectedRole == title;
 
     return GestureDetector(
-      onTap: () => setState(() => _selectedRole = title),
+      onTap: (){
+        onSelect.call();
+        setState(() => _selectedRole = title);
+      },
       child: Container(
         margin: const EdgeInsets.only(bottom: 6),
         padding: const EdgeInsets.all(0),

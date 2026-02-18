@@ -30,7 +30,7 @@ class HomeHeaderWidget extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: (){
-              Get.toNamed(AppRoutes.profile);
+              //Get.toNamed(AppRoutes.profile);
             },
             child: Row(
               children: [
@@ -40,6 +40,7 @@ class HomeHeaderWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.secondaryGreen, width: 2)
                   ),
                   child: ClipOval( child: buildProfileImage() ),
                 ),
@@ -50,12 +51,12 @@ class HomeHeaderWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('Welcome Back!',
-                        style: TextStyle(fontSize: 14, color: AppColors.secondaryGreen, fontFamily: FontFamily.poppins)
+                        style: TextStyle(fontSize: 13, color: AppColors.secondaryGreen, fontFamily: FontFamily.poppins)
                     ),
                     SizedBox(height: 2.h),
                     Text(
                       userName == null || userName!.isEmpty ? "User"  : userName!,
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: FontFamily.poppins)
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: FontFamily.poppins)
                     ),
                   ],
                 ),
@@ -122,6 +123,6 @@ class HomeHeaderWidget extends StatelessWidget {
       );
     }
     //return Icon(Icons.business, size: 50.r, color: Colors.grey);
-    return Icon(Icons.person, size: 50.r, color: Colors.grey);
+    return Icon(Icons.person, size: 30.r, color: Colors.grey);
   }
 }

@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -16,7 +17,9 @@ import 'package:shimmer/shimmer.dart';
 import '../../../core/widgets/button_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  ProfileScreen({super.key});
+
+  final storage = GetStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +164,8 @@ class ProfileScreen extends StatelessWidget {
                     label: AppStrings.logOut,
                     fontSize: 14,
                     gradient: AppColors.primaryButtonGradient,
-                    onPressed: (){
+                    onPressed: () async{
+                      await storage.erase();
                       Get.back();
                       Get.offAllNamed(AppRoutes.signIn);
                     },

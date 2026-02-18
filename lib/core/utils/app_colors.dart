@@ -13,6 +13,7 @@ class AppColors {
   static const Color black = Color(0xFF000000);
   static const Color black40Percent = Color(0x70000000);
   static const Color primaryGold = Color(0xFFD5A85E);
+  static const Color darkGold = Color(0xFFB2905F);
   static const Color secondaryGreen = Color(0xFF64937D);
   static const Color secondaryDarkBlue = Color(0xFF33526A);
 
@@ -22,8 +23,8 @@ class AppColors {
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
       colors: [
-        Color(0xFFB2905F),
-        Color(0xFFD5A85E),
+        darkGold,
+        primaryGold,
   ]
   );
 
