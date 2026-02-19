@@ -20,6 +20,8 @@ class AppRoutes {
 
   static const String mainNav = '/main_nav';
 
+  static const String courseDetails = '/course_details';
+
 
   static const String profile = '/profile';
   static const String editProfile = '/edit_profile';

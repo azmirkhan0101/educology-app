@@ -1,0 +1,241 @@
+import 'package:dr_dina_educology/core/services/role_service.dart';
+import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/utils/app_constants.dart';
+import 'package:dr_dina_educology/core/utils/app_strings.dart';
+import 'package:dr_dina_educology/core/widgets/button_widget.dart';
+import 'package:dr_dina_educology/core/widgets/text_widget.dart';
+import 'package:dr_dina_educology/modules/home/controllers/course_details_controller.dart';
+import 'package:dr_dina_educology/modules/home/widgets/classes_tab.dart';
+import 'package:dr_dina_educology/modules/home/widgets/stat_card_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../core/assets_gen/assets.gen.dart';
+
+class CourseDetailsScreen extends StatelessWidget {
+  final RoleService roleService = Get.find<RoleService>();
+  final CourseDetailsController controller =
+      Get.find<CourseDetailsController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.white,
+      appBar: AppBar(
+        forceMaterialTransparency: true,
+        title: const TextWidget(
+          text: 'Class Details',
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(Icons.arrow_back_sharp),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          children: [
+            courseTitle(),
+            SizedBox(height: 8),
+            stats(),
+            SizedBox(height: 18),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: ButtonWidget(
+                label: AppStrings.generateReport,
+                buttonHeight: 50,
+                gradient: AppColors.primaryButtonGradient,
+              ),
+            ),
+            SizedBox(height: 18),
+            overviewParticipantButtons(),
+            SizedBox(height: 20,),
+            Expanded(child: tabBar())
+          ],
+        ),
+      ),
+    );
+  }
+
+  //FOR TEACHER AND ASSISTANT
+  Row courseTitle() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Grade 10 - Mathematics",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF2C5364),
+                ),
+              ),
+              const SizedBox(height: 3),
+              Text(
+                "category",
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+              const SizedBox(height: 4),
+              if (roleService.role == Role.teacher ||
+                  roleService.role == Role.assistant)
+                Text(
+                  'Total Enrolled Student ',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.secondaryGreen,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+            ],
+          ),
+        ),
+        // Status Badge
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
+          decoration: BoxDecoration(
+            color: const Color(0xFFE1F5FE), // Light blue background
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            "Active",
+            style: const TextStyle(
+              color: Color(0xFF0277BD), // Darker blue text
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  //STATS FOR TEACHER AND ASSISTANT
+  Column stats() {
+    return Column(
+      spacing: 8,
+      children: [
+        Row(
+          spacing: 8,
+          children: [
+            Expanded(
+              child: StatCardWidget(
+                svgPath: Assets.icons.attendance,
+                percentage: "90%",
+                label: AppStrings.attendance,
+              ),
+            ),
+            Expanded(
+              child: StatCardWidget(
+                svgPath: Assets.icons.homeworkSubmitted,
+                percentage: "90%",
+                label: AppStrings.homeworkSubmitted,
+              ),
+            ),
+          ],
+        ),
+        Row(
+          spacing: 8,
+          children: [
+            Expanded(
+              child: StatCardWidget(
+                svgPath: Assets.icons.avgGrade,
+                percentage: "71%",
+                label: AppStrings.avgGrade,
+              ),
+            ),
+            Expanded(
+              child: StatCardWidget(
+                svgPath: Assets.icons.overdueTasks,
+                percentage: "12%",
+                label: AppStrings.overdueTasks,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  //OVERVIEW | PARTICIPANT BUTTONS FOR TEACHER AND ASSISTANT
+  Row overviewParticipantButtons() {
+    return Row(
+      spacing: 2,
+      children: [
+        Expanded(
+          child: ButtonWidget(
+            fontSize: 14,
+            label: AppStrings.classOverview,
+            buttonHeight: 50,
+            backgroundColor: AppColors.secondaryDarkBlue,
+            prefixIcon: Icons.calendar_today_outlined,
+            prefixIconSize: 13,
+          ),
+        ),
+        Expanded(
+          child: ButtonWidget(
+            label: AppStrings.participants,
+            fontSize: 14,
+            buttonHeight: 50,
+            backgroundColor: AppColors.white,
+            textColor: AppColors.secondaryDarkBlue,
+            borderColor: AppColors.secondaryDarkBlue,
+            borderWidth: 2,
+            prefixIconColor: AppColors.secondaryDarkBlue,
+            prefixIcon: Icons.people_outline,
+            prefixIconSize: 13,
+          ),
+        ),
+      ],
+    );
+  }
+
+  //TAB BAR
+  tabBar() {
+    return Column(
+      children: [
+        TabBar(
+          isScrollable: true,
+          tabAlignment: TabAlignment.start,
+          controller: controller.tabController,
+          indicatorColor: AppColors.black,
+          labelColor: Colors.black,
+          unselectedLabelColor: AppColors.grey78,
+          indicatorSize: TabBarIndicatorSize.tab,
+          labelStyle: const TextStyle(
+            fontWeight: FontWeight.w900,
+            color: AppColors.black,
+            fontSize: 14,
+          ),
+          tabs: const [
+            Tab(text: AppStrings.classes),
+            Tab(text: "Homework"),
+            Tab(text: AppStrings.examination),
+            Tab(text: AppStrings.announcement),
+          ],
+        ),
+        Expanded(
+          child: TabBarView(
+            controller: controller.tabController,
+            children: [
+              ClassesTab(),
+              TextWidget(text: "Hey"),
+              TextWidget(text: "Hey"),
+              TextWidget(text: "Hey"),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}

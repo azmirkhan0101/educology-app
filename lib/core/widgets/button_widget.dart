@@ -97,15 +97,17 @@ class ButtonWidget extends StatelessWidget {
             if (prefixIcon != null)
               Icon(
                   prefixIcon,
-                  color: isEnabled ? prefixIconColor : prefixIconColor.withOpacity(0.5),
+                  color: isEnabled ? prefixIconColor : prefixIconColor.withValues(alpha: 0.5),
                   size: prefixIconSize.r
               ),
             if (prefixIcon != null) SizedBox(width: 12.w),
-            TextWidget(
-              text: label,
-              fontColor: isEnabled ? textColor : textColor.withOpacity(0.6),
-              fontSize: fontSize.sp,
-              fontWeight: fontWeight,
+            Expanded(
+              child: TextWidget(
+                text: label,
+                fontColor: isEnabled ? textColor : textColor.withValues(alpha: 0.6),
+                fontSize: fontSize.sp,
+                fontWeight: fontWeight,
+              ),
             ),
             if (icon != null) const SizedBox(width: 12),
             if (icon != null)
