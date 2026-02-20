@@ -21,6 +21,10 @@ class AppRoutes {
   static const String mainNav = '/main_nav';
 
   static const String courseDetails = '/course_details';
+  static const String classOverview = '/class_overview';
+  static const String participants = '/participants';
+  static const String studentProgress = '/student_progress';
+  static const String singleAttendance = '/single_attendance';
 
 
   static const String profile = '/profile';

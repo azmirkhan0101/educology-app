@@ -1,8 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shimmer/shimmer.dart';
 
 class CourseItemWidget extends StatelessWidget {
   final String imageUrl;
@@ -46,17 +45,9 @@ class CourseItemWidget extends StatelessWidget {
               child: Container(
                 width: 95.w,
                 color: AppColors.greyB2,
-                child: CachedNetworkImage(
-                  imageUrl: imageUrl,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Shimmer.fromColors(
-                    baseColor: Colors.grey[300]!,
-                    highlightColor: Colors.grey[100]!,
-                    child: Container(color: Colors.white),
-                  ),
-                  errorWidget: (context, url, error) => Center(
-                    child: Icon(Icons.menu_book_sharp, size: 70.r, color: Colors.white),
-                  ),
+                child: CachedImageWidget(
+                    imageUrl: imageUrl,
+                  icon: Icons.menu_book_outlined,
                 ),
               )
             ),

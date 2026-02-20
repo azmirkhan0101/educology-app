@@ -101,13 +101,11 @@ class ButtonWidget extends StatelessWidget {
                   size: prefixIconSize.r
               ),
             if (prefixIcon != null) SizedBox(width: 12.w),
-            Expanded(
-              child: TextWidget(
-                text: label,
-                fontColor: isEnabled ? textColor : textColor.withValues(alpha: 0.6),
-                fontSize: fontSize.sp,
-                fontWeight: fontWeight,
-              ),
+            TextWidget(
+              text: label,
+              fontColor: isEnabled ? textColor : textColor.withValues(alpha: 0.6),
+              fontSize: fontSize.sp,
+              fontWeight: fontWeight,
             ),
             if (icon != null) const SizedBox(width: 12),
             if (icon != null)

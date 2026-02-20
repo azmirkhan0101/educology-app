@@ -28,6 +28,7 @@ dependencies:
   shimmer: ^3.0.0
   upgrader: ^12.5.0
   pin_code_fields: ^8.0.1
+  flutter_quill: ^11.5.0
 
 dev_dependencies:
   flutter_test:

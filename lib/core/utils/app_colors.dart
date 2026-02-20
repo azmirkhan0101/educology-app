@@ -10,6 +10,7 @@ class AppColors {
   static const Color grey78 = Color(0xFF787878);
   static const Color grey92 = Color(0xFF929292);
   static const Color greyB2 = Color(0xFFB2B2B2);
+  static const Color greyEB = Color(0xFFEBEBEB);
   static const Color black = Color(0xFF000000);
   static const Color black40Percent = Color(0x70000000);
   static const Color primaryGold = Color(0xFFD5A85E);
@@ -18,6 +19,7 @@ class AppColors {
   static const Color secondaryDarkBlue = Color(0xFF33526A);
 
   static const Color red10Percent = Color(0x1AF70004);
+  static const Color errorRed = Color(0xFFF70004);
 
   static const LinearGradient primaryButtonGradient = LinearGradient(
     begin: Alignment.centerLeft,

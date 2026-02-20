@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dr_dina_educology/core/assets_gen/fonts.gen.dart';
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -108,18 +109,9 @@ class HomeHeaderWidget extends StatelessWidget {
   //BUILD PROFILE IMAGE
   Widget buildProfileImage() {
     if ( profileImageUrl != null && profileImageUrl!.isNotEmpty) {
-      return CachedNetworkImage(
-        imageUrl: profileImageUrl!,
-        fit: BoxFit.cover,
-        // This creates the "shimmering" gray box while loading
-        placeholder: (context, url) => Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          child: Container(
-            color: Colors.white,
-          ),
-        ),
-        errorWidget: (context, url, error) => const Icon(Icons.person),
+      return CachedImageWidget(
+          imageUrl: profileImageUrl!,
+        iconSize: 30,
       );
     }
     //return Icon(Icons.business, size: 50.r, color: Colors.grey);

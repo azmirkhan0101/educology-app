@@ -5,8 +5,10 @@ import 'package:dr_dina_educology/modules/auth/screens/role_selection.dart';
 import 'package:dr_dina_educology/modules/auth/screens/signin_screen.dart';
 import 'package:dr_dina_educology/modules/auth/screens/signup_screen.dart';
 import 'package:dr_dina_educology/modules/auth/screens/verify_email_screen.dart';
-import 'package:dr_dina_educology/modules/home/bindings/home_binding.dart';
-import 'package:dr_dina_educology/modules/home/screens/course_details_screen.dart';
+import 'package:dr_dina_educology/modules/course_details/bindings/course_details_binding.dart';
+import 'package:dr_dina_educology/modules/course_details/screens/course_details_screen.dart';
+import 'package:dr_dina_educology/modules/course_details/screens/participant_screen.dart';
+import 'package:dr_dina_educology/modules/course_details/screens/single_attendance_screen.dart';
 import 'package:dr_dina_educology/modules/home/screens/notification_screen.dart';
 import 'package:dr_dina_educology/modules/main_nav/screens/main_nav_screen.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_one.dart';
@@ -14,12 +16,14 @@ import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_three.da
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_two.dart';
 import 'package:dr_dina_educology/modules/profile/screens/about_us_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/change_password_screen.dart';
+import 'package:dr_dina_educology/modules/profile/screens/edit_profile_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/privacy_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/profile_screen.dart';
-import 'package:dr_dina_educology/modules/profile/screens/edit_profile_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/settings_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/support_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/terms_screen.dart';
+import 'package:dr_dina_educology/modules/teacher/screens/class_overview_screen.dart';
+import 'package:dr_dina_educology/modules/course_details/screens/student_progress_screen.dart';
 import 'package:get/get.dart';
 
 import '../modules/onboarding/screens/splash_screen.dart';
@@ -162,7 +166,35 @@ class AppPages {
         page: (){
           return CourseDetailsScreen();
         },
-      binding: HomeBinding()
+      binding: CourseDetailsBinding()
+    ),
+    GetPage(
+        name: AppRoutes.classOverview,
+        page: (){
+          return ClassOverviewScreen();
+        },
+        //binding: HomeBinding()
+    ),
+    GetPage(
+      name: AppRoutes.studentProgress,
+      page: (){
+        return StudentProgressScreen();
+      },
+      //binding: HomeBinding()
+    ),
+    GetPage(
+      name: AppRoutes.participants,
+      page: (){
+        return ParticipantScreen();
+      },
+      //binding: HomeBinding()
+    ),
+    GetPage(
+      name: AppRoutes.singleAttendance,
+      page: (){
+        return SingleAttendanceScreen();
+      },
+      //binding: HomeBinding()
     ),
   ];
 }

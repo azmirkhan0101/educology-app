@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -58,17 +59,8 @@ class PhotoEditWidget extends StatelessWidget {
     if (profileImage.value != null) {
       return Image.file(profileImage.value!, fit: BoxFit.cover);
     } else if (imageUrl != null && imageUrl!.isNotEmpty) {
-      return CachedNetworkImage(
-        imageUrl: imageUrl!,
-        fit: BoxFit.cover,
-        placeholder: (context, url) => Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          child: Container(color: Colors.white),
-        ),
-        errorWidget: (context, url, error) => Center(
-          child: Icon(Icons.person, size: 70.r, color: Colors.white),
-        ),
+      return CachedImageWidget(
+          imageUrl: imageUrl!
       );
     }
     //return Icon(Icons.person, size: 50.r, color: Colors.grey);

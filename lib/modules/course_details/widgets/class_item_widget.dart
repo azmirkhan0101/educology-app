@@ -1,4 +1,7 @@
+import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ClassItemWidget extends StatelessWidget {
   final String title;
@@ -25,7 +28,7 @@ class ClassItemWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -52,9 +55,16 @@ class ClassItemWidget extends StatelessWidget {
             // Instructor Row
             Row(
               children: [
-                CircleAvatar(
-                  radius: 24,
-                  backgroundImage: NetworkImage(instructorImageUrl),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                    padding: EdgeInsets.all(6.r),
+                    color: Colors.grey.shade200,
+                    child: CachedImageWidget(
+                        imageUrl: instructorImageUrl,
+                      iconSize: 30,
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 8),
                 Column(
@@ -80,7 +90,7 @@ class ClassItemWidget extends StatelessWidget {
               ],
             ),
             const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
+              padding: EdgeInsets.symmetric(vertical: 5.0),
               child: Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
             ),
             // Comments Footer

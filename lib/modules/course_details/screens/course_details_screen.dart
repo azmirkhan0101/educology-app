@@ -4,9 +4,13 @@ import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
-import 'package:dr_dina_educology/modules/home/controllers/course_details_controller.dart';
-import 'package:dr_dina_educology/modules/home/widgets/classes_tab.dart';
-import 'package:dr_dina_educology/modules/home/widgets/stat_card_widget.dart';
+import 'package:dr_dina_educology/modules/course_details/controllers/course_details_controller.dart';
+import 'package:dr_dina_educology/modules/course_details/widgets/announce_tab.dart';
+import 'package:dr_dina_educology/modules/course_details/widgets/classes_tab.dart';
+import 'package:dr_dina_educology/modules/course_details/widgets/exam_tab.dart';
+import 'package:dr_dina_educology/modules/course_details/widgets/homework_tab.dart';
+import 'package:dr_dina_educology/core/widgets/percentage_card.dart';
+import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,7 +28,7 @@ class CourseDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         forceMaterialTransparency: true,
         title: const TextWidget(
-          text: 'Class Details',
+          text: 'Course Details',
           fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
@@ -41,20 +45,19 @@ class CourseDetailsScreen extends StatelessWidget {
         child: Column(
           children: [
             courseTitle(),
-            SizedBox(height: 8),
+            SizedBox(height: 4),
             stats(),
-            SizedBox(height: 18),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: ButtonWidget(
                 label: AppStrings.generateReport,
-                buttonHeight: 50,
+                buttonHeight: 45,
                 gradient: AppColors.primaryButtonGradient,
               ),
             ),
-            SizedBox(height: 18),
+            SizedBox(height: 10),
             overviewParticipantButtons(),
-            SizedBox(height: 20,),
             Expanded(child: tabBar())
           ],
         ),
@@ -123,20 +126,20 @@ class CourseDetailsScreen extends StatelessWidget {
   //STATS FOR TEACHER AND ASSISTANT
   Column stats() {
     return Column(
-      spacing: 8,
+      spacing: 5,
       children: [
         Row(
-          spacing: 8,
+          spacing: 5,
           children: [
             Expanded(
-              child: StatCardWidget(
+              child: PercentageCard(
                 svgPath: Assets.icons.attendance,
                 percentage: "90%",
                 label: AppStrings.attendance,
               ),
             ),
             Expanded(
-              child: StatCardWidget(
+              child: PercentageCard(
                 svgPath: Assets.icons.homeworkSubmitted,
                 percentage: "90%",
                 label: AppStrings.homeworkSubmitted,
@@ -145,17 +148,17 @@ class CourseDetailsScreen extends StatelessWidget {
           ],
         ),
         Row(
-          spacing: 8,
+          spacing: 5,
           children: [
             Expanded(
-              child: StatCardWidget(
+              child: PercentageCard(
                 svgPath: Assets.icons.avgGrade,
                 percentage: "71%",
                 label: AppStrings.avgGrade,
               ),
             ),
             Expanded(
-              child: StatCardWidget(
+              child: PercentageCard(
                 svgPath: Assets.icons.overdueTasks,
                 percentage: "12%",
                 label: AppStrings.overdueTasks,
@@ -174,26 +177,34 @@ class CourseDetailsScreen extends StatelessWidget {
       children: [
         Expanded(
           child: ButtonWidget(
-            fontSize: 14,
+            fontSize: 16,
+            padding: EdgeInsets.all(0),
             label: AppStrings.classOverview,
-            buttonHeight: 50,
+            buttonHeight: 45,
             backgroundColor: AppColors.secondaryDarkBlue,
             prefixIcon: Icons.calendar_today_outlined,
-            prefixIconSize: 13,
+            prefixIconSize: 18,
+            onPressed: (){
+              Get.toNamed(AppRoutes.classOverview);
+            },
           ),
         ),
         Expanded(
           child: ButtonWidget(
+            padding: EdgeInsets.all(0),
             label: AppStrings.participants,
-            fontSize: 14,
-            buttonHeight: 50,
+            fontSize: 16,
+            buttonHeight: 45,
             backgroundColor: AppColors.white,
             textColor: AppColors.secondaryDarkBlue,
             borderColor: AppColors.secondaryDarkBlue,
             borderWidth: 2,
             prefixIconColor: AppColors.secondaryDarkBlue,
             prefixIcon: Icons.people_outline,
-            prefixIconSize: 13,
+            prefixIconSize: 20,
+            onPressed: (){
+              Get.toNamed(AppRoutes.participants);
+            },
           ),
         ),
       ],
@@ -228,10 +239,10 @@ class CourseDetailsScreen extends StatelessWidget {
           child: TabBarView(
             controller: controller.tabController,
             children: [
-              ClassesTab(),
-              TextWidget(text: "Hey"),
-              TextWidget(text: "Hey"),
-              TextWidget(text: "Hey"),
+              ClassesTab(showAddButton: true,),
+              HomeworkTab(showAddButton: true,),
+              ExamTab(showAddButton: true,),
+              AnnounceTab(showAddButton: true,)
             ],
           ),
         ),

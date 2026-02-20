@@ -2,20 +2,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class StatCardWidget extends StatelessWidget {
+class PercentageCard extends StatelessWidget {
   final String svgPath;
   final String percentage;
   final String label;
   final Color backgroundColor;
   final Color textColor;
 
-  const StatCardWidget({
+  const PercentageCard({
     super.key,
     required this.svgPath,
     required this.percentage,
     required this.label,
-    this.backgroundColor = const Color(0xFFF1F9F5), // Light mint green
-    this.textColor = const Color(0xFF9E8E68),      // Muted gold/brown
+    this.backgroundColor = const Color(0xFFF1F9F5),
+    this.textColor = const Color(0xFF9E8E68),
   });
 
   @override
@@ -24,8 +24,8 @@ class StatCardWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: Colors.black12, width: 0.5),
+        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(color: Colors.black12, width: 1),
       ),
       child: Column(
         children: [
@@ -34,13 +34,13 @@ class StatCardWidget extends StatelessWidget {
             children: [
               SvgPicture.asset(
                 svgPath,
-                height: 35,
-                width: 35,
+                height: 26,
+                width: 26,
               ),
               Text(
                 percentage,
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 20,
                   fontWeight: FontWeight.w700,
                   color: textColor,
                 ),

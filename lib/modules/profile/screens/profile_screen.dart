@@ -1,5 +1,6 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
+import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:dr_dina_educology/modules/profile/widgets/profile_menu_tile.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
@@ -50,21 +51,8 @@ class ProfileScreen extends StatelessWidget {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: CachedNetworkImage(
+            child: CachedImageWidget(
               imageUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: Container(color: Colors.white),
-              ),
-              errorWidget: (context, url, error) => Center(
-                child: Icon(
-                  Icons.person,
-                  size: 70.r,
-                  color: Colors.white,
-                ),
-              ),
             ),
           ),
         ),
