@@ -26,6 +26,8 @@ class AppRoutes {
   static const String studentProgress = '/student_progress';
   static const String singleAttendance = '/single_attendance';
 
+  static const String addClass = '/addClass';
+
 
   static const String profile = '/profile';
   static const String editProfile = '/edit_profile';
