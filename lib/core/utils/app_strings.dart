@@ -106,7 +106,7 @@ class AppStrings {
   static const String totalCompletedClass = "Total Completed Class:";
   static const String className = "Class Name";
   static const String classStart = "Class Start";
-  static const String viewAllMarks = "View All MArks";
+  static const String viewAllExams = "View All Exams";
   static const String viewAnswer = "View Answer";
   static const String resultsWillBePublishedSoon = "Results will be published soon";
   static const String youDidNotAttend = "You did not attend or submit this exam";

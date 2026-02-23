@@ -15,7 +15,11 @@ class _AddClassScreenState extends State<AddClassScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Class Details")),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        forceMaterialTransparency: true,
+        centerTitle: true,
+          title: const Text("Add Class Details", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),)),
       body: Column(
         children: [
           /// Toolbar

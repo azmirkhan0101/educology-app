@@ -1,7 +1,9 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
+import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'class_item_widget.dart';
 
@@ -26,6 +28,9 @@ class ClassesTab extends StatelessWidget {
             prefixIcon: Icons.add,
             gradient: AppColors.primaryButtonGradient,
             buttonHeight: 45,
+            onPressed: (){
+                Get.toNamed(AppRoutes.addClass);
+            },
           ),
         ),
         Expanded(

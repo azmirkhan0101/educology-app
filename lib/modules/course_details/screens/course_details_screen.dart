@@ -177,13 +177,13 @@ class CourseDetailsScreen extends StatelessWidget {
       children: [
         Expanded(
           child: ButtonWidget(
-            fontSize: 16,
+            fontSize: 14,
             padding: EdgeInsets.all(0),
             label: AppStrings.classOverview,
             buttonHeight: 45,
             backgroundColor: AppColors.secondaryDarkBlue,
             prefixIcon: Icons.calendar_today_outlined,
-            prefixIconSize: 18,
+            prefixIconSize: 16,
             onPressed: (){
               Get.toNamed(AppRoutes.classOverview);
             },
@@ -193,7 +193,7 @@ class CourseDetailsScreen extends StatelessWidget {
           child: ButtonWidget(
             padding: EdgeInsets.all(0),
             label: AppStrings.participants,
-            fontSize: 16,
+            fontSize: 14,
             buttonHeight: 45,
             backgroundColor: AppColors.white,
             textColor: AppColors.secondaryDarkBlue,
@@ -201,7 +201,7 @@ class CourseDetailsScreen extends StatelessWidget {
             borderWidth: 2,
             prefixIconColor: AppColors.secondaryDarkBlue,
             prefixIcon: Icons.people_outline,
-            prefixIconSize: 20,
+            prefixIconSize: 16,
             onPressed: (){
               Get.toNamed(AppRoutes.participants);
             },

@@ -25,6 +25,7 @@ import 'package:dr_dina_educology/modules/profile/screens/terms_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/add_class_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/class_overview_screen.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/student_progress_screen.dart';
+import 'package:dr_dina_educology/modules/teacher/screens/view_all_exams_screen.dart';
 import 'package:get/get.dart';
 
 import '../modules/onboarding/screens/splash_screen.dart';
@@ -201,6 +202,13 @@ class AppPages {
       name: AppRoutes.addClass,
       page: (){
         return AddClassScreen();
+      },
+      //binding: HomeBinding()
+    ),
+    GetPage(
+      name: AppRoutes.viewAllExams,
+      page: (){
+        return ViewAllExamsScreen();
       },
       //binding: HomeBinding()
     ),

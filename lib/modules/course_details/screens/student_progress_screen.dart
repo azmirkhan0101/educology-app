@@ -231,6 +231,9 @@ class StudentProgressScreen extends StatelessWidget {
             prefixIconColor: AppColors.darkGold,
             prefixIcon: Icons.people_outline,
             prefixIconSize: 16,
+            onPressed: (){
+              Get.toNamed(AppRoutes.viewAllExams);
+            },
           ),
         ),
       ],

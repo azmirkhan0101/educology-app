@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../profile/widgets/photo_edit_widget.dart';
 
 // --- Controller for state management ---
 class SignupController extends GetxController {
@@ -35,15 +36,15 @@ class SignupScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           children: [
-            AppBar(
-              forceMaterialTransparency: true,
-              toolbarHeight: 30,
-              leading: IconButton(
-                  onPressed: (){
-                    Get.back();
-              }, icon: Icon(Icons.arrow_back)
-              ),
-            ),
+            // AppBar(
+            //   forceMaterialTransparency: true,
+            //   toolbarHeight: 30,
+            //   leading: IconButton(
+            //       onPressed: (){
+            //         Get.back();
+            //   }, icon: Icon(Icons.arrow_back)
+            //   ),
+            // ),
             // Logo Section
             SvgPicture.asset(
               Assets.icons.appLogo, // Ensure path is correct
@@ -81,6 +82,13 @@ class SignupScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
 
+            PhotoEditWidget(
+              imageUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              onImagePicked: (image){
+
+              },
+            ),
+            const SizedBox(height: 15,),
             // Form Fields
             _buildTextField(label: AppStrings.name, hint: AppStrings.enterYourName),
             const SizedBox(height: 10),
