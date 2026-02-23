@@ -66,7 +66,7 @@ class CustomQuillToolbar extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 8),
+          //const SizedBox(height: 8),
 
           /// BOTTOM ROW
           SingleChildScrollView(

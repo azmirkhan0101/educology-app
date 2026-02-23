@@ -37,9 +37,9 @@ class ViewExamItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 10,
-            offset: const Offset(0, 4),
+            offset: const Offset(2, 4),
           ),
         ],
       ),
@@ -104,6 +104,7 @@ class ViewExamItemWidget extends StatelessWidget {
                 ),
               ),
               ButtonWidget(
+                fontSize: 14,
                   onPressed: onViewAnswer,
                   label: AppStrings.viewAnswer,
                 buttonHeight: 40,

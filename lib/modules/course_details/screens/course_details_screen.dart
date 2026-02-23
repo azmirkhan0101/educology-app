@@ -54,6 +54,9 @@ class CourseDetailsScreen extends StatelessWidget {
                 label: AppStrings.generateReport,
                 buttonHeight: 45,
                 gradient: AppColors.primaryButtonGradient,
+                onPressed: (){
+                  Get.toNamed(AppRoutes.studentsReport);
+                },
               ),
             ),
             SizedBox(height: 10),
