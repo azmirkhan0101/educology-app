@@ -11,6 +11,7 @@ class CourseItemWidget extends StatelessWidget {
   final String category;
   final String status;
   final int enrolledCount;
+  final VoidCallback? onClick;
 
   const CourseItemWidget({
     super.key,
@@ -19,15 +20,14 @@ class CourseItemWidget extends StatelessWidget {
     required this.category,
     required this.status,
     required this.enrolledCount,
+    this.onClick,
   });
 
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
       child: GestureDetector(
-        onTap: (){
-          Get.toNamed(AppRoutes.courseDetails);
-        },
+        onTap: onClick,
         child: Container(
           margin: EdgeInsets.only(bottom: 10),
           padding: const EdgeInsets.all(12),

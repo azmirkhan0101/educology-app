@@ -29,7 +29,16 @@ class AppRoutes {
   static const String viewAllExams = '/view_all_exams';
   static const String studentsReport = '/students_report';
 
-  static const String addClass = '/addClass';
+  static const String addContent = '/addContent';
+  static const String takeAttendance = '/take_attendance';
+
+  static const String announcementDetails = '/announcement_details';
+  static const String contentDetails = '/content_details';
+  static const String checkAnswer = '/check_answer';
+  static const String provideMark = '/provide_mark';
+
+  static const String addParent = '/add_parent';
+
 
 
   static const String profile = '/profile';

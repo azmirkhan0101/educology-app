@@ -8,13 +8,12 @@ import 'package:dr_dina_educology/modules/home/widgets/home_header_widget.dart';
 import 'package:dr_dina_educology/modules/home/widgets/learning_journey_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../../../core/utils/app_constants.dart';
+import '../../../routes/app_pages.dart';
 
 class HomeScreen extends StatelessWidget {
 
-  final storage = GetStorage();
   final RoleService roleService = Get.find<RoleService>();
   late Role role;
 
@@ -22,6 +21,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     role = roleService.role;
+    bool isTeacher = role == Role.teacher || role == Role.assistant;
+    bool isStudent = role == Role.student;
+    bool isParent = role == Role.parents;
+
+    print(role.name);
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -35,10 +39,21 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 20,),
               HomeBanner(),
               SizedBox(height: 20,),
-              //if( role == Role.teacher || role == Role.assistant )
+              if( isTeacher )
                 teacherCourseCount(),
-              //if( role != Role.student )
+              SizedBox(height: 20,),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextWidget(
+                    text: isTeacher ? AppStrings.myAssignCourses : isStudent ? "My Courses" : "Enrolled Classes",
+                  textAlignment: TextAlign.left,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  fontColor: AppColors.secondaryDarkBlue,
+                ),
+              ),
               ListView(
+                padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 children: [
@@ -47,32 +62,60 @@ class HomeScreen extends StatelessWidget {
                       title: "Grade 10 – Mathematicsssssssssssssssssssssss",
                       category: "Mathematics",
                       status: "Active",
-                      enrolledCount: 12
+                      enrolledCount: 12,
+                    onClick: (){
+                        if( isParent ){
+                          Get.toNamed(AppRoutes.studentProgress);
+                        }else{
+                          Get.toNamed(AppRoutes.courseDetails);
+                        }
+                    },
                   ),
                   CourseItemWidget(
                       imageUrl: "",
                       title: "Grade 10 – Mathematicsssssssssssssssssssssss",
                       category: "Mathematics",
                       status: "Active",
-                      enrolledCount: 12
+                      enrolledCount: 12,
+                    onClick: (){
+                      if( isParent ){
+                        Get.toNamed(AppRoutes.studentProgress);
+                      }else{
+                        Get.toNamed(AppRoutes.courseDetails);
+                      }
+                    },
                   ),
                   CourseItemWidget(
                       imageUrl: "",
                       title: "Grade 10 – Mathematicsssssssssssssssssssssss",
                       category: "Mathematics",
                       status: "Active",
-                      enrolledCount: 12
+                      enrolledCount: 12,
+                    onClick: (){
+                      if( isParent ){
+                        Get.toNamed(AppRoutes.studentProgress);
+                      }else{
+                        Get.toNamed(AppRoutes.courseDetails);
+                      }
+                    },
                   ),
                   CourseItemWidget(
                       imageUrl: "",
                       title: "Grade 10 – Mathematicsssssssssssssssssssssss",
                       category: "Mathematics",
                       status: "Active",
-                      enrolledCount: 12
+                      enrolledCount: 12,
+                    onClick: (){
+                      if( isParent ){
+                        Get.toNamed(AppRoutes.studentProgress);
+                      }else{
+                        Get.toNamed(AppRoutes.courseDetails);
+                      }
+                    },
                   )
                 ],
               ),
-              //if( role == Role.student )
+              if( role == Role.student )
                 LearningJourneyWidget()
             ],
           ),

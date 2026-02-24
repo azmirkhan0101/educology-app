@@ -9,6 +9,7 @@ class HomeworkItemWidget extends StatelessWidget {
   final String postDate;
   final String commentCount;
   final String dueDate;
+  final VoidCallback? onClick;
 
   const HomeworkItemWidget({
     super.key,
@@ -18,109 +19,113 @@ class HomeworkItemWidget extends StatelessWidget {
     required this.postDate,
     required this.commentCount,
     required this.dueDate,
+    this.onClick
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header Title
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: AppColors.secondaryDarkBlue,
+    return GestureDetector(
+      onTap: onClick,
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header Title
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.secondaryDarkBlue,
+                ),
               ),
-            ),
-            const SizedBox(height: 6),
+              const SizedBox(height: 6),
 
-            // Author Row
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    color: Colors.grey.shade200,
-                    child: CachedImageWidget(imageUrl: "", iconSize: 30),
+              // Author Row
+              Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      color: Colors.grey.shade200,
+                      child: CachedImageWidget(imageUrl: "", iconSize: 30),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 6),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      authorName,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.secondaryGreen,
-                      ),
-                    ),
-                    Text(
-                      postDate,
-                      style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 3),
-
-            // Divider
-            Divider(color: Colors.grey.shade300, thickness: 1),
-            const SizedBox(height: 3),
-
-            // Footer Row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Comment Count
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.comment_outlined,
-                      size: 20,
-                      color: Colors.black87,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      commentCount.toString().padLeft(2, '0'),
-                      style: const TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-                // Due Date
-                RichText(
-                  text: TextSpan(
-                    style: const TextStyle(
-                      color: AppColors.secondaryDarkBlue,
-                      fontSize: 12,
-                    ),
+                  const SizedBox(width: 6),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const TextSpan(text: 'Due Date: '),
-                      TextSpan(
-                        text: dueDate,
+                      Text(
+                        authorName,
                         style: const TextStyle(
+                          fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          fontSize: 12,
-                          color: AppColors.secondaryDarkBlue
+                          color: AppColors.secondaryGreen,
                         ),
+                      ),
+                      Text(
+                        postDate,
+                        style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+              const SizedBox(height: 3),
+
+              // Divider
+              Divider(color: Colors.grey.shade300, thickness: 1),
+              const SizedBox(height: 3),
+
+              // Footer Row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Comment Count
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.comment_outlined,
+                        size: 20,
+                        color: Colors.black87,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        commentCount.toString().padLeft(2, '0'),
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                  // Due Date
+                  RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                        color: AppColors.secondaryDarkBlue,
+                        fontSize: 12,
+                      ),
+                      children: [
+                        const TextSpan(text: 'Due Date: '),
+                        TextSpan(
+                          text: dueDate,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            color: AppColors.secondaryDarkBlue
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

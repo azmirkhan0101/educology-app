@@ -16,6 +16,11 @@ class RoleService extends GetxService{
     super.onInit();
   }
 
+
+  void getUpdatedRole(){
+    getRole();
+  }
+
   Role getRole() {
 
     final roleString = storage.read(roleKey);

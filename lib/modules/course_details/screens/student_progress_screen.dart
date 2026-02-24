@@ -19,8 +19,11 @@ import '../../../core/assets_gen/assets.gen.dart';
 
 class StudentProgressScreen extends StatelessWidget {
   final RoleService roleService = Get.find<RoleService>();
-  final CourseDetailsController controller =
-  Get.find<CourseDetailsController>();
+  final CourseDetailsController controller = Get.isRegistered<CourseDetailsController>()
+      ?
+  Get.find<CourseDetailsController>()
+  :
+      Get.put<CourseDetailsController>(CourseDetailsController());
 
   @override
   Widget build(BuildContext context) {

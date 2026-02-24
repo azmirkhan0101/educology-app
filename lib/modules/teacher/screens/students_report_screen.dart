@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class StudentsReportScreen extends StatelessWidget {
   const StudentsReportScreen({super.key});
@@ -8,9 +9,12 @@ class StudentsReportScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: const Icon(Icons.arrow_back, color: Colors.black),
+        forceMaterialTransparency: true,
+        leading: IconButton(
+          onPressed: (){
+            Get.back();
+          },
+            icon: Icon(Icons.arrow_back, color: Colors.black)),
         title: const Text(
           'Students Report',
           style: TextStyle(color: Color(0xFF4A6572), fontWeight: FontWeight.bold),

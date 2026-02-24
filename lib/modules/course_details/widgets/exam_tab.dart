@@ -1,9 +1,12 @@
 import 'package:dr_dina_educology/modules/course_details/widgets/homework_item_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/app_constants.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/widgets/button_widget.dart';
+import '../../../routes/app_pages.dart';
 
 class ExamTab extends StatelessWidget {
 
@@ -23,6 +26,9 @@ class ExamTab extends StatelessWidget {
             prefixIcon: Icons.add,
             gradient: AppColors.primaryButtonGradient,
             buttonHeight: 45,
+            onPressed: (){
+            Get.toNamed(AppRoutes.addContent, arguments: {"contentType" : AddContentType.exam});
+          },
           ),
         ),
         Expanded(
@@ -34,7 +40,10 @@ class ExamTab extends StatelessWidget {
                   authorImageUrl: "",
                   postDate: "20 Feb 2026 | 10:00 AM",
                   commentCount: "3",
-                  dueDate: "20 Feb 2026 | 10:00 AM"
+                  dueDate: "20 Feb 2026 | 10:00 AM",
+                onClick: (){
+                    Get.toNamed(AppRoutes.contentDetails, arguments: {"contentDetailsType" : ContentDetailsType.exam});
+                },
               ),
               HomeworkItemWidget(
                   title: "Exam 1",

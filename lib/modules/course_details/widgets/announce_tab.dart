@@ -1,9 +1,12 @@
 import 'package:dr_dina_educology/modules/course_details/widgets/announce_item_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/app_constants.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/widgets/button_widget.dart';
+import '../../../routes/app_pages.dart';
 
 class AnnounceTab extends StatelessWidget {
 
@@ -23,6 +26,9 @@ class AnnounceTab extends StatelessWidget {
             prefixIcon: Icons.add,
             gradient: AppColors.primaryButtonGradient,
             buttonHeight: 45,
+            onPressed: (){
+              Get.toNamed(AppRoutes.addContent, arguments: {"contentType" : AddContentType.announcement});
+            },
           ),
         ),
         Expanded(
@@ -33,7 +39,10 @@ class AnnounceTab extends StatelessWidget {
                   profileImageUrl: "",
                   dateTime: "20 Feb 2026 | 10:00 AM",
                   message: "Hello there, i am an announcement. Please read it carefully",
-                  commentCount: 3
+                  commentCount: 3,
+                onClick: (){
+                    Get.toNamed(AppRoutes.announcementDetails);
+                },
               ),
               AnnounceItemWidget(
                   userName: "Azmir Khan",

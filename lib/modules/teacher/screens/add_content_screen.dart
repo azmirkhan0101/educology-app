@@ -1,22 +1,26 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
+import 'package:dr_dina_educology/modules/teacher/controllers/add_content_controller.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/quill_toolbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 
-class AddClassScreen extends StatefulWidget {
-  const AddClassScreen({super.key});
+class AddContentScreen extends StatefulWidget {
+  const AddContentScreen({super.key});
 
   @override
-  State<AddClassScreen> createState() => _AddClassScreenState();
+  State<AddContentScreen> createState() => _AddContentScreenState();
 }
 
-class _AddClassScreenState extends State<AddClassScreen> {
+class _AddContentScreenState extends State<AddContentScreen> {
+
+  final AddContentController controller = Get.find<AddContentController>();
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
@@ -31,7 +35,7 @@ class _AddClassScreenState extends State<AddClassScreen> {
       appBar: AppBar(
         forceMaterialTransparency: true,
         centerTitle: true,
-          title: const Text("Add Class Details", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),)),
+          title: Text( controller.appTitle, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),)),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

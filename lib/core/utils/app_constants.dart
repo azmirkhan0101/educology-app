@@ -14,6 +14,11 @@ enum Role{
 
 const String roleKey = "roleKey";
 
+class Dummy{
+
+  static const String profileImageUrl = "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+}
+
 enum StudentStatus { onTrack, attention, behind, critical }
 
 extension StatusColorExtension on StudentStatus {
@@ -85,6 +90,32 @@ extension AttendanceStatusColorExtension on AttendanceStatus {
       case AttendanceStatus.onTime: return Colors.green;
       case AttendanceStatus.late: return Colors.orange;
       case AttendanceStatus.absent: return Colors.red;
+    }
+  }
+}
+
+
+enum AddContentType{ cClass, exam, homeWork, announcement }
+
+extension AddContentTypeExtension on AddContentType {
+  String get label {
+    switch (this) {
+      case AddContentType.cClass: return "Add Class";
+      case AddContentType.exam: return "Add Exam";
+      case AddContentType.homeWork: return "Add Homework";
+      case AddContentType.announcement: return "Add Announcement";
+    }
+  }
+}
+
+enum ContentDetailsType{ cClass, exam, homeWork }
+
+extension ContentDetailsTypeExtension on ContentDetailsType {
+  String get label {
+    switch (this) {
+      case ContentDetailsType.cClass: return "Class";
+      case ContentDetailsType.exam: return "Exam";
+      case ContentDetailsType.homeWork: return "Homework";
     }
   }
 }

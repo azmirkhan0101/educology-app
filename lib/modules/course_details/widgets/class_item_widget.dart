@@ -10,6 +10,7 @@ class ClassItemWidget extends StatelessWidget {
   final String postDate;
   final String instructorImageUrl;
   final int commentCount;
+  final VoidCallback? onClick;
 
   const ClassItemWidget({
      super.key,
@@ -19,92 +20,96 @@ class ClassItemWidget extends StatelessWidget {
     required this.postDate,
     required this.instructorImageUrl,
     required this.commentCount,
+    this.onClick
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Lecture Title
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF344E64), // Dark blue-grey
+    return GestureDetector(
+      onTap: onClick,
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Lecture Title
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF344E64), // Dark blue-grey
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            // Live Class Time
-            Text(
-              'Live Class starting Time : $liveTime',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey[700],
+              const SizedBox(height: 8),
+              // Live Class Time
+              Text(
+                'Live Class starting Time : $liveTime',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey[700],
+                ),
               ),
-            ),
-            const SizedBox(height: 5),
-            // Instructor Row
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Container(
-                    padding: EdgeInsets.all(6.r),
-                    color: Colors.grey.shade200,
-                    child: CachedImageWidget(
-                        imageUrl: instructorImageUrl,
-                      iconSize: 30,
+              const SizedBox(height: 5),
+              // Instructor Row
+              Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Container(
+                      padding: EdgeInsets.all(6.r),
+                      color: Colors.grey.shade200,
+                      child: CachedImageWidget(
+                          imageUrl: instructorImageUrl,
+                        iconSize: 30,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      instructorName,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF5A8F7B), // Muted green
+                  const SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        instructorName,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                          color: Color(0xFF5A8F7B), // Muted green
+                        ),
                       ),
-                    ),
-                    Text(
-                      postDate,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey[600],
+                      Text(
+                        postDate,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 5.0),
-              child: Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
-            ),
-            // Comments Footer
-            Row(
-              children: [
-                const Icon(Icons.comment_outlined, size: 20, color: Colors.black87),
-                const SizedBox(width: 8),
-                Text(
-                  commentCount.toString().padLeft(2, '0'),
-                  style: const TextStyle(fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-          ],
+                    ],
+                  ),
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 5.0),
+                child: Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+              ),
+              // Comments Footer
+              Row(
+                children: [
+                  const Icon(Icons.comment_outlined, size: 20, color: Colors.black87),
+                  const SizedBox(width: 8),
+                  Text(
+                    commentCount.toString().padLeft(2, '0'),
+                    style: const TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

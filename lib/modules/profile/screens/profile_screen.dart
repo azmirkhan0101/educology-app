@@ -1,12 +1,16 @@
+import 'package:dr_dina_educology/core/services/role_service.dart';
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
+import 'package:dr_dina_educology/modules/profile/widgets/add_parent_tile.dart';
 import 'package:dr_dina_educology/modules/profile/widgets/profile_menu_tile.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -21,9 +25,14 @@ class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
   final storage = GetStorage();
+  final RoleService roleService = Get.find<RoleService>();
 
   @override
   Widget build(BuildContext context) {
+
+    Role role = roleService.role;
+    bool isStudent = role == Role.student;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -33,66 +42,93 @@ class ProfileScreen extends StatelessWidget {
         fontSize: 18,
           fontWeight: FontWeight.w700,
         ),
-        leading: IconButton(onPressed: (){
-          Get.back();
-        }, icon: Icon(Icons.arrow_back_sharp)
-        ),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 30,),
-        Container(
-          padding: EdgeInsets.all(2),
-          height: 120.h,
-          width: 120.w,
-          decoration: BoxDecoration(
-              color: AppColors.primaryGold,
-            borderRadius: BorderRadius.circular(15)
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: CachedImageWidget(
-              imageUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 30,),
+          Container(
+            padding: EdgeInsets.all(2),
+            height: 120.h,
+            width: 120.w,
+            decoration: BoxDecoration(
+                color: AppColors.primaryGold,
+              borderRadius: BorderRadius.circular(15)
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: CachedImageWidget(
+                imageUrl: Dummy.profileImageUrl
+              ),
             ),
           ),
+            SizedBox(height: 10,),
+            TextWidget(
+                text: "Azmir Khan",
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              fontColor: AppColors.secondaryDarkBlue,
+            ),
+            SizedBox(height: 10,),
+            Row(
+              spacing: 3,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                    Assets.icons.email,
+                  colorFilter: ColorFilter.mode(AppColors.secondaryGreen, BlendMode.srcIn),
+                ),
+                TextWidget(
+                  text: "azmir.azamkhan@gmail.com",
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  fontColor: AppColors.secondaryGreen,
+                ),
+              ],
+            ),
+            SizedBox(height: 20,),
+            if( isStudent )
+            AddParentTile(
+                title: AppStrings.myParent,
+                iconPath: Assets.icons.myParent,
+                parents: [
+                  "Hello"
+                ],
+                onTap: (){
+                  Get.toNamed(AppRoutes.addParent);
+                }
+            ),
+            ProfileMenuTile(
+                title: AppStrings.editProfile,
+                iconPath: Assets.icons.editProfile,
+                onTap: (){
+                  Get.toNamed(AppRoutes.editProfile);
+                }
+                ),
+            ProfileMenuTile(
+                title: AppStrings.support,
+                iconPath: Assets.icons.support,
+                onTap: (){
+                  Get.toNamed(AppRoutes.support);
+                }
+            ),
+            ProfileMenuTile(
+                title: AppStrings.settings,
+                iconPath: Assets.icons.settings,
+                onTap: (){
+                  Get.toNamed(AppRoutes.settings);
+                }
+            ),
+            ProfileMenuTile(
+                title: AppStrings.logout,
+                iconPath: Assets.icons.logout,
+                onTap: (){
+                  showLogOutDialog();
+                }
+            ),
+            SizedBox( height: 20,)
+          ],
         ),
-          SizedBox(height: 10,),
-          TextWidget(
-              text: "Azmir Khan",
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            fontColor: AppColors.secondaryDarkBlue,
-          ),
-          SizedBox(height: 20,),
-          ProfileMenuTile(
-              title: AppStrings.editProfile,
-              iconPath: Assets.icons.editProfile,
-              onTap: (){
-                Get.toNamed(AppRoutes.editProfile);
-              }
-              ),
-          ProfileMenuTile(
-              title: AppStrings.support,
-              iconPath: Assets.icons.support,
-              onTap: (){
-                Get.toNamed(AppRoutes.support);
-              }
-          ),
-          ProfileMenuTile(
-              title: AppStrings.settings,
-              iconPath: Assets.icons.settings,
-              onTap: (){
-                Get.toNamed(AppRoutes.settings);
-              }
-          ),
-          ProfileMenuTile(
-              title: AppStrings.logout,
-              iconPath: Assets.icons.logout,
-              onTap: (){
-                showLogOutDialog();
-              }
-          ),
-        ],
       ),
     );
   }

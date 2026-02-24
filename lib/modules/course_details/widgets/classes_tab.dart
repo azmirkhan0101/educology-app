@@ -1,4 +1,5 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
@@ -29,7 +30,7 @@ class ClassesTab extends StatelessWidget {
             gradient: AppColors.primaryButtonGradient,
             buttonHeight: 45,
             onPressed: (){
-                Get.toNamed(AppRoutes.addClass);
+                Get.toNamed(AppRoutes.addContent, arguments: {"contentType" : AddContentType.cClass});
             },
           ),
         ),
@@ -42,7 +43,10 @@ class ClassesTab extends StatelessWidget {
                   instructorName: "Azmir Khan",
                   postDate: "20 Dec 2026 | 10:00 AM",
                   instructorImageUrl: "",
-                  commentCount: 3
+                  commentCount: 3,
+              onClick: (){
+        Get.toNamed(AppRoutes.contentDetails, arguments: {"contentDetailsType" : ContentDetailsType.cClass});
+        },
               ),
               ClassItemWidget(
                   title: "Name",

@@ -23,6 +23,11 @@ class CourseDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Role role = roleService.role;
+    bool isTeacher = role == Role.teacher || role == Role.assistant;
+    bool isStudent = role == Role.student;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -44,10 +49,13 @@ class CourseDetailsScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: [
-            courseTitle(),
+            courseTitle(isTeacher: isTeacher),
             SizedBox(height: 4),
+            if( isTeacher )
             stats(),
+            if( isTeacher )
             SizedBox(height: 10),
+            if( isTeacher )
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: ButtonWidget(
@@ -60,8 +68,13 @@ class CourseDetailsScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
+            if( isTeacher )
             overviewParticipantButtons(),
-            Expanded(child: tabBar())
+            if( isStudent )
+              myProgressParticipantButtons(),
+            Expanded(
+                child: tabBar(isTeacher: isTeacher)
+            )
           ],
         ),
       ),
@@ -69,7 +82,7 @@ class CourseDetailsScreen extends StatelessWidget {
   }
 
   //FOR TEACHER AND ASSISTANT
-  Row courseTitle() {
+  Row courseTitle({required bool isTeacher}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,8 +107,7 @@ class CourseDetailsScreen extends StatelessWidget {
                 style: const TextStyle(fontSize: 14, color: Colors.grey),
               ),
               const SizedBox(height: 4),
-              if (roleService.role == Role.teacher ||
-                  roleService.role == Role.assistant)
+              if ( isTeacher )
                 Text(
                   'Total Enrolled Student ',
                   style: const TextStyle(
@@ -214,8 +226,49 @@ class CourseDetailsScreen extends StatelessWidget {
     );
   }
 
+  //MY PROGRESS | PARTICIPANT BUTTONS FOR STUDENT
+  Row myProgressParticipantButtons() {
+    return Row(
+      spacing: 2,
+      children: [
+        Expanded(
+          child: ButtonWidget(
+            fontSize: 14,
+            padding: EdgeInsets.all(0),
+            label: AppStrings.myProgress,
+            buttonHeight: 45,
+            backgroundColor: AppColors.secondaryDarkBlue,
+            prefixIcon: Icons.calendar_today_outlined,
+            prefixIconSize: 16,
+            onPressed: (){
+              Get.toNamed(AppRoutes.studentProgress);
+            },
+          ),
+        ),
+        Expanded(
+          child: ButtonWidget(
+            padding: EdgeInsets.all(0),
+            label: AppStrings.participants,
+            fontSize: 14,
+            buttonHeight: 45,
+            backgroundColor: AppColors.white,
+            textColor: AppColors.secondaryDarkBlue,
+            borderColor: AppColors.secondaryDarkBlue,
+            borderWidth: 2,
+            prefixIconColor: AppColors.secondaryDarkBlue,
+            prefixIcon: Icons.people_outline,
+            prefixIconSize: 16,
+            onPressed: (){
+              Get.toNamed(AppRoutes.participants);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
   //TAB BAR
-  tabBar() {
+  tabBar({required bool isTeacher}) {
     return Column(
       children: [
         TabBar(
@@ -242,10 +295,10 @@ class CourseDetailsScreen extends StatelessWidget {
           child: TabBarView(
             controller: controller.tabController,
             children: [
-              ClassesTab(showAddButton: true,),
-              HomeworkTab(showAddButton: true,),
-              ExamTab(showAddButton: true,),
-              AnnounceTab(showAddButton: true,)
+              ClassesTab(showAddButton: isTeacher,),
+              HomeworkTab(showAddButton: isTeacher,),
+              ExamTab(showAddButton: isTeacher,),
+              AnnounceTab(showAddButton: isTeacher,)
             ],
           ),
         ),
