@@ -19,7 +19,7 @@ class TakeAttendanceScreen extends StatelessWidget {
               Get.back();
             },
             icon: Icon(Icons.arrow_back, color: Colors.black)),
-        title: const Text("Take Attendance", style: TextStyle(color: Color(0xFF2D5669), fontWeight: FontWeight.bold)),
+        title: const Text("Take Attendance", style: TextStyle( fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Column(
@@ -70,9 +70,9 @@ class TakeAttendanceScreen extends StatelessWidget {
       color: const Color(0xFFF0FAF7),
       child: const Row(
         children: [
-          Expanded(flex: 3, child: Text("Student", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: 16))),
-          Expanded(flex: 2, child: Center(child: Text("Join Time", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: 16)))),
-          Expanded(flex: 2, child: Center(child: Text("Attendance", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: 16)))),
+          Expanded(flex: 3, child: Text("Student", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: 14))),
+          Expanded(flex: 2, child: Center(child: Text("Join Time", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: 14)))),
+          Expanded(flex: 2, child: Center(child: Text("Attendance", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: 14)))),
         ],
       ),
     );
@@ -92,7 +92,7 @@ class _StudentTileState extends State<StudentTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFF0F0F0)))),
       child: Row(
         children: [
@@ -147,7 +147,11 @@ class _StudentTileState extends State<StudentTile> {
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
+                    child: Text(
+                        value,
+                      style: TextStyle(
+                        color: value == 'Present' ? Colors.green : (value == 'Late' ? Colors.orange : Colors.red),)
+                    ),
                   );
                 }).toList(),
               ),

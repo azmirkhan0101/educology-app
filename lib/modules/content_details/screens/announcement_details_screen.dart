@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/app_strings.dart';
+import '../../../core/widgets/button_widget.dart';
+
 class AnnouncementDetailsScreen extends StatelessWidget {
   const AnnouncementDetailsScreen({super.key});
 
@@ -15,7 +19,7 @@ class AnnouncementDetailsScreen extends StatelessWidget {
         }, icon: Icon(Icons.arrow_back, color: Colors.black87)),
         title: const Text(
           'Announcement',
-          style: TextStyle(color: Color(0xFF344E6D), fontWeight: FontWeight.bold),
+          style: TextStyle(color: Color(0xFF344E6D), fontWeight: FontWeight.bold, fontSize: 18),
         ),
         centerTitle: true,
       ),
@@ -69,7 +73,9 @@ class AnnouncementDetailsScreen extends StatelessWidget {
                     ],
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      showCommentDialog();
+                    },
                     icon: const Icon(Icons.add, size: 20, color: Colors.black54),
                     label: const Text('Add Comment', style: TextStyle(color: Colors.black54)),
                   ),
@@ -90,6 +96,62 @@ class AnnouncementDetailsScreen extends StatelessWidget {
               message: 'Hi Adam! Have you had the opportunity to view the media files that were sent over?',
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+
+  void showCommentDialog() {
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Write Comment",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
+              const SizedBox(height: 12),
+              // Text Input Field
+              TextField(
+                maxLines: 4,
+                decoration: InputDecoration(
+                  hintText: "write comment here",
+                  hintStyle: const TextStyle(color: AppColors.grey4E),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
+                  contentPadding: const EdgeInsets.all(16),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: const BorderSide(color: Color(0xFFF0F0F0)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              // Submit Button
+              ButtonWidget(
+                label: AppStrings.submit,
+                gradient: AppColors.primaryButtonGradient,
+              )
+            ],
+          ),
         ),
       ),
     );

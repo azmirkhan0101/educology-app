@@ -1,5 +1,11 @@
+import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/utils/app_constants.dart';
+import 'package:dr_dina_educology/core/utils/app_strings.dart';
+import 'package:dr_dina_educology/core/widgets/button_widget.dart';
+import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class CheckAnswerScreen extends StatelessWidget {
@@ -17,8 +23,8 @@ class CheckAnswerScreen extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back, color: Colors.black)),
         title: const Text(
-          'Homework/ Exam',
-          style: TextStyle(color: Color(0xFF2D4E68), fontWeight: FontWeight.bold),
+          'Check Answer',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -49,11 +55,15 @@ class SubmissionCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Profile Image
-            const CircleAvatar(
-              radius: 24,
-              backgroundImage: NetworkImage('https://via.placeholder.com/150'), // Replace with actual image
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Container(
+                height: 35.h,
+                width: 35.w,
+                child: CachedImageWidget(imageUrl: Dummy.profileImageUrl),
+              ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 6),
             // Name and Date
             Expanded(
               child: Column(
@@ -64,19 +74,19 @@ class SubmissionCard extends StatelessWidget {
                     style: TextStyle(
                       color: Color(0xFF6DA382),
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 14,
                     ),
                   ),
                   const Text(
                     '19 Nov, 2026 | 12:00PM',
-                    style: TextStyle(color: Colors.grey, fontSize: 13),
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                 ],
               ),
             ),
             // Status Tag
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
               decoration: BoxDecoration(
                 color: const Color(0xFFE9E9E9),
                 borderRadius: BorderRadius.circular(20),
@@ -84,6 +94,7 @@ class SubmissionCard extends StatelessWidget {
               child: Text(
                 isLate ? 'Late' : 'In Time',
                 style: TextStyle(
+                  fontSize: 12,
                   color: isLate ? Colors.red : const Color(0xFF2D4E68),
                   fontWeight: FontWeight.w500,
                 ),
@@ -91,33 +102,31 @@ class SubmissionCard extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
         // Action Buttons
         Row(
           children: [
             Expanded(
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF345169),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-                child: const Text('View Answer', style: TextStyle(color: Colors.white)),
+              child: ButtonWidget(label: AppStrings.viewAnswer,
+              backgroundColor: AppColors.secondaryDarkBlue,
+                buttonHeight: 40,
+                fontSize: 14,
+                padding: EdgeInsets.zero,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 4),
             Expanded(
-              child: OutlinedButton(
-                onPressed: () {
-                  Get.toNamed(AppRoutes.provideMark);
+              child: ButtonWidget(label: AppStrings.provideMark,
+                backgroundColor: AppColors.white,
+                borderColor: AppColors.secondaryDarkBlue,
+                textColor: AppColors.secondaryDarkBlue,
+                borderWidth: 2,
+                buttonHeight: 40,
+                fontSize: 14,
+                padding: EdgeInsets.zero,
+                onPressed: (){
+                Get.toNamed(AppRoutes.provideMark);
                 },
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFF345169)),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-                child: const Text('Provide Mark', style: TextStyle(color: Color(0xFF345169))),
               ),
             ),
           ],

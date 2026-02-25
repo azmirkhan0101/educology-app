@@ -15,10 +15,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-
-import 'package:shimmer/shimmer.dart';
-
 import '../../../core/widgets/button_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -30,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Role role = roleService.role;
+    Role role = roleService.getUpdatedRole();
     bool isStudent = role == Role.student;
 
     return Scaffold(

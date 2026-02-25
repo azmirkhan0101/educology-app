@@ -32,17 +32,17 @@ class CustomQuillToolbar extends StatelessWidget {
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.leftAlignment,
-                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_align_left),
+                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_align_left, iconSize: 12),
                 ),
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.centerAlignment,
-                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_align_center),
+                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_align_center,  iconSize: 12),
                 ),
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.rightAlignment,
-                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_align_right),
+                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_align_right,  iconSize: 12),
                 ),
                 // QuillToolbarToggleStyleButton(
                 //   controller: controller,
@@ -55,12 +55,12 @@ class CustomQuillToolbar extends StatelessWidget {
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.ol,
-                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_list_numbered),
+                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_list_numbered,  iconSize: 12),
                 ),
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.ul,
-                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_list_bulleted),
+                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_list_bulleted,  iconSize: 12),
                 ),
               ],
             ),
@@ -77,6 +77,7 @@ class CustomQuillToolbar extends StatelessWidget {
                   controller: controller,
                   isBackground: false,
                   options: QuillToolbarColorButtonOptions(
+                    iconSize: 12,
                     customOnPressedCallback: (controller, isBackground) async{
                       showDialog(
                           context: context,
@@ -113,6 +114,7 @@ class CustomQuillToolbar extends StatelessWidget {
                   controller: controller,
                   isBackground: true,
                   options: QuillToolbarColorButtonOptions(
+                    iconSize: 12,
                     customOnPressedCallback: (controller, isBackground) async{
                       showDialog(
                           context: context,
@@ -149,22 +151,22 @@ class CustomQuillToolbar extends StatelessWidget {
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.bold,
-                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_bold)
+                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_bold,  iconSize: 12)
                 ),
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.italic,
-                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_italic)
+                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_italic,  iconSize: 12)
                 ),
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.underline,
-                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_underline)
+                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_underline,  iconSize: 12)
                 ),
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.strikeThrough,
-                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_strikethrough)
+                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_strikethrough,  iconSize: 12)
                 ),
 
                 _divider(),

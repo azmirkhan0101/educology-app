@@ -1,7 +1,13 @@
+import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeBanner extends StatelessWidget {
+
+  final bool isParent;
+
+  HomeBanner({super.key, required this.isParent}){}
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,6 +45,8 @@ class HomeBanner extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
+                isParent ?
+                    "Stay connected with your child’s\nlearning journey. Track class\nactivities, attendance, tasks, and\nacademic progress—all in one place." :
                 'Your teaching space is ready.\n'
                     'Manage your classes, lessons, and\n'
                     'student progress from one place.',

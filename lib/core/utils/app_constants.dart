@@ -113,7 +113,7 @@ enum ContentDetailsType{ cClass, exam, homeWork }
 extension ContentDetailsTypeExtension on ContentDetailsType {
   String get label {
     switch (this) {
-      case ContentDetailsType.cClass: return "Class";
+      case ContentDetailsType.cClass: return "Class Details";
       case ContentDetailsType.exam: return "Exam";
       case ContentDetailsType.homeWork: return "Homework";
     }

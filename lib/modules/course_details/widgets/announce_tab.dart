@@ -36,7 +36,7 @@ class AnnounceTab extends StatelessWidget {
             children: [
               AnnounceItemWidget(
                   userName: "Azmir Khan",
-                  profileImageUrl: "",
+                  profileImageUrl: Dummy.profileImageUrl,
                   dateTime: "20 Feb 2026 | 10:00 AM",
                   message: "Hello there, i am an announcement. Please read it carefully",
                   commentCount: 3,
@@ -46,31 +46,43 @@ class AnnounceTab extends StatelessWidget {
               ),
               AnnounceItemWidget(
                   userName: "Azmir Khan",
-                  profileImageUrl: "",
+                  profileImageUrl: Dummy.profileImageUrl,
                   dateTime: "20 Feb 2026 | 10:00 AM",
                   message: "Hello there, i am an announcement. Please read it carefully",
-                  commentCount: 3
+                  commentCount: 3,
+                onClick: (){
+                  Get.toNamed(AppRoutes.announcementDetails);
+                },
               ),
               AnnounceItemWidget(
                   userName: "Azmir Khan",
-                  profileImageUrl: "",
+                  profileImageUrl: Dummy.profileImageUrl,
                   dateTime: "20 Feb 2026 | 10:00 AM",
                   message: "Hello there, i am an announcement. Please read it carefully",
-                  commentCount: 3
+                  commentCount: 3,
+                onClick: (){
+                  Get.toNamed(AppRoutes.announcementDetails);
+                },
               ),
               AnnounceItemWidget(
                   userName: "Azmir Khan",
-                  profileImageUrl: "",
+                  profileImageUrl: Dummy.profileImageUrl,
                   dateTime: "20 Feb 2026 | 10:00 AM",
                   message: "Hello there, i am an announcement. Please read it carefully",
-                  commentCount: 3
+                  commentCount: 3,
+                onClick: (){
+                  Get.toNamed(AppRoutes.announcementDetails);
+                },
               ),
               AnnounceItemWidget(
                   userName: "Azmir Khan",
-                  profileImageUrl: "",
+                  profileImageUrl: Dummy.profileImageUrl,
                   dateTime: "20 Feb 2026 | 10:00 AM",
                   message: "Hello there, i am an announcement. Please read it carefully",
-                  commentCount: 3
+                  commentCount: 3,
+                onClick: (){
+                  Get.toNamed(AppRoutes.announcementDetails);
+                },
               )
             ],
           ),

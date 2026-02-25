@@ -24,7 +24,7 @@ class CourseDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Role role = roleService.role;
+    Role role = roleService.getUpdatedRole();
     bool isTeacher = role == Role.teacher || role == Role.assistant;
     bool isStudent = role == Role.student;
 
@@ -81,7 +81,6 @@ class CourseDetailsScreen extends StatelessWidget {
     );
   }
 
-  //FOR TEACHER AND ASSISTANT
   Row courseTitle({required bool isTeacher}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -121,7 +120,7 @@ class CourseDetailsScreen extends StatelessWidget {
         ),
         // Status Badge
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 3),
           decoration: BoxDecoration(
             color: const Color(0xFFE1F5FE), // Light blue background
             borderRadius: BorderRadius.circular(20),

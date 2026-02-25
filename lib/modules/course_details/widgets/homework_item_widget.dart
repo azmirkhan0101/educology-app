@@ -1,6 +1,7 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeworkItemWidget extends StatelessWidget {
   final String title;
@@ -28,7 +29,7 @@ class HomeworkItemWidget extends StatelessWidget {
       onTap: onClick,
       child: Card(
         elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
@@ -52,9 +53,10 @@ class HomeworkItemWidget extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Container(
-                      padding: const EdgeInsets.all(6),
+                      height: 35.h,
+                      width: 35.w,
                       color: Colors.grey.shade200,
-                      child: CachedImageWidget(imageUrl: "", iconSize: 30),
+                      child: CachedImageWidget(imageUrl: authorImageUrl, iconSize: 30),
                     ),
                   ),
                   const SizedBox(width: 6),

@@ -1,4 +1,5 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/view_exam_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class ViewAllExamsScreen extends StatelessWidget {
         centerTitle: true,
         title: Text(AppStrings.viewAllExams, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),),
       ),
-      body: Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+      body: Padding(padding: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: [
             Expanded(child: ListView(
@@ -28,7 +29,7 @@ class ViewAllExamsScreen extends StatelessWidget {
                     feedback: "Very good",
                     instructorName: "Azmir Khan",
                     date: "20 Feb 2026",
-                    imageUrl: "",
+                    imageUrl: Dummy.profileImageUrl,
                     onViewAnswer: (){
 
                     }
@@ -41,7 +42,7 @@ class ViewAllExamsScreen extends StatelessWidget {
                     feedback: "Very good",
                     instructorName: "Azmir Khan",
                     date: "20 Feb 2026",
-                    imageUrl: "",
+                    imageUrl: Dummy.profileImageUrl,
                     onViewAnswer: (){
 
                     }
@@ -54,7 +55,7 @@ class ViewAllExamsScreen extends StatelessWidget {
                     feedback: "Very good",
                     instructorName: "Azmir Khan",
                     date: "20 Feb 2026",
-                    imageUrl: "",
+                    imageUrl: Dummy.profileImageUrl,
                     onViewAnswer: (){
 
                     }
@@ -67,7 +68,7 @@ class ViewAllExamsScreen extends StatelessWidget {
                     feedback: "Very good",
                     instructorName: "Azmir Khan",
                     date: "20 Feb 2026",
-                    imageUrl: "",
+                    imageUrl: Dummy.profileImageUrl,
                     onViewAnswer: (){
 
                     }
@@ -80,7 +81,7 @@ class ViewAllExamsScreen extends StatelessWidget {
                     feedback: "Very good",
                     instructorName: "Azmir Khan",
                     date: "20 Feb 2026",
-                    imageUrl: "",
+                    imageUrl: Dummy.profileImageUrl,
                     onViewAnswer: (){
 
                     }

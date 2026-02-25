@@ -116,10 +116,12 @@ class AppStrings {
   static const String hwCompleted = "H.w. Completed";
   static const String hwPending = "H.w. Pending";
   static const String examGrade = "Exam Grade";
-  static const String tittle = "Tittle";
+  static const String title = "Title";
   static const String enterClassName = "Enter Class Name";
   static const String expectedLiveClass = "Expected Live Class starting Date & Time";
   static const String addClassDetails = "Add Class Details";
+  static const String addExamDetails = "Add Exam Details";
+  static const String addHomeworkDetails = "Add Homework Details";
   static const String paragraph = "Paragraph";
   static const String attachedDocumentOptional = "Attached Document (Optional)";
   static const String uploadFile = "Upload File";

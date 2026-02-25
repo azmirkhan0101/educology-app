@@ -23,7 +23,7 @@ class ProvideMarkScreen extends StatelessWidget {
             icon: Icon(Icons.arrow_back, color: Colors.black)),
         title: const Text(
           'Provide Mark',
-          style: TextStyle(color: Color(0xFF4A6572), fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -33,7 +33,7 @@ class ProvideMarkScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text("Upload Corrected Answer papaer",
-                style: TextStyle(fontSize: 16, color: Colors.grey)),
+                style: TextStyle(fontSize: 14, color: Colors.grey)),
             const SizedBox(height: 10),
 
             // Upload Box
@@ -56,7 +56,7 @@ class ProvideMarkScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 30),
                       label: AppStrings.uploadFile,
                       fontSize: 14,
-                      buttonHeight: 45,
+                      buttonHeight: 40,
                       backgroundColor: AppColors.secondaryDarkBlue,
                       onPressed: (){
 
@@ -68,31 +68,25 @@ class ProvideMarkScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 25),
-            const Text("Provide mark", style: TextStyle(fontSize: 16, color: Colors.grey)),
+            const Text("Provide mark", style: TextStyle(fontSize: 14, color: Colors.grey)),
             const SizedBox(height: 8),
             _buildTextField("Provide here"),
 
             const SizedBox(height: 25),
-            const Text("Provide a short feedback", style: TextStyle(fontSize: 16, color: Colors.grey)),
+            const Text("Provide a short feedback", style: TextStyle(fontSize: 14, color: Colors.grey)),
             const SizedBox(height: 8),
             _buildTextField("Provide here", maxLines: 3),
 
             const Spacer(),
 
             // Update Button
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFC5A069), // Golden/Tan color
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                ),
-                child: const Text(
-                  "Update",
-                  style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+              child: ButtonWidget(
+                  label: AppStrings.update,
+                gradient: AppColors.primaryButtonGradient,
+                buttonHeight: 50,
+                fontSize: 16,
               ),
             ),
             const SizedBox(height: 20),

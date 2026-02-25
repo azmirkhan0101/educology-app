@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    role = roleService.role;
+    role = roleService.getUpdatedRole();
     bool isTeacher = role == Role.teacher || role == Role.assistant;
     bool isStudent = role == Role.student;
     bool isParent = role == Role.parents;
@@ -35,10 +35,29 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 22,),
-              HomeHeaderWidget(profileImageUrl: "", userName: "Azmir Khan"),
+              HomeHeaderWidget(
+                  profileImageUrl: "",
+                  userName: "Azmir Khan"
+              ),
               SizedBox(height: 20,),
-              HomeBanner(),
+              HomeBanner(isParent: isParent,),
               SizedBox(height: 20,),
+              if( isParent )
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextWidget(
+                    text: AppStrings.yourChild,
+                    textAlignment: TextAlign.left,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    fontColor: AppColors.secondaryDarkBlue,
+                  ),
+                ),
+              if( isParent )
+                childDropdownWidget(
+                    selectedValue: "Rakibul Hasan",
+                    onChanged: (value){},
+                ),
               if( isTeacher )
                 teacherCourseCount(),
               SizedBox(height: 20,),
@@ -52,6 +71,7 @@ class HomeScreen extends StatelessWidget {
                   fontColor: AppColors.secondaryDarkBlue,
                 ),
               ),
+              SizedBox(height: 10,),
               ListView(
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
@@ -62,6 +82,7 @@ class HomeScreen extends StatelessWidget {
                       title: "Grade 10 – Mathematicsssssssssssssssssssssss",
                       category: "Mathematics",
                       status: "Active",
+                      isTeacher: isTeacher,
                       enrolledCount: 12,
                     onClick: (){
                         if( isParent ){
@@ -76,6 +97,7 @@ class HomeScreen extends StatelessWidget {
                       title: "Grade 10 – Mathematicsssssssssssssssssssssss",
                       category: "Mathematics",
                       status: "Active",
+                    isTeacher: isTeacher,
                       enrolledCount: 12,
                     onClick: (){
                       if( isParent ){
@@ -90,6 +112,7 @@ class HomeScreen extends StatelessWidget {
                       title: "Grade 10 – Mathematicsssssssssssssssssssssss",
                       category: "Mathematics",
                       status: "Active",
+                    isTeacher: isTeacher,
                       enrolledCount: 12,
                     onClick: (){
                       if( isParent ){
@@ -104,6 +127,7 @@ class HomeScreen extends StatelessWidget {
                       title: "Grade 10 – Mathematicsssssssssssssssssssssss",
                       category: "Mathematics",
                       status: "Active",
+                    isTeacher: isTeacher,
                       enrolledCount: 12,
                     onClick: (){
                       if( isParent ){
@@ -200,4 +224,81 @@ class HomeScreen extends StatelessWidget {
       ],
     );
   }
+
+  Widget childDropdownWidget({
+    required String? selectedValue,
+    required ValueChanged<String?> onChanged,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(15), // Soft shadow
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: selectedValue,
+          isExpanded: true,
+          icon: const Icon(Icons.arrow_drop_down, color: Colors.black, size: 30),
+          // This acts as the default "Rakibul Hasan" view from your image
+          hint: profileRow("Rakibul Hasan", "+8801827347685"),
+          onChanged: onChanged,
+          items: [
+            dropdownItem("Rakibul Hasan", "+8801827347685"),
+            dropdownItem("Jasmine Akter", "+8801700000000"),
+            dropdownItem("Tanvir Ahmed", "+8801900000000"),
+          ],
+        ),
+      ),
+    );
+  }
+
+// Helper: Creates the actual selectable menu item
+  DropdownMenuItem<String> dropdownItem(String name, String phone) {
+    return DropdownMenuItem<String>(
+      value: name,
+      child: profileRow(name, phone),
+    );
+  }
+
+  Widget profileRow(String name, String phone) {
+    return Row(
+      children: [
+        const CircleAvatar(
+          radius: 22,
+          backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=12'),
+        ),
+        const SizedBox(width: 12),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              name,
+              style: const TextStyle(
+                color: Color(0xFF6B9080),
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
+            ),
+            Text(
+              phone,
+              style: TextStyle(
+                color: Colors.grey.shade600,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 }
+

@@ -45,7 +45,7 @@ class ParticipantScreen extends StatelessWidget {
           ParticipantListItem(
             name: "Azmir Khan",
             phoneNumber: "01909352422",
-            imageUrl: "",
+            imageUrl: Dummy.profileImageUrl,
             status: null,
             showDivider: false,
           ),
@@ -62,7 +62,7 @@ class ParticipantScreen extends StatelessWidget {
           ParticipantListItem(
             name: "Azmir Khan",
             phoneNumber: "01909352422",
-            imageUrl: "",
+            imageUrl: Dummy.profileImageUrl,
             status: null,
             showDivider: false,
           ),
@@ -87,7 +87,7 @@ class ParticipantScreen extends StatelessWidget {
                       return ParticipantListItem(
                         name: "Azmir Khan",
                         phoneNumber: "01909352422",
-                        imageUrl: "",
+                        imageUrl: Dummy.profileImageUrl,
                         status: StudentStatus.critical,
                       );
                     },

@@ -35,7 +35,8 @@ class ParticipantListItem extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
             child: Container(
-              padding: EdgeInsets.all(6.r),
+              height: 35.h,
+              width: 35.r,
               color: Colors.grey.shade200,
               child: CachedImageWidget(imageUrl: imageUrl, iconSize: 26),
             ),

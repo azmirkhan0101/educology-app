@@ -1,10 +1,16 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
+import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:dr_dina_educology/modules/content_details/controllers/content_details_controller.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+
+import '../../../core/assets_gen/assets.gen.dart';
 
 class ContentDetailsScreen extends StatelessWidget {
   ContentDetailsScreen({super.key});
@@ -13,6 +19,13 @@ class ContentDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Role role = controller.role;
+    bool isTeacher = role == Role.teacher || role == Role.assistant;
+    bool isStudent = role == Role.student;
+    bool isExam = controller.contentDetailsType == ContentDetailsType.exam
+        || controller.contentDetailsType == ContentDetailsType.homeWork;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -22,7 +35,7 @@ class ContentDetailsScreen extends StatelessWidget {
         }, icon: Icon(Icons.arrow_back, color: Colors.black)),
         title: Text(
           controller.appTitle,
-          style: TextStyle(color: Color(0xFF2E5B71), fontWeight: FontWeight.bold),
+          style: TextStyle( fontWeight: FontWeight.bold, fontSize: 18),
         ),
         centerTitle: true,
       ),
@@ -31,12 +44,11 @@ class ContentDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
             // Header Section
             const Text(
               '1st Exam Algebra – Linear Equations',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF2E5B71),
               ),
@@ -44,16 +56,20 @@ class ContentDetailsScreen extends StatelessWidget {
             const SizedBox(height: 4),
             const Text(
               'Due Date: 12 Nov, 25  10:00 AM',
-              style: TextStyle(color: Colors.grey, fontSize: 13),
+              style: TextStyle(color: Colors.grey, fontSize: 14),
             ),
-            const SizedBox(height: 16),
-
+            const SizedBox(height: 12),
             // Teacher Row
             Row(
               children: [
-                const CircleAvatar(
-                  backgroundImage: NetworkImage('https://via.placeholder.com/150'), // Replace with actual image
-                  radius: 20,
+                 ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                   child: Container(
+                     height: 35.h,
+                     width: 35.w,
+                     color: AppColors.greyB2,
+                     child: CachedImageWidget(imageUrl: Dummy.profileImageUrl),
+                   ),
                 ),
                 const SizedBox(width: 10),
                 const Expanded(
@@ -62,7 +78,7 @@ class ContentDetailsScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Mr. Rahman',
-                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
+                        style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.secondaryGreen),
                       ),
                       Text('19 Nov, 2026 | 12:00PM', style: TextStyle(color: Colors.grey, fontSize: 12)),
                     ],
@@ -78,8 +94,9 @@ class ContentDetailsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
             // Submit Button
+            if( isExam && isTeacher )
             ButtonWidget(
                 label: AppStrings.checkAnswer,
               gradient: AppColors.primaryButtonGradient,
@@ -90,25 +107,51 @@ class ContentDetailsScreen extends StatelessWidget {
                   Get.toNamed(AppRoutes.checkAnswer);
               },
             ),
+            if( isExam && isStudent )
+              ButtonWidget(
+                label: AppStrings.submitAnswer,
+                gradient: AppColors.primaryButtonGradient,
+                prefixIcon: Icons.file_upload_outlined,
+                fontSize: 14,
+                buttonHeight: 45,
+                onPressed: (){
+                  //Get.toNamed(AppRoutes.checkAnswer);
+                },
+              ),
+            if( !isExam && isStudent )
+              ButtonWidget(
+                label: AppStrings.joinClass,
+                gradient: AppColors.primaryButtonGradient,
+                prefixIcon: Icons.timer_outlined,
+                fontSize: 14,
+                buttonHeight: 45,
+                onPressed: (){
+                  //Get.toNamed(AppRoutes.checkAnswer);
+                },
+              ),
+            if( !isExam && isTeacher )
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              spacing: 5,
+              spacing: 2,
               children: [
                 Expanded(
                   child: ButtonWidget(
                     buttonHeight: 45,
                     label: AppStrings.startClass,
                     gradient: AppColors.primaryButtonGradient,
-                    prefixIcon: Icons.timer,
-                    fontSize: 14,
+                    prefixIcon: Icons.timer_outlined,
+                    fontSize: 13,
                   ),
                 ),
                 Expanded(
                   child: ButtonWidget(
+                    padding: EdgeInsets.zero,
                     buttonHeight: 45,
                     label: AppStrings.attendance,
-                    fontSize: 14,
+                    fontSize: 13,
                     prefixIcon: Icons.calendar_today_outlined,
+                    prefixIconColor: AppColors.darkGold,
+                    prefixIconSize: 18,
                     backgroundColor: AppColors.white,
                     borderColor: AppColors.darkGold,
                     textColor: AppColors.darkGold,
@@ -122,35 +165,28 @@ class ContentDetailsScreen extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 25),
-            const Text(
-              'Here In pdf has your question. Check this question. And provide your Answer in a pdf with in due time. After due time any one cannot submit there answer',
-              style: TextStyle(color: Colors.grey, height: 1.4),
+            const SizedBox(height: 15),
+            Text(
+              AppStrings.hereInPdfHasYourQuestion ,style: TextStyle(color: Colors.grey, height: 1.4),
             ),
             const SizedBox(height: 20),
             // PDF Attachment Card
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               decoration: BoxDecoration(
                 color: Colors.grey.shade50,
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(color: Colors.grey.shade100),
               ),
               child: ListTile(
-                leading: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(Icons.picture_as_pdf, color: Colors.blue),
-                ),
-                title: const Text('RKAKL2021.Pdf', style: TextStyle(fontWeight: FontWeight.bold)),
+                contentPadding: EdgeInsets.zero,
+                leading: SvgPicture.asset(Assets.icons.document),
+                title: const Text('exam.pdf', style: TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: const Text('2 MB'),
               ),
             ),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             const Divider(),
 
             // Comment Header
@@ -256,12 +292,20 @@ class CommentTile extends StatelessWidget {
         children: [
           Row(
             children: [
-              const CircleAvatar(radius: 15, backgroundImage: NetworkImage('https://via.placeholder.com/150')),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Container(
+                  height: 35.h,
+                  width: 35.w,
+                  color: AppColors.greyB2,
+                  child: CachedImageWidget(imageUrl: Dummy.profileImageUrl),
+                ),
+              ),
               const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Mr. Rahman', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green, fontSize: 13)),
+                  const Text('Mr. Rahman', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.secondaryGreen, fontSize: 13)),
                   Text('19 Nov, 2026 | 12:00PM', style: TextStyle(color: Colors.grey.shade500, fontSize: 11)),
                 ],
               ),

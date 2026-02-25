@@ -63,8 +63,8 @@ class HomeHeaderWidget extends StatelessWidget {
               Get.toNamed(AppRoutes.notification);
             },
             child: Container(
-              width: 40.w,
-              height: 40.h,
+              width: 25.w,
+              height: 25.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,
@@ -77,20 +77,7 @@ class HomeHeaderWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // CustomAssetsImage(
-                  //     assetsPath: AssetsPath.alertIcon
-                  // ),
-                  SvgPicture.asset(Assets.icons.notification, height: 25.h, width: 25.w,),
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: CircleAvatar(radius: 4.r, backgroundColor: Colors.red),
-                  ),
-                ],
-              ),
+              child: SvgPicture.asset(Assets.icons.notification,),
             ),
           ),
         ],

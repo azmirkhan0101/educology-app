@@ -25,7 +25,7 @@ class ClassOverviewScreen extends StatelessWidget {
         title: const Text(
           'Class Overview',
           style: TextStyle(
-            color: Color(0xFF2D4E68),
+            fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -40,8 +40,8 @@ class ClassOverviewScreen extends StatelessWidget {
             GridView.count(
               shrinkWrap: true,
               crossAxisCount: 2,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 5,
               childAspectRatio: 1.65,
               physics: const NeverScrollableScrollPhysics(),
               children: const [
@@ -108,7 +108,7 @@ class ClassOverviewScreen extends StatelessWidget {
                   return StudentStatusListItem(
                     name: "Azmir Khan",
                     phoneNumber: "01909352422",
-                    imageUrl: "",
+                    imageUrl: Dummy.profileImageUrl,
                     onViewPressed: () {
                       Get.toNamed(AppRoutes.studentProgress);
                     },

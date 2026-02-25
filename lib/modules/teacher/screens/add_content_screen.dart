@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/app_constants.dart';
 
 class AddContentScreen extends StatefulWidget {
   const AddContentScreen({super.key});
@@ -19,7 +20,6 @@ class AddContentScreen extends StatefulWidget {
 }
 
 class _AddContentScreenState extends State<AddContentScreen> {
-
   final AddContentController controller = Get.find<AddContentController>();
 
   final TextEditingController _titleController = TextEditingController();
@@ -35,17 +35,28 @@ class _AddContentScreenState extends State<AddContentScreen> {
       appBar: AppBar(
         forceMaterialTransparency: true,
         centerTitle: true,
-          title: Text( controller.appTitle, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),)),
+        title: Text(
+          controller.appTitle,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Column(
             children: [
-              _buildLabel("Tittle"), // Kept the typo "Tittle" from the screenshot
-              _buildTextField("Enter Class Name", _titleController),
-              const SizedBox(height: 20),
-
-              _buildLabel("Expected Live Class starting Date & Time"),
+              if( controller.contentType != AddContentType.announcement )
+              buildLabel(AppStrings.title),
+              if( controller.contentType != AddContentType.announcement )
+              buildTextField( AppStrings.enterClassName, _titleController),
+              const SizedBox(height: 15),
+              if( controller.contentType != AddContentType.announcement )
+              buildLabel(
+                controller.contentType == AddContentType.cClass ?
+                  AppStrings.expectedLiveClass
+                    : AppStrings.startDateAndTime
+              ),
+              if( controller.contentType != AddContentType.announcement )
               Row(
                 children: [
                   Expanded(
@@ -65,9 +76,14 @@ class _AddContentScreenState extends State<AddContentScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
 
-              _buildLabel("Add Class Details"),
+              buildLabel(
+                  controller.contentType == AddContentType.cClass ? AppStrings.addClassDetails
+                      : controller.contentType == AddContentType.exam ? AppStrings.addExamDetails
+                      : controller.contentType == AddContentType.homeWork ? AppStrings.addHomeworkDetails
+                      : AppStrings.addAnnouncement
+              ),
               Row(
                 children: [
                   Expanded(child: CustomQuillToolbar(controller: _controller)),
@@ -88,23 +104,30 @@ class _AddContentScreenState extends State<AddContentScreen> {
                   config: const quill.QuillEditorConfig(),
                 ),
               ),
-              const SizedBox(height: 20),
-
-              _buildLabel("Attached Document (Optional)"),
+              const SizedBox(height: 15),
+              buildLabel(
+                  controller.contentType == AddContentType.cClass || controller.contentType == AddContentType.announcement ? "Attached Document (Optional)"
+                      : "Attached Question"
+              ),
               _buildUploadSection(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
 
-              _buildLabel("Share Zoom Link"),
-              _buildTextField("Paste your class link here...", _zoomLinkController, maxLines: 3),
-              const SizedBox(height: 25,),
+              buildLabel( AppStrings.shareZoomLink ),
+              buildTextField(
+                AppStrings.pasteYourClassLinkHere,
+                _zoomLinkController,
+                maxLines: 3,
+              ),
+              const SizedBox(height: 25),
               ButtonWidget(
-                onPressed: (){
+                onPressed: () {
 
                 },
-              label: AppStrings.upload,
-              gradient: AppColors.primaryButtonGradient,
+                label: AppStrings.upload,
+                gradient: AppColors.primaryButtonGradient,
+                buttonHeight: 50,
               ),
-              SizedBox(height: 40,)
+              SizedBox(height: 40),
             ],
           ),
         ),
@@ -113,7 +136,7 @@ class _AddContentScreenState extends State<AddContentScreen> {
   }
 
   // Helper widget to build labels
-  Widget _buildLabel(String text) {
+  Widget buildLabel(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Align(
@@ -122,7 +145,7 @@ class _AddContentScreenState extends State<AddContentScreen> {
           textAlign: TextAlign.left,
           text,
           style: const TextStyle(
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: FontWeight.w500,
             color: AppColors.grey4E,
           ),
@@ -132,7 +155,11 @@ class _AddContentScreenState extends State<AddContentScreen> {
   }
 
   // Helper widget for standard TextFields
-  Widget _buildTextField(String hint, TextEditingController controller, {int maxLines = 1}) {
+  Widget buildTextField(
+    String hint,
+    TextEditingController controller, {
+    int maxLines = 1,
+  }) {
     return TextField(
       controller: controller,
       maxLines: maxLines,
@@ -141,7 +168,10 @@ class _AddContentScreenState extends State<AddContentScreen> {
         hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
         filled: true,
         fillColor: const Color(0xFFF8F9FA),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: Colors.grey.shade200),
@@ -155,7 +185,11 @@ class _AddContentScreenState extends State<AddContentScreen> {
   }
 
   // Helper widget for Date/Time Pickers
-  Widget _buildDateTimePickerField(String hint, IconData icon, TextEditingController controller) {
+  Widget _buildDateTimePickerField(
+    String hint,
+    IconData icon,
+    TextEditingController controller,
+  ) {
     return TextField(
       readOnly: true,
       controller: controller,
@@ -194,13 +228,11 @@ class _AddContentScreenState extends State<AddContentScreen> {
           IntrinsicWidth(
             child: ButtonWidget(
               label: AppStrings.uploadFile,
-            fontSize: 14,
-            buttonHeight: 40,
-            padding: EdgeInsets.symmetric(horizontal: 22, vertical: 0),
-            backgroundColor: AppColors.secondaryDarkBlue,
-              onPressed: (){
-
-              },
+              fontSize: 14,
+              buttonHeight: 40,
+              padding: EdgeInsets.symmetric(horizontal: 22, vertical: 0),
+              backgroundColor: AppColors.secondaryDarkBlue,
+              onPressed: () {},
             ),
           ),
         ],
@@ -208,4 +240,3 @@ class _AddContentScreenState extends State<AddContentScreen> {
     );
   }
 }
-

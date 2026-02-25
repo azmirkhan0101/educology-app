@@ -17,8 +17,8 @@ class RoleService extends GetxService{
   }
 
 
-  void getUpdatedRole(){
-    getRole();
+  Role getUpdatedRole(){
+    return getRole();
   }
 
   Role getRole() {

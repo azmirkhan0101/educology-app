@@ -15,7 +15,7 @@ class SingleAttendanceScreen extends StatelessWidget {
           Get.back();
         },
             icon: Icon(Icons.arrow_back, color: Colors.black)),
-        title: const Text("View Attendance", style: TextStyle(color: Color(0xFF34495E), fontWeight: FontWeight.w600)),
+        title: const Text("View Attendance", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
         centerTitle: true,
         forceMaterialTransparency: true,
       ),
@@ -24,7 +24,7 @@ class SingleAttendanceScreen extends StatelessWidget {
         child: Column(
           children: [
             const Text("Total Completed Class : 15",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Color(0xFF34495E))),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFF34495E))),
             const SizedBox(height: 10),
             // Summary Section
             const IntrinsicHeight(

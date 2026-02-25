@@ -29,7 +29,7 @@ class ClassItemWidget extends StatelessWidget {
       onTap: onClick,
       child: Card(
         elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
@@ -62,7 +62,8 @@ class ClassItemWidget extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Container(
-                      padding: EdgeInsets.all(6.r),
+                      height: 35.h,
+                      width: 35.w,
                       color: Colors.grey.shade200,
                       child: CachedImageWidget(
                           imageUrl: instructorImageUrl,

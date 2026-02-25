@@ -1,5 +1,6 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/widgets/cached_image_widget.dart';
 
@@ -26,6 +27,7 @@ class AnnounceItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onClick,
       child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         elevation: 2,
         color: AppColors.white,
         child: Padding(
@@ -39,9 +41,10 @@ class AnnounceItemWidget extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Container(
-                      padding: const EdgeInsets.all(6),
+                      height: 35.h,
+                      width: 35.w,
                       color: Colors.grey.shade200,
-                      child: CachedImageWidget(imageUrl: "", iconSize: 30),
+                      child: CachedImageWidget(imageUrl: profileImageUrl, iconSize: 30),
                     ),
                   ),
                   const SizedBox(width: 6),

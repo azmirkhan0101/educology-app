@@ -10,6 +10,7 @@ class CourseItemWidget extends StatelessWidget {
   final String title;
   final String category;
   final String status;
+  final bool isTeacher;
   final int enrolledCount;
   final VoidCallback? onClick;
 
@@ -19,6 +20,7 @@ class CourseItemWidget extends StatelessWidget {
     required this.title,
     required this.category,
     required this.status,
+    required this.isTeacher,
     required this.enrolledCount,
     this.onClick,
   });
@@ -30,14 +32,14 @@ class CourseItemWidget extends StatelessWidget {
         onTap: onClick,
         child: Container(
           margin: EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            color: Color(0xFFF8F8F8),
+            borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 10,
+                color: Color(0XFF0F0F0F).withValues(alpha: 0.1),
+                blurRadius: 4,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -50,7 +52,7 @@ class CourseItemWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
                   width: 95.w,
-                  color: AppColors.greyB2,
+                  color: AppColors.greyEB,
                   child: CachedImageWidget(
                       imageUrl: imageUrl,
                     icon: Icons.menu_book_outlined,
@@ -79,7 +81,7 @@ class CourseItemWidget extends StatelessWidget {
                       category,
                       style: const TextStyle(
                         fontSize: 12,
-                        color: Colors.grey,
+                        color: AppColors.grey78,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -102,7 +104,7 @@ class CourseItemWidget extends StatelessWidget {
                     const SizedBox(height: 6),
 
                     Text(
-                      'Total Enrolled Student : $enrolledCount',
+                      isTeacher ? 'Total Enrolled Student : $enrolledCount' : 'Assign teacher: Mr. Rahman',
                       style: const TextStyle(
                         fontSize: 12,
                         color: AppColors.secondaryGreen, //Muted green

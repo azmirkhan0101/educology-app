@@ -18,7 +18,7 @@ import 'package:get/get.dart';
 import '../../../core/assets_gen/assets.gen.dart';
 
 class StudentProgressScreen extends StatelessWidget {
-  final RoleService roleService = Get.find<RoleService>();
+
   final CourseDetailsController controller = Get.isRegistered<CourseDetailsController>()
       ?
   Get.find<CourseDetailsController>()
@@ -45,7 +45,7 @@ class StudentProgressScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Column(
           children: [
             Align(
@@ -60,7 +60,7 @@ class StudentProgressScreen extends StatelessWidget {
             ParticipantListItem(
                 name: "Azmir Khan",
                 phoneNumber: "01909352422",
-                imageUrl: "",
+                imageUrl: Dummy.profileImageUrl,
                 status: StudentStatus.onTrack,
                showDivider: false,
             ),
@@ -77,7 +77,7 @@ class StudentProgressScreen extends StatelessWidget {
             ParticipantListItem(
                 name: "Azmir Khan",
                 phoneNumber: "01909352422",
-                imageUrl: "",
+                imageUrl: Dummy.profileImageUrl,
                 status: null,
               showDivider: false,
             ),
@@ -97,65 +97,7 @@ class StudentProgressScreen extends StatelessWidget {
     );
   }
 
-  //FOR TEACHER AND ASSISTANT
-  Row courseTitle() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Grade 10 - Mathematics",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF2C5364),
-                ),
-              ),
-              const SizedBox(height: 3),
-              Text(
-                "category",
-                style: const TextStyle(fontSize: 14, color: Colors.grey),
-              ),
-              const SizedBox(height: 4),
-              if (roleService.role == Role.teacher ||
-                  roleService.role == Role.assistant)
-                Text(
-                  'Total Enrolled Student ',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.secondaryGreen,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-            ],
-          ),
-        ),
-        // Status Badge
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE1F5FE), // Light blue background
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            "Active",
-            style: const TextStyle(
-              color: Color(0xFF0277BD), // Darker blue text
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  //STATS FOR TEACHER AND ASSISTANT
+  //STATS
   Column stats() {
     return Column(
       spacing: 5,
@@ -202,17 +144,17 @@ class StudentProgressScreen extends StatelessWidget {
     );
   }
 
-  //OVERVIEW | PARTICIPANT BUTTONS FOR TEACHER AND ASSISTANT
+  //ATTENDANCE | EXAM BUTTONS
   Row attendanceExamButtons() {
     return Row(
       spacing: 2,
       children: [
         Expanded(
           child: ButtonWidget(
-            fontSize: 15,
+            fontSize: 14,
             padding: EdgeInsets.all(0),
             label: AppStrings.viewAttendance,
-            buttonHeight: 50,
+            buttonHeight: 45,
             gradient: AppColors.primaryButtonGradient,
             prefixIcon: Icons.calendar_today_outlined,
             prefixIconSize: 16,
@@ -225,8 +167,8 @@ class StudentProgressScreen extends StatelessWidget {
           child: ButtonWidget(
             padding: EdgeInsets.all(0),
             label: AppStrings.viewExams,
-            fontSize: 15,
-            buttonHeight: 50,
+            fontSize: 14,
+            buttonHeight: 45,
             backgroundColor: AppColors.white,
             textColor: AppColors.darkGold,
             borderColor: AppColors.darkGold,

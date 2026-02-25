@@ -37,7 +37,7 @@ class HomeworkTab extends StatelessWidget {
               HomeworkItemWidget(
                   title: "HW 1",
                   authorName: "Azmir Khan",
-                  authorImageUrl: "",
+                  authorImageUrl: Dummy.profileImageUrl,
                   postDate: "20 Feb 2026 | 10:00 AM",
                   commentCount: "3",
                   dueDate: "20 Feb 2026 | 10:00 AM",
@@ -48,25 +48,34 @@ class HomeworkTab extends StatelessWidget {
               HomeworkItemWidget(
                   title: "HW 1",
                   authorName: "Azmir Khan",
-                  authorImageUrl: "",
+                  authorImageUrl: Dummy.profileImageUrl,
                   postDate: "20 Feb 2026 | 10:00 AM",
                   commentCount: "3",
-                  dueDate: "20 Feb 2026 | 10:00 AM"
+                  dueDate: "20 Feb 2026 | 10:00 AM",
+                onClick: (){
+                  Get.toNamed(AppRoutes.contentDetails, arguments: {"contentDetailsType" : ContentDetailsType.homeWork});
+                },
               ),
               HomeworkItemWidget(
                   title: "HW 1",
                   authorName: "Azmir Khan",
-                  authorImageUrl: "",
+                  authorImageUrl: Dummy.profileImageUrl,
                   postDate: "20 Feb 2026 | 10:00 AM",
                   commentCount: "3",
-                  dueDate: "20 Feb 2026 | 10:00 AM"
+                  dueDate: "20 Feb 2026 | 10:00 AM",
+                onClick: (){
+                  Get.toNamed(AppRoutes.contentDetails, arguments: {"contentDetailsType" : ContentDetailsType.homeWork});
+                },
               ),HomeworkItemWidget(
                   title: "HW 1",
                   authorName: "Azmir Khan",
-                  authorImageUrl: "",
+                  authorImageUrl: Dummy.profileImageUrl,
                   postDate: "20 Feb 2026 | 10:00 AM",
                   commentCount: "3",
-                  dueDate: "20 Feb 2026 | 10:00 AM"
+                  dueDate: "20 Feb 2026 | 10:00 AM",
+                onClick: (){
+                  Get.toNamed(AppRoutes.contentDetails, arguments: {"contentDetailsType" : ContentDetailsType.homeWork});
+                },
               ),
             ],
           ),

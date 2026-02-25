@@ -42,7 +42,7 @@ class ClassesTab extends StatelessWidget {
                   liveTime: "20 Dec 2026 | 10:00 AM",
                   instructorName: "Azmir Khan",
                   postDate: "20 Dec 2026 | 10:00 AM",
-                  instructorImageUrl: "",
+                  instructorImageUrl: Dummy.profileImageUrl,
                   commentCount: 3,
               onClick: (){
         Get.toNamed(AppRoutes.contentDetails, arguments: {"contentDetailsType" : ContentDetailsType.cClass});
@@ -53,24 +53,33 @@ class ClassesTab extends StatelessWidget {
                   liveTime: "20 Dec 2026 | 10:00 AM",
                   instructorName: "Azmir Khan",
                   postDate: "20 Dec 2026 | 10:00 AM",
-                  instructorImageUrl: "",
-                  commentCount: 3
+                  instructorImageUrl: Dummy.profileImageUrl,
+                  commentCount: 3,
+                onClick: (){
+                  Get.toNamed(AppRoutes.contentDetails, arguments: {"contentDetailsType" : ContentDetailsType.cClass});
+                },
               ),
               ClassItemWidget(
                   title: "Name",
                   liveTime: "20 Dec 2026 | 10:00 AM",
                   instructorName: "Azmir Khan",
                   postDate: "20 Dec 2026 | 10:00 AM",
-                  instructorImageUrl: "",
-                  commentCount: 3
+                  instructorImageUrl: Dummy.profileImageUrl,
+                  commentCount: 3,
+                onClick: (){
+                  Get.toNamed(AppRoutes.contentDetails, arguments: {"contentDetailsType" : ContentDetailsType.cClass});
+                },
               ),
               ClassItemWidget(
                   title: "Name",
                   liveTime: "20 Dec 2026 | 10:00 AM",
                   instructorName: "Azmir Khan",
                   postDate: "20 Dec 2026 | 10:00 AM",
-                  instructorImageUrl: "",
-                  commentCount: 3
+                  instructorImageUrl: Dummy.profileImageUrl,
+                  commentCount: 3,
+                onClick: (){
+                  Get.toNamed(AppRoutes.contentDetails, arguments: {"contentDetailsType" : ContentDetailsType.cClass});
+                },
               )
             ],
           ),

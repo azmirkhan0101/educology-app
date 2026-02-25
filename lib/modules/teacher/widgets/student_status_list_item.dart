@@ -35,7 +35,8 @@ class StudentStatusListItem extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
             child: Container(
-              padding: EdgeInsets.all(6.r),
+              height: 35.h,
+              width: 35.w,
               color: Colors.grey.shade200,
               child: CachedImageWidget(imageUrl: imageUrl, iconSize: 26),
             ),
@@ -90,7 +91,8 @@ class StudentStatusListItem extends StatelessWidget {
             label: AppStrings.view,
           backgroundColor: AppColors.secondaryDarkBlue,
             padding: EdgeInsets.all(0),
-            buttonHeight: 40,
+            fontSize: 16,
+            buttonHeight: 30,
             onPressed: onViewPressed,
           ),
         ],

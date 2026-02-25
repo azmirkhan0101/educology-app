@@ -2,6 +2,7 @@ import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ViewExamItemWidget extends StatelessWidget {
   final String title;
@@ -30,7 +31,7 @@ class ViewExamItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 15),
+      margin: EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -107,8 +108,8 @@ class ViewExamItemWidget extends StatelessWidget {
                 fontSize: 14,
                   onPressed: onViewAnswer,
                   label: AppStrings.viewAnswer,
-                buttonHeight: 40,
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                buttonHeight: 38,
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
                 backgroundColor: const Color(0xFF34546D),
               ),
             ],
@@ -126,6 +127,8 @@ class ViewExamItemWidget extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: Container(
+                  height: 35.h,
+                  width: 35.w,
                   color: Colors.grey.shade400,
                   child: CachedImageWidget(
                       imageUrl: imageUrl,
