@@ -33,6 +33,9 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: AppColors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
+        leading: IconButton(onPressed: (){
+          Get.back();
+        }, icon: Icon(Icons.arrow_back_sharp)),
         centerTitle: true,
         title: TextWidget(text: AppStrings.profile,
         fontSize: 18,
@@ -187,7 +190,7 @@ class ProfileScreen extends StatelessWidget {
                     onPressed: () async{
                       await storage.erase();
                       Get.back();
-                      Get.offAllNamed(AppRoutes.signIn);
+                      Get.offAllNamed(AppRoutes.roleSelection);
                     },
                   ),
                 ),

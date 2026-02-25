@@ -1,5 +1,6 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
+import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,6 +11,7 @@ class HomeworkItemWidget extends StatelessWidget {
   final String postDate;
   final String commentCount;
   final String dueDate;
+  final bool isStudent;
   final VoidCallback? onClick;
 
   const HomeworkItemWidget({
@@ -19,6 +21,7 @@ class HomeworkItemWidget extends StatelessWidget {
     required this.authorImageUrl,
     required this.postDate,
     required this.commentCount,
+    required this.isStudent,
     required this.dueDate,
     this.onClick
   });
@@ -37,13 +40,27 @@ class HomeworkItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header Title
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.secondaryDarkBlue,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.secondaryDarkBlue,
+                    ),
+                  ),
+                  if( isStudent )
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color(0x3300A442),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    child: TextWidget(text: "Done", fontSize: 12, fontColor: AppColors.secondaryGreen,),
+                  )
+                ],
               ),
               const SizedBox(height: 6),
 

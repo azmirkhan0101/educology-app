@@ -27,35 +27,40 @@ class HomeHeaderWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Container(
-                width: 45.w,
-                height: 45.h,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.secondaryGreen, width: 2)
+          GestureDetector(
+            onTap: (){
+              Get.toNamed(AppRoutes.profile);
+            },
+            child: Row(
+              children: [
+                Container(
+                  width: 45.w,
+                  height: 45.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.secondaryGreen, width: 2)
+                  ),
+                  child: ClipOval( child: buildProfileImage() ),
                 ),
-                child: ClipOval( child: buildProfileImage() ),
-              ),
-              const SizedBox(width: 12),
-              // Welcome text and user name
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Welcome Back!',
-                      style: TextStyle(fontSize: 13, color: AppColors.secondaryGreen, fontFamily: FontFamily.poppins)
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    userName == null || userName!.isEmpty ? "User"  : userName!,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: FontFamily.poppins)
-                  ),
-                ],
-              ),
-            ],
+                const SizedBox(width: 12),
+                // Welcome text and user name
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Welcome Back!',
+                        style: TextStyle(fontSize: 13, color: AppColors.secondaryGreen, fontFamily: FontFamily.poppins)
+                    ),
+                    SizedBox(height: 2.h),
+                    Text(
+                      userName == null || userName!.isEmpty ? "User"  : userName!,
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: FontFamily.poppins)
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           // Notification icon
           GestureDetector(

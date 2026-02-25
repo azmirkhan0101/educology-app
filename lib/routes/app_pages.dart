@@ -12,8 +12,8 @@ import 'package:dr_dina_educology/modules/content_details/screens/content_detail
 import 'package:dr_dina_educology/modules/course_details/screens/course_details_screen.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/participant_screen.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/single_attendance_screen.dart';
+import 'package:dr_dina_educology/modules/home/screens/home_screen.dart';
 import 'package:dr_dina_educology/modules/home/screens/notification_screen.dart';
-import 'package:dr_dina_educology/modules/main_nav/screens/main_nav_screen.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_one.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_three.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_two.dart';
@@ -114,6 +114,12 @@ class AppPages {
         }
     ),
     GetPage(
+        name: AppRoutes.home,
+        page: (){
+          return HomeScreen();
+        }
+    ),
+    GetPage(
         name: AppRoutes.notification,
         page: (){
           return NotificationScreen();
@@ -165,12 +171,6 @@ class AppPages {
         name: AppRoutes.aboutUs,
         page: (){
           return AboutUsScreen();
-        }
-    ),
-    GetPage(
-        name: AppRoutes.mainNav,
-        page: (){
-          return MainNavScreen();
         }
     ),
     GetPage(

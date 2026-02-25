@@ -11,8 +11,10 @@ import '../../../routes/app_pages.dart';
 class ExamTab extends StatelessWidget {
 
   final bool showAddButton;
+  final bool isStudent;
 
-  const ExamTab({super.key, required this.showAddButton});
+
+  const ExamTab({super.key, required this.showAddButton, required this.isStudent});
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class ExamTab extends StatelessWidget {
                   postDate: "20 Feb 2026 | 10:00 AM",
                   commentCount: "3",
                   dueDate: "20 Feb 2026 | 10:00 AM",
+                isStudent: isStudent,
                 onClick: (){
                     Get.toNamed(AppRoutes.contentDetails, arguments: {"contentDetailsType" : ContentDetailsType.exam});
                 },
@@ -52,6 +55,7 @@ class ExamTab extends StatelessWidget {
                   postDate: "20 Feb 2026 | 10:00 AM",
                   commentCount: "3",
                   dueDate: "20 Feb 2026 | 10:00 AM",
+                isStudent: isStudent,
                 onClick: (){
                   Get.toNamed(AppRoutes.contentDetails, arguments: {"contentDetailsType" : ContentDetailsType.exam});
                 },
@@ -63,6 +67,7 @@ class ExamTab extends StatelessWidget {
                   postDate: "20 Feb 2026 | 10:00 AM",
                   commentCount: "3",
                   dueDate: "20 Feb 2026 | 10:00 AM",
+                isStudent: isStudent,
                 onClick: (){
                   Get.toNamed(AppRoutes.contentDetails, arguments: {"contentDetailsType" : ContentDetailsType.exam});
                 },
@@ -73,6 +78,7 @@ class ExamTab extends StatelessWidget {
                   postDate: "20 Feb 2026 | 10:00 AM",
                   commentCount: "3",
                   dueDate: "20 Feb 2026 | 10:00 AM",
+                isStudent: isStudent,
                 onClick: (){
                   Get.toNamed(AppRoutes.contentDetails, arguments: {"contentDetailsType" : ContentDetailsType.exam});
                 },

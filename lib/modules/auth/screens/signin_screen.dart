@@ -3,7 +3,6 @@ import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -113,7 +112,7 @@ class SignInScreen extends StatelessWidget {
               label: AppStrings.signIn,
               gradient: AppColors.primaryButtonGradient,
               onPressed: (){
-                Get.toNamed(AppRoutes.mainNav);
+                Get.toNamed(AppRoutes.accountApproval);
               },
             ),
             const SizedBox(height: 18),

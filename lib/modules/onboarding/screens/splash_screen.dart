@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,7 @@ class SplashScreen extends StatelessWidget {
 
 
     WidgetsBinding.instance.addPostFrameCallback((_){
-      Future.delayed(const Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 2), () {
         Get.offAndToNamed(AppRoutes.onBoardingOne);
       });
     });
@@ -28,10 +30,13 @@ class SplashScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              SvgPicture.asset(
-                  Assets.icons.splashBlurTop,
-                height: 237.h,
-                width: 237.w,
+              ImageFiltered(
+                imageFilter: ImageFilter.blur(sigmaY: 40, sigmaX: 40,),
+                child: SvgPicture.asset(
+                    Assets.icons.splashBlurTop,
+                  height: 237.h,
+                  width: 237.w,
+                ),
               ),
             ],
           ),
@@ -43,11 +48,13 @@ class SplashScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              SvgPicture.asset(
-                  Assets.icons.splashBlurBottom,
-                colorFilter: ColorFilter.mode(Colors.transparent, BlendMode.color),
-                height: 237.h,
-                width: 237.w,
+              ImageFiltered(
+                imageFilter: ImageFilter.blur(sigmaX: 45, sigmaY: 45),
+                child: SvgPicture.asset(
+                    Assets.icons.splashBlurBottom,
+                  height: 237.h,
+                  width: 237.w,
+                ),
               ),
             ],
           ),

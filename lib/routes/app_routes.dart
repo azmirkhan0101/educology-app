@@ -17,8 +17,7 @@ class AppRoutes {
   static const String accountApproval = '/account_approval';
   static const String notification = '/notification';
 
-
-  static const String mainNav = '/main_nav';
+  static const String home = '/home';
 
   static const String courseDetails = '/course_details';
   static const String classOverview = '/class_overview';

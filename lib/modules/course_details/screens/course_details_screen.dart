@@ -73,7 +73,7 @@ class CourseDetailsScreen extends StatelessWidget {
             if( isStudent )
               myProgressParticipantButtons(),
             Expanded(
-                child: tabBar(isTeacher: isTeacher)
+                child: tabBar(isTeacher: isTeacher, isStudent: isStudent)
             )
           ],
         ),
@@ -267,7 +267,7 @@ class CourseDetailsScreen extends StatelessWidget {
   }
 
   //TAB BAR
-  tabBar({required bool isTeacher}) {
+  tabBar({required bool isTeacher, required bool isStudent}) {
     return Column(
       children: [
         TabBar(
@@ -295,8 +295,8 @@ class CourseDetailsScreen extends StatelessWidget {
             controller: controller.tabController,
             children: [
               ClassesTab(showAddButton: isTeacher,),
-              HomeworkTab(showAddButton: isTeacher,),
-              ExamTab(showAddButton: isTeacher,),
+              HomeworkTab(showAddButton: isTeacher, isStudent: isStudent,),
+              ExamTab(showAddButton: isTeacher, isStudent: isStudent,),
               AnnounceTab(showAddButton: isTeacher,)
             ],
           ),
