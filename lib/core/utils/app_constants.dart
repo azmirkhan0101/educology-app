@@ -5,6 +5,25 @@ import 'package:flutter/material.dart';
 import '../assets_gen/assets.gen.dart';
 import 'app_strings.dart';
 
+//GET STORAGE KEYS
+const String isSignupKey = "isSignupKey";
+const String emailKey = "emailKey";
+const String accessTokenKey = "accessTokenKey";
+const String refreshTokenKey = "refreshTokenKey";
+const String requireVerificationKey = "requireVerificationKey";
+const String forgotPasswordTokenKey = "forgotPasswordTokenKey";
+const String profileModelKey = "profileModelKey";
+const String userNameKey = "userNameKey";
+const String userContactKey = "userContactKey";
+
+//AUTH STATUS
+enum AuthStatus {
+  loggedInAndVerified,
+  loggedInNotVerified,
+  loggedOut
+}
+
+//ROLES
 enum Role{
   teacher,
   assistant,
@@ -14,15 +33,17 @@ enum Role{
 
 const String roleKey = "roleKey";
 
+//DUMMY IMAGE URL
 class Dummy{
 
   static const String profileImageUrl = "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 }
 
+//STUDENT STATUS - ON TRACK, ATTENTION, BEHIND, CRITICAL
 enum StudentStatus { onTrack, attention, behind, critical }
 
 extension StatusColorExtension on StudentStatus {
-  // Path to the SVG asset
+
   String get iconPath {
     switch (this) {
       case StudentStatus.onTrack: return Assets.icons.onTrack;
@@ -32,7 +53,6 @@ extension StatusColorExtension on StudentStatus {
     }
   }
 
-  // Main background color (light tint)
   Color get bgColor {
     switch (this) {
       case StudentStatus.onTrack: return const Color(0xFFF1FAF5);
@@ -42,7 +62,6 @@ extension StatusColorExtension on StudentStatus {
     }
   }
 
-  // Border and Icon color
   Color get primaryColor {
     switch (this) {
       case StudentStatus.onTrack: return const Color(0xFF28A745);
@@ -72,7 +91,7 @@ extension StatusColorExtension on StudentStatus {
 
 }
 
-
+//ATTENDANCE STATUS - ON TIME, LATE, ABSENT
 enum AttendanceStatus{ onTime, absent, late }
 
 extension AttendanceStatusColorExtension on AttendanceStatus {
@@ -94,7 +113,7 @@ extension AttendanceStatusColorExtension on AttendanceStatus {
   }
 }
 
-
+//CONTENT TYPE - CLASS, EXAM, HOMEWORK, ANNOUNCEMENT
 enum AddContentType{ cClass, exam, homeWork, announcement }
 
 extension AddContentTypeExtension on AddContentType {

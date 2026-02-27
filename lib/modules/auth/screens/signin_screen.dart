@@ -1,7 +1,9 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
+import 'package:dr_dina_educology/core/widgets/custom_text_field.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
+import 'package:dr_dina_educology/modules/auth/controllers/signin_controller.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,22 +12,10 @@ import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 
-// --- Controller for state management ---
-class SignInController extends GetxController {
-  var isObscurePassword = true.obs;
-  var isObscureConfirmPassword = true.obs;
-  var isAgreed = false.obs;
-
-  void togglePassword() => isObscurePassword.toggle();
-  void toggleConfirmPassword() => isObscureConfirmPassword.toggle();
-  void toggleAgreement(bool? value) => isAgreed.value = value ?? false;
-}
-
-// --- Main Screen ---
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
 
-  final SignInController controller = Get.put(SignInController());
+  final SigninController controller = Get.find<SigninController>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +36,7 @@ class SignInScreen extends StatelessWidget {
           children: [
             // Logo Section
             SvgPicture.asset(
-              Assets.icons.appLogo, // Ensure path is correct
+              Assets.icons.appLogo,
               height: 190.h,
               width: 225.w,
             ),
@@ -85,13 +75,23 @@ class SignInScreen extends StatelessWidget {
             _buildTextField(label: AppStrings.email, hint: AppStrings.enterYourEmail),
             const SizedBox(height: 10),
             // Password Field
-            Obx(() => _buildTextField(
-              label: AppStrings.password,
-              hint: AppStrings.enterYourPassword,
+            CustomTextField(
+              controller: controller.passwordController,
+              hintText: AppStrings.password,
               isPassword: true,
-              obscureText: controller.isObscurePassword.value,
-              onToggle: controller.togglePassword,
-            )),
+              suffixIcon: Assets.icons.eyeHide,
+              obscureCharacter: "*",
+              hintStyle: const TextStyle(color: AppColors.grey4E, fontSize: 15),
+              inputTextStyle: const TextStyle(color: AppColors.grey4E, fontSize: 15),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your password';
+                }
+                return null;
+              },
+              keyboardType: TextInputType.visiblePassword,
+              cursorColor: Colors.black,
+            ),
             const SizedBox(height: 2),
             Align(
               alignment: Alignment.centerRight,
@@ -107,7 +107,7 @@ class SignInScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 25,),
-            // Sign Up Button
+            //Sign Up Button
             ButtonWidget(
               label: AppStrings.signIn,
               gradient: AppColors.primaryButtonGradient,

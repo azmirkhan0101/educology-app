@@ -1,4 +1,3 @@
-import 'package:dr_dina_educology/binding/initial_binding.dart';
 import 'package:dr_dina_educology/core/assets_gen/fonts.gen.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,7 +30,6 @@ class MainApp extends StatelessWidget {
           theme: ThemeData(
             fontFamily: FontFamily.inter
           ),
-          initialBinding: InitialBinding(),
           getPages: AppPages.pages,
           initialRoute: AppRoutes.splash,
         );

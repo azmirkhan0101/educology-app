@@ -77,6 +77,18 @@ class $AssetsIconsGen {
   /// File path: assets/icons/email.svg
   String get email => 'assets/icons/email.svg';
 
+  /// File path: assets/icons/eye.svg
+  String get eye => 'assets/icons/eye.svg';
+
+  /// File path: assets/icons/eye_hide.svg
+  String get eyeHide => 'assets/icons/eye_hide.svg';
+
+  /// File path: assets/icons/eye_hide_white.svg
+  String get eyeHideWhite => 'assets/icons/eye_hide_white.svg';
+
+  /// File path: assets/icons/eye_white.svg
+  String get eyeWhite => 'assets/icons/eye_white.svg';
+
   /// File path: assets/icons/forgot_password.svg
   String get forgotPassword => 'assets/icons/forgot_password.svg';
 
@@ -196,6 +208,10 @@ class $AssetsIconsGen {
     editPhoto,
     editProfile,
     email,
+    eye,
+    eyeHide,
+    eyeHideWhite,
+    eyeWhite,
     forgotPassword,
     homeworkSubmitted,
     joinClass,
@@ -234,12 +250,16 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/home_banner.png
+  AssetGenImage get homeBanner =>
+      const AssetGenImage('assets/images/home_banner.png');
+
   /// File path: assets/images/splash_logo.png
   AssetGenImage get splashLogo =>
       const AssetGenImage('assets/images/splash_logo.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [splashLogo];
+  List<AssetGenImage> get values => [homeBanner, splashLogo];
 }
 
 class Assets {

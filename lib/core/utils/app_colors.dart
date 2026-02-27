@@ -16,10 +16,13 @@ class AppColors {
   static const Color primaryGold = Color(0xFFD5A85E);
   static const Color darkGold = Color(0xFFB2905F);
   static const Color secondaryGreen = Color(0xFF64937D);
+  static const Color greenPrimary = Color(0xFF00B047);
   static const Color secondaryDarkBlue = Color(0xFF33526A);
 
   static const Color red10Percent = Color(0x1AF70004);
   static const Color errorRed = Color(0xFFF70004);
+  static const Color yellowWarning = Color(0xFFFFC804);
+  static const Color warningYellow = Color(0xffffcc00);
 
   static const LinearGradient primaryButtonGradient = LinearGradient(
     begin: Alignment.centerLeft,
