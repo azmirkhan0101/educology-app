@@ -1,3 +1,4 @@
+import 'package:dr_dina_educology/modules/auth/bindings/auth_binding.dart';
 import 'package:dr_dina_educology/modules/auth/screens/account_approval_screen.dart';
 import 'package:dr_dina_educology/modules/auth/screens/forgot_password_screen.dart';
 import 'package:dr_dina_educology/modules/auth/screens/reset_password_screen.dart';
@@ -17,6 +18,7 @@ import 'package:dr_dina_educology/modules/home/screens/notification_screen.dart'
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_one.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_three.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_two.dart';
+import 'package:dr_dina_educology/modules/profile/bindings/profile_binding.dart';
 import 'package:dr_dina_educology/modules/profile/screens/about_us_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/change_password_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/edit_profile_screen.dart';
@@ -81,7 +83,8 @@ class AppPages {
         name: AppRoutes.signUp,
         page: (){
           return SignupScreen();
-        }
+        },
+      binding: AuthBinding()
     ),
     GetPage(
         name: AppRoutes.signIn,
@@ -129,7 +132,8 @@ class AppPages {
         name: AppRoutes.profile,
         page: (){
           return ProfileScreen();
-        }
+        },
+      binding: ProfileBinding()
     ),
     GetPage(
         name: AppRoutes.editProfile,

@@ -73,7 +73,7 @@ class ProfileController extends GetxController{
       ProfileModel model = ProfileModel.fromJson(  response.data['data'] );
       //SAVE PROFILE DATA IN STORAGE
       storage.write( profileModelKey, model.toJson() );
-      storage.write( userNameKey, "${model.firstName} ${model.lastName}" );
+      storage.write( userNameKey, model.fullName );
       storage.write( userContactKey, model.contact );
       profileModel.value = model;
       profileImageUrl.value = profileModel.value?.image ?? "";

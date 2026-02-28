@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -11,13 +12,20 @@ import '../../../core/utils/api_response.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_constants.dart';
 import '../../../core/utils/show_snackbar.dart';
+import '../../../data/models/profile/profile_model.dart';
 import '../../../routes/app_pages.dart';
 
 class SigninController extends GetxController {
 
   final ApiService apiService = Get.find<ApiService>();
   final storage = GetStorage();
-  RxBool isLoginLoading = false.obs;
+  RxBool isSigninLoading = false.obs;
+
+  GlobalKey<FormState>? formKey;
+
+  void setFormKey(GlobalKey<FormState> key) {
+    formKey = key;
+  }
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -36,12 +44,12 @@ class SigninController extends GetxController {
   }
 
   //VALIDATE EMAIL PASSWORD AND THEN LOGIN -> if verified -> go to home -> else -> go to verified screen
-  Future<void> login() async {
-    if (isLoginLoading.value) {
+  Future<void> signin() async {
+    if (isSigninLoading.value) {
       return;
     }
 
-    isLoginLoading.value = true;
+    isSigninLoading.value = true;
     late String? token;
 
     if (Platform.isIOS) {
@@ -63,18 +71,15 @@ class SigninController extends GetxController {
       body: credentials,
     );
 
-    isLoginLoading.value = false;
+    //GET PROFILE USING TOKEN -> THEN GO TO HOME
+    if( response.statusCode != 200 ){
+      isSigninLoading.value = false;
+    }
 
     if (response.statusCode == 200) {
       //LOGIN SUCCESSFUL
-      storage.write(requireVerificationKey, false);
       saveTokens(response.data);
-      showSnackBar(
-        title: "Logged in!",
-        message: "You have successfully logged in.",
-        backgroundColor: AppColors.greenPrimary,
-      );
-      Get.offAllNamed(AppRoutes.home);
+      getProfileData();
     } else if (response.statusCode == 400) {
       //WRONG PASSWORD
       showSnackBar(
@@ -123,6 +128,80 @@ class SigninController extends GetxController {
       showSnackBar(
         title: "Login Failed!",
         message: "Please try again.",
+        backgroundColor: AppColors.errorRed,
+      );
+    }
+  }
+
+  Future<void> getProfileData() async {
+
+    ApiResponse response = await apiService.networkRequest(
+        method: "GET",
+        isAuthRequired: true,
+        endPoint: ApiEndpoints.getProfile
+    );
+
+    isSigninLoading.value = false;
+
+    if (response.statusCode == 200) {
+      storage.write(requireVerificationKey, false);
+      //FETCHED PROFILE DATA
+      ProfileModel model = ProfileModel.fromJson(
+          response.data['data']
+      );
+      //SAVE PROFILE DATA IN STORAGE
+      storage.write(profileModelKey, model.toJson());
+      Role role = model.role;
+      storage.write(roleKey, role.name);
+      print("Role nameeeeeeeeeeeeeeee: ${role.name}");
+
+      UserStatus status = model.status;
+      print("Status nameeeeeeeeeeeeeeee: ${status.name}");
+      if( status == UserStatus.blocked ){
+        showSnackBar(
+          title: "Account blocked!",
+          message: "Your account is blocked by admin.",
+          backgroundColor: AppColors.errorRed,
+        );
+        return;
+      }
+      if( status == UserStatus.pending ) {
+        showSnackBar(
+          title: "Account not approved!",
+          message: "Your account is not approved by admin.",
+          backgroundColor: AppColors.warningYellow,
+        );
+        //storage.write(requireVerificationKey, true);
+        storage.write(emailKey, emailController.text.trim());
+        Map<String, dynamic> arguments = {
+          emailKey: emailController.text.trim(),
+          isSignupKey: true,
+        };
+        //TODO: CALL VERIFY OTP TO GET OTP AND GO TO OTP SCREEN
+        Get.offAndToNamed(AppRoutes.accountApproval, arguments: arguments);
+        return;
+      }
+      if( status == UserStatus.inProgress ){
+        Get.offAllNamed(AppRoutes.home);
+        showSnackBar(
+          title: "Login Successful!",
+          message: "Welcome back!",
+          backgroundColor: AppColors.greenPrimary,
+        );
+      }
+    } else if (response.statusCode == 401) {
+      storage.erase();
+      //ACCESS TOKEN INVALID
+      showSnackBar(
+        title: "Session Expired!",
+        message: "Please try again.",
+        backgroundColor: AppColors.errorRed,
+      );
+    }else{
+      storage.erase();
+      showSnackBar(
+        title: "Error!",
+        message: "Something went wrong. Please try again",
         backgroundColor: AppColors.errorRed,
       );
     }

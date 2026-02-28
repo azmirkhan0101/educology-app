@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
     role = roleService.getUpdatedRole();
     bool isTeacher = role == Role.teacher || role == Role.assistant;
     bool isStudent = role == Role.student;
-    bool isParent = role == Role.parents;
+    bool isParent = role == Role.parent;
 
     print(role.name);
 

@@ -20,16 +20,6 @@ class RoleSelectionScreen extends StatefulWidget {
 
 class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
 
-  //WILL USE IN RETRIEVE
-  // Role readRole() {
-  //   final roleString = storage.read(roleKey);
-  //
-  //   return Role.values.firstWhere(
-  //         (e) => e.name == roleString,
-  //     orElse: () => Role.student,
-  //   );
-  // }
-  // Track which role is selected
   String? _selectedRole;
   final storage = GetStorage();
   Role? role;
@@ -44,12 +34,12 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              //const SizedBox(height: 20),
+              SizedBox(height: 25.h),
               // Logo Section
               SvgPicture.asset(
                   Assets.icons.appLogo,
-                  height: 190.h,
-                width: 225.w,
+                  height: 150.h,
+                width: 280.w,
               ),
               const SizedBox(height: 12),
 
@@ -58,7 +48,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "Welcome to",
+                        text: "Welcome to ",
                         style: TextStyle(
                           color: AppColors.secondaryGreen,
                           fontSize: 26,
@@ -77,7 +67,8 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                   )
               ),
               const SizedBox(height: 8),
-              const Text( AppStrings.manageYourClasses,
+              const Text(
+                AppStrings.manageYourClasses,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14, color: AppColors.grey4E),
               ),
@@ -101,7 +92,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                       role = Role.student;
                     }),
                     _buildRoleCard('a Parent', Assets.icons.parents, (){
-                      role = Role.parents;
+                      role = Role.parent;
                     }),
                     _buildRoleCard('a Teacher', Assets.icons.teacher, (){
                       role = Role.teacher;

@@ -24,11 +24,35 @@ enum AuthStatus {
 }
 
 //ROLES
-enum Role{
+enum Role {
   teacher,
   assistant,
   student,
-  parents
+  parent;
+
+  static Role fromString(String role) {
+    return Role.values.firstWhere(
+          (e) => e.name == role.toLowerCase(),
+      orElse: () => Role.student, // Default fallback
+    );
+  }
+
+  String toJson() => name;
+}
+
+enum UserStatus {
+  inProgress,
+  blocked,
+  pending;
+
+  static UserStatus fromString(String status) {
+    return UserStatus.values.firstWhere(
+          (e) => e.name.toLowerCase() == status.replaceAll('-', '').toLowerCase(),
+      orElse: () => UserStatus.inProgress,
+    );
+  }
+
+  String toJson() => name.replaceAll(RegExp(r'(?=[A-Z])'), '-').toLowerCase();
 }
 
 const String roleKey = "roleKey";

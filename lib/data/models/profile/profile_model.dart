@@ -1,56 +1,69 @@
-class ProfileModel {
+import '../../../core/utils/app_constants.dart';
 
-  final String image;
+class ProfileModel {
+  final String? id;
+  final String? parentId;
   final String firstName;
   final String lastName;
+  final String fullName;
+  final String image;
   final String email;
   final String contact;
   final String location;
-  final DateTime dob;
-  final int point;
-  final String loyalityTier;
+  final DateTime? dob;
+  final UserStatus status;
+  final Role role;
+  final bool isOtpVerified;
 
   ProfileModel({
-    required this.image,
+    this.id,
+    this.parentId,
     required this.firstName,
     required this.lastName,
+    required this.fullName,
+    required this.image,
     required this.email,
     required this.contact,
     required this.location,
-    required this.dob,
-    required this.point,
-    required this.loyalityTier
+    this.dob,
+    required this.status,
+    required this.role,
+    required this.isOtpVerified
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
-        image: json['image'] ?? "",
-      firstName: json['firstName'] ?? "",
-      lastName: json['lastName'] ?? "",
-      email: json['email'] ?? "",
-      contact: json['contact'] ?? "",
-      location: json['location'] ?? "",
-      dob: DateTime.parse(json['dob'] as String),
-      point: json['point'] ?? 0,
-      loyalityTier: json['loyalityTier'] ?? ""
+      id: json['_id'] as String?,
+      parentId: json['parentId'] as String?,
+      firstName: json['firstName'] ?? '',
+      lastName: json['lastName'] ?? '',
+      fullName: json['fullName'] ?? '',
+      image: json['image'] as String? ?? "",
+      email: json['email'] ?? '',
+      contact: json['contact'] ?? '',
+      location: json['location'] ?? '',
+      dob: json['dob'] != null ? DateTime.parse(json['dob']) : null,
+      status: UserStatus.fromString(json['status'] ?? ''),
+      role: Role.fromString(json['role'] ?? ''),
+      isOtpVerified: json['isOtpVerified'] ?? false
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'image': image,
+      '_id': id,
+      'parentId': parentId,
       'firstName': firstName,
       'lastName': lastName,
+      'fullName': fullName,
+      'image': image,
       'email': email,
       'contact': contact,
       'location': location,
-      'dob': dob.toIso8601String(),
-      'point': point,
-      'loyalityTier': loyalityTier
+      'dob': dob?.toIso8601String(),
+      'status': status.toJson(),
+      'role': role.toJson(),
+      'isOtpVerified': isOtpVerified
     };
   }
-
-
-
-
 }

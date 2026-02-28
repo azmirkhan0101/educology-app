@@ -31,6 +31,9 @@ class ButtonWidget extends StatelessWidget {
   final bool isEnabled;
   final Color disabledColor;
 
+  //LOADING CONTROLLER
+  final bool isLoading;
+
   const ButtonWidget({
     super.key,
     required this.label,
@@ -56,12 +59,15 @@ class ButtonWidget extends StatelessWidget {
     this.gradient,
     this.isEnabled = true, // Defaulting to true
     this.disabledColor = Colors.grey, // Default disabled color
+    this.isLoading = false, // Defaulting to false
   });
 
   @override
   Widget build(BuildContext context) {
     // Logic to determine the background color based on state
-    final Color effectiveBackgroundColor = isEnabled ? backgroundColor : disabledColor;
+    final Color effectiveBackgroundColor = isEnabled
+        ? backgroundColor
+        : disabledColor;
 
     return Container(
       height: buttonHeight.h,
@@ -69,7 +75,9 @@ class ButtonWidget extends StatelessWidget {
       decoration: BoxDecoration(
         // We only show the gradient if enabled and provided
         gradient: isEnabled ? gradient : null,
-        color: (isEnabled && gradient != null) ? null : effectiveBackgroundColor,
+        color: (isEnabled && gradient != null)
+            ? null
+            : effectiveBackgroundColor,
         borderRadius: BorderRadius.circular(buttonRadius.r),
         border: borderColor != null
             ? Border.all(color: borderColor!, width: borderWidth.r)
@@ -91,31 +99,49 @@ class ButtonWidget extends StatelessWidget {
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           elevation: 0,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (prefixIcon != null)
-              Icon(
-                  prefixIcon,
-                  color: isEnabled ? prefixIconColor : prefixIconColor.withValues(alpha: 0.5),
-                  size: prefixIconSize.r
+        child: isLoading
+            ? Center(
+                child: SizedBox(
+                  height: 25.h,
+                  width: 25.h,
+                  child: const CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 2.5,
+                    padding: EdgeInsets.zero,
+                  ),
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (prefixIcon != null)
+                    Icon(
+                      prefixIcon,
+                      color: isEnabled
+                          ? prefixIconColor
+                          : prefixIconColor.withValues(alpha: 0.5),
+                      size: prefixIconSize.r,
+                    ),
+                  if (prefixIcon != null) SizedBox(width: 12.w),
+                  TextWidget(
+                    text: label,
+                    fontColor: isEnabled
+                        ? textColor
+                        : textColor.withValues(alpha: 0.6),
+                    fontSize: fontSize.sp,
+                    fontWeight: fontWeight,
+                  ),
+                  if (icon != null) const SizedBox(width: 12),
+                  if (icon != null)
+                    Icon(
+                      icon,
+                      color: isEnabled
+                          ? (iconColor ?? textColor)
+                          : (iconColor ?? textColor).withOpacity(0.5),
+                      size: iconSize ?? fontSize,
+                    ),
+                ],
               ),
-            if (prefixIcon != null) SizedBox(width: 12.w),
-            TextWidget(
-              text: label,
-              fontColor: isEnabled ? textColor : textColor.withValues(alpha: 0.6),
-              fontSize: fontSize.sp,
-              fontWeight: fontWeight,
-            ),
-            if (icon != null) const SizedBox(width: 12),
-            if (icon != null)
-              Icon(
-                icon,
-                color: isEnabled ? (iconColor ?? textColor) : (iconColor ?? textColor).withOpacity(0.5),
-                size: iconSize ?? fontSize,
-              ),
-          ],
-        ),
       ),
     );
   }

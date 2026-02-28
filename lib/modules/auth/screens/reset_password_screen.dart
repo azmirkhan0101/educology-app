@@ -11,26 +11,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/app_validator.dart';
+import '../../../core/widgets/custom_text_field.dart';
+import '../controllers/reset_password_controller.dart';
 
-// --- Controller for state management ---
-class ResetPasswordController extends GetxController {
-  var isObscurePassword = true.obs;
-  var isObscureConfirmPassword = true.obs;
-  var isAgreed = false.obs;
-
-  void togglePassword() => isObscurePassword.toggle();
-  void toggleConfirmPassword() => isObscureConfirmPassword.toggle();
-  void toggleAgreement(bool? value) => isAgreed.value = value ?? false;
-}
-
-// --- Main Screen ---
 class ResetPasswordScreen extends StatelessWidget {
   ResetPasswordScreen({super.key});
 
-  final ResetPasswordController controller = Get.put(ResetPasswordController());
+  final ResetPasswordController controller = Get.find<ResetPasswordController>();
+  GlobalKey<FormState> resetPasswordFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+
+    controller.setFormKey(resetPasswordFormKey);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -51,68 +46,89 @@ class ResetPasswordScreen extends StatelessWidget {
                   minHeight: constraints.maxHeight
                 ),
                 child: IntrinsicHeight(
-                  child: Column(
-                    children: [
-                      // Logo Section
-                      const SizedBox(height: 35),
+                  child: Form(
+                    key: resetPasswordFormKey,
+                    child: Column(
+                      children: [
+                        // Logo Section
+                        const SizedBox(height: 35),
 
-                      RichText(
-                          text: TextSpan(
-                              children: [
-                                TextSpan(
-                                    text: "Reset your ",
-                                    style: TextStyle(
-                                        color: AppColors.secondaryGreen,
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold
-                                    )
-                                ),
-                                TextSpan(
-                                    text: "Password",
-                                    style: TextStyle(
-                                        color: AppColors.secondaryDarkBlue,
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold
-                                    )
-                                )
-                              ]
-                          )
-                      ),
-                      const SizedBox(height: 8),
-                      const TextWidget(text: AppStrings.passwordMustHave,
-                        fontSize: 14,
-                      ),
-                      const SizedBox(height: 32),
+                        RichText(
+                            text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                      text: "Reset your ",
+                                      style: TextStyle(
+                                          color: AppColors.secondaryGreen,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold
+                                      )
+                                  ),
+                                  TextSpan(
+                                      text: "Password",
+                                      style: TextStyle(
+                                          color: AppColors.secondaryDarkBlue,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold
+                                      )
+                                  )
+                                ]
+                            )
+                        ),
+                        const SizedBox(height: 8),
+                        const TextWidget(text: AppStrings.passwordMustHave,
+                          fontSize: 14,
+                        ),
+                        const SizedBox(height: 32),
 
-                      // Form Fields
-                      Obx(() => _buildTextField(
-                        label: AppStrings.newPassword,
-                        hint: AppStrings.enterYourPassword,
-                        isPassword: true,
-                        obscureText: controller.isObscurePassword.value,
-                        onToggle: controller.togglePassword,
-                      )),
-                      const SizedBox(height: 10),
-                      // Password Field
-                      Obx(() => _buildTextField(
-                        label: AppStrings.confirmPassword,
-                        hint: AppStrings.enterYourPassword,
-                        isPassword: true,
-                        obscureText: controller.isObscurePassword.value,
-                        onToggle: controller.togglePassword,
-                      )),
-                      const SizedBox(height: 25,),
-                      const Spacer(),
-                      // Sign Up Button
-                      ButtonWidget(
-                        label: AppStrings.confirm,
-                        gradient: AppColors.primaryButtonGradient,
-                        onPressed: (){
-                          showNotBirthDayDialog();
-                        },
-                      ),
-                      const SizedBox(height: 40),
-                    ],
+                        //=========================NEW PASSWORD=====================================
+                        CustomTextField(
+                          label: AppStrings.newPassword,
+                          hintText: AppStrings.enterYourPassword.tr,
+                          controller: controller.passwordController,
+                          isPassword: true,
+                          validator: (value){
+                            if (value == null || value.isEmpty) {
+                              return "Password is required";
+                            } else if( !isPasswordValid(password: controller.passwordController.text.trim() ) ){
+                              return "Password must be at least 8 characters long";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 10,),
+                        //=========================NEW PASSWORD=====================================
+                        CustomTextField(
+                          label: AppStrings.confirmPassword,
+                          hintText: AppStrings.enterYourPassword.tr,
+                          controller: controller.confirmPasswordController,
+                          isPassword: true,
+                            validator: (value) {
+                              if (controller.passwordController.text !=
+                                  controller.confirmPasswordController.text) {
+                                return "Passwords not matched";
+                              }
+                              return null;
+                            }
+                        ),
+                        const SizedBox(height: 25,),
+                        const Spacer(),
+                        //========================Sign In==================================
+                        Obx((){
+                          return ButtonWidget(
+                            label: AppStrings.confirm,
+                            isLoading: controller.isPasswordChanging.value,
+                            gradient: AppColors.primaryButtonGradient,
+                            onPressed: (){
+                              if( controller.formKey!.currentState!.validate() ){
+                                controller.resetPassword();
+                              }
+                            },
+                          );
+                        }),
+                        const SizedBox(height: 40),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -6,22 +6,24 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/widgets/button_widget.dart';
 import '../../../core/widgets/pin_field_widget.dart';
+import '../controllers/otp_verify_controller.dart';
 
 class VerifyEmailScreen extends StatelessWidget {
-  const VerifyEmailScreen({super.key});
+  VerifyEmailScreen({super.key});
+
+  final OtpVerifyController controller = Get.find<OtpVerifyController>();
 
   @override
   Widget build(BuildContext context) {
-    // Note: If this controller is defined here, it will reset on every rebuild.
-    // For a stateless approach, this usually comes from a Provider or Bloc.
-    final TextEditingController pinController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: const Icon(Icons.arrow_back, color: Colors.black),
-        backgroundColor: Colors.white,
-        elevation: 0,
+        forceMaterialTransparency: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Get.back(),
+        ),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -42,22 +44,26 @@ class VerifyEmailScreen extends StatelessWidget {
 
                       // Title Section
                       RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                            text: "Verify your ",
-                            style: TextStyle(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "Verify your ",
+                              style: TextStyle(
                                 color: AppColors.secondaryGreen,
                                 fontSize: 24,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          TextSpan(
-                            text: "email",
-                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "email",
+                              style: TextStyle(
                                 color: AppColors.secondaryDarkBlue,
                                 fontSize: 24,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ]),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
 
                       const SizedBox(height: 16),
@@ -70,57 +76,81 @@ class VerifyEmailScreen extends StatelessWidget {
                       const SizedBox(height: 40),
 
                       // OTP Input
-                      PinFieldWidget(controller: pinController, length: 6),
+                      PinFieldWidget(
+                          controller: controller.otpController, length: 6
+                      ),
 
                       const SizedBox(height: 10),
-                      const Text("00:07", style: TextStyle(color: Colors.grey)),
+                      Obx(() {
+                        return Visibility(
+                          visible: controller.isTimerCounting.value,
+                          child: Text(
+                            "00:${controller.seconds.value}",
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                        );
+                      }),
+                      //const Text("00:07", style: TextStyle(color: Colors.grey)),
                       const SizedBox(height: 30),
 
                       // Resend Row
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Didn't get the code?",
-                              style: TextStyle(color: Colors.grey)),
+                          const Text(
+                            "Didn't get the code?",
+                            style: TextStyle(color: Colors.grey),
+                          ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              if (!controller.isTimerCounting.value) {
+                                controller.resendOtp();
+                              }
+                            },
                             child: const Text(
                               "Resend",
                               style: TextStyle(
-                                  color: Color(0xFF3B566E),
-                                  fontWeight: FontWeight.bold),
+                                color: Color(0xFF3B566E),
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
                       ),
-
-                      // THE PUSH: This Spacer works because of IntrinsicHeight
+                      //THE PUSH: This Spacer works because of IntrinsicHeight
                       const Spacer(),
-
                       // Bottom Section
-                      ButtonWidget(
-                        label: AppStrings.confirmCode,
-                        gradient: AppColors.primaryButtonGradient,
-                        onPressed: (){
-                          Get.toNamed(AppRoutes.resetPassword);
-                        },
-                      ),
-
+                      Obx((){
+                        return ButtonWidget(
+                          label: AppStrings.confirmCode,
+                          isLoading: controller.isOtpVerifying.value,
+                          gradient: AppColors.primaryButtonGradient,
+                          onPressed: () {
+                            controller.verifyForgotPasswordOtp();
+                          },
+                        );
+                      }),
                       const SizedBox(height: 12),
-
                       RichText(
                         textAlign: TextAlign.center,
                         text: const TextSpan(
                           style: TextStyle(
-                              color: Colors.grey, fontSize: 14, height: 1.5),
+                            color: Colors.grey,
+                            fontSize: 14,
+                            height: 1.5,
+                          ),
                           children: [
                             TextSpan(
-                                text: "Note: ",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold)),
+                              text: "Note: ",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             TextSpan(
-                                text: "If you have not received the email in your inbox, please check your spam or junk folder."),
+                              text:
+                                  "If you have not received the email in your inbox, please check your spam or junk folder.",
+                            ),
                           ],
                         ),
                       ),

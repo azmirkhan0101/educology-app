@@ -18,12 +18,12 @@ class SignUpController extends GetxController {
 
   GlobalKey<FormState>? _formKey;
   bool _hasSubmitted = false;
+  RxBool isAgreed = false.obs;
 
   @override
   void onInit() {
 
-    firstNameController.addListener(_onTextChanged);
-    lastNameController.addListener(_onTextChanged);
+    nameController.addListener(_onTextChanged);
     emailController.addListener(_onTextChanged);
     passwordController.addListener(_onTextChanged);
     confirmPasswordController.addListener(_onTextChanged);
@@ -50,8 +50,7 @@ class SignUpController extends GetxController {
 
   final ApiService apiService = Get.find<ApiService>();
 
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   TextEditingController dateController = TextEditingController();//FOR VALIDATION ONLY
   final TextEditingController passwordController = TextEditingController();
@@ -90,8 +89,7 @@ class SignUpController extends GetxController {
     }
 
     Map<String, dynamic> signupPayload = {
-      "firstName": firstNameController.text.trim(),
-      "lastName": lastNameController.text.trim(),
+      "firstName": nameController.text.trim(),
       "email": emailController.text.trim(),
       "password": passwordController.text.trim(),
       "location": locationController.text.trim(),
@@ -139,8 +137,7 @@ class SignUpController extends GetxController {
 
   @override
   void onClose() {
-    firstNameController.dispose();
-    lastNameController.dispose();
+    nameController.dispose();
     emailController.dispose();
     locationController.dispose();
     passwordController.dispose();

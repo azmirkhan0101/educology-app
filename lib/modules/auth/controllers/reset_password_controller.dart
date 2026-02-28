@@ -8,22 +8,27 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/show_snackbar.dart';
 import '../../../routes/app_pages.dart';
 
-class NewPasswordController extends GetxController {
+class ResetPasswordController extends GetxController {
 
   final ApiService apiService = Get.find<ApiService>();
+  GlobalKey<FormState>? formKey;
+  void setFormKey(GlobalKey<FormState> key) {
+    formKey = key;
+  }
+
 
   String email = "";
+
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+
+  RxBool isPasswordChanging = false.obs;
 
   @override
   void onInit() {
     email = Get.arguments;
     super.onInit();
   }
-
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
-
-  RxBool isPasswordChanging = false.obs;
   
   //RESET PASSWORD
   Future<void> resetPassword() async{

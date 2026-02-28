@@ -4,6 +4,7 @@ import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
+import 'package:dr_dina_educology/modules/profile/controllers/profile_controller.dart';
 import 'package:dr_dina_educology/modules/profile/widgets/add_parent_tile.dart';
 import 'package:dr_dina_educology/modules/profile/widgets/profile_menu_tile.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
@@ -20,6 +21,7 @@ import '../../../core/widgets/button_widget.dart';
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
+  final ProfileController controller = Get.find<ProfileController>();
   final storage = GetStorage();
   final RoleService roleService = Get.find<RoleService>();
 
@@ -62,12 +64,14 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
             SizedBox(height: 10,),
-            TextWidget(
-                text: "Azmir Khan",
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              fontColor: AppColors.secondaryDarkBlue,
-            ),
+            Obx((){
+              return TextWidget(
+                text: controller.profileModel.value?.fullName ?? "",
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontColor: AppColors.secondaryDarkBlue,
+              );
+            }),
             SizedBox(height: 10,),
             Row(
               spacing: 3,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../core/services/api_service.dart';
@@ -11,14 +12,8 @@ import '../../../routes/app_pages.dart';
 class ForgotPasswordController extends GetxController {
 
   final ApiService apiService = Get.find<ApiService>();
-  String email = "";
+  TextEditingController emailController = TextEditingController();
   RxBool isForgotPasswordLoading = false.obs;
-
-  @override
-  void onInit() {
-    email = Get.arguments;
-    super.onInit();
-  }
 
   //SEND OTP
   Future<void> sendOtp() async{
@@ -28,7 +23,7 @@ class ForgotPasswordController extends GetxController {
 
     isForgotPasswordLoading.value = true;
     Map<String, String> payLoad = {
-      "email" : email
+      "email" : emailController.text.trim()
     };
     ApiResponse response = await apiService.networkRequest(
         method: "POST",
@@ -41,7 +36,7 @@ class ForgotPasswordController extends GetxController {
     if( response.statusCode == 200 ){
       showSnackBar(title: "Otp sent", message: "An otp has been sent to your email.", backgroundColor: AppColors.greenPrimary);
       Map<String, dynamic> arguments = {
-        emailKey : email,
+        emailKey : emailController.text.trim(),
         isSignupKey : false
       };
       Get.offAndToNamed( AppRoutes.verifyEmail, arguments: arguments );
@@ -56,5 +51,13 @@ class ForgotPasswordController extends GetxController {
     }else{
       errorSnackBar();
     }
+  }
+
+  @override
+  void onClose() {
+
+    emailController.dispose();
+
+    super.onClose();
   }
 }

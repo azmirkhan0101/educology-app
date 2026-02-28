@@ -1,3 +1,4 @@
+import 'package:dr_dina_educology/core/services/api_service.dart';
 import 'package:dr_dina_educology/core/services/role_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +14,9 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   Get.put(RoleService());
+  await Get.putAsync(() {
+    return ApiService().init();
+  });
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
