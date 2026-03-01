@@ -26,6 +26,9 @@ class ApiEndpoints {
   //REFRESH TOKEN
   static const refreshToken = "/auth/refresh-token";
 
+
+  static const uploadExam = "/uploadExam";
+
   //=======================PROFILE=================================
   //GET PROFILE
   static const getProfile = "/user/my-profile";
