@@ -82,9 +82,9 @@ class OtpVerifyController extends GetxController {
       saveTokens( response.data );
       Get.offAllNamed( AppRoutes.home );
     }else if( response.statusCode == 400 ){
-      showSnackBar(title: "OTP required", message: "Please enter the otp and try again.", backgroundColor: AppColors.warningYellow);
+      showSnackBar(title: "OTP required", message: response.data?['message'] ?? "Please enter the otp and try again.", backgroundColor: AppColors.warningYellow);
     }else if( response.statusCode == 401 || response.statusCode == 404 ){
-      showSnackBar(title: "Invalid otp!", message: "Try again with your valid otp.", backgroundColor: AppColors.errorRed);
+      showSnackBar(title: "Invalid otp!", message: response.data?['message'] ?? "Try again with your valid otp.", backgroundColor: AppColors.errorRed);
     }else if( response.statusCode == 408 ){
       timeOutSnackBar();
     }else if( response.statusCode == 503 ){
@@ -120,13 +120,15 @@ Future<void> verifyForgotPasswordOtp() async{
   );
   isOtpVerifying.value = false;
 
+  String? message = response.data?['message'];
+
   if( response.statusCode == 200 ){
-    showSnackBar(title: "Otp verified!", message: "Otp verified successfully.", backgroundColor: AppColors.greenPrimary);
+    showSnackBar(title: "Otp verified!", message: message ?? "Otp verified successfully.", backgroundColor: AppColors.greenPrimary);
     Get.offAndToNamed( AppRoutes.resetPassword, arguments: email );
   }else if( response.statusCode == 400 ){
-    showSnackBar(title: "OTP required", message: "Please enter the otp and try again.", backgroundColor: AppColors.warningYellow);
+    showSnackBar(title: "OTP required", message: message ?? "Please enter the otp and try again.", backgroundColor: AppColors.warningYellow);
   }else if( response.statusCode == 401 || response.statusCode == 404 ){
-    showSnackBar(title: "Invalid otp!", message: "Try again with your valid otp.", backgroundColor: AppColors.errorRed);
+    showSnackBar(title: "Invalid otp!", message: message ?? "Try again with your valid otp.", backgroundColor: AppColors.errorRed);
   }else if( response.statusCode == 408 ){
     timeOutSnackBar();
   }else if( response.statusCode == 503 ){
@@ -139,6 +141,8 @@ Future<void> verifyForgotPasswordOtp() async{
 //SEND OTP
   Future<void> resendOtp() async{
 
+    otpController.clear();
+
     Map<String, String> payLoad = {
       "email" : email
     };
@@ -149,13 +153,15 @@ Future<void> verifyForgotPasswordOtp() async{
       body: payLoad
     );
 
+    String? message = response.data?['message'];
+
     if( response.statusCode == 200 ){
-      showSnackBar(title: "Otp sent", message: "An otp has been sent to your email.", backgroundColor: AppColors.greenPrimary);
+      showSnackBar(title: "Otp sent", message: message ?? "An otp has been sent to your email.", backgroundColor: AppColors.greenPrimary);
       startTimer();
     }else if( response.statusCode == 400 ){
-      showSnackBar(title: "Invalid email!", message: "Try again with your valid email.", backgroundColor: AppColors.warningYellow);
+      showSnackBar(title: "Invalid email!", message: message ?? "Try again with your valid email.", backgroundColor: AppColors.warningYellow);
     }else if( response.statusCode == 404 ){
-      showSnackBar(title: "No account found!", message: "No account found with this email.", backgroundColor: AppColors.warningYellow);
+      showSnackBar(title: "No account found!", message: message ?? "No account found with this email.", backgroundColor: AppColors.warningYellow);
     }else if( response.statusCode == 408 ){
       timeOutSnackBar();
     }else if( response.statusCode == 503 ){

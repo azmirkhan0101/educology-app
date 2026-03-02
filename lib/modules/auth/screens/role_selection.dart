@@ -21,7 +21,6 @@ class RoleSelectionScreen extends StatefulWidget {
 class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
 
   String? _selectedRole;
-  final storage = GetStorage();
   Role? role;
 
   @override
@@ -110,8 +109,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                 gradient: AppColors.primaryButtonGradient,
                 isEnabled: _selectedRole != null,
                 onPressed: () async{
-                    await storage.write( roleKey, role?.name ?? Role.student.name );
-                    Get.toNamed(AppRoutes.signUp);
+                    Get.toNamed(AppRoutes.signUp, arguments: role);
                 },
               ),
               const SizedBox(height: 20),

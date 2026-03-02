@@ -89,32 +89,36 @@ class SigninController extends GetxController {
       );
     } else if (response.statusCode == 403) {
       //NOT VERIFIED OR ACCOUNT IS BLOCKED
-      String? message = response.data["message"];
-      if (message != null && message == "Your account is blocked by admin!") {
+      String? message = response.data?["message"];
+      //OTP verification is required before logging in!
+      //Your account is blocked by admin!
+      if (message != null && message == "OTP verification is required before logging in!") {
+        showSnackBar(
+          title: "Verification required!",
+          message: message ?? "Your account is not verified. Please verify your email.",
+          backgroundColor: AppColors.warningYellow,
+        );
+        storage.write(requireVerificationKey, true);
+        storage.write(emailKey, emailController.text.trim());
+        Map<String, dynamic> arguments = {
+          emailKey: emailController.text.trim(),
+          isSignupKey: true,
+        };
+        Get.offAndToNamed(AppRoutes.verifyEmail, arguments: arguments);
+      }else if( message != null && message == "Your account is blocked by admin!" ){
         showSnackBar(
           title: "Account blocked!",
-          message: "Your account is blocked by admin.",
+          message: message ?? "Your account is blocked by admin.",
           backgroundColor: AppColors.errorRed,
         );
-        return;
+      }else{
+        Get.offAndToNamed(AppRoutes.accountApproval);
       }
-      showSnackBar(
-        title: "Verification required!",
-        message: "Your account is not verified. Please verify your email.",
-        backgroundColor: AppColors.errorRed,
-      );
-      storage.write(requireVerificationKey, true);
-      storage.write(emailKey, emailController.text.trim());
-      Map<String, dynamic> arguments = {
-        emailKey: emailController.text.trim(),
-        isSignupKey: true,
-      };
-      Get.offAndToNamed(AppRoutes.accountApproval, arguments: arguments);
     } else if (response.statusCode == 404) {
       //NO ACCOUNT FOUND IN THAT EMAIL
       showSnackBar(
         title: "Account not found!",
-        message:
+        message: response.data?['message'] ??
             "No account found matching this email. Try creating an account.",
         backgroundColor: AppColors.errorRed,
       );
@@ -197,6 +201,15 @@ class SigninController extends GetxController {
         message: "Please try again.",
         backgroundColor: AppColors.errorRed,
       );
+    }else if (response.statusCode == 403) {//ACCOUNT IS NOT APPROVED
+      //TODO: SAVE ANOTHER AUTH STATUS IN STORAGE AND CHECK IN SPLASH SCREEN
+      String? message = response.data?["message"];
+      showSnackBar(
+        title: "Not approved!",
+        message: message ?? "Your account is not approved by admin.",
+        backgroundColor: AppColors.warningYellow,
+      );
+      Get.offAndToNamed(AppRoutes.accountApproval);
     }else{
       storage.erase();
       showSnackBar(

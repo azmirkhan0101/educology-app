@@ -19,15 +19,19 @@ class SignUpController extends GetxController {
   GlobalKey<FormState>? _formKey;
   bool _hasSubmitted = false;
   RxBool isAgreed = false.obs;
+  late Role role;
 
   @override
   void onInit() {
 
-    nameController.addListener(_onTextChanged);
+    Role role = Get.arguments as Role? ?? Role.student;
+    this.role = role;
+
+    firstNameController.addListener(_onTextChanged);
+    lastNameController.addListener(_onTextChanged);
     emailController.addListener(_onTextChanged);
     passwordController.addListener(_onTextChanged);
     confirmPasswordController.addListener(_onTextChanged);
-    locationController.addListener(_onTextChanged);
     dateController.addListener(_onTextChanged);
 
     super.onInit();
@@ -50,15 +54,16 @@ class SignUpController extends GetxController {
 
   final ApiService apiService = Get.find<ApiService>();
 
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   TextEditingController dateController = TextEditingController();//FOR VALIDATION ONLY
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
-  final TextEditingController locationController = TextEditingController();
+  //final TextEditingController locationController = TextEditingController();
   String contactNumber = "";
-  late DateTime? dateOfBirth;
+  //late DateTime? dateOfBirth;
 
   final Rx<File?> profileImage = Rx<File?>(null);
 
@@ -88,13 +93,24 @@ class SignUpController extends GetxController {
       token = await FirebaseMessaging.instance.getToken();
     }
 
+    // Map<String, dynamic> signupPayload = {
+    //   "firstName": firstNameController.text.trim(),
+    //   "lastName": firstNameController.text.trim(),
+    //   "email": emailController.text.trim(),
+    //   "password": passwordController.text.trim(),
+    //   "location": locationController.text.trim(),
+    //   "contact": contactNumber,
+    //   "dob": "${dateOfBirth?.toIso8601String()}",
+    //   "fcmToken": token ?? ""
+    // };
+
     Map<String, dynamic> signupPayload = {
-      "firstName": nameController.text.trim(),
+      "role": role.name,
+      "firstName": firstNameController.text.trim(),
+      "lastName": firstNameController.text.trim(),
       "email": emailController.text.trim(),
       "password": passwordController.text.trim(),
-      "location": locationController.text.trim(),
       "contact": contactNumber,
-      "dob": "${dateOfBirth?.toIso8601String()}",
       "fcmToken": token ?? ""
     };
 
@@ -119,11 +135,11 @@ class SignUpController extends GetxController {
       };
       Get.offAndToNamed( AppRoutes.verifyEmail, arguments: arguments );
     }else if( response.statusCode == 400 ){//PHONE NUMBER EXISTS
-      showSnackBar(title: "Failed!", message: "Phone number already exist.", backgroundColor: AppColors.errorRed);
+      showSnackBar(title: "Failed!", message: response.data?['message'] ?? "Phone number already exist.", backgroundColor: AppColors.errorRed);
     }else if (response.statusCode == 409) {//USER ALREADY EXISTS
       showSnackBar(
         title: "User Exists!",
-        message: "User already exist with this email. Try login instead.",
+        message: response.data?['message'] ?? "User already exist with this email. Try login instead.",
         backgroundColor: AppColors.warningYellow,
       );
     }else if (response.statusCode == 408) {//TIME OUT
@@ -137,9 +153,9 @@ class SignUpController extends GetxController {
 
   @override
   void onClose() {
-    nameController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
     emailController.dispose();
-    locationController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.onClose();

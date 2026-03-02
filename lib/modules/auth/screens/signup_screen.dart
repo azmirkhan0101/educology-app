@@ -89,16 +89,36 @@ class SignupScreen extends StatelessWidget {
               const SizedBox(height: 15,),
               //=========================NAME=====================================
               // Form Fields
-              CustomTextField(
-                label: AppStrings.name,
-                hintText: AppStrings.enterYourName.tr,
-                controller: controller.nameController,
-                validator: (value){
-                  if( value == null || value.isEmpty ){
-                    return "Name is required";
-                  }
-                  return null;
-                },
+              Row(
+                spacing: 3,
+                children: [
+                  Expanded(
+                    child: CustomTextField(
+                      label: AppStrings.name,
+                      hintText: "first name",
+                      controller: controller.firstNameController,
+                      validator: (value){
+                        if( value == null || value.isEmpty ){
+                          return "Name is required";
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: CustomTextField(
+                      label: "",
+                      hintText: "last name",
+                      controller: controller.lastNameController,
+                      validator: (value){
+                        if( value == null || value.isEmpty ){
+                          return "name is required";
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 10),
               //=========================EMAIL====================================
@@ -194,7 +214,7 @@ class SignupScreen extends StatelessWidget {
                 controller: controller.confirmPasswordController,
                 isPassword: true,
                 validator: (value){
-                  if( !isPasswordValid(password: controller.passwordController.text.trim() ) ){
+                  if( controller.passwordController.text.trim() != controller.confirmPasswordController.text.trim() ){
                     return "Passwords do not match";
                   }
                   return null;
@@ -221,7 +241,7 @@ class SignupScreen extends StatelessWidget {
                             style: TextStyle(color: AppColors.secondaryDarkBlue, fontWeight: FontWeight.bold),
                           recognizer: TapGestureRecognizer()
                               ..onTap = (){
-                              //TODO: SHOW TERMS
+                              Get.toNamed(AppRoutes.termsConditions);
                           }
                           ),
                           TextSpan(text: ' and '),
@@ -230,7 +250,7 @@ class SignupScreen extends StatelessWidget {
                             style: TextStyle(color: AppColors.secondaryDarkBlue, fontWeight: FontWeight.bold),
                           recognizer: TapGestureRecognizer()
                               ..onTap = (){
-                              //TODO: SHOW POLICY
+                              Get.toNamed(AppRoutes.privacyPolicy);
                               }
                           ),
                         ],
@@ -248,7 +268,7 @@ class SignupScreen extends StatelessWidget {
                   gradient: AppColors.primaryButtonGradient,
                   isLoading: controller.isSignupLoading.value,
                   onPressed: (){
-                    if( signUpFormKey.currentState!.validate() ){
+                    if( signUpFormKey.currentState!.validate() && controller.isAgreed.value ){
                       controller.signup();
                     }
                   },

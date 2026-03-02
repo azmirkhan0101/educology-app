@@ -33,17 +33,19 @@ class ForgotPasswordController extends GetxController {
     );
     isForgotPasswordLoading.value = false;
 
+    String? message = response.data?['message'];
+
     if( response.statusCode == 200 ){
-      showSnackBar(title: "Otp sent", message: "An otp has been sent to your email.", backgroundColor: AppColors.greenPrimary);
+      showSnackBar(title: "Otp sent", message: message ?? "An otp has been sent to your email.", backgroundColor: AppColors.greenPrimary);
       Map<String, dynamic> arguments = {
         emailKey : emailController.text.trim(),
         isSignupKey : false
       };
       Get.offAndToNamed( AppRoutes.verifyEmail, arguments: arguments );
     }else if( response.statusCode == 400 ){
-      showSnackBar(title: "Invalid email!", message: "Try again with your valid email.", backgroundColor: AppColors.warningYellow);
+      showSnackBar(title: "Invalid email!", message: message ?? "Try again with your valid email.", backgroundColor: AppColors.warningYellow);
     }else if( response.statusCode == 404 ){
-      showSnackBar(title: "No account found!", message: "No account found with this email.", backgroundColor: AppColors.warningYellow);
+      showSnackBar(title: "No account found!", message: message ?? "No account found with this email.", backgroundColor: AppColors.warningYellow);
     }else if( response.statusCode == 408 ){
       timeOutSnackBar();
     }else if( response.statusCode == 503 ){

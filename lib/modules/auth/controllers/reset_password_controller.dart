@@ -48,11 +48,14 @@ class ResetPasswordController extends GetxController {
       body: payLoad
     );
     isPasswordChanging.value = false;
+
+    String? message = response.data?['message'];
+
     if( response.statusCode == 200 ){
-      showSnackBar(title: "Done!", message: "Password has been reset.", backgroundColor: AppColors.greenPrimary);
+      showSnackBar(title: "Done!", message: message ?? "Password has been reset.", backgroundColor: AppColors.greenPrimary);
       Get.offAndToNamed( AppRoutes.signIn );
     }else if( response.statusCode == 404 ){
-      showSnackBar(title: "No account found!", message: "No account found with this email.", backgroundColor: AppColors.warningYellow);
+      showSnackBar(title: "No account found!", message: message ?? "No account found with this email.", backgroundColor: AppColors.warningYellow);
     }else if( response.statusCode == 408 ){
       timeOutSnackBar();
     }else if( response.statusCode == 503 ){

@@ -126,7 +126,11 @@ class VerifyEmailScreen extends StatelessWidget {
                           isLoading: controller.isOtpVerifying.value,
                           gradient: AppColors.primaryButtonGradient,
                           onPressed: () {
-                            controller.verifyForgotPasswordOtp();
+                            if( controller.isSignup ){
+                              controller.verifySignupOtp();
+                            }else{
+                              controller.verifyForgotPasswordOtp();
+                            }
                           },
                         );
                       }),
