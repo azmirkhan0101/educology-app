@@ -56,7 +56,7 @@ class AccountApprovalScreen extends StatelessWidget {
             label: AppStrings.gotIt,
           gradient: AppColors.primaryButtonGradient,
             onPressed: (){
-              Get.toNamed(AppRoutes.home);
+              Get.toNamed(AppRoutes.signIn);
             },
           ),
           const SizedBox(height: 50,)

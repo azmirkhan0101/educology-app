@@ -20,10 +20,16 @@ class OtpVerifyController extends GetxController {
 
   late String email;
   late bool isSignup;
+  late bool isLogin;//FOR LOGIN ATTEMPT WITHOUT VERIFICATION
   @override
   void onInit() {
     email = Get.arguments[emailKey];
     isSignup = Get.arguments[isSignupKey];
+    isLogin = (Get.arguments?[isLoginKey] as bool?) ?? false;
+
+    if( isLogin ){
+      resendOtp();
+    }
     startTimer();
     super.onInit();
   }
@@ -76,15 +82,20 @@ class OtpVerifyController extends GetxController {
     );
     isOtpVerifying.value = false;
 
+    String? message = response.data?['message'];
+
     if( response.statusCode == 200 ){
-      showSnackBar(title: "Otp verified!", message: "Otp verified successfully.", backgroundColor: AppColors.greenPrimary);
+      showSnackBar(title: "Otp verified!", message: message ?? "Otp verified successfully.", backgroundColor: AppColors.greenPrimary);
       storage.write( requireVerificationKey, false );
       saveTokens( response.data );
       Get.offAllNamed( AppRoutes.home );
     }else if( response.statusCode == 400 ){
-      showSnackBar(title: "OTP required", message: response.data?['message'] ?? "Please enter the otp and try again.", backgroundColor: AppColors.warningYellow);
+      showSnackBar(title: "OTP required", message: message ?? "Please enter the otp and try again.", backgroundColor: AppColors.warningYellow);
     }else if( response.statusCode == 401 || response.statusCode == 404 ){
-      showSnackBar(title: "Invalid otp!", message: response.data?['message'] ?? "Try again with your valid otp.", backgroundColor: AppColors.errorRed);
+      showSnackBar(title: "Invalid otp!", message: message ?? "Try again with your valid otp.", backgroundColor: AppColors.errorRed);
+    }else if( response.statusCode == 423 ){//NOT APPROVED BY ADMIN
+      Get.offAndToNamed( AppRoutes.accountApproval );
+      showSnackBar(title: "Not approved!", message: message ?? "Your account is not approved by admin.", backgroundColor: AppColors.warningYellow);
     }else if( response.statusCode == 408 ){
       timeOutSnackBar();
     }else if( response.statusCode == 503 ){

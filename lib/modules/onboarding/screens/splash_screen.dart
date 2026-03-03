@@ -40,13 +40,6 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
-    WidgetsBinding.instance.addPostFrameCallback((_){
-      Future.delayed(const Duration(seconds: 2), () {
-        Get.offAndToNamed(AppRoutes.onBoardingOne);
-      });
-    });
-
     return Scaffold(
       backgroundColor: AppColors.white,
       body: FutureBuilder<AuthStatus>(

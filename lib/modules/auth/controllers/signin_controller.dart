@@ -103,6 +103,7 @@ class SigninController extends GetxController {
         Map<String, dynamic> arguments = {
           emailKey: emailController.text.trim(),
           isSignupKey: true,
+          isLoginKey: true
         };
         Get.offAndToNamed(AppRoutes.verifyEmail, arguments: arguments);
       }else if( message != null && message == "Your account is blocked by admin!" ){
@@ -122,6 +123,8 @@ class SigninController extends GetxController {
             "No account found matching this email. Try creating an account.",
         backgroundColor: AppColors.errorRed,
       );
+    }else if (response.statusCode == 423) {//ACCOUNT IS NOT APPROVED YET BY ADMIN
+      Get.offAndToNamed(AppRoutes.accountApproval);
     } else if (response.statusCode == 408) {
       //TIMEOUT
       timeOutSnackBar();
@@ -137,6 +140,7 @@ class SigninController extends GetxController {
     }
   }
 
+  //TOD0: IMPLEMENT SAME APPROACH IN OTP VERIFY CONTROLLER
   Future<void> getProfileData() async {
 
     ApiResponse response = await apiService.networkRequest(
@@ -181,7 +185,6 @@ class SigninController extends GetxController {
           emailKey: emailController.text.trim(),
           isSignupKey: true,
         };
-        //TODO: CALL VERIFY OTP TO GET OTP AND GO TO OTP SCREEN
         Get.offAndToNamed(AppRoutes.accountApproval, arguments: arguments);
         return;
       }
@@ -201,11 +204,10 @@ class SigninController extends GetxController {
         message: "Please try again.",
         backgroundColor: AppColors.errorRed,
       );
-    }else if (response.statusCode == 403) {//ACCOUNT IS NOT APPROVED
-      //TODO: SAVE ANOTHER AUTH STATUS IN STORAGE AND CHECK IN SPLASH SCREEN
+    }else if (response.statusCode == 403) {//ACCOUNT IS NOT VERIFIED
       String? message = response.data?["message"];
       showSnackBar(
-        title: "Not approved!",
+        title: "Not verified!",
         message: message ?? "Your account is not approved by admin.",
         backgroundColor: AppColors.warningYellow,
       );

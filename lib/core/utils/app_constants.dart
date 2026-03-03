@@ -7,6 +7,7 @@ import 'app_strings.dart';
 
 //GET STORAGE KEYS
 const String isSignupKey = "isSignupKey";
+const String isLoginKey = "isLoginKey";
 const String emailKey = "emailKey";
 const String accessTokenKey = "accessTokenKey";
 const String refreshTokenKey = "refreshTokenKey";
