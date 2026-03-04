@@ -13,12 +13,16 @@ import 'package:dr_dina_educology/modules/content_details/screens/content_detail
 import 'package:dr_dina_educology/modules/course_details/screens/course_details_screen.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/participant_screen.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/single_attendance_screen.dart';
+import 'package:dr_dina_educology/modules/home/bindings/notification_binding.dart';
 import 'package:dr_dina_educology/modules/home/screens/home_screen.dart';
 import 'package:dr_dina_educology/modules/home/screens/notification_screen.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_one.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_three.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_two.dart';
+import 'package:dr_dina_educology/modules/profile/bindings/about_us_binding.dart';
+import 'package:dr_dina_educology/modules/profile/bindings/privacy_binding.dart';
 import 'package:dr_dina_educology/modules/profile/bindings/profile_binding.dart';
+import 'package:dr_dina_educology/modules/profile/bindings/terms_binding.dart';
 import 'package:dr_dina_educology/modules/profile/screens/about_us_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/change_password_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/edit_profile_screen.dart';
@@ -126,7 +130,8 @@ class AppPages {
         name: AppRoutes.notification,
         page: (){
           return NotificationScreen();
-        }
+        },
+      binding: NotificationBinding()
     ),
     GetPage(
         name: AppRoutes.profile,
@@ -163,19 +168,22 @@ class AppPages {
         name: AppRoutes.termsConditions,
         page: (){
           return TermsScreen();
-        }
+        },
+      binding: TermsBinding()
     ),
     GetPage(
         name: AppRoutes.privacyPolicy,
         page: (){
           return PrivacyScreen();
-        }
+        },
+      binding: PrivacyBinding()
     ),
     GetPage(
         name: AppRoutes.aboutUs,
         page: (){
           return AboutUsScreen();
-        }
+        },
+      binding: AboutUsBinding()
     ),
     GetPage(
         name: AppRoutes.courseDetails,

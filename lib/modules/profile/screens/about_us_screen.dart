@@ -1,8 +1,10 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
+import 'package:dr_dina_educology/modules/profile/controllers/about_us_controller.dart';
 import 'package:dr_dina_educology/modules/profile/widgets/profile_menu_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +14,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 
 class AboutUsScreen extends StatelessWidget {
-  const AboutUsScreen({super.key});
+  AboutUsScreen({super.key});
+
+  final AboutUsController controller = Get.find<AboutUsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +34,37 @@ class AboutUsScreen extends StatelessWidget {
         }, icon: Icon(Icons.arrow_back_sharp)
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: TextWidget(
-              text: "About us",
-          fontSize: 15,
-          ),
-        ),
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Obx((){
+          if( controller.isAboutUsLoading.value ){
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }else{
+            if( controller.aboutUs.value.isEmpty ){
+              return const Center( child: Text("No data found"),);
+            }else{
+              return SingleChildScrollView(
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 25.h),
+                      child: Html(
+                        data: controller.aboutUs.value,
+                        style: {
+                          "body": Style(
+                            fontSize: FontSize(14),
+                            lineHeight: const LineHeight(1.6),
+                            color: Theme.of(context).textTheme.bodyMedium?.color,
+                          ),
+                          "h1": Style(fontSize: FontSize(22)),
+                          "h2": Style(fontSize: FontSize(18)),
+                        },
+                      )
+                  )
+              );
+            }
+          }
+        })
       )
     );
   }

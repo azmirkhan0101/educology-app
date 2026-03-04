@@ -131,8 +131,8 @@ static String topFlavourProduct({required int page}){
   //=====================BIRTHDAY====================================
   static const claimBirthdayReward = "/birthday/activate-claim";
 
-//=========================FAQ========================================
-  static const String faq = "/faq/allFaq";
+  //=========================ABOUT US===========================
+  static const String aboutUs = "/about/retrive";
   //=========================PRIVACY POLICY===========================
   static const String privacyPolicy = "/privacy/retrive";
 //=========================TERMS AND CONDITIONS=======================

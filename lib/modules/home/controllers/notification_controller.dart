@@ -20,6 +20,10 @@ class NotificationController extends GetxController{
   @override
   void onInit() {
 
+    if( notifications.isEmpty ){
+      getNotifications(isRefresh: true);
+    }
+
     notificationScrollController.addListener((){
       if( notificationScrollController.position.pixels == notificationScrollController.position.maxScrollExtent ){
         if (isMoreLoading.value || !hasMoreData) return;
@@ -84,5 +88,13 @@ class NotificationController extends GetxController{
         endPoint: ApiEndpoints.notificationMarkAsRead(notificationId: notificationId),
         body: {}
     );
+  }
+
+  @override
+  void onClose() {
+
+    notificationScrollController.dispose();
+
+    super.onClose();
   }
 }
