@@ -1,4 +1,5 @@
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
+import 'package:dr_dina_educology/modules/teacher/controllers/course_overview_controller.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/status_card.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/student_status_list_item.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
@@ -8,8 +9,10 @@ import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 
-class ClassOverviewScreen extends StatelessWidget {
-  const ClassOverviewScreen({super.key});
+class CourseOverviewScreen extends StatelessWidget {
+  CourseOverviewScreen({super.key});
+
+  final CourseOverviewController controller = Get.find<CourseOverviewController>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class ClassOverviewScreen extends StatelessWidget {
           icon: Icon(Icons.arrow_back, color: Colors.black),
         ),
         title: const Text(
-          'Class Overview',
+          'Course Overview',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -37,20 +40,22 @@ class ClassOverviewScreen extends StatelessWidget {
         child: Column(
           children: [
             // 1. Status Cards Grid
-            GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-              childAspectRatio: 1.65,
-              physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                StatusCard(status: StudentStatus.onTrack, count: 24),
-                StatusCard(status: StudentStatus.attention, count: 9),
-                StatusCard(status: StudentStatus.behind, count: 7),
-                StatusCard(status: StudentStatus.critical, count: 3),
-              ],
-            ),
+            Obx((){
+              return GridView.count(
+                shrinkWrap: true,
+                crossAxisCount: 2,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+                childAspectRatio: 1.65,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  StatusCard(status: StudentStatus.onTrack, count: controller.courseOverviewStat.value?.onTrack ?? 0),
+                  StatusCard(status: StudentStatus.attention, count: controller.courseOverviewStat.value?.attention ?? 0),
+                  StatusCard(status: StudentStatus.behind, count: controller.courseOverviewStat.value?.behind ?? 0),
+                  StatusCard(status: StudentStatus.critical, count: controller.courseOverviewStat.value?.critical ?? 0),
+                ],
+              );
+            }),
 
             const SizedBox(height: 14),
 

@@ -42,17 +42,17 @@ class SearchController extends GetxController {
 searchProducts({required String query}) async{
 
     isLoading.value = true;
-    ApiResponse response = await apiService.networkRequest(
-        method: "GET",
-        isAuthRequired: true,
-        endPoint: ApiEndpoints.searchProducts(query: query)
-    );
-    if( response.statusCode == 200 ){
-      final tempList = response.data['data']['result'] as List<dynamic>?;
-      // searchResults.value = tempList?.map<ProductModel>((e){
-      //   return ProductModel.fromJson(e);
-      // }).toList() ?? [];
-    }
+    // ApiResponse response = await apiService.networkRequest(
+    //     method: "GET",
+    //     isAuthRequired: true,
+    //     endPoint: ApiEndpoints.searchProducts(query: query)
+    // );
+    // if( response.statusCode == 200 ){
+    //   final tempList = response.data['data']['result'] as List<dynamic>?;
+    //   // searchResults.value = tempList?.map<ProductModel>((e){
+    //   //   return ProductModel.fromJson(e);
+    //   // }).toList() ?? [];
+    // }
     isLoading.value = false;
 
 }

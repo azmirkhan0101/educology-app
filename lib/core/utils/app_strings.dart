@@ -29,6 +29,8 @@ class AppStrings {
   static const String createAnAccount = "Create An Account";
   static const String fillIn = "Fill in your information.";
   static const String name = "Name";
+  static const String firstName = "first name";
+  static const String lastName = "last name";
   static const String enterYourName = "Enter your name";
   static const String email = "Email";
   static const String enterYourEmail = "Enter your email";

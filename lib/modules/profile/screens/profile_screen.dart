@@ -1,4 +1,3 @@
-import 'package:dr_dina_educology/core/services/role_service.dart';
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
@@ -13,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 import '../../../core/widgets/button_widget.dart';
@@ -22,20 +20,18 @@ class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
   final ProfileController controller = Get.find<ProfileController>();
-  final storage = GetStorage();
-  final RoleService roleService = Get.find<RoleService>();
 
   @override
   Widget build(BuildContext context) {
 
-    Role role = roleService.getUpdatedRole();
-    bool isStudent = role == Role.student;
+    bool isStudent = controller.role == Role.student;
 
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
-        leading: IconButton(onPressed: (){
+        leading: IconButton(
+            onPressed: (){
           Get.back();
         }, icon: Icon(Icons.arrow_back_sharp)),
         centerTitle: true,
@@ -58,9 +54,11 @@ class ProfileScreen extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: CachedImageWidget(
-                imageUrl: Dummy.profileImageUrl
-              ),
+              child: Obx((){
+                return CachedImageWidget(
+                    imageUrl: controller.profileImageUrl.value
+                );
+              }),
             ),
           ),
             SizedBox(height: 10,),
@@ -81,12 +79,14 @@ class ProfileScreen extends StatelessWidget {
                     Assets.icons.email,
                   colorFilter: ColorFilter.mode(AppColors.secondaryGreen, BlendMode.srcIn),
                 ),
-                TextWidget(
-                  text: "azmir.azamkhan@gmail.com",
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  fontColor: AppColors.secondaryGreen,
-                ),
+                Obx((){
+                  return TextWidget(
+                    text: controller.profileModel.value?.email ?? "",
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    fontColor: AppColors.secondaryGreen,
+                  );
+                }),
               ],
             ),
             SizedBox(height: 20,),
@@ -191,10 +191,8 @@ class ProfileScreen extends StatelessWidget {
                     label: AppStrings.logOut,
                     fontSize: 14,
                     gradient: AppColors.primaryButtonGradient,
-                    onPressed: () async{
-                      await storage.erase();
-                      Get.back();
-                      Get.offAllNamed(AppRoutes.roleSelection);
+                    onPressed: (){
+                      controller.logOut();
                     },
                   ),
                 ),

@@ -1,23 +1,30 @@
 import 'package:dr_dina_educology/core/services/role_service.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
+import 'package:dr_dina_educology/data/models/course_details/course_stat_model.dart';
+import 'package:dr_dina_educology/data/models/home/staff_course_stats.dart';
+import 'package:dr_dina_educology/modules/profile/controllers/profile_controller.dart';
 import 'package:get/get.dart';
 
 import '../../../core/services/api_service.dart';
 import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
+import '../../../data/models/home/course_model.dart';
 
 class HomeController extends GetxController {
 
   //GET DATA BASED ON USER ROLE
   final RoleService roleService = Get.find<RoleService>();
   final ApiService apiService = Get.find<ApiService>();
+  final ProfileController profileController = Get.isRegistered<ProfileController>() ? Get.find<ProfileController>() : Get.put<ProfileController>(ProfileController());
 
   late Role role;
 
   //COURSE COUNTS FOR TEACHER AND ASSISTANT
-  RxBool isCourseCountLoading = false.obs;
-  RxInt courseCount = 0.obs;
-  RxInt studentCount = 0.obs;
+  Rxn<StaffCourseStats> staffCourseStats = Rxn<StaffCourseStats>(null);
+  //MY ASSIGN COURSES FOR TEACHER AND ASSISTANT
+  RxBool isMyAssignCoursesLoading = false.obs;
+  RxList<CourseModel> myAssignCourses = <CourseModel>[].obs;
+
 
   @override
   void onInit() {
@@ -26,88 +33,51 @@ class HomeController extends GetxController {
 
     if( role == Role.teacher || role == Role.assistant ){
       getCourseCounts();
+      getMyAssignCourses();
     }
     super.onInit();
   }
 
-  //GET COURSE COUNTS
+  //GET COURSE COUNTS - TEACHER AND ASSISTANT
   Future<void> getCourseCounts() async{
-    if( isCourseCountLoading.value ){
-      return;
-    }
 
-    isCourseCountLoading.value = true;
+
     ApiResponse response = await apiService.networkRequest(
         method: "GET",
         isAuthRequired: true,
-        endPoint: ApiEndpoints.getBanners//TODO: CHANGE ENDPOINT
+        endPoint: ApiEndpoints.staffCourseStats
     );
     if( response.statusCode == 200 ){
-      final tempBanners = response.data['data'] as List<dynamic>?;
-
-      if( tempBanners is List && tempBanners.isNotEmpty ){
-        // banners.value = tempBanners.map<String>((e){
-        //   return e['image'].toString();
-        // }).toList();
+      final tempStats = response.data['data'];
+      if( tempStats != null ) {
+        staffCourseStats.value = StaffCourseStats.fromJson(tempStats);
       }
     }
-    isCourseCountLoading.value = false;
   }
 
-  //GET CATEGORY LIST
-  // getCategoryList() async {
-  //   if (isCategoryLoading.value) {
-  //     return;
-  //   }
-  //
-  //   isCategoryLoading.value = true;
-  //   ApiResponse response = await apiService.networkRequest(
-  //       method: "GET",
-  //       isAuthRequired: true,
-  //       endPoint: ApiEndpoints.getAllCategory
-  //   );
-  //   if( response.statusCode == 200 ){
-  //     final tempList = response.data['data']['result'] as List<dynamic>?;
-  //     if( tempList is List && tempList.isNotEmpty ){
-  //       // categories.value = tempList.map<CategoryModel>((e){
-  //       //   return CategoryModel.fromJson(e);
-  //       // }).toList();
-  //     }
-  //   }
-  //   isCategoryLoading.value = false;
-  // }
+  //GET MY ASSIGN COURSES - TEACHER AND ASSISTANT
+  Future<void> getMyAssignCourses() async {
+    if (isMyAssignCoursesLoading.value) {
+      return;
+    }
 
-  //GET CATEGORY PRODUCTS
-  // getCategoryProducts({required String categoryId}) async {
-  //   //categoryProducts.assignAll([]);
-  //   if (isCategoryProductsLoading.value) {
-  //     return;
-  //   }
-  //
-  //   isCategoryProductsLoading.value = true;
-  //   ApiResponse response = await apiService.networkRequest(
-  //       method: "GET",
-  //       isAuthRequired: true,
-  //       endPoint: ApiEndpoints.getCategoryProducts(categoryId: categoryId)
-  //   );
-  //   if( response.statusCode == 200 ){
-  //     final tempList = response.data['data']['result'] as List<dynamic>?;
-  //     if( tempList is List && tempList.isNotEmpty ){
-  //       // categoryProducts.value = tempList.map<ProductModel>((e){
-  //       //   return ProductModel.fromJson(e);
-  //       // }).toList();
-  //     }
-  //   }
-  //   isCategoryProductsLoading.value = false;
-  // }
+    isMyAssignCoursesLoading.value = true;
+    ApiResponse response = await apiService.networkRequest(
+        method: "GET",
+        isAuthRequired: true,
+        endPoint: ApiEndpoints.myAssignCourses
+    );
+    isMyAssignCoursesLoading.value = false;
+    if( response.statusCode == 200 ){
+      final tempList = response.data['data']['result'] as List<dynamic>?;
+      if( tempList is List && tempList.isNotEmpty ){
+        myAssignCourses.value = tempList.map<CourseModel>((e){
+          return CourseModel.fromJson(e);
+        }).toList();
+      }else{
+        myAssignCourses.value = [];
+      }
+    }
 
-  //GET TOP FLAVOUR PRODUCTS
-  // getTopFlavourProducts() async {
-  //   if (isTopFlavoursLoading.value) {
-  //     return;
-  //   }
-  //   isTopFlavoursLoading.value = true;
-  //   //topFlavours.value = await controller.getTopFlavourProducts();
-  //   isTopFlavoursLoading.value = false;
-  // }
+  }
 }

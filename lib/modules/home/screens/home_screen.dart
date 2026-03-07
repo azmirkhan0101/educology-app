@@ -2,6 +2,8 @@ import 'package:dr_dina_educology/core/services/role_service.dart';
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
+import 'package:dr_dina_educology/data/models/home/course_model.dart';
+import 'package:dr_dina_educology/modules/home/controllers/home_controller.dart';
 import 'package:dr_dina_educology/modules/home/widgets/course_item_widget.dart';
 import 'package:dr_dina_educology/modules/home/widgets/home_banner.dart';
 import 'package:dr_dina_educology/modules/home/widgets/home_header_widget.dart';
@@ -13,135 +15,132 @@ import '../../../core/utils/app_constants.dart';
 import '../../../routes/app_pages.dart';
 
 class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
 
-  final RoleService roleService = Get.find<RoleService>();
-  late Role role;
+  final HomeController controller = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
+    bool isStaff =
+        controller.role == Role.teacher || controller.role == Role.assistant;
+    bool isStudent = controller.role == Role.student;
+    bool isParent = controller.role == Role.parent;
 
-    role = roleService.getUpdatedRole();
-    bool isTeacher = role == Role.teacher || role == Role.assistant;
-    bool isStudent = role == Role.student;
-    bool isParent = role == Role.parent;
-
-    print(role.name);
+    print(controller.role.name);
 
     return Scaffold(
       backgroundColor: AppColors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15),
-          child: Column(
-            children: [
-              SizedBox(height: 22,),
-              HomeHeaderWidget(
-                  profileImageUrl: "",
-                  userName: "Azmir Khan"
-              ),
-              SizedBox(height: 20,),
-              HomeBanner(isParent: isParent,),
-              SizedBox(height: 20,),
-              if( isParent )
+      body: RefreshIndicator(
+        onRefresh: () async {
+          controller.getMyAssignCourses();
+        },
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15),
+            child: Column(
+              children: [
+                SizedBox(height: 22),
+                Obx((){
+                  return HomeHeaderWidget(
+                      profileImageUrl: controller.profileController.profileImageUrl.value,
+                      userName: controller.profileController.profileModel.value?.fullName ?? ""
+                  );
+                }),
+                SizedBox(height: 20),
+                HomeBanner(isParent: isParent),
+                SizedBox(height: 20),
+                if (isParent)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextWidget(
+                      text: AppStrings.yourChild,
+                      textAlignment: TextAlign.left,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      fontColor: AppColors.secondaryDarkBlue,
+                    ),
+                  ),
+                if (isParent)
+                  childDropdownWidget(
+                    selectedValue: "Rakibul Hasan",
+                    onChanged: (value) {},
+                  ),
+                if (isStaff)
+                  Obx(() {
+                    return teacherCourseCount(
+                      totalCourse: controller.staffCourseStats.value?.totalCourses ?? 0,
+                      totalStudents: controller.staffCourseStats.value?.totalStudents ?? 0
+                    );
+                  },
+                  ),
+                SizedBox(height: 20),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: TextWidget(
-                    text: AppStrings.yourChild,
+                    text: isStaff
+                        ? AppStrings.myAssignCourses
+                        : isStudent
+                        ? "My Courses"
+                        : "Enrolled Classes",
                     textAlignment: TextAlign.left,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     fontColor: AppColors.secondaryDarkBlue,
                   ),
                 ),
-              if( isParent )
-                childDropdownWidget(
-                    selectedValue: "Rakibul Hasan",
-                    onChanged: (value){},
-                ),
-              if( isTeacher )
-                teacherCourseCount(),
-              SizedBox(height: 20,),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextWidget(
-                    text: isTeacher ? AppStrings.myAssignCourses : isStudent ? "My Courses" : "Enrolled Classes",
-                  textAlignment: TextAlign.left,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  fontColor: AppColors.secondaryDarkBlue,
-                ),
-              ),
-              SizedBox(height: 10,),
-              ListView(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  CourseItemWidget(
-                      imageUrl: "",
-                      title: "Grade 10 – Mathematicsssssssssssssssssssssss",
-                      category: "Mathematics",
-                      status: "Active",
-                      isTeacher: isTeacher,
-                      enrolledCount: 12,
-                    onClick: (){
-                        if( isParent ){
-                          Get.toNamed(AppRoutes.studentProgress);
-                        }else{
-                          Get.toNamed(AppRoutes.courseDetails);
-                        }
+                SizedBox(height: 10),
+                Obx(() {
+                  if (controller.isMyAssignCoursesLoading.value) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (controller.myAssignCourses.isEmpty) {
+                    if (controller.role == Role.student) {
+                      return LearningJourneyWidget();
+                    } else {
+                      //TODO: ADD COURSE/CLASS BUTTON FOR STAFF
+                      return Center(child: Text("No Courses Found"));
+                    }
+                  }
+                  return ListView.builder(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: controller.myAssignCourses.length,
+                    itemBuilder: (context, index) {
+                      final CourseModel model =
+                          controller.myAssignCourses[index];
+
+                      return CourseItemWidget(
+                        title: model.className,
+                        imageUrl: model.imageUrl,
+                        subject: model.subjectName,
+                        status: model.status,
+                        isStaff: isStaff,
+                        teacherName: null,//TODO: CHECK TEACHER NAME IN STUDENT ROLE, UPDATE MODEL AND PASS HERE
+                        enrolledCount: model.totalEnrolled,
+                        onClick: () {
+                          if (isParent) {
+                            Get.toNamed(AppRoutes.studentProgress);
+                          } else {
+                            Map<String, String> arguments = {
+                              "courseId": model.id,
+                              "courseName": model.className,
+                              "subject": model.subjectName,
+                              "status": model.status
+                            };
+                            Get.toNamed(
+                                AppRoutes.courseDetails,
+                                arguments: arguments
+                            );
+                          }
+                        },
+                      );
                     },
-                  ),
-                  CourseItemWidget(
-                      imageUrl: "",
-                      title: "Grade 10 – Mathematicsssssssssssssssssssssss",
-                      category: "Mathematics",
-                      status: "Active",
-                    isTeacher: isTeacher,
-                      enrolledCount: 12,
-                    onClick: (){
-                      if( isParent ){
-                        Get.toNamed(AppRoutes.studentProgress);
-                      }else{
-                        Get.toNamed(AppRoutes.courseDetails);
-                      }
-                    },
-                  ),
-                  CourseItemWidget(
-                      imageUrl: "",
-                      title: "Grade 10 – Mathematicsssssssssssssssssssssss",
-                      category: "Mathematics",
-                      status: "Active",
-                    isTeacher: isTeacher,
-                      enrolledCount: 12,
-                    onClick: (){
-                      if( isParent ){
-                        Get.toNamed(AppRoutes.studentProgress);
-                      }else{
-                        Get.toNamed(AppRoutes.courseDetails);
-                      }
-                    },
-                  ),
-                  CourseItemWidget(
-                      imageUrl: "",
-                      title: "Grade 10 – Mathematicsssssssssssssssssssssss",
-                      category: "Mathematics",
-                      status: "Active",
-                    isTeacher: isTeacher,
-                      enrolledCount: 12,
-                    onClick: (){
-                      if( isParent ){
-                        Get.toNamed(AppRoutes.studentProgress);
-                      }else{
-                        Get.toNamed(AppRoutes.courseDetails);
-                      }
-                    },
-                  )
-                ],
-              ),
-              if( role == Role.student )
-                LearningJourneyWidget()
-            ],
+                  );
+                }),
+              ],
+            ),
           ),
         ),
       ),
@@ -149,7 +148,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   //FOR TEACHER AND ASSISTANT
-  Row teacherCourseCount(){
+  Row teacherCourseCount({required int totalCourse, required int totalStudents}) {
     return Row(
       spacing: 8,
       children: [
@@ -157,28 +156,27 @@ class HomeScreen extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: AlignmentGeometry.bottomCenter,
-                    colors: [
-                      AppColors.secondaryGreen.withValues(alpha: 0.2),
-                      AppColors.white.withValues(alpha: 0.05),
-                    ]),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: AppColors.secondaryGreen,
-                  width: 1,
-                )
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: AlignmentGeometry.bottomCenter,
+                colors: [
+                  AppColors.secondaryGreen.withValues(alpha: 0.2),
+                  AppColors.white.withValues(alpha: 0.05),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppColors.secondaryGreen, width: 1),
             ),
             child: Column(
               children: [
                 TextWidget(
-                  text: "12",
+                  text: totalCourse.toString(),
                   fontColor: AppColors.darkGold,
                   fontWeight: FontWeight.bold,
                   fontSize: 35,
                 ),
-                TextWidget(text: AppStrings.totalCourses,
+                TextWidget(
+                  text: AppStrings.totalCourses,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   fontColor: AppColors.grey4E,
@@ -191,28 +189,27 @@ class HomeScreen extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: AlignmentGeometry.bottomCenter,
-                    colors: [
-                      AppColors.secondaryGreen.withValues(alpha: 0.2),
-                      AppColors.white.withValues(alpha: 0.05),
-                    ]),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: AppColors.secondaryGreen,
-                  width: 1,
-                )
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: AlignmentGeometry.bottomCenter,
+                colors: [
+                  AppColors.secondaryGreen.withValues(alpha: 0.2),
+                  AppColors.white.withValues(alpha: 0.05),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppColors.secondaryGreen, width: 1),
             ),
             child: Column(
               children: [
                 TextWidget(
-                  text: "360",
+                  text: totalStudents.toString(),
                   fontColor: AppColors.darkGold,
                   fontWeight: FontWeight.bold,
                   fontSize: 35,
                 ),
-                TextWidget(text: AppStrings.totalStudents,
+                TextWidget(
+                  text: AppStrings.totalStudents,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   fontColor: AppColors.grey4E,
@@ -220,7 +217,7 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -246,7 +243,11 @@ class HomeScreen extends StatelessWidget {
         child: DropdownButton<String>(
           value: selectedValue,
           isExpanded: true,
-          icon: const Icon(Icons.arrow_drop_down, color: Colors.black, size: 30),
+          icon: const Icon(
+            Icons.arrow_drop_down,
+            color: Colors.black,
+            size: 30,
+          ),
           // This acts as the default "Rakibul Hasan" view from your image
           hint: profileRow("Rakibul Hasan", "+8801827347685"),
           onChanged: onChanged,
@@ -260,7 +261,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-// Helper: Creates the actual selectable menu item
+  // Helper: Creates the actual selectable menu item
   DropdownMenuItem<String> dropdownItem(String name, String phone) {
     return DropdownMenuItem<String>(
       value: name,
@@ -290,10 +291,7 @@ class HomeScreen extends StatelessWidget {
             ),
             Text(
               phone,
-              style: TextStyle(
-                color: Colors.grey.shade600,
-                fontSize: 12,
-              ),
+              style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
             ),
           ],
         ),
@@ -301,4 +299,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-

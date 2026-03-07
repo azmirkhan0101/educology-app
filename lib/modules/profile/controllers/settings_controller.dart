@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -8,72 +9,22 @@ import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_constants.dart';
+import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/show_snackbar.dart';
+import '../../../core/widgets/button_widget.dart';
+import '../../../core/widgets/text_widget.dart';
 import '../../../routes/app_pages.dart';
 
 class SettingsController extends GetxController {
 
   final ApiService apiService = Get.find<ApiService>();
 
-  RxBool isFaqLoading = false.obs;
-  //PRIVACY POLICY
-  RxString privacyPolicy = "".obs;
-  RxBool isPrivacyPolicyLoading = false.obs;
-  //TERMS CONDITIONS
-  RxString termsConditions = "".obs;
-  RxBool isTermsAndConditionsLoading = false.obs;
-
   //CHANGE PASSWORD
   RxBool isChangePasswordLoading = false.obs;
   final storage = GetStorage();
-  final GlobalKey<FormState> changePasswordFormKey = GlobalKey<FormState>();
   final TextEditingController currentPassword = TextEditingController();
   final TextEditingController newPassword = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
-
-  //GET PRIVACY POLICY
-  Future<void> getPrivacyPolicy() async {
-
-    if( privacyPolicy.value.isNotEmpty ){
-      return;
-    }
-
-    if( isPrivacyPolicyLoading.value ){
-      return;
-    }
-
-    isPrivacyPolicyLoading.value = true;
-    ApiResponse response = await apiService.networkRequest(
-        method: "GET",
-        isAuthRequired: false,
-        endPoint: ApiEndpoints.privacyPolicy
-    );
-    isPrivacyPolicyLoading.value = false;
-
-    if (response.statusCode == 200) {
-      privacyPolicy.value = response.data['data']['privacyPolicy'];
-    }
-  }
-
-  //GET TERMS AND CONDITIONS
-  Future<void> getTermsAndConditions() async {
-
-    if( termsConditions.value.isNotEmpty || isTermsAndConditionsLoading.value ){
-      return;
-    }
-
-    isTermsAndConditionsLoading.value = true;
-    ApiResponse response = await apiService.networkRequest(
-    method: "GET",
-    isAuthRequired: false,
-    endPoint: ApiEndpoints.termsAndConditions
-    );
-    isTermsAndConditionsLoading.value = false;
-
-    if (response.statusCode == 200) {
-      termsConditions.value = response.data['data']['termsCondition'];
-    }
-  }
 
   //CHANGE PASSWORD
   Future<void> changePassword() async{
@@ -83,6 +34,7 @@ class SettingsController extends GetxController {
     }
 
     isChangePasswordLoading.value = true;
+
     Map<String, String> payLoad = {
       "oldPassword" : currentPassword.text.trim(),
       "newPassword" : newPassword.text.trim()
@@ -94,6 +46,7 @@ class SettingsController extends GetxController {
       body: payLoad
     );
     isChangePasswordLoading.value = false;
+    String? message = response.data?["message"];
 
     if( response.statusCode == 200 ){
       saveTokens( response.data );
@@ -101,13 +54,13 @@ class SettingsController extends GetxController {
       newPassword.clear();
       confirmPassword.clear();
       Get.back();
-      showSnackBar(title: "Password changed!", message: "Your password has been changed successfully.", backgroundColor: AppColors.greenPrimary);
+      showSnackBar(title: "Password changed!", message: message ?? "Your password has been changed successfully.", backgroundColor: AppColors.greenPrimary);
     }else if( response.statusCode == 400 ){
-      showSnackBar(title: "Failed!", message: "New password cannot be the same as the old password.", backgroundColor: AppColors.errorRed);
+      showSnackBar(title: "Failed!", message: message ?? "New password cannot be the same as the old password.", backgroundColor: AppColors.warningYellow);
     }else if( response.statusCode == 401 ){
-      showSnackBar(title: "Unauthorized!", message: "You are not authorized.", backgroundColor: AppColors.errorRed);
+      showSnackBar(title: "Unauthorized!", message: message ?? "You are not authorized.", backgroundColor: AppColors.errorRed);
     }else if( response.statusCode == 403 ){
-      showSnackBar(title: "Wrong password!", message: "Your current password is wrong.", backgroundColor: AppColors.errorRed);
+      showSnackBar(title: "Wrong password!", message: message ?? "Your current password is wrong.", backgroundColor: AppColors.warningYellow);
     }else if (response.statusCode == 408) {//TIME OUT
       timeOutSnackBar();
     }else if (response.statusCode == 503) {//NO INTERNET

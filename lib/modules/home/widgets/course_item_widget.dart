@@ -8,9 +8,10 @@ import 'package:get/get.dart';
 class CourseItemWidget extends StatelessWidget {
   final String imageUrl;
   final String title;
-  final String category;
+  final String subject;
   final String status;
-  final bool isTeacher;
+  final bool isStaff;
+  final String? teacherName;
   final int enrolledCount;
   final VoidCallback? onClick;
 
@@ -18,9 +19,10 @@ class CourseItemWidget extends StatelessWidget {
     super.key,
     required this.imageUrl,
     required this.title,
-    required this.category,
+    required this.subject,
     required this.status,
-    required this.isTeacher,
+    required this.isStaff,
+    this.teacherName,
     required this.enrolledCount,
     this.onClick,
   });
@@ -52,6 +54,7 @@ class CourseItemWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
                   width: 95.w,
+                  height: 100.h,
                   color: AppColors.greyEB,
                   child: CachedImageWidget(
                       imageUrl: imageUrl,
@@ -78,7 +81,7 @@ class CourseItemWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      category,
+                      subject,
                       style: const TextStyle(
                         fontSize: 12,
                         color: AppColors.grey78,
@@ -104,7 +107,7 @@ class CourseItemWidget extends StatelessWidget {
                     const SizedBox(height: 6),
 
                     Text(
-                      isTeacher ? 'Total Enrolled Student : $enrolledCount' : 'Assign teacher: Mr. Rahman',
+                      isStaff ? 'Total Enrolled Student : $enrolledCount' : 'Assign teacher: $teacherName',
                       style: const TextStyle(
                         fontSize: 12,
                         color: AppColors.secondaryGreen, //Muted green

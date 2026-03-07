@@ -17,16 +17,15 @@ import 'package:get/get.dart';
 import '../../../core/assets_gen/assets.gen.dart';
 
 class CourseDetailsScreen extends StatelessWidget {
-  final RoleService roleService = Get.find<RoleService>();
+
   final CourseDetailsController controller =
       Get.find<CourseDetailsController>();
 
   @override
   Widget build(BuildContext context) {
 
-    Role role = roleService.getUpdatedRole();
-    bool isTeacher = role == Role.teacher || role == Role.assistant;
-    bool isStudent = role == Role.student;
+    bool isStaff = controller.role == Role.teacher || controller.role == Role.assistant;
+    bool isStudent = controller.role == Role.student;
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -49,13 +48,25 @@ class CourseDetailsScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: [
-            courseTitle(isTeacher: isTeacher),
+            courseTitle(
+                isStaff: isStaff,
+              courseName: controller.courseName,
+              subject: controller.subject,
+              status: controller.status
+            ),
             SizedBox(height: 4),
-            if( isTeacher )
-            stats(),
-            if( isTeacher )
+            if( isStaff )
+            Obx((){
+              return stats(
+                  attendance: controller.courseStat.value?.attendanceRate ?? 0,
+                  homework: controller.courseStat.value?.homeworkRate ?? 0,
+                  avgGrade: controller.courseStat.value?.avgGrade ?? 0,
+                  overdue: controller.courseStat.value?.overdueRate ?? 0
+              );
+            }),
+            if( isStaff )
             SizedBox(height: 10),
-            if( isTeacher )
+            if( isStaff )
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: ButtonWidget(
@@ -63,17 +74,17 @@ class CourseDetailsScreen extends StatelessWidget {
                 buttonHeight: 45,
                 gradient: AppColors.primaryButtonGradient,
                 onPressed: (){
-                  Get.toNamed(AppRoutes.studentsReport);
+                  Get.toNamed(AppRoutes.studentsReport, arguments: controller.courseId);
                 },
               ),
             ),
             SizedBox(height: 10),
-            if( isTeacher )
+            if( isStaff )
             overviewParticipantButtons(),
             if( isStudent )
               myProgressParticipantButtons(),
             Expanded(
-                child: tabBar(isTeacher: isTeacher, isStudent: isStudent)
+                child: tabBar(isTeacher: isStaff, isStudent: isStudent)
             )
           ],
         ),
@@ -81,7 +92,7 @@ class CourseDetailsScreen extends StatelessWidget {
     );
   }
 
-  Row courseTitle({required bool isTeacher}) {
+  Row courseTitle({required bool isStaff, required String subject, required String courseName, required String status}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +102,7 @@ class CourseDetailsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Grade 10 - Mathematics",
+                courseName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -102,19 +113,21 @@ class CourseDetailsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 3),
               Text(
-                "category",
+                subject,
                 style: const TextStyle(fontSize: 14, color: Colors.grey),
               ),
               const SizedBox(height: 4),
-              if ( isTeacher )
-                Text(
-                  'Total Enrolled Student ',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.secondaryGreen,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+              if ( isStaff )
+                Obx((){
+                  return Text(
+                    'Total Enrolled Student: ${controller.courseStat.value?.totalEnrolled ?? 0}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.secondaryGreen,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  );
+                }),
             ],
           ),
         ),
@@ -126,7 +139,7 @@ class CourseDetailsScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
-            "Active",
+            status,
             style: const TextStyle(
               color: Color(0xFF0277BD), // Darker blue text
               fontWeight: FontWeight.w500,
@@ -138,7 +151,7 @@ class CourseDetailsScreen extends StatelessWidget {
   }
 
   //STATS FOR TEACHER AND ASSISTANT
-  Column stats() {
+  Column stats({required double attendance, required double homework, required double avgGrade, required double overdue}) {
     return Column(
       spacing: 5,
       children: [
@@ -148,14 +161,14 @@ class CourseDetailsScreen extends StatelessWidget {
             Expanded(
               child: PercentageCard(
                 svgPath: Assets.icons.attendance,
-                percentage: "90%",
+                percentage: "${attendance.toSmartString()}%",
                 label: AppStrings.attendance,
               ),
             ),
             Expanded(
               child: PercentageCard(
                 svgPath: Assets.icons.homeworkSubmitted,
-                percentage: "90%",
+                percentage: "${homework.toSmartString()}%",
                 label: AppStrings.homeworkSubmitted,
               ),
             ),
@@ -167,14 +180,14 @@ class CourseDetailsScreen extends StatelessWidget {
             Expanded(
               child: PercentageCard(
                 svgPath: Assets.icons.avgGrade,
-                percentage: "71%",
+                percentage: "${avgGrade.toSmartString()}%",
                 label: AppStrings.avgGrade,
               ),
             ),
             Expanded(
               child: PercentageCard(
                 svgPath: Assets.icons.overdueTasks,
-                percentage: "12%",
+                percentage: "${overdue.toSmartString()}%",
                 label: AppStrings.overdueTasks,
               ),
             ),
@@ -193,13 +206,13 @@ class CourseDetailsScreen extends StatelessWidget {
           child: ButtonWidget(
             fontSize: 14,
             padding: EdgeInsets.all(0),
-            label: AppStrings.classOverview,
+            label: "Course Overview",
             buttonHeight: 45,
             backgroundColor: AppColors.secondaryDarkBlue,
             prefixIcon: Icons.calendar_today_outlined,
             prefixIconSize: 16,
             onPressed: (){
-              Get.toNamed(AppRoutes.classOverview);
+              Get.toNamed(AppRoutes.courseOverview, arguments: controller.courseId);
             },
           ),
         ),
@@ -303,5 +316,18 @@ class CourseDetailsScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+extension DoubleFormatter on double {
+  String toSmartString() {
+    // If it's a whole number (e.g., 100.0), return as integer string
+    if (this == truncateToDouble()) {
+      return toStringAsFixed(0);
+    }
+    // Otherwise, show up to 2 decimal places, but remove trailing zeros
+    // Example: 5.50 becomes 5.5
+    RegExp regex = RegExp(r"([.]*0+)(?!.*\d)");
+    return toStringAsFixed(2).replaceAll(regex, "");
   }
 }

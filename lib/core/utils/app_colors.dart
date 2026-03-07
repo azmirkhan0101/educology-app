@@ -23,7 +23,8 @@ class AppColors {
   static const Color errorRed = Color(0xFFD32F2F);
   static const Color errorRed2 = Color(0xFFF70004);
   static const Color yellowWarning = Color(0xFFFFC804);
-  static const Color warningYellow = Color(0xFFF9A825);
+  static const Color warningYellow = Color(0xFFF57C00);
+  static const Color warningYellow3 = Color(0xFFF9A825);
   static const Color warningYellow2 = Color(0xffffcc00);
 
   static const LinearGradient primaryButtonGradient = LinearGradient(

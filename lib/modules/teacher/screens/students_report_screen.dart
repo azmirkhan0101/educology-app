@@ -1,8 +1,13 @@
+import 'package:dr_dina_educology/modules/teacher/controllers/student_report_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../data/models/student_report/student_report_model.dart';
+
 class StudentsReportScreen extends StatelessWidget {
-  const StudentsReportScreen({super.key});
+  StudentsReportScreen({super.key});
+
+  final StudentReportController controller = Get.find<StudentReportController>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +34,6 @@ class StudentsReportScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // Search Bar
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: TextField(
@@ -57,24 +61,44 @@ class StudentsReportScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _HeaderCell(label: 'Student Name', flex: 2),
-                _HeaderCell(label: 'Attendance', flex: 2),
-                _HeaderCell(label: 'H.w. Completed', flex: 2),
-                _HeaderCell(label: 'H.w. Pending', flex: 2),
-                _HeaderCell(label: 'Exam Grade', flex: 2),
+                HeaderCell(label: 'Student Name', flex: 2),
+                HeaderCell(label: 'Attendance', flex: 2),
+                HeaderCell(label: 'H.w. Completed', flex: 2),
+                HeaderCell(label: 'H.w. Pending', flex: 2),
+                HeaderCell(label: 'Exam Grade', flex: 2),
               ],
             ),
           ),
           const Divider(thickness: 1),
           // Scrollable List
           Expanded(
-            child: ListView.separated(
-              itemCount: 20, // Number of students
-              separatorBuilder: (context, index) => const Divider(height: 1, color: Color(0xFFEEEEEE)),
-              itemBuilder: (context, index) {
-                return const _StudentRow();
-              },
-            ),
+            child: Obx((){
+
+              if( controller.isStudentReportLoading.value ){
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if( controller.studentReportList.isEmpty ){
+                return const Center(child: Text("No Data Found"));
+              }
+
+              return ListView.separated(
+                itemCount: controller.studentReportList.length,
+                separatorBuilder: (context, index) => const Divider(height: 1, color: Color(0xFFEEEEEE)),
+                itemBuilder: (context, index) {
+
+                  final StudentReportModel model = controller.studentReportList[index];
+
+                  return StudentRow(
+                    studentName: model.studentName,
+                    attendance: model.attendance,
+                    hwCompleted: model.hwCompleted,
+                    hwPending: model.hwPending,
+                    examGrade: model.examGrade
+                  );
+                },
+              );
+            }),
           ),
         ],
       ),
@@ -82,10 +106,10 @@ class StudentsReportScreen extends StatelessWidget {
   }
 }
 
-class _HeaderCell extends StatelessWidget {
+class HeaderCell extends StatelessWidget {
   final String label;
   final int flex;
-  const _HeaderCell({required this.label, required this.flex});
+  const HeaderCell({super.key, required this.label, required this.flex});
 
   @override
   Widget build(BuildContext context) {
@@ -104,31 +128,45 @@ class _HeaderCell extends StatelessWidget {
   }
 }
 
-class _StudentRow extends StatelessWidget {
-  const _StudentRow();
+class StudentRow extends StatelessWidget {
+
+  final String studentName;
+  final String attendance;
+  final String hwCompleted;
+  final String hwPending;
+  final String examGrade;
+
+  const StudentRow({
+    super.key,
+    required this.studentName,
+    required this.attendance,
+    required this.hwCompleted,
+    required this.hwPending,
+    required this.examGrade
+});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
       child: Row(
-        children: const [
-          _DataCell(text: 'Rakibul Hasan', flex: 2, isName: true),
-          _DataCell(text: '09/10 (90%)', flex: 2),
-          _DataCell(text: '09/10', flex: 2),
-          _DataCell(text: '01', flex: 2),
-          _DataCell(text: '88%', flex: 2),
+        children: [
+          DataCell(text: studentName, flex: 2, isName: true),
+          DataCell(text: attendance, flex: 2),
+          DataCell(text: hwCompleted, flex: 2),
+          DataCell(text: hwPending, flex: 2),
+          DataCell(text: examGrade, flex: 2)
         ],
       ),
     );
   }
 }
 
-class _DataCell extends StatelessWidget {
+class DataCell extends StatelessWidget {
   final String text;
   final int flex;
   final bool isName;
-  const _DataCell({required this.text, required this.flex, this.isName = false});
+  const DataCell({required this.text, required this.flex, this.isName = false});
 
   @override
   Widget build(BuildContext context) {

@@ -13,6 +13,7 @@ import 'package:dr_dina_educology/modules/content_details/screens/content_detail
 import 'package:dr_dina_educology/modules/course_details/screens/course_details_screen.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/participant_screen.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/single_attendance_screen.dart';
+import 'package:dr_dina_educology/modules/home/bindings/home_binding.dart';
 import 'package:dr_dina_educology/modules/home/bindings/notification_binding.dart';
 import 'package:dr_dina_educology/modules/home/screens/home_screen.dart';
 import 'package:dr_dina_educology/modules/home/screens/notification_screen.dart';
@@ -22,6 +23,7 @@ import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_two.dart
 import 'package:dr_dina_educology/modules/profile/bindings/about_us_binding.dart';
 import 'package:dr_dina_educology/modules/profile/bindings/privacy_binding.dart';
 import 'package:dr_dina_educology/modules/profile/bindings/profile_binding.dart';
+import 'package:dr_dina_educology/modules/profile/bindings/settings_binding.dart';
 import 'package:dr_dina_educology/modules/profile/bindings/terms_binding.dart';
 import 'package:dr_dina_educology/modules/profile/screens/about_us_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/change_password_screen.dart';
@@ -33,10 +35,12 @@ import 'package:dr_dina_educology/modules/profile/screens/support_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/terms_screen.dart';
 import 'package:dr_dina_educology/modules/student/bindings/student_binding.dart';
 import 'package:dr_dina_educology/modules/student/screens/add_parent_screen.dart';
+import 'package:dr_dina_educology/modules/teacher/bindings/course_overview_binding.dart';
+import 'package:dr_dina_educology/modules/teacher/bindings/student_report_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/bindings/teacher_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/add_content_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/check_answer_screen.dart';
-import 'package:dr_dina_educology/modules/teacher/screens/class_overview_screen.dart';
+import 'package:dr_dina_educology/modules/teacher/screens/course_overview_screen.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/student_progress_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/provide_mark_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/students_report_screen.dart';
@@ -124,7 +128,8 @@ class AppPages {
         name: AppRoutes.home,
         page: (){
           return HomeScreen();
-        }
+        },
+      binding: HomeBinding()
     ),
     GetPage(
         name: AppRoutes.notification,
@@ -156,7 +161,8 @@ class AppPages {
         name: AppRoutes.settings,
         page: (){
           return SettingsScreen();
-        }
+        },
+      binding: SettingsBinding()
     ),
     GetPage(
         name: AppRoutes.changePassword,
@@ -193,11 +199,11 @@ class AppPages {
       binding: CourseDetailsBinding()
     ),
     GetPage(
-        name: AppRoutes.classOverview,
+        name: AppRoutes.courseOverview,
         page: (){
-          return ClassOverviewScreen();
+          return CourseOverviewScreen();
         },
-        //binding: HomeBinding()
+        binding: CourseOverviewBinding()
     ),
     GetPage(
       name: AppRoutes.studentProgress,
@@ -239,7 +245,7 @@ class AppPages {
       page: (){
         return StudentsReportScreen();
       },
-      //binding: HomeBinding()
+      binding: StudentReportBinding()
     ),
     GetPage(
       name: AppRoutes.announcementDetails,

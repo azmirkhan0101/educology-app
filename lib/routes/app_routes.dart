@@ -20,7 +20,7 @@ class AppRoutes {
   static const String home = '/home';
 
   static const String courseDetails = '/course_details';
-  static const String classOverview = '/class_overview';
+  static const String courseOverview = '/course_overview';
   static const String participants = '/participants';
   static const String studentProgress = '/student_progress';
   static const String singleAttendance = '/single_attendance';

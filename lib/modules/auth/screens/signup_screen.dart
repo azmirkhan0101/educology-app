@@ -95,7 +95,7 @@ class SignupScreen extends StatelessWidget {
                   Expanded(
                     child: CustomTextField(
                       label: AppStrings.name,
-                      hintText: "first name",
+                      hintText: AppStrings.firstName,
                       controller: controller.firstNameController,
                       validator: (value){
                         if( value == null || value.isEmpty ){
@@ -108,7 +108,7 @@ class SignupScreen extends StatelessWidget {
                   Expanded(
                     child: CustomTextField(
                       label: "",
-                      hintText: "last name",
+                      hintText: AppStrings.lastName,
                       controller: controller.lastNameController,
                       validator: (value){
                         if( value == null || value.isEmpty ){

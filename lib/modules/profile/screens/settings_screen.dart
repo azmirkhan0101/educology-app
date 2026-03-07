@@ -1,6 +1,7 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
+import 'package:dr_dina_educology/modules/profile/controllers/settings_controller.dart';
 import 'package:dr_dina_educology/modules/profile/widgets/profile_menu_tile.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +17,9 @@ import 'package:shimmer/shimmer.dart';
 import '../../../core/widgets/button_widget.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+  SettingsScreen({super.key});
+
+  final SettingsController controller = Get.find<SettingsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -133,8 +136,7 @@ class SettingsScreen extends StatelessWidget {
                     fontSize: 14,
                     backgroundColor: CupertinoColors.destructiveRed,
                     onPressed: (){
-                      Get.back();
-                      Get.offAllNamed(AppRoutes.signIn);
+
                     },
                   ),
                 ),

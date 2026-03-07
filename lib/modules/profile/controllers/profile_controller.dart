@@ -6,18 +6,21 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../core/services/api_service.dart';
+import '../../../core/services/role_service.dart';
 import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_constants.dart';
 import '../../../core/utils/show_snackbar.dart';
 import '../../../data/models/profile/profile_model.dart';
+import '../../../routes/app_pages.dart';
 
 class ProfileController extends GetxController{
 
   final ApiService apiService = Get.find<ApiService>();
-
+  final RoleService roleService = Get.find<RoleService>();
   final storage = GetStorage();
+  late Role role;
 
   //GET PROFILE
   Rxn<ProfileModel> profileModel = Rxn<ProfileModel>();
@@ -26,6 +29,8 @@ class ProfileController extends GetxController{
 
   @override
   void onInit() {
+
+    role = roleService.getUpdatedRole();
 
     final profile = storage.read( profileModelKey );
     if( profile != null ) {
@@ -45,18 +50,14 @@ class ProfileController extends GetxController{
   final Rx<File?> profileImage = Rx<File?>(null);
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController fullNameController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
-  final TextEditingController contactNoController = TextEditingController();
+  final TextEditingController aboutMeController = TextEditingController();
   DateTime? dateOfBirth;
+  RxString gender = 'male'.obs;
 
   //INITIALIZE EDIT PROFILE CONTROLLERS
   void initializeEditProfileControllers(){
     firstNameController.text = profileModel.value?.firstName ?? "";
     lastNameController.text = profileModel.value?.lastName ?? "";
-    fullNameController.text = "${profileModel.value?.firstName ?? ""} ${profileModel.value?.lastName ?? ""}";
-    addressController.text = profileModel.value?.location ?? "";
-    contactNoController.text = profileModel.value?.contact ?? "";
     dateOfBirth = profileModel.value?.dob;
   }
 
@@ -92,10 +93,9 @@ class ProfileController extends GetxController{
     Map<String, dynamic> payLoad = {
       "firstName": firstNameController.text.trim(),
       "lastName": lastNameController.text.trim(),
-      if( contactNoController.text.trim() != profileModel.value?.contact )
-      "contact": contactNoController.text.trim(),
-      "location": addressController.text.trim(),
       "dob": dateOfBirth?.toIso8601String(),
+      "gender": gender.value,
+      "aboutMe": aboutMeController.text.trim()
     };
     ApiResponse response = await apiService.multipartRequest(
         method: "PATCH",
@@ -123,14 +123,21 @@ class ProfileController extends GetxController{
     }
   }
 
+  //LOGOUT
+  Future<void> logOut() async{
+    await storage.erase();
+    Get.back();
+    Get.offAllNamed(AppRoutes.roleSelection);
+  }
+
 
   @override
   void onClose() {
 
     firstNameController.dispose();
     lastNameController.dispose();
-    addressController.dispose();
-    contactNoController.dispose();
+    aboutMeController.dispose();
+
     super.onClose();
   }
 
