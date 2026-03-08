@@ -12,7 +12,7 @@ class StudentStatusListItem extends StatelessWidget {
   final String phoneNumber;
   final String imageUrl;
   final VoidCallback onViewPressed;
-  final StudentStatus status;
+  final String studentStatus;
 
   const StudentStatusListItem({
     super.key,
@@ -20,11 +20,14 @@ class StudentStatusListItem extends StatelessWidget {
     required this.phoneNumber,
     required this.imageUrl,
     required this.onViewPressed,
-    required this.status,
+    required this.studentStatus
   });
 
   @override
   Widget build(BuildContext context) {
+
+    StudentStatus status = StudentStatus.values.firstWhere((element) => element.label3 == studentStatus);;
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: const BoxDecoration(

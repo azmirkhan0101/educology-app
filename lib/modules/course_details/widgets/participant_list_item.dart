@@ -11,7 +11,7 @@ class ParticipantListItem extends StatelessWidget {
   final String name;
   final String phoneNumber;
   final String imageUrl;
-  final StudentStatus? status;
+  final String? studentStatus;
   final bool showDivider;
 
   const ParticipantListItem({
@@ -19,12 +19,19 @@ class ParticipantListItem extends StatelessWidget {
     required this.name,
     required this.phoneNumber,
     required this.imageUrl,
-    required this.status,
+    required this.studentStatus,
     this.showDivider = true
   });
 
   @override
   Widget build(BuildContext context) {
+
+    StudentStatus? status;
+
+    if( studentStatus != null ){
+      status = StudentStatus.values.firstWhere((element) => element.label3 == studentStatus);
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
@@ -71,17 +78,17 @@ class ParticipantListItem extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               SvgPicture.asset(
-                status!.iconPath,
+                status.iconPath,
                 fit: BoxFit.cover,
                 width: 10,
                 height: 10,
               ),
               const SizedBox(width: 6),
               Text(
-                status!.label2,
+                status.label2,
                 style: TextStyle(
                   fontSize: 12,
-                  color: status!.primaryColor,
+                  color: status.primaryColor,
                   fontWeight: FontWeight.w400,
                 ),
               ),

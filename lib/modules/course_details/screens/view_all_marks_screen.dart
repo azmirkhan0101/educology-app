@@ -4,8 +4,8 @@ import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/view_exam_item_widget.dart';
 import 'package:flutter/material.dart';
 
-class ViewAllExamsScreen extends StatelessWidget {
-  const ViewAllExamsScreen({super.key});
+class ViewAllMarksScreen extends StatelessWidget {
+  const ViewAllMarksScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/extensions.dart';
 
 class CourseDetailsScreen extends StatelessWidget {
 
@@ -230,7 +231,7 @@ class CourseDetailsScreen extends StatelessWidget {
             prefixIcon: Icons.people_outline,
             prefixIconSize: 16,
             onPressed: (){
-              Get.toNamed(AppRoutes.participants);
+              Get.toNamed(AppRoutes.participants, arguments: controller.courseId);
             },
           ),
         ),
@@ -316,18 +317,5 @@ class CourseDetailsScreen extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-extension DoubleFormatter on double {
-  String toSmartString() {
-    // If it's a whole number (e.g., 100.0), return as integer string
-    if (this == truncateToDouble()) {
-      return toStringAsFixed(0);
-    }
-    // Otherwise, show up to 2 decimal places, but remove trailing zeros
-    // Example: 5.50 becomes 5.5
-    RegExp regex = RegExp(r"([.]*0+)(?!.*\d)");
-    return toStringAsFixed(2).replaceAll(regex, "");
   }
 }

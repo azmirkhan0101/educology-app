@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../data/models/course_overview/student_status_model.dart';
 
 class CourseOverviewScreen extends StatelessWidget {
   CourseOverviewScreen({super.key});
@@ -67,10 +68,12 @@ class CourseOverviewScreen extends StatelessWidget {
                   'Student',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                const Text(
-                  '38 Student',
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
+                Obx((){
+                  return Text(
+                    '${controller.courseOverviewStat.value?.totalStudents ?? 0} Student',
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  );
+                }),
                 // Filter SVG Icon
                 PopupMenuButton<String>(
                   color: Colors.white,
@@ -106,21 +109,35 @@ class CourseOverviewScreen extends StatelessWidget {
 
             // 3. Scrollable Student List
             Expanded(
-              child: ListView.separated(
-                itemCount: 10,
-                separatorBuilder: (context, index) => const Divider(height: 1),
-                itemBuilder: (context, index) {
-                  return StudentStatusListItem(
-                    name: "Azmir Khan",
-                    phoneNumber: "01909352422",
-                    imageUrl: Dummy.profileImageUrl,
-                    onViewPressed: () {
-                      Get.toNamed(AppRoutes.studentProgress);
-                    },
-                    status: StudentStatus.onTrack,
-                  );
-                },
-              ),
+              child: Obx((){
+                if( controller.isLoading.value ){
+                  return Center(child: CircularProgressIndicator());
+                }
+                if( controller.studentStatusList.isEmpty ){
+                  return Center(child: Text("No Data Found"));
+                }
+                return ListView.separated(
+                  itemCount: controller.studentStatusList.length,
+                  separatorBuilder: (context, index) => const Divider(height: 1),
+                  itemBuilder: (context, index) {
+
+                    final StudentStatusModel model = controller.studentStatusList[index];
+
+                    return StudentStatusListItem(
+                      name: model.fullName,
+                      phoneNumber: model.contact,
+                      imageUrl: model.image,
+                      onViewPressed: () {
+                        Get.toNamed(AppRoutes.studentProgress, arguments: {
+                          'courseId': controller.courseId,
+                          'studentId': model.id
+                        });
+                      },
+                      studentStatus: model.status,
+                    );
+                  },
+                );
+              }),
             ),
           ],
         ),

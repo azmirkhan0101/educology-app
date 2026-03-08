@@ -1,10 +1,15 @@
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
+import 'package:dr_dina_educology/core/utils/extensions.dart';
+import 'package:dr_dina_educology/data/models/attendance/single_attendance_model.dart';
+import 'package:dr_dina_educology/modules/course_details/controllers/single_attendance_controller.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/single_attendance_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SingleAttendanceScreen extends StatelessWidget {
-  const SingleAttendanceScreen({super.key});
+  SingleAttendanceScreen({super.key});
+
+  final SingleAttendanceController controller = Get.find<SingleAttendanceController>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +28,40 @@ class SingleAttendanceScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: Column(
           children: [
-            const Text("Total Completed Class : 15",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFF34495E))),
+            Obx((){
+              return Text(
+                  "Total Completed Class : ${controller.totalCompletedClass.value}",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFF34495E)));
+            }),
             const SizedBox(height: 10),
             // Summary Section
-            const IntrinsicHeight(
+            IntrinsicHeight(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SummaryItem(label: "On Time: 07", percent: "70%", color: Colors.green),
+                  Obx((){
+                    return SummaryItem(
+                        label: "On Time: ${controller.attendanceStat.value?.onTimeCount ?? 0}",
+                        percent: "${controller.attendanceStat.value?.onTimePercentage.toSmartString() ?? 0}%",
+                        color: Colors.green
+                    );
+                  }),
                   VerticalDivider(thickness: 1, color: Colors.grey),
-                  SummaryItem(label: "Late: 07", percent: "20%", color: Colors.orange),
+                  Obx((){
+                    return SummaryItem(
+                        label: "Late: ${controller.attendanceStat.value?.lateCount ?? 0}",
+                        percent: "${controller.attendanceStat.value?.latePercentage.toSmartString() ?? 0}%",
+                        color: Colors.orange
+                    );
+                  }),
                   VerticalDivider(thickness: 1, color: Colors.grey,),
-                  SummaryItem(label: "Absent: 01", percent: "10%", color: Colors.red),
+                  Obx((){
+                    return SummaryItem(
+                        label: "Absent: ${controller.attendanceStat.value?.absentCount ?? 0}",
+                        percent: "${controller.attendanceStat.value?.absentPercentage.toSmartString() ?? 0}%",
+                        color: Colors.red
+                    );
+                  }),
                 ],
               ),
             ),
@@ -44,39 +70,44 @@ class SingleAttendanceScreen extends StatelessWidget {
             Container(
               color: const Color(0xFFE8F6F3),
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
-              child: const Row(
+              child: Row(
                 children: [
-                  Expanded(child: Text("Class Name", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
-                  Expanded(child: Text("Class Start", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
-                  Expanded(child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Attendance", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold, color: Color(0xFF34495E))),
-                      Expanded(child: Icon(Icons.arrow_drop_down, size: 15, color: Color(0xFF34495E))),
-                    ],
-                  )),
+                  Expanded(
+                    flex: 5,
+                      child: Text("Class Name", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
+                  Expanded(
+                      flex: 5,
+                      child: Text("Class Start", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
+                  Expanded(
+                      flex: 3,
+                      child: Text("Attendance", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
                 ],
               ),
             ),
             Divider(height: 0.5,).paddingZero,
             // Scrollable List
             Expanded(
-              child: ListView.builder(
-                itemCount: 15,
-                itemBuilder: (context, index) {
-                  // Mocking the data logic based on your image
-                  String status = "On Time";
-                  if (index == 2) status = "Late 10min";
-                  if (index == 5) status = "Absent";
-                  if (index == 9) status = "Late 30min";
+              child: Obx((){
+                if( controller.isLoading.value ){
+                  return Center(child: CircularProgressIndicator());
+                }
+                if( controller.attendanceList.isEmpty ){
+                  return Center(child: Text("No Data Found"));
+                }
+                return ListView.builder(
+                  itemCount: controller.attendanceList.length,
+                  itemBuilder: (context, index) {
 
-                  return SingleAttendanceCard(
-                    className: "Lecture-1 (Algebra..",
-                    classTime: "19 Nov | 12:00PM",
-                    attendanceStatus: AttendanceStatus.onTime,
-                  );
-                },
-              ),
+                    final SingleAttendanceModel model = controller.attendanceList[index];
+
+                    return SingleAttendanceCard(
+                      className: model.className,
+                      classTime: model.classStart,
+                      status: model.status
+                    );
+                  },
+                );
+              }),
             ),
           ],
         ),

@@ -2,9 +2,11 @@ import 'package:dr_dina_educology/core/services/role_service.dart';
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
+import 'package:dr_dina_educology/core/utils/extensions.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:dr_dina_educology/modules/course_details/controllers/course_details_controller.dart';
+import 'package:dr_dina_educology/modules/course_details/controllers/student_progress_controller.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/announce_tab.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/classes_tab.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/exam_tab.dart';
@@ -18,12 +20,10 @@ import 'package:get/get.dart';
 import '../../../core/assets_gen/assets.gen.dart';
 
 class StudentProgressScreen extends StatelessWidget {
+  StudentProgressScreen({super.key});
 
-  final CourseDetailsController controller = Get.isRegistered<CourseDetailsController>()
-      ?
-  Get.find<CourseDetailsController>()
-  :
-      Get.put<CourseDetailsController>(CourseDetailsController());
+  final StudentProgressController controller = Get.find<StudentProgressController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +57,15 @@ class StudentProgressScreen extends StatelessWidget {
               ),
             ),
             Divider(),
-            ParticipantListItem(
-                name: "Azmir Khan",
-                phoneNumber: "01909352422",
-                imageUrl: Dummy.profileImageUrl,
-                status: StudentStatus.onTrack,
-               showDivider: false,
-            ),
+            Obx((){
+              return ParticipantListItem(
+                name: controller.studentModel.value?.fullName ?? "",
+                phoneNumber: controller.studentModel.value?.contact ?? "",
+                imageUrl: controller.studentModel.value?.image ?? "",
+                studentStatus: controller.studentProgress.value?.status,
+                showDivider: false,
+              );
+            }),
             SizedBox(height: 6),
             Align(
               alignment: Alignment.topLeft,
@@ -74,21 +76,33 @@ class StudentProgressScreen extends StatelessWidget {
               ),
             ),
             Divider(),
-            ParticipantListItem(
-                name: "Azmir Khan",
-                phoneNumber: "01909352422",
-                imageUrl: Dummy.profileImageUrl,
-                status: null,
-              showDivider: false,
-            ),
+            Obx((){
+              return ParticipantListItem(
+                name: controller.parentModel.value?.fullName ?? "",
+                phoneNumber: controller.parentModel.value?.contact ?? "",
+                imageUrl: controller.parentModel.value?.image ?? "",
+                studentStatus: null,
+                showDivider: false,
+              );
+            }),
             SizedBox(height: 20),
-            stats(),
+            Obx((){
+              return stats(
+                  attendance: controller.studentProgress.value?.attendance ?? 0,
+                  homework: controller.studentProgress.value?.homework ?? 0,
+                  avgGrade: controller.studentProgress.value?.avgGrade ?? 0,
+                  overdue: controller.studentProgress.value?.overdue ?? 0
+              );
+            }),
             SizedBox(height: 10),
             SizedBox(height: 10),
-            TextWidget(text: "Attendance (3) and Home-work (4) are missing.",
-            fontColor: AppColors.errorRed,
-              fontSize: 14,
-            ),
+            Obx((){
+              return TextWidget(
+                text: controller.alertMessage.value,
+                fontColor: AppColors.errorRed,
+                fontSize: 14,
+              );
+            }),
             SizedBox(height: 18,),
             attendanceExamButtons(),
           ],
@@ -98,7 +112,12 @@ class StudentProgressScreen extends StatelessWidget {
   }
 
   //STATS
-  Column stats() {
+  Column stats({
+    required double attendance,
+    required double homework,
+    required double avgGrade,
+    required double overdue
+  }) {
     return Column(
       spacing: 5,
       children: [
@@ -108,14 +127,14 @@ class StudentProgressScreen extends StatelessWidget {
             Expanded(
               child: PercentageCard(
                 svgPath: Assets.icons.attendance,
-                percentage: "90%",
+                percentage: "${attendance.toSmartString()}%",
                 label: AppStrings.attendance,
               ),
             ),
             Expanded(
               child: PercentageCard(
                 svgPath: Assets.icons.homeworkSubmitted,
-                percentage: "90%",
+                percentage: "${homework.toSmartString()}%",
                 label: AppStrings.homeworkSubmitted,
               ),
             ),
@@ -127,14 +146,14 @@ class StudentProgressScreen extends StatelessWidget {
             Expanded(
               child: PercentageCard(
                 svgPath: Assets.icons.avgGrade,
-                percentage: "71%",
+                percentage: "${avgGrade.toSmartString()}%",
                 label: AppStrings.avgGrade,
               ),
             ),
             Expanded(
               child: PercentageCard(
                 svgPath: Assets.icons.overdueTasks,
-                percentage: "12%",
+                percentage: "${overdue.toSmartString()}%",
                 label: AppStrings.overdueTasks,
               ),
             ),
@@ -159,7 +178,10 @@ class StudentProgressScreen extends StatelessWidget {
             prefixIcon: Icons.calendar_today_outlined,
             prefixIconSize: 16,
             onPressed: (){
-              Get.toNamed(AppRoutes.singleAttendance);
+              Get.toNamed(AppRoutes.singleAttendance, arguments: {
+                "courseId": controller.courseId,
+                "studentId": controller.studentId
+              });
             },
           ),
         ),

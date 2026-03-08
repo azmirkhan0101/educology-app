@@ -1,6 +1,7 @@
 import 'package:dr_dina_educology/core/utils/api_endpoints.dart';
 import 'package:dr_dina_educology/core/utils/api_response.dart';
 import 'package:dr_dina_educology/data/models/course_overview/course_overview_stat.dart';
+import 'package:dr_dina_educology/data/models/course_overview/student_status_model.dart';
 import 'package:get/get.dart';
 
 import '../../../core/services/api_service.dart';
@@ -8,6 +9,8 @@ import '../../../core/services/api_service.dart';
 class CourseOverviewController extends GetxController {
   final ApiService apiService = Get.find<ApiService>();
   Rxn<CourseOverviewStat> courseOverviewStat = Rxn<CourseOverviewStat>(null);
+  RxList<StudentStatusModel> studentStatusList = <StudentStatusModel>[].obs;
+  RxBool isLoading = false.obs;
 
   late String courseId;
 
@@ -15,11 +18,14 @@ class CourseOverviewController extends GetxController {
   void onInit() {
 
     courseId = Get.arguments;
-    getCourseStat();
 
-    // if( courseOverviewStat.value != null ){
-    //   getCourseStat();
-    // }
+    if( courseOverviewStat.value == null ){
+      getCourseStat();
+    }
+
+    if( studentStatusList.isEmpty ){
+      getStudentStatusList();
+    }
 
     super.onInit();
   }
@@ -37,6 +43,24 @@ class CourseOverviewController extends GetxController {
       if (tempStat != null) {
         courseOverviewStat.value = CourseOverviewStat.fromJson(tempStat);
       }
+    }
+  }
+
+  //GET STUDENT STATUS LIST
+  Future<void> getStudentStatusList() async {
+    isLoading.value = true;
+    ApiResponse response = await apiService.networkRequest(
+        method: "GET",
+        isAuthRequired: true,
+        endPoint: ApiEndpoints.studentStatusList(courseId: courseId)
+    );
+    isLoading.value = false;
+
+    if (response.statusCode == 200) {
+      final tempStats = response.data['data']['studentList'] as List<dynamic>?;
+      studentStatusList.value = tempStats?.map((e){
+        return StudentStatusModel.fromJson(e);
+      }).toList() ?? [];
     }
   }
 }

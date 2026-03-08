@@ -1,5 +1,7 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
+import 'package:dr_dina_educology/data/models/course_overview/student_status_model.dart';
+import 'package:dr_dina_educology/modules/course_details/controllers/participants_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +10,9 @@ import '../../../core/widgets/text_widget.dart';
 import '../widgets/participant_list_item.dart';
 
 class ParticipantScreen extends StatelessWidget {
-  const ParticipantScreen({super.key});
+  ParticipantScreen({super.key});
+
+  final ParticipantsController controller = Get.find<ParticipantsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,72 +34,92 @@ class ParticipantScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            children: [
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          children: [
             Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              textAlign: TextAlign.left,
-              "Teacher",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Divider(),
-          ParticipantListItem(
-            name: "Azmir Khan",
-            phoneNumber: "01909352422",
-            imageUrl: Dummy.profileImageUrl,
-            status: null,
-            showDivider: false,
-          ),
-          SizedBox(height: 6),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              textAlign: TextAlign.left,
-              AppStrings.assistants,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Divider(),
-          ParticipantListItem(
-            name: "Azmir Khan",
-            phoneNumber: "01909352422",
-            imageUrl: Dummy.profileImageUrl,
-            status: null,
-            showDivider: false,
-          ),
-          SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Student( 38 Students )',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ],
+              alignment: Alignment.topLeft,
+              child: Text(
+                textAlign: TextAlign.left,
+                "Teacher",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              const Divider().paddingZero,
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: ListView.separated(
-                    itemCount: 10,
-                    separatorBuilder: (context, index) => const Divider(height: 1),
+            ),
+            Divider(),
+            //============================TEACHER========================
+            Obx(() {
+              return ParticipantListItem(
+                name: controller.teacherModel.value?.fullName ?? "",
+                phoneNumber: controller.teacherModel.value?.contact ?? "",
+                imageUrl: controller.teacherModel.value?.image ?? "",
+                studentStatus: null,
+                showDivider: false,
+              );
+            }),
+            SizedBox(height: 6),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                textAlign: TextAlign.left,
+                AppStrings.assistants,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Divider(),
+            //============================ASSISTANT========================
+            Obx(() {
+              return ParticipantListItem(
+                name: controller.assistantModel.value?.fullName ?? "",
+                phoneNumber: controller.assistantModel.value?.contact ?? "",
+                imageUrl: controller.assistantModel.value?.image ?? "",
+                studentStatus: null,
+                showDivider: false,
+              );
+            }),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Obx(() {
+                  return Text(
+                    'Student( ${controller.studentStatusList.value.length} Students )',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  );
+                }),
+              ],
+            ),
+            const Divider().paddingZero,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Obx(() {
+                  if (controller.isLoading.value) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (controller.studentStatusList.isEmpty) {
+                    return Center(child: Text("No Data Found"));
+                  }
+                  return ListView.separated(
+                    itemCount: controller.studentStatusList.length,
+                    separatorBuilder: (context, index) =>
+                        const Divider(height: 1),
                     itemBuilder: (context, index) {
+                      final StudentStatusModel model =
+                          controller.studentStatusList[index];
+
                       return ParticipantListItem(
-                        name: "Azmir Khan",
-                        phoneNumber: "01909352422",
-                        imageUrl: Dummy.profileImageUrl,
-                        status: StudentStatus.critical,
+                        name: model.fullName,
+                        phoneNumber: model.contact,
+                        imageUrl: model.image,
+                        studentStatus: model.status,
                       );
                     },
-                  ),
-                ),
+                  );
+                }),
               ),
-      ]
-      )
+            ),
+          ],
+        ),
       ),
     );
   }

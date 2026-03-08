@@ -65,6 +65,7 @@ class Dummy{
 }
 
 //STUDENT STATUS - ON TRACK, ATTENTION, BEHIND, CRITICAL
+//on track', 'behind', 'attention', 'critical'
 enum StudentStatus { onTrack, attention, behind, critical }
 
 extension StatusColorExtension on StudentStatus {
@@ -114,10 +115,20 @@ extension StatusColorExtension on StudentStatus {
     }
   }
 
+  String get label3 {
+    switch (this) {
+      case StudentStatus.onTrack: return "on track";
+      case StudentStatus.attention: return "attention";
+      case StudentStatus.behind: return "behind";
+      case StudentStatus.critical: return "critical";
+    }
+  }
+
 }
 
 //ATTENDANCE STATUS - ON TIME, LATE, ABSENT
-enum AttendanceStatus{ onTime, absent, late }
+//['absent', 'late', 'on time' 'Not Marked']
+enum AttendanceStatus{ onTime, absent, late, notMarked}
 
 extension AttendanceStatusColorExtension on AttendanceStatus {
 
@@ -126,6 +137,16 @@ extension AttendanceStatusColorExtension on AttendanceStatus {
       case AttendanceStatus.onTime: return "On Time";
       case AttendanceStatus.late: return "Late";
       case AttendanceStatus.absent: return "Absent";
+      case AttendanceStatus.notMarked: return "Not Marked";
+    }
+  }
+
+  String get label2 {
+    switch (this) {
+      case AttendanceStatus.onTime: return "on time";
+      case AttendanceStatus.late: return "late";
+      case AttendanceStatus.absent: return "absent";
+      case AttendanceStatus.notMarked: return "Not Marked";
     }
   }
 
@@ -134,6 +155,7 @@ extension AttendanceStatusColorExtension on AttendanceStatus {
       case AttendanceStatus.onTime: return Colors.green;
       case AttendanceStatus.late: return Colors.orange;
       case AttendanceStatus.absent: return Colors.red;
+      case AttendanceStatus.notMarked: return Colors.yellow.shade700;
     }
   }
 }

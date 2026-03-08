@@ -38,6 +38,15 @@ class ApiEndpoints {
   static String courseOverviewStats({required String courseId}){
     return "/report/course-overview/$courseId";
   }
+  static String studentStatusList({required String courseId}){
+    return "/report/student-list/$courseId";
+  }
+  static String singleStudentProgress({required String courseId, required String studentId}){
+    return "/report/view-progress/$courseId/$studentId";
+  }
+  static String singleStudentAttendance({required String courseId, required String studentId}){
+    return "/report/student-attendance/$courseId/$studentId";
+  }
   static const uploadExam = "/uploadExam";
 
   //=======================PROFILE================================

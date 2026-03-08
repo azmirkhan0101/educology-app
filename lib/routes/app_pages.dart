@@ -10,6 +10,9 @@ import 'package:dr_dina_educology/modules/content_details/bindings/content_detai
 import 'package:dr_dina_educology/modules/course_details/bindings/course_details_binding.dart';
 import 'package:dr_dina_educology/modules/content_details/screens/announcement_details_screen.dart';
 import 'package:dr_dina_educology/modules/content_details/screens/content_details_screen.dart';
+import 'package:dr_dina_educology/modules/course_details/bindings/participants_binding.dart';
+import 'package:dr_dina_educology/modules/course_details/bindings/single_attendance_binding.dart';
+import 'package:dr_dina_educology/modules/course_details/bindings/student_progress_binding.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/course_details_screen.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/participant_screen.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/single_attendance_screen.dart';
@@ -45,7 +48,7 @@ import 'package:dr_dina_educology/modules/course_details/screens/student_progres
 import 'package:dr_dina_educology/modules/teacher/screens/provide_mark_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/students_report_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/take_attendance_screen.dart';
-import 'package:dr_dina_educology/modules/teacher/screens/view_all_exams_screen.dart';
+import 'package:dr_dina_educology/modules/course_details/screens/view_all_marks_screen.dart';
 import 'package:get/get.dart';
 
 import '../modules/onboarding/screens/splash_screen.dart';
@@ -210,21 +213,21 @@ class AppPages {
       page: (){
         return StudentProgressScreen();
       },
-      //binding: HomeBinding()
+      binding: StudentProgressBinding()
     ),
     GetPage(
       name: AppRoutes.participants,
       page: (){
         return ParticipantScreen();
       },
-      //binding: HomeBinding()
+      binding: ParticipantsBinding()
     ),
     GetPage(
       name: AppRoutes.singleAttendance,
       page: (){
         return SingleAttendanceScreen();
       },
-      //binding: HomeBinding()
+      binding: SingleAttendanceBinding()
     ),
     GetPage(
       name: AppRoutes.addContent,
@@ -236,7 +239,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.viewAllExams,
       page: (){
-        return ViewAllExamsScreen();
+        return ViewAllMarksScreen();
       },
       //binding: HomeBinding()
     ),
