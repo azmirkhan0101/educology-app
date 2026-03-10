@@ -178,7 +178,9 @@ class StudentProgressScreen extends StatelessWidget {
             prefixIcon: Icons.calendar_today_outlined,
             prefixIconSize: 16,
             onPressed: (){
-              Get.toNamed(AppRoutes.singleAttendance, arguments: {
+              Get.toNamed(
+                  AppRoutes.singleAttendance,
+                  arguments: {
                 "courseId": controller.courseId,
                 "studentId": controller.studentId
               });
@@ -188,7 +190,7 @@ class StudentProgressScreen extends StatelessWidget {
         Expanded(
           child: ButtonWidget(
             padding: EdgeInsets.all(0),
-            label: AppStrings.viewExams,
+            label: "View Marks",
             fontSize: 14,
             buttonHeight: 45,
             backgroundColor: AppColors.white,
@@ -199,7 +201,10 @@ class StudentProgressScreen extends StatelessWidget {
             prefixIcon: Icons.people_outline,
             prefixIconSize: 16,
             onPressed: (){
-              Get.toNamed(AppRoutes.viewAllExams);
+              Get.toNamed(AppRoutes.viewAllMarks, arguments: {
+                "courseId": controller.courseId,
+                "studentId": controller.studentId
+              });
             },
           ),
         ),

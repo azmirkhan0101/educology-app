@@ -25,7 +25,7 @@ class AppRoutes {
   static const String studentProgress = '/student_progress';
   static const String singleAttendance = '/single_attendance';
 
-  static const String viewAllExams = '/view_all_exams';
+  static const String viewAllMarks = '/view_all_marks';
   static const String studentsReport = '/students_report';
 
   static const String addContent = '/addContent';

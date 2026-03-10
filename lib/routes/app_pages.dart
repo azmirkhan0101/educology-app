@@ -51,6 +51,7 @@ import 'package:dr_dina_educology/modules/teacher/screens/take_attendance_screen
 import 'package:dr_dina_educology/modules/course_details/screens/view_all_marks_screen.dart';
 import 'package:get/get.dart';
 
+import '../modules/course_details/bindings/view_marks_binding.dart';
 import '../modules/onboarding/screens/splash_screen.dart';
 
 part 'app_routes.dart';
@@ -237,11 +238,11 @@ class AppPages {
       binding: TeacherBinding()
     ),
     GetPage(
-      name: AppRoutes.viewAllExams,
+      name: AppRoutes.viewAllMarks,
       page: (){
         return ViewAllMarksScreen();
       },
-      //binding: HomeBinding()
+      binding: ViewMarksBinding()
     ),
     GetPage(
       name: AppRoutes.studentsReport,

@@ -47,6 +47,9 @@ class ApiEndpoints {
   static String singleStudentAttendance({required String courseId, required String studentId}){
     return "/report/student-attendance/$courseId/$studentId";
   }
+  static String singleStudentAllMarks({required String courseId, required String studentId}){
+    return "/report/student-marks/$courseId/$studentId";
+  }
   static const uploadExam = "/uploadExam";
 
   //=======================PROFILE================================

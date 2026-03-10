@@ -1,11 +1,15 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
+import 'package:dr_dina_educology/modules/course_details/controllers/view_marks_controller.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/view_exam_item_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ViewAllMarksScreen extends StatelessWidget {
-  const ViewAllMarksScreen({super.key});
+  ViewAllMarksScreen({super.key});
+
+  final ViewMarksController controller = Get.find<ViewMarksController>();
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,7 @@ class ViewAllMarksScreen extends StatelessWidget {
       appBar: AppBar(
         forceMaterialTransparency: true,
         centerTitle: true,
-        title: Text(AppStrings.viewAllExams, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),),
+        title: Text("View All Marks", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),),
       ),
       body: Padding(padding: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
