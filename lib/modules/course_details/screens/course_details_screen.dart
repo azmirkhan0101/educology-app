@@ -18,14 +18,13 @@ import '../../../core/assets_gen/assets.gen.dart';
 import '../../../core/utils/extensions.dart';
 
 class CourseDetailsScreen extends StatelessWidget {
-
   final CourseDetailsController controller =
       Get.find<CourseDetailsController>();
 
   @override
   Widget build(BuildContext context) {
-
-    bool isStaff = controller.role == Role.teacher || controller.role == Role.assistant;
+    bool isStaff =
+        controller.role == Role.teacher || controller.role == Role.assistant;
     bool isStudent = controller.role == Role.student;
 
     return Scaffold(
@@ -50,50 +49,55 @@ class CourseDetailsScreen extends StatelessWidget {
         child: Column(
           children: [
             courseTitle(
-                isStaff: isStaff,
+              isStaff: isStaff,
               courseName: controller.courseName,
               subject: controller.subject,
-              status: controller.status
+              status: controller.status,
             ),
             SizedBox(height: 4),
-            if( isStaff )
-            Obx((){
-              return stats(
+            if (isStaff)
+              Obx(() {
+                return stats(
                   attendance: controller.courseStat.value?.attendanceRate ?? 0,
                   homework: controller.courseStat.value?.homeworkRate ?? 0,
                   avgGrade: controller.courseStat.value?.avgGrade ?? 0,
-                  overdue: controller.courseStat.value?.overdueRate ?? 0
-              );
-            }),
-            if( isStaff )
-            SizedBox(height: 10),
-            if( isStaff )
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: ButtonWidget(
-                label: AppStrings.generateReport,
-                buttonHeight: 45,
-                gradient: AppColors.primaryButtonGradient,
-                onPressed: (){
-                  Get.toNamed(AppRoutes.studentsReport, arguments: controller.courseId);
-                },
+                  overdue: controller.courseStat.value?.overdueRate ?? 0,
+                );
+              }),
+            if (isStaff) SizedBox(height: 10),
+            if (isStaff)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: ButtonWidget(
+                  label: AppStrings.generateReport,
+                  buttonHeight: 45,
+                  gradient: AppColors.primaryButtonGradient,
+                  onPressed: () {
+                    Get.toNamed(
+                      AppRoutes.studentsReport,
+                      arguments: controller.courseId,
+                    );
+                  },
+                ),
               ),
-            ),
             SizedBox(height: 10),
-            if( isStaff )
-            overviewParticipantButtons(),
-            if( isStudent )
-              myProgressParticipantButtons(),
+            if (isStaff) overviewParticipantButtons(),
+            if (isStudent) myProgressParticipantButtons(),
             Expanded(
-                child: tabBar(isTeacher: isStaff, isStudent: isStudent)
-            )
+              child: tabBar(isTeacher: isStaff, isStudent: isStudent),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Row courseTitle({required bool isStaff, required String subject, required String courseName, required String status}) {
+  Row courseTitle({
+    required bool isStaff,
+    required String subject,
+    required String courseName,
+    required String status,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,8 +122,8 @@ class CourseDetailsScreen extends StatelessWidget {
                 style: const TextStyle(fontSize: 14, color: Colors.grey),
               ),
               const SizedBox(height: 4),
-              if ( isStaff )
-                Obx((){
+              if (isStaff)
+                Obx(() {
                   return Text(
                     'Total Enrolled Student: ${controller.courseStat.value?.totalEnrolled ?? 0}',
                     style: const TextStyle(
@@ -152,7 +156,12 @@ class CourseDetailsScreen extends StatelessWidget {
   }
 
   //STATS FOR TEACHER AND ASSISTANT
-  Column stats({required double attendance, required double homework, required double avgGrade, required double overdue}) {
+  Column stats({
+    required double attendance,
+    required double homework,
+    required double avgGrade,
+    required double overdue,
+  }) {
     return Column(
       spacing: 5,
       children: [
@@ -212,8 +221,11 @@ class CourseDetailsScreen extends StatelessWidget {
             backgroundColor: AppColors.secondaryDarkBlue,
             prefixIcon: Icons.calendar_today_outlined,
             prefixIconSize: 16,
-            onPressed: (){
-              Get.toNamed(AppRoutes.courseOverview, arguments: controller.courseId);
+            onPressed: () {
+              Get.toNamed(
+                AppRoutes.courseOverview,
+                arguments: controller.courseId,
+              );
             },
           ),
         ),
@@ -230,8 +242,11 @@ class CourseDetailsScreen extends StatelessWidget {
             prefixIconColor: AppColors.secondaryDarkBlue,
             prefixIcon: Icons.people_outline,
             prefixIconSize: 16,
-            onPressed: (){
-              Get.toNamed(AppRoutes.participants, arguments: controller.courseId);
+            onPressed: () {
+              Get.toNamed(
+                AppRoutes.participants,
+                arguments: controller.courseId,
+              );
             },
           ),
         ),
@@ -253,7 +268,7 @@ class CourseDetailsScreen extends StatelessWidget {
             backgroundColor: AppColors.secondaryDarkBlue,
             prefixIcon: Icons.calendar_today_outlined,
             prefixIconSize: 16,
-            onPressed: (){
+            onPressed: () {
               Get.toNamed(AppRoutes.studentProgress);
             },
           ),
@@ -271,7 +286,7 @@ class CourseDetailsScreen extends StatelessWidget {
             prefixIconColor: AppColors.secondaryDarkBlue,
             prefixIcon: Icons.people_outline,
             prefixIconSize: 16,
-            onPressed: (){
+            onPressed: () {
               Get.toNamed(AppRoutes.participants);
             },
           ),
@@ -308,10 +323,48 @@ class CourseDetailsScreen extends StatelessWidget {
           child: TabBarView(
             controller: controller.tabController,
             children: [
-              ClassesTab(showAddButton: isTeacher,),
-              HomeworkTab(showAddButton: isTeacher, isStudent: isStudent,),
-              ExamTab(showAddButton: isTeacher, isStudent: isStudent,),
-              AnnounceTab(showAddButton: isTeacher,)
+              Obx(() {
+                return ClassesTab(
+                  showAddButton: isTeacher,
+                  isLoading: controller.isClassesLoading.value,
+                  classes: controller.classes.value,
+                  onRefresh: () {
+                    controller.getClasses();
+                  },
+                );
+              }),
+              Obx(() {
+                return HomeworkTab(
+                  showAddButton: isTeacher,
+                  isStudent: isStudent,
+                  isLoading: controller.isHomeworkLoading.value,
+                  homeworks: controller.homeworks.value,
+                  onRefresh: () {
+                    controller.getHomeworks();
+                  },
+                );
+              }),
+              Obx(() {
+                return ExamTab(
+                  showAddButton: isTeacher,
+                  isStudent: isStudent,
+                  isLoading: controller.isExamLoading.value,
+                  exams: controller.exams.value,
+                  onRefresh: () {
+                    controller.getExams();
+                  },
+                );
+              }),
+              Obx(() {
+                return AnnounceTab(
+                  showAddButton: isTeacher,
+                  isLoading: controller.isAnnouncementLoading.value,
+                  announcements: controller.announcements.value,
+                  onRefresh: () {
+                    controller.getAnnouncements();
+                  },
+                );
+              }),
             ],
           ),
         ),

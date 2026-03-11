@@ -2,12 +2,13 @@ import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class ClassItemWidget extends StatelessWidget {
   final String title;
   final String liveTime;
   final String instructorName;
-  final String postDate;
+  final DateTime postDate;
   final String instructorImageUrl;
   final int commentCount;
   final VoidCallback? onClick;
@@ -84,7 +85,7 @@ class ClassItemWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        postDate,
+                        DateFormat("dd MMM yyyy | hh:mm a").format(postDate.toLocal()),
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey[600],

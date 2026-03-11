@@ -201,7 +201,9 @@ class StudentProgressScreen extends StatelessWidget {
             prefixIcon: Icons.people_outline,
             prefixIconSize: 16,
             onPressed: (){
-              Get.toNamed(AppRoutes.viewAllMarks, arguments: {
+              Get.toNamed(
+                  AppRoutes.viewAllMarks,
+                  arguments: {
                 "courseId": controller.courseId,
                 "studentId": controller.studentId
               });

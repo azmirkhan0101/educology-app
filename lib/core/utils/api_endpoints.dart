@@ -50,6 +50,18 @@ class ApiEndpoints {
   static String singleStudentAllMarks({required String courseId, required String studentId}){
     return "/report/student-marks/$courseId/$studentId";
   }
+  static String getClasses({required String courseId}){
+    return "/class/$courseId";
+  }
+  static String getHomeworks({required String courseId}){
+    return "/task/$courseId/?type=homework";
+  }
+  static String getExams({required String courseId}){
+    return "/task/$courseId/?type=exam";
+  }
+  static String getAnnouncements({required String courseId}){
+    return "/announcements/course/$courseId";
+  }
   static const uploadExam = "/uploadExam";
 
   //=======================PROFILE================================

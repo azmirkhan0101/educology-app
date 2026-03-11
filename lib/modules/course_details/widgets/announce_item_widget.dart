@@ -1,13 +1,14 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 import '../../../core/widgets/cached_image_widget.dart';
 
 class AnnounceItemWidget extends StatelessWidget {
   final String userName;
   final String profileImageUrl;
-  final String dateTime;
+  final DateTime createdAt;
   final String message;
   final int commentCount;
   final VoidCallback? onClick;
@@ -16,7 +17,7 @@ class AnnounceItemWidget extends StatelessWidget {
     super.key,
     required this.userName,
     required this.profileImageUrl,
-    required this.dateTime,
+    required this.createdAt,
     required this.message,
     required this.commentCount,
     this.onClick
@@ -60,7 +61,7 @@ class AnnounceItemWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '$dateTime',
+                        DateFormat("dd MMM yyyy | hh:mm a").format(createdAt),
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey[600],

@@ -5,16 +5,15 @@ import 'package:get/get.dart';
 
 import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
+import '../../../data/models/marks/marks_model.dart';
 
 class ViewMarksController extends GetxController{
 
   final ApiService apiService = Get.find<ApiService>();
-  Rxn<StaffModel> studentModel = Rxn<StaffModel>(null);
-  Rxn<StaffModel> parentModel = Rxn<StaffModel>(null);
-  Rxn<StudentProgressModel> studentProgress = Rxn<StudentProgressModel>(null);
-  RxString alertMessage = "".obs;
   late String courseId;
   late String studentId;
+  RxList<MarksModel> marksList = <MarksModel>[].obs;
+  RxBool isLoading = false.obs;
 
   @override
   void onInit() {
@@ -22,7 +21,7 @@ class ViewMarksController extends GetxController{
     courseId = Get.arguments['courseId'];
     studentId = Get.arguments['studentId'];
 
-    if( studentProgress.value == null ){
+    if( marksList.isEmpty ){
       getAllMarks();
     }
 
@@ -30,17 +29,16 @@ class ViewMarksController extends GetxController{
   }
 
   Future<void> getAllMarks() async{
+    isLoading.value = true;
     ApiResponse response = await apiService.networkRequest(
       method: "GET",
       isAuthRequired: true,
       endPoint: ApiEndpoints.singleStudentAllMarks(courseId: courseId, studentId: studentId)
     );
+    isLoading.value = false;
 
     if( response.statusCode == 200 ){
-      studentModel.value = StaffModel.fromJson(response.data['data']['studentInfo']);
-      parentModel.value = StaffModel.fromJson(response.data['data']['parentInfo']);
-      studentProgress.value = StudentProgressModel.fromJson(response.data['data']['academicStats']);
-      alertMessage.value = response.data?['data']['alertMessage'] as String? ?? "";
+      marksList.value = (response.data['data'] as List<dynamic>?)?.map((e) => MarksModel.fromJson(e)).toList() ?? [];
     }
 
   }

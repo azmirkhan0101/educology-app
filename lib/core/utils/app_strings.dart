@@ -5,13 +5,13 @@ class AppStrings {
 
   static const String skip = "Skip";
   static const String everythingYourClassNeeds = "Everything Your Class Needs- In One Place";
-  static const String educologyBrings = "Educology brings your classes, lessons, and homework into one simple app.";
+  static const String educologyBrings = "Educology brings your classes, lessons, and homework_exam into one simple app.";
   static const String stayOrganized = "Stay organized and focus more on learning, not managing tasks.";
   static const String attendClasses = "Attend Classes & Access Lessons";
   static const String classStudentManagement = "Class & Student Management Made Simple";
   static const String manageClasses = "Manage classes, track attendance, and monitor student progress from one dashboard.";
   static const String trackProgress = "Track Progress & Stay Updated";
-  static const String submitHomework = "Submit homework, check attendance, and monitor your learning progress.";
+  static const String submitHomework = "Submit homework_exam, check attendance, and monitor your learning progress.";
   static const String everythingYouNeed = "Everything you need to succeed—clear, simple, and in one place.";
   static const String getStarted = "Get Started";
   static const String welcomeToEducology = "Welcome to educology";

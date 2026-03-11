@@ -185,3 +185,53 @@ extension ContentDetailsTypeExtension on ContentDetailsType {
     }
   }
 }
+
+//Missing,Not Submitted,in time' , "Submitted on time" , "Late submitted
+enum AnswerSubmissionStatus { missing, notSubmitted, inTime, submittedOnTime, lateSubmitted }
+
+extension AnswerSubmissionStatusExtension on AnswerSubmissionStatus {
+  String get label {
+    switch (this) {
+      case AnswerSubmissionStatus.missing:
+        return "Missing";
+      case AnswerSubmissionStatus.notSubmitted:
+        return "Not Submitted";
+      case AnswerSubmissionStatus.inTime:
+        return "In Time";
+      case AnswerSubmissionStatus.submittedOnTime:
+        return "Submitted on Time";
+      case AnswerSubmissionStatus.lateSubmitted:
+        return "Late Submitted";
+    }
+  }
+
+  String get label2 {
+    switch (this) {
+      case AnswerSubmissionStatus.missing:
+        return "Missing";
+      case AnswerSubmissionStatus.notSubmitted:
+        return "Not Submitted";
+      case AnswerSubmissionStatus.inTime:
+        return "in time";
+      case AnswerSubmissionStatus.submittedOnTime:
+        return "Submitted on time";
+      case AnswerSubmissionStatus.lateSubmitted:
+        return "Late submitted";
+    }
+  }
+
+  Color get statusColor {
+    switch (this) {
+      case AnswerSubmissionStatus.missing:
+        return Colors.orange;
+      case AnswerSubmissionStatus.notSubmitted:
+        return Colors.red;
+        case AnswerSubmissionStatus.inTime:
+        return Colors.green;
+      case AnswerSubmissionStatus.submittedOnTime:
+        return Colors.green;
+      case AnswerSubmissionStatus.lateSubmitted:
+        return Colors.yellow.shade700;
+    }
+  }
+}

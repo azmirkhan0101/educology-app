@@ -3,14 +3,15 @@ import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class HomeworkItemWidget extends StatelessWidget {
   final String title;
   final String authorName;
   final String authorImageUrl;
-  final String postDate;
+  final DateTime postDate;
   final String commentCount;
-  final String dueDate;
+  final DateTime dueDate;
   final bool isStudent;
   final VoidCallback? onClick;
 
@@ -89,7 +90,7 @@ class HomeworkItemWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        postDate,
+                        DateFormat("dd MMM yyyy | hh:mm a").format(postDate),
                         style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
                       ),
                     ],
@@ -131,7 +132,7 @@ class HomeworkItemWidget extends StatelessWidget {
                       children: [
                         const TextSpan(text: 'Due Date: '),
                         TextSpan(
-                          text: dueDate,
+                          text: DateFormat("dd MMM yyyy | hh:mm a").format(dueDate),
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 12,
