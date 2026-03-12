@@ -85,7 +85,7 @@ Widget mainBody(BuildContext context){
             authorName: model.teacher.fullName,
             authorImageUrl: model.teacher.image,
             postDate: model.startDate,
-            commentCount: "3",
+            commentCount: model.comments.length,
             dueDate: model.endDate,
             isStudent: isStudent,
             onClick: () {
@@ -93,6 +93,8 @@ Widget mainBody(BuildContext context){
                 AppRoutes.contentDetails,
                 arguments: {
                   "contentDetailsType": ContentDetailsType.homeWork,
+                  "homeworkExamModel": model,
+                  "comments": model.comments
                 },
               );
             },

@@ -6,6 +6,7 @@ import 'package:dr_dina_educology/modules/auth/screens/role_selection.dart';
 import 'package:dr_dina_educology/modules/auth/screens/signin_screen.dart';
 import 'package:dr_dina_educology/modules/auth/screens/signup_screen.dart';
 import 'package:dr_dina_educology/modules/auth/screens/verify_email_screen.dart';
+import 'package:dr_dina_educology/modules/content_details/bindings/announce_details_binding.dart';
 import 'package:dr_dina_educology/modules/content_details/bindings/content_details_binding.dart';
 import 'package:dr_dina_educology/modules/course_details/bindings/course_details_binding.dart';
 import 'package:dr_dina_educology/modules/content_details/screens/announcement_details_screen.dart';
@@ -256,7 +257,7 @@ class AppPages {
       page: (){
         return AnnouncementDetailsScreen();
       },
-      //binding: HomeBinding()
+      binding: AnnounceDetailsBinding()
     ),
     GetPage(
       name: AppRoutes.contentDetails,

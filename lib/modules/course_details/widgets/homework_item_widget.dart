@@ -10,7 +10,7 @@ class HomeworkItemWidget extends StatelessWidget {
   final String authorName;
   final String authorImageUrl;
   final DateTime postDate;
-  final String commentCount;
+  final int commentCount;
   final DateTime dueDate;
   final bool isStudent;
   final VoidCallback? onClick;

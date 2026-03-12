@@ -79,13 +79,17 @@ class ClassesTab extends StatelessWidget {
             title: model.title,
             liveTime: model.time,
             instructorName: model.teacher.fullName,
-            postDate: model.date,
+            postDate: model.endDate,
             instructorImageUrl: model.teacher.image,
-            commentCount: 3,
+            commentCount: model.comments.length,
             onClick: () {
               Get.toNamed(
                 AppRoutes.contentDetails,
-                arguments: {"contentDetailsType": ContentDetailsType.cClass},
+                arguments: {
+                  "contentDetailsType": ContentDetailsType.cClass,
+                  "classModel": model,
+                  "comments": model.comments
+                },
               );
             },
           );

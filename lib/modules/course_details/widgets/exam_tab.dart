@@ -82,6 +82,7 @@ class ExamTab extends StatelessWidget {
       child: ListView.builder(
         itemCount: exams.length,
         itemBuilder: (context, index) {
+
           final HomeworkExamModel model = exams[index];
 
           return HomeworkItemWidget(
@@ -89,13 +90,17 @@ class ExamTab extends StatelessWidget {
             authorName: model.teacher.fullName,
             authorImageUrl: Dummy.profileImageUrl,
             postDate: model.startDate,
-            commentCount: "3",
+            commentCount: model.comments.length,
             dueDate: model.endDate,
             isStudent: isStudent,
             onClick: () {
               Get.toNamed(
                 AppRoutes.contentDetails,
-                arguments: {"contentDetailsType": ContentDetailsType.exam},
+                arguments: {
+                  "contentDetailsType": ContentDetailsType.exam,
+                  "homeworkExamModel": model,
+                  "comments": model.comments
+                },
               );
             },
           );

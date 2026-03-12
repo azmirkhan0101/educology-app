@@ -61,7 +61,7 @@ class AnnounceItemWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        DateFormat("dd MMM yyyy | hh:mm a").format(createdAt),
+                        DateFormat("dd MMM yyyy | hh:mm a").format(createdAt.toLocal()),
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey[600],

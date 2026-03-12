@@ -1,3 +1,4 @@
+import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
@@ -123,7 +124,7 @@ class ViewMarksItemWidget extends StatelessWidget {
               child: Center(
                 child: Text(
                   "Result will be published soon",
-                  style: TextStyle(color: Colors.yellow.shade900, fontSize: 14, fontWeight: FontWeight.w500,),
+                  style: TextStyle(color: AppColors.primaryGold, fontSize: 14, fontWeight: FontWeight.w500,),
                 ),
               ),
             ),

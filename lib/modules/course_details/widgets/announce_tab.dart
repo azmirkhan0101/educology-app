@@ -44,7 +44,9 @@ class AnnounceTab extends StatelessWidget {
                 onPressed: () {
                   Get.toNamed(
                     AppRoutes.addContent,
-                    arguments: {"contentType": AddContentType.announcement},
+                    arguments: {
+                      "contentType": AddContentType.announcement
+                    },
                   );
                 },
               ),
@@ -80,16 +82,17 @@ class AnnounceTab extends StatelessWidget {
       child: ListView.builder(
         itemCount: announcements.length,
         itemBuilder: (context, index) {
+
           final AnnounceModel model = announcements[index];
 
           return AnnounceItemWidget(
             userName: model.teacher.fullName,
             profileImageUrl: model.teacher.image,
             createdAt: model.createdAt,
-            message: model.details,
+            message: model.announce,
             commentCount: model.comments.length,
             onClick: () {
-              Get.toNamed(AppRoutes.announcementDetails);
+              Get.toNamed(AppRoutes.announcementDetails, arguments: model);
             },
           );
         },

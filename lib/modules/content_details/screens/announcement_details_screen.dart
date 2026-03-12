@@ -1,12 +1,21 @@
+import 'package:dr_dina_educology/modules/content_details/controllers/announce_details_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/widgets/button_widget.dart';
+import '../../../core/widgets/cached_image_widget.dart';
+import '../../../core/widgets/showCommentDialog.dart';
+import '../../../data/models/comment/comment_model.dart';
+import '../widgets/comment_tile_widget.dart';
 
 class AnnouncementDetailsScreen extends StatelessWidget {
-  const AnnouncementDetailsScreen({super.key});
+  AnnouncementDetailsScreen({super.key});
+
+  final AnnounceDetailsController controller = Get.find<AnnounceDetailsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +32,11 @@ class AnnouncementDetailsScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Top Announcement Card
+            //=====================Announcement Card======================
             Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
@@ -37,14 +46,14 @@ class AnnouncementDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const _UserHeader(
-                    name: 'Rakibul Hasan',
-                    date: '19 Nov, 2026 | 12:00PM',
-                    imageUrl: 'https://i.pravatar.cc/150?u=rakibul',
+                   UserHeader(
+                    name: controller.announceModel.teacher.fullName,
+                    dateTime: controller.announceModel.createdAt,
+                    imageUrl: controller.announceModel.teacher.image,
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    "Dear Students, \nPlease be informed that the class will be conducted as per the regular schedule. Attendance is mandatory. Kindly be punctual and bring all required materials." * 4,
+                    controller.announceModel.announce,
                     style: const TextStyle(
                       fontSize: 13,
                       height: 1.5,
@@ -55,26 +64,31 @@ class AnnouncementDetailsScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 20),
             const Divider(height: 1),
-
-            // Interaction Bar
+            //=====================COMMENT COUNT | ADD COMMENT=========================
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: const [
+                    children: [
                       Icon(Icons.chat_bubble_outline, size: 20, color: Colors.black54),
                       SizedBox(width: 8),
-                      Text('02', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)),
+                      Text(controller.announceModel.comments.length.toString().padLeft(2, '0'), style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)),
                     ],
                   ),
                   TextButton.icon(
                     onPressed: () {
-                      showCommentDialog();
+                      showCommentDialog(
+                          title: 'Write a comment',
+                          subTitle: 'write your comment here...',
+                          controller: controller.commentController,
+                          onSubmit: (value) {
+                            print("Got the comment: $value");
+                          },
+                      );
                     },
                     icon: const Icon(Icons.add, size: 20, color: Colors.black54),
                     label: const Text('Add Comment', style: TextStyle(color: Colors.black54)),
@@ -83,100 +97,53 @@ class AnnouncementDetailsScreen extends StatelessWidget {
               ),
             ),
 
-            // Bottom List Items
-            const _CommentItem(
-              name: 'Mr. Rahman',
-              date: '19 Nov, 2026 | 12:00PM',
-              message: 'Hi Adam! Have you had the opportunity to view the media files that were sent over?',
-            ),
-            const SizedBox(height: 12),
-            const _CommentItem(
-              name: 'Mr. Rahman',
-              date: '19 Nov, 2026 | 12:00PM',
-              message: 'Hi Adam! Have you had the opportunity to view the media files that were sent over?',
-            ),
+            //============================COMMENTS LIST SECTION========================
+            Expanded(
+              child: ListView.builder(
+                itemCount: controller.comments.length,
+                itemBuilder: (context, index) {
+
+                  final CommentModel comment = controller.comments[index];
+
+                  return CommentTileWidget(
+                      comment: comment
+                  );
+                },
+              ),
+            )
           ],
-        ),
-      ),
-    );
-  }
-
-
-  void showCommentDialog() {
-    Get.dialog(
-      Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        child: Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Write Comment",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 12),
-              // Text Input Field
-              TextField(
-                maxLines: 4,
-                decoration: InputDecoration(
-                  hintText: "write comment here",
-                  hintStyle: const TextStyle(color: AppColors.grey4E),
-                  filled: true,
-                  fillColor: Colors.grey.shade100,
-                  contentPadding: const EdgeInsets.all(16),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(color: Color(0xFFF0F0F0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 24),
-              // Submit Button
-              ButtonWidget(
-                label: AppStrings.submit,
-                gradient: AppColors.primaryButtonGradient,
-              )
-            ],
-          ),
         ),
       ),
     );
   }
 }
 
-/// Custom Widget for User Header (Avatar + Name + Date)
-class _UserHeader extends StatelessWidget {
+class UserHeader extends StatelessWidget {
   final String name;
-  final String date;
+  final DateTime dateTime;
   final String imageUrl;
 
-  const _UserHeader({
+  const UserHeader({
     required this.name,
-    required this.date,
-    required this.imageUrl,
+    required this.dateTime,
+    required this.imageUrl
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CircleAvatar(
-          radius: 18,
-          backgroundImage: NetworkImage(imageUrl),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            height: 35.h,
+            width: 35.w,
+            color: AppColors.greyB2,
+            child: CachedImageWidget(
+                imageUrl: imageUrl,
+                iconSize: 26.r
+            ),
+          ),
         ),
         const SizedBox(width: 10),
         Column(
@@ -191,64 +158,12 @@ class _UserHeader extends StatelessWidget {
               ),
             ),
             Text(
-              date,
+              DateFormat("dd MMM, yyyy | hh:mm a").format(dateTime.toLocal()),
               style: const TextStyle(color: Colors.grey, fontSize: 10),
             ),
           ],
         ),
       ],
-    );
-  }
-}
-
-/// Custom Widget for the Bottom List Items (Comments)
-class _CommentItem extends StatelessWidget {
-  final String name;
-  final String date;
-  final String message;
-
-  const _CommentItem({
-    required this.name,
-    required this.date,
-    required this.message,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8F9F9),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _UserHeader(
-                name: name,
-                date: date,
-                imageUrl: 'https://i.pravatar.cc/150?u=rahman',
-              ),
-              const Icon(Icons.more_vert, color: Colors.black54, size: 20),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.only(left: 2),
-            child: Text(
-              message,
-              style: const TextStyle(
-                fontSize: 13,
-                color: Colors.black54,
-                height: 1.3,
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
