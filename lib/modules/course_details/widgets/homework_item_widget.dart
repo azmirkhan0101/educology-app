@@ -1,29 +1,30 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
+import 'package:dr_dina_educology/data/models/staff/staff_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
-class HomeworkItemWidget extends StatelessWidget {
+class HomeworkExamItemWidget extends StatelessWidget {
   final String title;
-  final String authorName;
-  final String authorImageUrl;
-  final DateTime postDate;
+  final StaffModel staff;
+  final DateTime createdAt;
   final int commentCount;
-  final DateTime dueDate;
+  final DateTime endDate;
+  final String endTime;
   final bool isStudent;
   final VoidCallback? onClick;
 
-  const HomeworkItemWidget({
+  const HomeworkExamItemWidget({
     super.key,
     required this.title,
-    required this.authorName,
-    required this.authorImageUrl,
-    required this.postDate,
+    required this.staff,
+    required this.createdAt,
     required this.commentCount,
     required this.isStudent,
-    required this.dueDate,
+    required this.endDate,
+    required this.endTime,
     this.onClick
   });
 
@@ -74,7 +75,7 @@ class HomeworkItemWidget extends StatelessWidget {
                       height: 35.h,
                       width: 35.w,
                       color: Colors.grey.shade200,
-                      child: CachedImageWidget(imageUrl: authorImageUrl, iconSize: 30),
+                      child: CachedImageWidget(imageUrl: staff.image, iconSize: 30),
                     ),
                   ),
                   const SizedBox(width: 6),
@@ -82,7 +83,7 @@ class HomeworkItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        authorName,
+                        staff.fullName,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -90,7 +91,7 @@ class HomeworkItemWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        DateFormat("dd MMM yyyy | hh:mm a").format(postDate),
+                        DateFormat("dd MMM yyyy | hh:mm a").format(createdAt),
                         style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
                       ),
                     ],
@@ -132,7 +133,7 @@ class HomeworkItemWidget extends StatelessWidget {
                       children: [
                         const TextSpan(text: 'Due Date: '),
                         TextSpan(
-                          text: DateFormat("dd MMM yyyy | hh:mm a").format(dueDate),
+                          text: "${DateFormat("dd MMM yyyy").format(endDate)} | $endTime",
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 12,

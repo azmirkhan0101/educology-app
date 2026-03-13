@@ -1,13 +1,20 @@
+import 'dart:io';
+
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
+import 'package:dr_dina_educology/core/widgets/custom_date_picker.dart';
+import 'package:dr_dina_educology/core/widgets/custom_text_field.dart';
 import 'package:dr_dina_educology/modules/teacher/controllers/add_content_controller.dart';
+import 'package:dr_dina_educology/modules/teacher/widgets/custom_time_picker.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/quill_toolbar.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 import '../../../core/utils/app_constants.dart';
@@ -20,13 +27,11 @@ class AddContentScreen extends StatefulWidget {
 }
 
 class _AddContentScreenState extends State<AddContentScreen> {
+
   final AddContentController controller = Get.find<AddContentController>();
 
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _timeController = TextEditingController();
-  final TextEditingController _zoomLinkController = TextEditingController();
-  final quill.QuillController _controller = quill.QuillController.basic();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final quill.QuillController quillController = quill.QuillController.basic();
 
   @override
   Widget build(BuildContext context) {
@@ -43,92 +48,194 @@ class _AddContentScreenState extends State<AddContentScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Column(
-            children: [
-              if( controller.contentType != AddContentType.announcement )
-              buildLabel(AppStrings.title),
-              if( controller.contentType != AddContentType.announcement )
-              buildTextField( AppStrings.enterClassName, _titleController),
-              const SizedBox(height: 15),
-              if( controller.contentType != AddContentType.announcement )
-              buildLabel(
-                controller.contentType == AddContentType.cClass ?
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                //========================CLASS TITLE=====================
+                if( controller.contentType != AddContentType.announcement )
+                  CustomTextField(
+                    label: AppStrings.title,
+                    validator: (value){
+                      if( value == null || value.isEmpty ){
+                        return "Class name is required";
+                      }
+                      return null;
+                    },
+                    controller: controller.titleController,
+                    hintText: AppStrings.enterClassName
+                  ),
+                const SizedBox(height: 15),
+                //======================START DATE AND TIME========================
+                if( controller.contentType != AddContentType.announcement )
+                  buildLabel(controller.contentType == AddContentType.cClass ?
                   AppStrings.expectedLiveClass
-                    : AppStrings.startDateAndTime
-              ),
-              if( controller.contentType != AddContentType.announcement )
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildDateTimePickerField(
-                      "DD-MM-YYYY",
-                      Icons.calendar_today_outlined,
-                      _dateController,
+                      : AppStrings.startDateAndTime),
+                if( controller.contentType != AddContentType.announcement )
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                          child: CustomDatePicker(
+                              label: null,
+                              validator: (value){
+                                if( value == null ){
+                                  return "Date is required";
+                                }
+                                return null;
+                              },
+                              onDateSelected: (date){
+
+                              },
+                              firstDay: DateTime.now().toLocal(),
+                              lastDay: DateTime(DateTime.now().year + 1, 12),
+                              initialYear: DateTime.now().year,
+                              firstYear: DateTime.now().year,
+                              lastYear: DateTime.now().year + 1
+                          )
+                      ),
+                      Expanded(
+                          child: CustomTimePicker(
+                              label: null,
+                              validator: (time){
+                                if( time == null || time.isEmpty ){
+                                  return "Time is required";
+                                }
+                                return null;
+                              },
+                              onTimeSelected: (timeText){
+                                if( timeText != null ){
+                                  controller.startTimeController.text = timeText;
+                                }
+                              }
+                          )
+                      )
+                    ],
+                  ),
+                //======================DEAD LINE DATE AND TIME====================
+                if( controller.contentType == AddContentType.homeWork || controller.contentType == AddContentType.exam  )
+                  Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            child: CustomDatePicker(
+                                label: "Deadline",
+                                validator: (value){
+                                  if( value == null ){
+                                    return "Date is required";
+                                  }
+                                  return null;
+                                },
+                                onDateSelected: (date){
+
+                                },
+                                firstDay: DateTime.now().toLocal(),
+                                lastDay: DateTime(DateTime.now().year + 1, 12),
+                                initialYear: DateTime.now().year,
+                                firstYear: DateTime.now().year,
+                                lastYear: DateTime.now().year + 1
+                            )
+                        ),
+                        Expanded(
+                            child: CustomTimePicker(
+                                label: "",
+                                validator: (time){
+                                  if( time == null || time.isEmpty ){
+                                    return "Time is required";
+                                  }
+                                  return null;
+                                },
+                                onTimeSelected: (timeText){
+                                  if( timeText != null ){
+                                    controller.deadlineTimeController.text = timeText;
+                                  }
+                                }
+                            )
+                        )
+                      ],
                     ),
                   ),
-                  const SizedBox(width: 15),
-                  Expanded(
-                    child: _buildDateTimePickerField(
-                      "-- : -- AM",
-                      Icons.access_time,
-                      _timeController,
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: _buildDateTimePickerField(
+                //         "DD-MM-YYYY",
+                //         Icons.calendar_today_outlined,
+                //         controller.dateController,
+                //       ),
+                //     ),
+                //     const SizedBox(width: 15),
+                //     Expanded(
+                //       child: _buildDateTimePickerField(
+                //         "-- : -- AM",
+                //         Icons.access_time,
+                //         controller.timeController,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                const SizedBox(height: 15),
+
+                buildLabel(
+                    controller.contentType == AddContentType.cClass ? AppStrings.addClassDetails
+                        : controller.contentType == AddContentType.exam ? AppStrings.addExamDetails
+                        : controller.contentType == AddContentType.homeWork ? AppStrings.addHomeworkDetails
+                        : AppStrings.addAnnouncement
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        child: CustomQuillToolbar(
+                            controller: quillController,
+                        )
                     ),
+                  ],
+                ),
+
+                /// Editor
+                Container(
+                  height: 150.h,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade300),
                   ),
-                ],
-              ),
-              const SizedBox(height: 15),
-
-              buildLabel(
-                  controller.contentType == AddContentType.cClass ? AppStrings.addClassDetails
-                      : controller.contentType == AddContentType.exam ? AppStrings.addExamDetails
-                      : controller.contentType == AddContentType.homeWork ? AppStrings.addHomeworkDetails
-                      : AppStrings.addAnnouncement
-              ),
-              Row(
-                children: [
-                  Expanded(child: CustomQuillToolbar(controller: _controller)),
-                ],
-              ),
-
-              /// Editor
-              Container(
-                height: 150.h,
-                //margin: const EdgeInsets.all(16),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade300),
+                  child: quill.QuillEditor.basic(
+                    controller: quillController,
+                    config: const quill.QuillEditorConfig(),
+                  ),
                 ),
-                child: quill.QuillEditor.basic(
-                  controller: _controller,
-                  config: const quill.QuillEditorConfig(),
+                const SizedBox(height: 15),
+                buildLabel(
+                    controller.contentType == AddContentType.cClass || controller.contentType == AddContentType.announcement ? "Attached Document (Optional)"
+                        : "Attached Question"
                 ),
-              ),
-              const SizedBox(height: 15),
-              buildLabel(
-                  controller.contentType == AddContentType.cClass || controller.contentType == AddContentType.announcement ? "Attached Document (Optional)"
-                      : "Attached Question"
-              ),
-              _buildUploadSection(),
-              const SizedBox(height: 15),
-
-              buildLabel( AppStrings.shareZoomLink ),
-              buildTextField(
-                AppStrings.pasteYourClassLinkHere,
-                _zoomLinkController,
-                maxLines: 3,
-              ),
-              const SizedBox(height: 25),
-              ButtonWidget(
-                onPressed: () {
-
-                },
-                label: AppStrings.upload,
-                gradient: AppColors.primaryButtonGradient,
-                buttonHeight: 50,
-              ),
-              SizedBox(height: 40),
-            ],
+                _buildUploadSection(),
+                const SizedBox(height: 15),
+                CustomTextField(
+                  label: AppStrings.shareZoomLink,
+                  controller: controller.zoomLinkController,
+                  hintText: AppStrings.pasteYourClassLinkHere,
+                ),
+                const SizedBox(height: 25),
+                ButtonWidget(
+                  onPressed: (){
+                    if( _formKey.currentState!.validate() ){
+                      final deltaJson = quillController.document.toDelta().toJson();
+                      final converter = QuillDeltaToHtmlConverter(deltaJson);
+                      final html = converter.convert();
+                      print(html);
+                    }
+                  },
+                  label: AppStrings.upload,
+                  gradient: AppColors.primaryButtonGradient,
+                  buttonHeight: 50
+                ),
+                SizedBox(height: 40),
+              ],
+            ),
           ),
         ),
       ),
@@ -154,63 +261,6 @@ class _AddContentScreenState extends State<AddContentScreen> {
     );
   }
 
-  // Helper widget for standard TextFields
-  Widget buildTextField(
-    String hint,
-    TextEditingController controller, {
-    int maxLines = 1,
-  }) {
-    return TextField(
-      controller: controller,
-      maxLines: maxLines,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
-        filled: true,
-        fillColor: const Color(0xFFF8F9FA),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 12,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade200),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF4A6572)),
-        ),
-      ),
-    );
-  }
-
-  // Helper widget for Date/Time Pickers
-  Widget _buildDateTimePickerField(
-    String hint,
-    IconData icon,
-    TextEditingController controller,
-  ) {
-    return TextField(
-      readOnly: true,
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-        suffixIcon: Icon(icon, size: 18, color: Colors.grey),
-        filled: true,
-        fillColor: const Color(0xFFF8F9FA),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade200),
-        ),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-      onTap: () {
-        // Logic for showDatePicker or showTimePicker goes here
-      },
-    );
-  }
-
   // Helper widget for the Upload section
   Widget _buildUploadSection() {
     return Container(
@@ -232,11 +282,50 @@ class _AddContentScreenState extends State<AddContentScreen> {
               buttonHeight: 40,
               padding: EdgeInsets.symmetric(horizontal: 22, vertical: 0),
               backgroundColor: AppColors.secondaryDarkBlue,
-              onPressed: () {},
+              onPressed: () {
+                pickPdfFile();
+              },
             ),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> pickPdfFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf']
+    );
+
+    if (result != null && result.files.single.path != null) {
+      String fileName = result.files.single.name;
+      controller.pdfFile = File(result.files.single.path!);
+    }
+  }
+
+  Future<TimeOfDay> pickTime(BuildContext context) async {
+    // Wait for the end of the frame to avoid Navigator locking
+    await Future.delayed(Duration.zero);
+
+    print("Showing picker");
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (picked != null) {
+      // We use 'mounted' check to ensure context is still valid after await
+      if (!context.mounted) return TimeOfDay.now();
+
+      print("Picked: $picked");
+
+      String formattedTime = picked.format(context);
+      return picked;
+      print("Selected: $formattedTime");
+    } else {
+      print("Time is null");
+      return TimeOfDay.now();
+    }
   }
 }

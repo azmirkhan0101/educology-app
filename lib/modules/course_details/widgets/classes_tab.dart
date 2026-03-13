@@ -3,6 +3,7 @@ import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/data/models/class/class_model.dart';
+import 'package:dr_dina_educology/data/models/content_details/content_details_model.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -77,18 +78,17 @@ class ClassesTab extends StatelessWidget {
 
           return ClassItemWidget(
             title: model.title,
-            liveTime: model.time,
-            instructorName: model.teacher.fullName,
-            postDate: model.endDate,
-            instructorImageUrl: model.teacher.image,
+            startDate: model.startDate,
+            startTime: model.startTime,
+            createdAt: model.createdAt,
+            staff: model.teacher,
             commentCount: model.comments.length,
             onClick: () {
               Get.toNamed(
                 AppRoutes.contentDetails,
                 arguments: {
                   "contentDetailsType": ContentDetailsType.cClass,
-                  "classModel": model,
-                  "comments": model.comments
+                  "contentDetailsModel": ContentDetailsModel.fromClassModel(model)
                 },
               );
             },

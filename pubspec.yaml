@@ -36,6 +36,10 @@ dependencies:
   intl_phone_field: ^3.2.0
   flutter_html: ^3.0.0
   table_calendar: ^3.2.0
+  flutter_pdfview: ^1.4.4
+  path_provider: ^2.1.5
+  vsc_quill_delta_to_html: ^1.0.5
+  file_picker: ^10.3.10
 
 dev_dependencies:
   flutter_test:

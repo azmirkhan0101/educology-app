@@ -1,27 +1,27 @@
-import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
+import 'package:dr_dina_educology/data/models/staff/staff_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class ClassItemWidget extends StatelessWidget {
   final String title;
-  final String liveTime;
-  final String instructorName;
-  final DateTime postDate;
-  final String instructorImageUrl;
+  final DateTime startDate;
+  final String startTime;
+  final DateTime createdAt;
+  final StaffModel staff;
   final int commentCount;
   final VoidCallback? onClick;
 
   const ClassItemWidget({
      super.key,
     required this.title,
-    required this.liveTime,
-    required this.instructorName,
-    required this.postDate,
-    required this.instructorImageUrl,
+    required this.startDate,
+    required this.startTime,
+    required this.createdAt,
+    required this.staff,
     required this.commentCount,
-    this.onClick
+    this.onClick,
   });
 
   @override
@@ -38,19 +38,17 @@ class ClassItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Lecture Title
               Text(
                 title,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF344E64), // Dark blue-grey
+                  color: Color(0xFF344E64),
                 ),
               ),
               const SizedBox(height: 8),
-              // Live Class Time
               Text(
-                'Live Class starting Time : $liveTime',
+                'Live Class starting Time : ${DateFormat("dd MMM yyyy").format(startDate.toLocal())} | $startTime',
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey[700],
@@ -67,7 +65,7 @@ class ClassItemWidget extends StatelessWidget {
                       width: 35.w,
                       color: Colors.grey.shade200,
                       child: CachedImageWidget(
-                          imageUrl: instructorImageUrl,
+                          imageUrl: staff.image,
                         iconSize: 30,
                       ),
                     ),
@@ -77,15 +75,15 @@ class ClassItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        instructorName,
+                        staff.fullName,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w800,
-                          color: Color(0xFF5A8F7B), // Muted green
+                          color: Color(0xFF5A8F7B),
                         ),
                       ),
                       Text(
-                        DateFormat("dd MMM yyyy | hh:mm a").format(postDate.toLocal()),
+                        DateFormat("dd MMM yyyy | hh:mm a").format(createdAt.toLocal()),
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey[600],

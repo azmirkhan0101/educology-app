@@ -1,0 +1,62 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+class CopyLinkWidget extends StatelessWidget {
+
+  final String classLink;
+
+  const CopyLinkWidget({
+    super.key,
+    required this.classLink
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey[300]!),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                style: const TextStyle(color: Colors.grey, fontSize: 14),
+                children: [
+                  const TextSpan(text: 'Class link: '),
+                  TextSpan(
+                    text: classLink,
+                    style: const TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.w600,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          IconButton(
+            constraints: const BoxConstraints(),
+            padding: EdgeInsets.zero,
+            icon: const Icon(Icons.copy, size: 20, color: Colors.blueGrey),
+            onPressed: () {
+              Clipboard.setData(ClipboardData(text: classLink ));
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Link copied to clipboard!'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

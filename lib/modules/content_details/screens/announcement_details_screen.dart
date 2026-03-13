@@ -1,12 +1,11 @@
 import 'package:dr_dina_educology/modules/content_details/controllers/announce_details_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/app_strings.dart';
-import '../../../core/widgets/button_widget.dart';
 import '../../../core/widgets/cached_image_widget.dart';
 import '../../../core/widgets/showCommentDialog.dart';
 import '../../../data/models/comment/comment_model.dart';
@@ -52,13 +51,17 @@ class AnnouncementDetailsScreen extends StatelessWidget {
                     imageUrl: controller.announceModel.teacher.image,
                   ),
                   const SizedBox(height: 16),
-                  Text(
-                    controller.announceModel.announce,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      height: 1.5,
-                      color: Color(0xFF555555),
-                    ),
+                  Html(
+                    data: controller.announceModel.announce,
+                    style: {
+                      "body": Style(
+                        fontSize: FontSize(14),
+                        lineHeight: const LineHeight(1.6),
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                      ),
+                      "h1": Style(fontSize: FontSize(22)),
+                      "h2": Style(fontSize: FontSize(18)),
+                    },
                   ),
                   const SizedBox(height: 100), // Spacing to match the image layout
                 ],

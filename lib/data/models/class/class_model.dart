@@ -6,8 +6,8 @@ class ClassModel {
   final List<String> documents;
   final String courseId;
   final String title;
-  final DateTime endDate;
-  final String time;
+  final DateTime startDate;
+  final String startTime;
   final String details;
   final String link;
   final StaffModel teacher;
@@ -19,8 +19,8 @@ class ClassModel {
     required this.documents,
     required this.courseId,
     required this.title,
-    required this.endDate,
-    required this.time,
+    required this.startDate,
+    required this.startTime,
     required this.details,
     required this.link,
     required this.teacher,
@@ -30,20 +30,20 @@ class ClassModel {
 
   factory ClassModel.fromJson(Map<String, dynamic> json) {
     return ClassModel(
-      id: json['_id'] as String,
+      id: json['_id'] ?? "",
       documents: json['documents'] != null ?
           (json['documents'] as List?)
               ?.map((item) => item.toString())
               .toList() ??
           [] : [],
-      courseId: json['course'] as String,
-      title: json['title'] as String,
-      endDate: DateTime.parse(json['date'] as String),
-      time: json['time'] as String,
-      details: json['details'] as String,
-      link: json['link'] as String,
+      courseId: json['course'] ?? "",
+      title: json['title'] ?? "",
+      startDate: DateTime.parse(json['date']),
+      startTime: json['time'] ?? "",
+      details: json['details'] ?? "",
+      link: json['link'] ?? "",
       teacher: StaffModel.fromJson(json['createdBy']),
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: DateTime.parse(json['createdAt']),
       comments: json['comments'] != null
           ? (json['comments'] as List<dynamic>?)?.map((e) {
                   return CommentModel.fromJson(e);
@@ -51,21 +51,5 @@ class ClassModel {
                 []
           : [],
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'course': courseId,
-      'title': title,
-      'date': endDate.toIso8601String(),
-      'time': time,
-      'details': details,
-      'link': link,
-      'createdBy': teacher,
-      'createdAt': createdAt.toIso8601String(),
-      'comments': comments,
-      'id': id,
-    };
   }
 }

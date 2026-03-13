@@ -4,6 +4,7 @@ import 'package:dr_dina_educology/core/services/api_service.dart';
 import 'package:dr_dina_educology/core/utils/api_endpoints.dart';
 import 'package:dr_dina_educology/core/utils/api_response.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class AddContentController extends GetxController{
@@ -12,6 +13,14 @@ class AddContentController extends GetxController{
   late Map<String, dynamic> arguments;
   late String appTitle;
   late AddContentType contentType;
+
+  //CONTENTS
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
+  final TextEditingController startTimeController = TextEditingController();
+  final TextEditingController deadlineTimeController = TextEditingController();
+  final TextEditingController zoomLinkController = TextEditingController();
+  File? pdfFile;
 
   @override
   void onInit() {

@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CustomDatePicker extends FormField<DateTime> {
-  final String label;
+  final String? label;
   final Function(DateTime?) onDateSelected;
   final DateTime? initialDate;
   final Color backgroundColor;
@@ -51,7 +51,7 @@ class CustomDatePicker extends FormField<DateTime> {
 
 class _CustomDatePickerView extends StatelessWidget {
   final FormFieldState<DateTime> state;
-  final String label;
+  final String? label;
   final Function(DateTime?) onDateSelected;
   final Color backgroundColor;
   final String dateFormat;
@@ -80,13 +80,15 @@ class _CustomDatePickerView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if( label != null )
         Text(
-          label,
+          label!,
           style: const TextStyle(
             fontWeight: FontWeight.w500,
             color: Colors.black87,
           ),
         ),
+        if( label != null )
         const SizedBox(height: 8),
         Card(
           //Change border color if there is an error

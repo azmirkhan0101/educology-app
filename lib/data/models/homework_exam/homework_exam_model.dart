@@ -14,7 +14,6 @@ class HomeworkExamModel {
   final String details;
   final StaffModel teacher;
   final DateTime createdAt;
-  final DateTime updatedAt;
   final String status;
   final List<String> documents;
   final List<CommentModel> comments;
@@ -31,7 +30,6 @@ class HomeworkExamModel {
     required this.details,
     required this.teacher,
     required this.createdAt,
-    required this.updatedAt,
     required this.status,
     required this.documents,
     required this.comments,
@@ -39,21 +37,20 @@ class HomeworkExamModel {
 
   factory HomeworkExamModel.fromJson(Map<String, dynamic> json) {
     return HomeworkExamModel(
-      id: json['_id'] ?? json['id'],
-      courseId: json['course'],
-      title: json['title'],
-      type: json['type'],
+      id: json['_id'] ?? json['id'] ?? "",
+      courseId: json['course'] ?? "",
+      title: json['title'] ?? "",
+      type: json['type'] ?? "",
       // Parsing simple date strings
       startDate: DateTime.parse(json['startDate']),
-      startTime: json['startTime'],
+      startTime: json['startTime'] ?? "",
       endDate: DateTime.parse(json['endDate']),
-      endTime: json['endTime'],
-      details: json['details'],
+      endTime: json['endTime'] ?? "",
+      details: json['details'] ?? "",
       teacher: StaffModel.fromJson(json['createdBy']),
       // Parsing full ISO 8601 timestamps
       createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
-      status: json['status'],
+      status: json['status'] ?? "",
       documents: json['documents'] != null
           ? (json['documents'] as List<dynamic>?)
                     ?.map((document) => document as String)
@@ -67,24 +64,5 @@ class HomeworkExamModel {
                 []
           : [],
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'course': courseId,
-      'title': title,
-      'type': type,
-      'startDate': startDate.toIso8601String().split('T')[0],
-      'startTime': startTime,
-      'endDate': endDate.toIso8601String().split('T')[0],
-      'endTime': endTime,
-      'details': details,
-      'createdBy': teacher.toJson(),
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
-      'status': status,
-      'comments': comments,
-    };
   }
 }

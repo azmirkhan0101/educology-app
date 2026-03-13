@@ -1,3 +1,4 @@
+import 'package:dr_dina_educology/data/models/content_details/content_details_model.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/homework_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -85,21 +86,20 @@ class ExamTab extends StatelessWidget {
 
           final HomeworkExamModel model = exams[index];
 
-          return HomeworkItemWidget(
+          return HomeworkExamItemWidget(
             title: model.title,
-            authorName: model.teacher.fullName,
-            authorImageUrl: Dummy.profileImageUrl,
-            postDate: model.startDate,
+            staff: model.teacher,
+            createdAt: model.startDate,
             commentCount: model.comments.length,
-            dueDate: model.endDate,
+            endDate: model.endDate,
+            endTime: model.endTime,
             isStudent: isStudent,
             onClick: () {
               Get.toNamed(
                 AppRoutes.contentDetails,
                 arguments: {
                   "contentDetailsType": ContentDetailsType.exam,
-                  "homeworkExamModel": model,
-                  "comments": model.comments
+                  "contentDetailsModel": ContentDetailsModel.fromHomeworkExamModel(model)
                 },
               );
             },

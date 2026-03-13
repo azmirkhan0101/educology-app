@@ -1,3 +1,4 @@
+import 'package:dr_dina_educology/data/models/content_details/content_details_model.dart';
 import 'package:dr_dina_educology/data/models/homework_exam/homework_exam_model.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/homework_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -80,21 +81,20 @@ Widget mainBody(BuildContext context){
 
           final HomeworkExamModel model = homeworks[index];
 
-          return HomeworkItemWidget(
+          return HomeworkExamItemWidget(
             title: model.title,
-            authorName: model.teacher.fullName,
-            authorImageUrl: model.teacher.image,
-            postDate: model.startDate,
+            staff: model.teacher,
+            createdAt: model.startDate,
             commentCount: model.comments.length,
-            dueDate: model.endDate,
+            endDate: model.endDate,
+            endTime: model.endTime,
             isStudent: isStudent,
             onClick: () {
               Get.toNamed(
                 AppRoutes.contentDetails,
                 arguments: {
                   "contentDetailsType": ContentDetailsType.homeWork,
-                  "homeworkExamModel": model,
-                  "comments": model.comments
+                  "contentDetailsModel": ContentDetailsModel.fromHomeworkExamModel(model)
                 },
               );
             },

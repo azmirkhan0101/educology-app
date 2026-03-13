@@ -2,17 +2,17 @@ import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
-import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:dr_dina_educology/modules/content_details/controllers/content_details_controller.dart';
 import 'package:dr_dina_educology/modules/content_details/widgets/comment_tile_widget.dart';
+import 'package:dr_dina_educology/modules/content_details/widgets/copy_link_widget.dart';
+import 'package:dr_dina_educology/modules/content_details/widgets/documents_list.dart';
+import 'package:dr_dina_educology/modules/content_details/widgets/staff_info_widget.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../core/assets_gen/assets.gen.dart';
 import '../../../core/widgets/showCommentDialog.dart';
 import '../../../data/models/comment/comment_model.dart';
 
@@ -54,9 +54,7 @@ class ContentDetailsScreen extends StatelessWidget {
           children: [
             //======================CLASS INFO==========================
             Text(
-              isExam
-                  ? controller.homeworkExamModel.title
-                  : controller.classModel.title,
+              controller.contentDetailsModel.title,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -64,67 +62,37 @@ class ContentDetailsScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            Text(
-              isExam
-                  ? 'Due Date: ${DateFormat("dd MMM yyyy | hh:mm a").format(controller.homeworkExamModel.endDate.toLocal())}'
-                  : 'Live class starting time: ${DateFormat("dd MMM yyyy | hh:mm").format(controller.classModel.endDate.toLocal())}',
-              style: TextStyle(color: Colors.grey, fontSize: 14),
-            ),
+            //=====================EXAM START TIME==========================
+            if (isExam)
+              Text(
+                'Start date: ${DateFormat("dd MMM yyyy").format(controller.contentDetailsModel.startDate.toLocal())} | ${controller.contentDetailsModel.startTime}',
+                style: TextStyle(color: Colors.grey, fontSize: 14),
+              ),
+            //======================EXAM END TIME===========================
+            if (isExam)
+              Text(
+                'Due Date: ${DateFormat("dd MMM yyyy").format(controller.contentDetailsModel.endDate!.toLocal())} | ${controller.contentDetailsModel.endTime}',
+                style: TextStyle(color: Colors.grey, fontSize: 14),
+              ),
+            //====================CLASS START TIME============================
+            if (!isExam)
+              Text(
+                'Live class starting time: ${DateFormat("dd MMM yyyy").format(controller.contentDetailsModel.startDate.toLocal())} | ${controller.contentDetailsModel.startTime}',
+                style: TextStyle(color: Colors.grey, fontSize: 14),
+              ),
+            //======================CLASS LINK==============================
+            if (!isExam)
+              CopyLinkWidget(
+                classLink: controller.contentDetailsModel.classLink!,
+              ),
             const SizedBox(height: 12),
             //==========================TEACHER SECTION====================
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Container(
-                    height: 35.h,
-                    width: 35.w,
-                    color: AppColors.greyB2,
-                    child: CachedImageWidget(
-                      imageUrl: isExam
-                          ? controller.homeworkExamModel.teacher.image
-                          : controller.classModel.teacher.image,
-                      iconSize: 30.r,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        isExam
-                            ? controller.homeworkExamModel.teacher.fullName
-                            : controller.classModel.teacher.fullName,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.secondaryGreen,
-                        ),
-                      ),
-                      Text(
-                        DateFormat("dd MMM yyyy | hh:mm a").format(
-                          isExam
-                              ? controller.homeworkExamModel.endDate.toLocal()
-                              : controller.classModel.endDate.toLocal(),
-                        ),
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-                // Container(
-                //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                //   decoration: BoxDecoration(
-                //     color: Colors.grey.shade200,
-                //     borderRadius: BorderRadius.circular(20),
-                //   ),
-                //   child: const Text('Missing', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                // ),
-              ],
+            StaffInfoWidget(
+                staff: controller.contentDetailsModel.teacher,
+                createdAt: controller.contentDetailsModel.createdAt
             ),
             const SizedBox(height: 20),
-            //==============CHECK ANSWER FOR TEACHER IF EXAM====================
+            //==============CHECK ANSWER FOR TEACHER IF EXAM================
             if (isExam && isTeacher)
               ButtonWidget(
                 label: AppStrings.checkAnswer,
@@ -198,55 +166,24 @@ class ContentDetailsScreen extends StatelessWidget {
               ),
 
             const SizedBox(height: 15),
-            Text(
-              AppStrings.hereInPdfHasYourQuestion,
-              style: TextStyle(color: Colors.grey, height: 1.4),
+            //TODO: SHOW FORMATTED TEXT/ HTML
+            Html(
+              data: controller.contentDetailsModel.details,
+              style: {
+                "body": Style(
+                  fontSize: FontSize(14),
+                  lineHeight: const LineHeight(1.6),
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                ),
+                "h1": Style(fontSize: FontSize(22)),
+                "h2": Style(fontSize: FontSize(18)),
+              },
             ),
             const SizedBox(height: 20),
-            //============================QUESTION PDF SECTION========================
-            if ((controller.classModel?.documents?.isNotEmpty ?? false) ||
-                (controller.homeworkExamModel?.documents?.isNotEmpty ?? false))
-              SizedBox(
-                height: 200,
-                child: ListView.builder(
-                  itemCount:
-                      (controller.classModel?.documents?.length) ??
-                      (controller.homeworkExamModel?.documents?.length),
-                  itemBuilder: (context, index) {
+            //========================QUESTION PDF SECTION========================
+            if (controller.contentDetailsModel.documents.isNotEmpty)
+              DocumentsList(documents: controller.contentDetailsModel.documents),
 
-                    final documents = controller.classModel?.documents ??
-                        controller.homeworkExamModel?.documents;
-                    final String pdfUrl = documents?[index] ?? '';
-
-                    return GestureDetector(
-                      onTap: (){
-                        //TODO: OPEN PDF
-                        //pdfUrl
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 0,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade50,
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: Colors.grey.shade100),
-                        ),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: SvgPicture.asset(Assets.icons.document),
-                          title: const Text(
-                            'exam.pdf',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: const Text('2 MB'),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
             const SizedBox(height: 20),
             const Divider(),
 
@@ -258,7 +195,11 @@ class ContentDetailsScreen extends StatelessWidget {
                   children: [
                     Icon(Icons.comment_outlined, size: 20),
                     SizedBox(width: 5),
-                    Text(controller.comments.length.toString().padLeft(2, "0")),
+                    Text(
+                      controller.contentDetailsModel.comments.length
+                          .toString()
+                          .padLeft(2, "0"),
+                    ),
                   ],
                 ),
                 TextButton.icon(
@@ -284,9 +225,10 @@ class ContentDetailsScreen extends StatelessWidget {
             //============================COMMENTS LIST SECTION========================
             Expanded(
               child: ListView.builder(
-                itemCount: controller.comments.length,
+                itemCount: controller.contentDetailsModel.comments.length,
                 itemBuilder: (context, index) {
-                  final CommentModel comment = controller.comments[index];
+                  final CommentModel comment =
+                      controller.contentDetailsModel.comments[index];
 
                   return CommentTileWidget(comment: comment);
                 },
