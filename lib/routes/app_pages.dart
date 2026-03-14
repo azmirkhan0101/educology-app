@@ -1,4 +1,8 @@
-import 'package:dr_dina_educology/modules/auth/bindings/auth_binding.dart';
+import 'package:dr_dina_educology/modules/auth/bindings/forgot_password_binding.dart';
+import 'package:dr_dina_educology/modules/auth/bindings/otp_verify_binding.dart';
+import 'package:dr_dina_educology/modules/auth/bindings/reset_password_binding.dart';
+import 'package:dr_dina_educology/modules/auth/bindings/signin_binding.dart';
+import 'package:dr_dina_educology/modules/auth/bindings/signup_binding.dart';
 import 'package:dr_dina_educology/modules/auth/screens/account_approval_screen.dart';
 import 'package:dr_dina_educology/modules/auth/screens/forgot_password_screen.dart';
 import 'package:dr_dina_educology/modules/auth/screens/reset_password_screen.dart';
@@ -97,31 +101,35 @@ class AppPages {
         page: (){
           return SignupScreen();
         },
-      binding: AuthBinding()
+      binding: SignupBinding()
     ),
     GetPage(
         name: AppRoutes.signIn,
         page: (){
           return SignInScreen();
-        }
+        },
+      binding: SigninBinding()
     ),
     GetPage(
         name: AppRoutes.forgotPassword,
         page: (){
           return ForgotPasswordScreen();
-        }
+        },
+      binding: ForgotPasswordBinding()
     ),
     GetPage(
         name: AppRoutes.verifyEmail,
         page: (){
           return VerifyEmailScreen();
-        }
+        },
+      binding: OtpVerifyBinding()
     ),
     GetPage(
         name: AppRoutes.resetPassword,
         page: (){
           return ResetPasswordScreen();
-        }
+        },
+      binding: ResetPasswordBinding()
     ),
     GetPage(
         name: AppRoutes.accountApproval,

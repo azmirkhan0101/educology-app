@@ -16,6 +16,7 @@ class ExamTab extends StatelessWidget {
   final bool isLoading;
   final List<HomeworkExamModel> exams;
   final VoidCallback onRefresh;
+  final VoidCallback onAddExam;
 
   const ExamTab({
     super.key,
@@ -24,6 +25,7 @@ class ExamTab extends StatelessWidget {
     required this.isLoading,
     required this.exams,
     required this.onRefresh,
+    required this.onAddExam
   });
 
   @override
@@ -45,10 +47,7 @@ class ExamTab extends StatelessWidget {
                 gradient: AppColors.primaryButtonGradient,
                 buttonHeight: 45,
                 onPressed: () {
-                  Get.toNamed(
-                    AppRoutes.addContent,
-                    arguments: {"contentType": AddContentType.exam},
-                  );
+                  onAddExam();
                 },
               ),
             ),
@@ -89,7 +88,8 @@ class ExamTab extends StatelessWidget {
           return HomeworkExamItemWidget(
             title: model.title,
             staff: model.teacher,
-            createdAt: model.startDate,
+            startDate: model.startDate,
+            startTime: model.startTime,
             commentCount: model.comments.length,
             endDate: model.endDate,
             endTime: model.endTime,

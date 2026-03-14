@@ -14,6 +14,7 @@ class AnnounceTab extends StatelessWidget {
   final bool isLoading;
   final List<AnnounceModel> announcements;
   final VoidCallback onRefresh;
+  final VoidCallback onAddAnnouncement;
 
   const AnnounceTab({
     super.key,
@@ -21,6 +22,7 @@ class AnnounceTab extends StatelessWidget {
     required this.isLoading,
     required this.announcements,
     required this.onRefresh,
+    required this.onAddAnnouncement
   });
 
   @override
@@ -42,12 +44,7 @@ class AnnounceTab extends StatelessWidget {
                 gradient: AppColors.primaryButtonGradient,
                 buttonHeight: 45,
                 onPressed: () {
-                  Get.toNamed(
-                    AppRoutes.addContent,
-                    arguments: {
-                      "contentType": AddContentType.announcement
-                    },
-                  );
+                  onAddAnnouncement();
                 },
               ),
             ),
@@ -89,7 +86,7 @@ class AnnounceTab extends StatelessWidget {
             userName: model.teacher.fullName,
             profileImageUrl: model.teacher.image,
             createdAt: model.createdAt,
-            message: model.announce,
+            htmlString: model.announce,
             commentCount: model.comments.length,
             onClick: () {
               Get.toNamed(AppRoutes.announcementDetails, arguments: model);

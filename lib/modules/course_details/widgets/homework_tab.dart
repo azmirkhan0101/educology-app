@@ -16,6 +16,7 @@ class HomeworkTab extends StatelessWidget {
   final bool isLoading;
   final List<HomeworkExamModel> homeworks;
   final VoidCallback onRefresh;
+  final VoidCallback onAddHomework;
 
   const HomeworkTab({
     super.key,
@@ -24,6 +25,7 @@ class HomeworkTab extends StatelessWidget {
     required this.isLoading,
     required this.homeworks,
     required this.onRefresh,
+    required this.onAddHomework
   });
 
   @override
@@ -45,10 +47,7 @@ class HomeworkTab extends StatelessWidget {
                 gradient: AppColors.primaryButtonGradient,
                 buttonHeight: 45,
                 onPressed: () {
-                  Get.toNamed(
-                    AppRoutes.addContent,
-                    arguments: {"contentType": AddContentType.homeWork},
-                  );
+                  onAddHomework();
                 },
               ),
             ),
@@ -84,7 +83,8 @@ Widget mainBody(BuildContext context){
           return HomeworkExamItemWidget(
             title: model.title,
             staff: model.teacher,
-            createdAt: model.startDate,
+            startDate: model.startDate,
+            startTime: model.startTime,
             commentCount: model.comments.length,
             endDate: model.endDate,
             endTime: model.endTime,

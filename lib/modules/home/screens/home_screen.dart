@@ -92,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 10),
                 Obx(() {
                   if (controller.isMyAssignCoursesLoading.value) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
                   }
                   if (controller.myAssignCourses.isEmpty) {
                     if (controller.role == Role.student) {

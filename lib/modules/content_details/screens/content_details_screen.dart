@@ -166,7 +166,6 @@ class ContentDetailsScreen extends StatelessWidget {
               ),
 
             const SizedBox(height: 15),
-            //TODO: SHOW FORMATTED TEXT/ HTML
             Html(
               data: controller.contentDetailsModel.details,
               style: {
@@ -182,8 +181,11 @@ class ContentDetailsScreen extends StatelessWidget {
             const SizedBox(height: 20),
             //========================QUESTION PDF SECTION========================
             if (controller.contentDetailsModel.documents.isNotEmpty)
-              DocumentsList(documents: controller.contentDetailsModel.documents),
-
+              Obx((){
+                return DocumentsList(
+                  documents: controller.documents.value,
+                );
+              }),
             const SizedBox(height: 20),
             const Divider(),
 
@@ -195,11 +197,13 @@ class ContentDetailsScreen extends StatelessWidget {
                   children: [
                     Icon(Icons.comment_outlined, size: 20),
                     SizedBox(width: 5),
-                    Text(
-                      controller.contentDetailsModel.comments.length
-                          .toString()
-                          .padLeft(2, "0"),
-                    ),
+                    Obx((){
+                      return Text(
+                        controller.comments.value.length
+                            .toString()
+                            .padLeft(2, "0"),
+                      );
+                    })
                   ],
                 ),
                 TextButton.icon(
@@ -209,7 +213,7 @@ class ContentDetailsScreen extends StatelessWidget {
                       subTitle: 'write your comment here...',
                       controller: controller.commentController,
                       onSubmit: (value) {
-                        print("Got the comment: $value");
+                        controller.postComment(comment: value);
                       },
                     );
                   },
@@ -224,15 +228,32 @@ class ContentDetailsScreen extends StatelessWidget {
 
             //============================COMMENTS LIST SECTION========================
             Expanded(
-              child: ListView.builder(
-                itemCount: controller.contentDetailsModel.comments.length,
-                itemBuilder: (context, index) {
-                  final CommentModel comment =
-                      controller.contentDetailsModel.comments[index];
+              child: Obx((){
+                return ListView.builder(
+                  itemCount: controller.comments.value.length,
+                  itemBuilder: (context, index) {
+                    final CommentModel comment =
+                    controller.comments.value[index];
 
-                  return CommentTileWidget(comment: comment);
-                },
-              ),
+                    return CommentTileWidget(
+                      comment: comment,
+                      onReply: () {
+                        showCommentDialog(
+                            title: 'Write a reply',
+                            subTitle: 'write your reply here...',
+                            controller: controller.commentController,
+                            onSubmit: (value) {
+                              controller.postReply(
+                                commentIndex: index,
+                                reply: value,
+                              );
+                            }
+                        );
+                      },
+                    );
+                  },
+                );
+              })
             ),
           ],
         ),

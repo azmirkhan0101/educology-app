@@ -1,6 +1,7 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/widgets/cached_image_widget.dart';
@@ -9,7 +10,7 @@ class AnnounceItemWidget extends StatelessWidget {
   final String userName;
   final String profileImageUrl;
   final DateTime createdAt;
-  final String message;
+  final String htmlString;
   final int commentCount;
   final VoidCallback? onClick;
 
@@ -18,13 +19,17 @@ class AnnounceItemWidget extends StatelessWidget {
     required this.userName,
     required this.profileImageUrl,
     required this.createdAt,
-    required this.message,
+    required this.htmlString,
     required this.commentCount,
     this.onClick
   });
 
   @override
   Widget build(BuildContext context) {
+
+    final document = parse(htmlString);
+    String messageText = parse(document.body?.text).documentElement?.text ?? "";
+
     return GestureDetector(
       onTap: onClick,
       child: Card(
@@ -72,10 +77,8 @@ class AnnounceItemWidget extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 6),
-
-              // Body: The Message
               Text(
-                message,
+                messageText,
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(

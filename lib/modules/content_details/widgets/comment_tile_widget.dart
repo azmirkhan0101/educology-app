@@ -9,13 +9,15 @@ import '../../../core/widgets/showCommentDialog.dart';
 import '../../../data/models/comment/comment_model.dart';
 
 class CommentTileWidget extends StatelessWidget {
+
   final CommentModel comment;
+  final VoidCallback onReply;
   final RxBool isExpanded = false.obs;
-  TextEditingController textEditingController = TextEditingController();
 
   CommentTileWidget({
     super.key,
-    required this.comment
+    required this.comment,
+    required this.onReply
   });
 
   @override
@@ -32,8 +34,8 @@ class CommentTileWidget extends StatelessWidget {
         children: [
           UserCommentWidget(
             comment: comment.comment,
-            userImageUrl: comment.user!.image,
-            userName: comment.user!.fullName,
+            userImageUrl: comment.user?.image ?? "",
+            userName: comment.user?.fullName ?? "",
             dateTime: comment.createdAt
           ),
           Row(
@@ -53,14 +55,7 @@ class CommentTileWidget extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                   ),
                   onPressed: () {
-                    showCommentDialog(
-                        title: 'Write a reply',
-                        subTitle: 'write your reply here...',
-                        controller: textEditingController,
-                        onSubmit: (value) {
-                          print("Got the reply: $value");
-                        }
-                    );
+                    onReply();
                   },
                   child: Text(
                     "Add reply",

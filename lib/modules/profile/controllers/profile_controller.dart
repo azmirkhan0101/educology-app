@@ -102,7 +102,7 @@ class ProfileController extends GetxController{
         endPoint: ApiEndpoints.updateProfile,
         isAuthRequired: true,
         fields: payLoad,
-        fileKey: "image",
+        imageKey: "image",
       image: profileImage.value
     );
     isEditProfileLoading.value = false;

@@ -4,6 +4,7 @@ class CommentModel {
   final String id;
   final StaffModel? user;
   final String comment;
+  final String announcementId;
   final String parentCommentId;
   final String classId;
   final String taskId;
@@ -14,6 +15,7 @@ class CommentModel {
     required this.id,
     this.user,
     required this.comment,
+    required this.announcementId,
     required this.parentCommentId,
     required this.classId,
     required this.taskId,
@@ -26,6 +28,7 @@ class CommentModel {
       id: json['_id'] ?? json['id'] ?? "",
       user: json['user'] != null ? StaffModel.fromJson(json['user']) : null,
       comment: json['comment'] ?? "",
+      announcementId: json['announcementId'] ?? "",
       parentCommentId: json['parentCommentId'] ?? "",
       classId: json['classId'] ?? "",
       taskId: json['taskId'] ?? "",

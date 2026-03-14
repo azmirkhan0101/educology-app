@@ -136,7 +136,7 @@ class SettingsScreen extends StatelessWidget {
                     fontSize: 14,
                     backgroundColor: CupertinoColors.destructiveRed,
                     onPressed: (){
-
+                      controller.deleteAccount();
                     },
                   ),
                 ),

@@ -107,7 +107,7 @@ class SignUpController extends GetxController {
     Map<String, dynamic> signupPayload = {
       "role": role.name,
       "firstName": firstNameController.text.trim(),
-      "lastName": firstNameController.text.trim(),
+      "lastName": lastNameController.text.trim(),
       "email": emailController.text.trim(),
       "password": passwordController.text.trim(),
       "contact": contactNumber,
@@ -118,8 +118,9 @@ class SignUpController extends GetxController {
       isAuthRequired: false,
         endPoint: ApiEndpoints.signup,
         fields: signupPayload,
-        fileKey: "image",
-        method: "POST"
+        imageKey: "image",
+        method: "POST",
+      image: profileImage.value
     );
 
     isSignupLoading.value = false;

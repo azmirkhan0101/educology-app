@@ -131,15 +131,17 @@ class ApiService extends GetxService {
     }
   }
 
-  //MULTIPART REQUEST
+  //===================MULTIPART REQUEST=====================
   Future<ApiResponse> multipartRequest({
     required String method,
     required String endPoint,
     required bool isAuthRequired,
     required Map<String, dynamic> fields,
     File? image,
+    File? pdfFile,
     int timeout = 20,
-    required String fileKey,
+    String? imageKey,
+    String? pdfKey
   }) async {
     var result;
     try {
@@ -165,12 +167,22 @@ class ApiService extends GetxService {
 
           request.files.add(
             await http.MultipartFile.fromPath(
-              fileKey,
+              imageKey!,
               compressedImage.path,
               contentType: http.MediaType(mimeType[0], mimeType[1]),
             ),
           );
         }
+      }
+
+      if (pdfFile != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            pdfKey!,
+            pdfFile.path,
+            contentType: http.MediaType("application", "pdf"),
+          ),
+        );
       }
 
       // Send request
@@ -186,7 +198,7 @@ class ApiService extends GetxService {
               endPoint: endPoint,
               isAuthRequired: isAuthRequired,
               fields: fields,
-              fileKey: fileKey
+              imageKey: imageKey
           );
         } else {
           return ApiResponse(statusCode: 401);

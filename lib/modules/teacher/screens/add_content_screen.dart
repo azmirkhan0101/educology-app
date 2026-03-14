@@ -5,11 +5,13 @@ import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/core/widgets/custom_date_picker.dart';
 import 'package:dr_dina_educology/core/widgets/custom_text_field.dart';
+import 'package:dr_dina_educology/modules/content_details/widgets/document_item_widget.dart';
 import 'package:dr_dina_educology/modules/teacher/controllers/add_content_controller.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/custom_time_picker.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/quill_toolbar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -32,6 +34,7 @@ class _AddContentScreenState extends State<AddContentScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final quill.QuillController quillController = quill.QuillController.basic();
+  RxString pdfFileName = "".obs;
 
   @override
   Widget build(BuildContext context) {
@@ -80,12 +83,14 @@ class _AddContentScreenState extends State<AddContentScreen> {
                               label: null,
                               validator: (value){
                                 if( value == null ){
-                                  return "Date is required";
+                                  return "start date is required";
                                 }
                                 return null;
                               },
                               onDateSelected: (date){
-
+                                if( date != null ){
+                                  controller.startDate = date;
+                                }
                               },
                               firstDay: DateTime.now().toLocal(),
                               lastDay: DateTime(DateTime.now().year + 1, 12),
@@ -129,7 +134,9 @@ class _AddContentScreenState extends State<AddContentScreen> {
                                   return null;
                                 },
                                 onDateSelected: (date){
-
+                                  if( date != null ){
+                                    controller.deadlineDate = date;
+                                  }
                                 },
                                 firstDay: DateTime.now().toLocal(),
                                 lastDay: DateTime(DateTime.now().year + 1, 12),
@@ -157,25 +164,6 @@ class _AddContentScreenState extends State<AddContentScreen> {
                       ],
                     ),
                   ),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: _buildDateTimePickerField(
-                //         "DD-MM-YYYY",
-                //         Icons.calendar_today_outlined,
-                //         controller.dateController,
-                //       ),
-                //     ),
-                //     const SizedBox(width: 15),
-                //     Expanded(
-                //       child: _buildDateTimePickerField(
-                //         "-- : -- AM",
-                //         Icons.access_time,
-                //         controller.timeController,
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 const SizedBox(height: 15),
 
                 buildLabel(
@@ -184,6 +172,7 @@ class _AddContentScreenState extends State<AddContentScreen> {
                         : controller.contentType == AddContentType.homeWork ? AppStrings.addHomeworkDetails
                         : AppStrings.addAnnouncement
                 ),
+                //========================QUILL TOOLBAR=======================
                 Row(
                   children: [
                     Expanded(
@@ -193,8 +182,7 @@ class _AddContentScreenState extends State<AddContentScreen> {
                     ),
                   ],
                 ),
-
-                /// Editor
+                //=======================QUILL EDITOR=========================
                 Container(
                   height: 150.h,
                   padding: const EdgeInsets.all(12),
@@ -212,27 +200,47 @@ class _AddContentScreenState extends State<AddContentScreen> {
                     controller.contentType == AddContentType.cClass || controller.contentType == AddContentType.announcement ? "Attached Document (Optional)"
                         : "Attached Question"
                 ),
-                _buildUploadSection(),
+                uploadPdfSection(),
+                Obx((){
+                  if( pdfFileName.value.isNotEmpty ){
+                    return DocumentItemWidget(pdfUrl: "http://abc/abc.pdf");
+                  }
+                  return SizedBox.shrink();
+                }),
                 const SizedBox(height: 15),
+                if( controller.contentType == AddContentType.cClass || controller.contentType == AddContentType.announcement )
                 CustomTextField(
-                  label: AppStrings.shareZoomLink,
+                  label: controller.contentType == AddContentType.cClass ? AppStrings.shareZoomLink : "Share link(optional)",
                   controller: controller.zoomLinkController,
-                  hintText: AppStrings.pasteYourClassLinkHere,
+                  hintText: controller.contentType == AddContentType.cClass ? AppStrings.pasteYourClassLinkHere : "paste any link here",
                 ),
                 const SizedBox(height: 25),
-                ButtonWidget(
-                  onPressed: (){
-                    if( _formKey.currentState!.validate() ){
-                      final deltaJson = quillController.document.toDelta().toJson();
-                      final converter = QuillDeltaToHtmlConverter(deltaJson);
-                      final html = converter.convert();
-                      print(html);
-                    }
-                  },
-                  label: AppStrings.upload,
-                  gradient: AppColors.primaryButtonGradient,
-                  buttonHeight: 50
-                ),
+                //=======================UPLOAD BUTTON=====================
+                Obx((){
+                  return ButtonWidget(
+                    isLoading: controller.isLoading.value,
+                      onPressed: (){
+                        if( _formKey.currentState!.validate() ){
+                          controller.quillRawText = quillController.document.toPlainText().trim();
+                          final deltaJson = quillController.document.toDelta().toJson();
+                          final converter = QuillDeltaToHtmlConverter(deltaJson);
+                          controller.detailsHtmlString = converter.convert();
+                          if( controller.contentType == AddContentType.cClass ){
+                            controller.uploadClass();
+                          }else if( controller.contentType == AddContentType.exam ){
+                            controller.uploadExam();
+                          }else if( controller.contentType == AddContentType.homeWork ){
+                            controller.uploadHomeWork();
+                          }else{
+                            controller.uploadAnnouncement();
+                          }
+                        }
+                      },
+                      label: AppStrings.upload,
+                      gradient: AppColors.primaryButtonGradient,
+                      buttonHeight: 50
+                  );
+                }),
                 SizedBox(height: 40),
               ],
             ),
@@ -262,7 +270,7 @@ class _AddContentScreenState extends State<AddContentScreen> {
   }
 
   // Helper widget for the Upload section
-  Widget _buildUploadSection() {
+  Widget uploadPdfSection() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -299,13 +307,12 @@ class _AddContentScreenState extends State<AddContentScreen> {
     );
 
     if (result != null && result.files.single.path != null) {
-      String fileName = result.files.single.name;
+      pdfFileName.value = result.files.single.name;
       controller.pdfFile = File(result.files.single.path!);
     }
   }
 
   Future<TimeOfDay> pickTime(BuildContext context) async {
-    // Wait for the end of the frame to avoid Navigator locking
     await Future.delayed(Duration.zero);
 
     print("Showing picker");

@@ -62,7 +62,13 @@ class ApiEndpoints {
   static String getAnnouncements({required String courseId}){
     return "/announcements/course/$courseId";
   }
-  static const uploadExam = "/uploadExam";
+  //==================ADD CONTENTS===================
+  static const uploadClass = "/class/add";
+  static const uploadExamHomeWork = "/task/create";
+  static const uploadAnnouncement = "/announcements/create";
+
+  //=========================STUDENTS============================
+  static const comment = "/announcements/comment";
 
   //=======================PROFILE================================
   //GET PROFILE

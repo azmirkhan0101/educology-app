@@ -9,7 +9,8 @@ import 'package:intl/intl.dart';
 class HomeworkExamItemWidget extends StatelessWidget {
   final String title;
   final StaffModel staff;
-  final DateTime createdAt;
+  final DateTime startDate;
+  final String startTime;
   final int commentCount;
   final DateTime endDate;
   final String endTime;
@@ -20,7 +21,8 @@ class HomeworkExamItemWidget extends StatelessWidget {
     super.key,
     required this.title,
     required this.staff,
-    required this.createdAt,
+    required this.startDate,
+    required this.startTime,
     required this.commentCount,
     required this.isStudent,
     required this.endDate,
@@ -91,7 +93,7 @@ class HomeworkExamItemWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        DateFormat("dd MMM yyyy | hh:mm a").format(createdAt),
+                        "${DateFormat("dd MMM yyyy").format(startDate)} | $startTime",
                         style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
                       ),
                     ],

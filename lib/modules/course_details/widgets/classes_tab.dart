@@ -15,13 +15,15 @@ class ClassesTab extends StatelessWidget {
   final bool isLoading;
   final List<ClassModel> classes;
   final VoidCallback onRefresh;
+  final VoidCallback onAddClass;
 
   const ClassesTab({
     super.key,
     required this.showAddButton,
     required this.isLoading,
     required this.classes,
-    required this.onRefresh
+    required this.onRefresh,
+    required this.onAddClass
   });
 
   @override
@@ -43,10 +45,7 @@ class ClassesTab extends StatelessWidget {
                 gradient: AppColors.primaryButtonGradient,
                 buttonHeight: 45,
                 onPressed: () {
-                  Get.toNamed(
-                    AppRoutes.addContent,
-                    arguments: {"contentType": AddContentType.cClass},
-                  );
+                  onAddClass();
                 },
               ),
             ),

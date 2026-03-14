@@ -331,6 +331,15 @@ class CourseDetailsScreen extends StatelessWidget {
                   onRefresh: () {
                     controller.getClasses();
                   },
+                  onAddClass: () {
+                    Get.toNamed(
+                      AppRoutes.addContent,
+                      arguments: {
+                        "contentType": AddContentType.cClass,
+                        "courseId": controller.courseId
+                      },
+                    );
+                  },
                 );
               }),
               Obx(() {
@@ -341,6 +350,15 @@ class CourseDetailsScreen extends StatelessWidget {
                   homeworks: controller.homeworks.value,
                   onRefresh: () {
                     controller.getHomeworks();
+                  },
+                  onAddHomework: () {
+                    Get.toNamed(
+                      AppRoutes.addContent,
+                      arguments: {
+                        "contentType": AddContentType.homeWork,
+                        "courseId": controller.courseId
+                      },
+                    );
                   },
                 );
               }),
@@ -353,6 +371,15 @@ class CourseDetailsScreen extends StatelessWidget {
                   onRefresh: () {
                     controller.getExams();
                   },
+                  onAddExam: () {
+                    Get.toNamed(
+                      AppRoutes.addContent,
+                      arguments: {
+                        "contentType": AddContentType.exam,
+                        "courseId": controller.courseId
+                      },
+                    );
+                  },
                 );
               }),
               Obx(() {
@@ -362,6 +389,15 @@ class CourseDetailsScreen extends StatelessWidget {
                   announcements: controller.announcements.value,
                   onRefresh: () {
                     controller.getAnnouncements();
+                  },
+                  onAddAnnouncement: () {
+                    Get.toNamed(
+                      AppRoutes.addContent,
+                      arguments: {
+                        "contentType": AddContentType.announcement,
+                        "courseId": controller.courseId
+                      },
+                    );
                   },
                 );
               }),
