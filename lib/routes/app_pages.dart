@@ -41,11 +41,12 @@ import 'package:dr_dina_educology/modules/profile/screens/profile_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/settings_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/support_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/terms_screen.dart';
-import 'package:dr_dina_educology/modules/student/bindings/student_binding.dart';
+import 'package:dr_dina_educology/modules/student/bindings/add_parent_binding.dart';
 import 'package:dr_dina_educology/modules/student/screens/add_parent_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/bindings/course_overview_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/bindings/student_report_binding.dart';
-import 'package:dr_dina_educology/modules/teacher/bindings/teacher_binding.dart';
+import 'package:dr_dina_educology/modules/teacher/bindings/add_content_binding.dart';
+import 'package:dr_dina_educology/modules/teacher/bindings/take_attendance_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/add_content_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/check_answer_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/course_overview_screen.dart';
@@ -244,7 +245,7 @@ class AppPages {
       page: (){
         return AddContentScreen();
       },
-      binding: TeacherBinding()
+      binding: AddContentBinding()
     ),
     GetPage(
       name: AppRoutes.viewAllMarks,
@@ -279,13 +280,14 @@ class AppPages {
         page: (){
           return AddParentScreen();
         },
-        binding: StudentBinding()
+        binding: AddParentBinding()
     ),
     GetPage(
         name: AppRoutes.takeAttendance,
         page: (){
           return TakeAttendanceScreen();
         },
+      binding: TakeAttendanceBinding()
     ),
     GetPage(
       name: AppRoutes.checkAnswer,

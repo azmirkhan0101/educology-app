@@ -33,7 +33,8 @@ class ProfileScreen extends StatelessWidget {
         leading: IconButton(
             onPressed: (){
           Get.back();
-        }, icon: Icon(Icons.arrow_back_sharp)),
+        }, icon: Icon(Icons.arrow_back_sharp)
+        ),
         centerTitle: true,
         title: TextWidget(text: AppStrings.profile,
         fontSize: 18,
@@ -90,17 +91,18 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20,),
+            //========================ADD PARENT TILE IF STUDENT==========================
             if( isStudent )
-            AddParentTile(
-                title: AppStrings.myParent,
-                iconPath: Assets.icons.myParent,
-                parents: [
-                  "Hello"
-                ],
-                onTap: (){
-                  Get.toNamed(AppRoutes.addParent);
-                }
-            ),
+              Obx((){
+                return AddParentTile(
+                    title: AppStrings.myParent,
+                    iconPath: Assets.icons.myParent,
+                    parent: controller.profileModel.value?.parent,
+                    onTap: (){
+                      Get.toNamed(AppRoutes.addParent);
+                    }
+                );
+              }),
             ProfileMenuTile(
                 title: AppStrings.editProfile,
                 iconPath: Assets.icons.editProfile,

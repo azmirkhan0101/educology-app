@@ -4,8 +4,8 @@ class ApiEndpoints {
 
   //=======================BASE====================================
   //BASE URL
-  //static const baseUrl = "https://el-afrik-seven.vercel.app/api/v1";
-  static const baseUrl = "https://lms-orpin-five.vercel.app/api/v1";
+  //static const baseUrl = "https://lms-orpin-five.vercel.app/api/v1";
+  static const baseUrl = "http://10.10.20.34:5001/api/v1";
 
   //=======================AUTH====================================
   //LOGIN/SIGNIN
@@ -62,6 +62,10 @@ class ApiEndpoints {
   static String getAnnouncements({required String courseId}){
     return "/announcements/course/$courseId";
   }
+  static const takeAttendance = "/attendance/mark";
+  static String getAttendanceSheet({required String classId}){
+    return "/attendance/course-attendance/$classId";
+  }
   //==================ADD CONTENTS===================
   static const uploadClass = "/class/add";
   static const uploadExamHomeWork = "/task/create";
@@ -69,6 +73,8 @@ class ApiEndpoints {
 
   //=========================STUDENTS============================
   static const comment = "/announcements/comment";
+  static const getAllParents = "/user/all?role=parent";
+  static const addParent = "/user/assign-parent";
 
   //=======================PROFILE================================
   //GET PROFILE

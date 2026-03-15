@@ -128,7 +128,7 @@ class ContentDetailsScreen extends StatelessWidget {
                   //Get.toNamed(AppRoutes.checkAnswer);
                 },
               ),
-            //===============START CLASS | TAKE ATTENDANCE FOR TEACHER IF CLASS  ================
+            //===============START CLASS | TAKE ATTENDANCE FOR TEACHER IF CLASS================
             if (!isExam && isTeacher)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -141,6 +141,11 @@ class ContentDetailsScreen extends StatelessWidget {
                       gradient: AppColors.primaryButtonGradient,
                       prefixIcon: Icons.timer_outlined,
                       fontSize: 13,
+                      onPressed: (){
+                        if( controller.contentDetailsModel.classLink != null ) {
+                          controller.openLinkInBrowser(classLink: controller.contentDetailsModel.classLink! );
+                        }
+                      },
                     ),
                   ),
                   Expanded(
@@ -158,7 +163,7 @@ class ContentDetailsScreen extends StatelessWidget {
                       borderWidth: 2,
                       iconColor: AppColors.darkGold,
                       onPressed: () {
-                        Get.toNamed(AppRoutes.takeAttendance);
+                        Get.toNamed(AppRoutes.takeAttendance, arguments: controller.contentDetailsModel.id);
                       },
                     ),
                   ),

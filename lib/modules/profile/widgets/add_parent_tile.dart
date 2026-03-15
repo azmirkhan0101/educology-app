@@ -2,6 +2,7 @@ import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
+import 'package:dr_dina_educology/data/models/staff/staff_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,7 +15,7 @@ class AddParentTile extends StatelessWidget {
   final String iconPath;
   final VoidCallback onTap;
   final bool isDelete;
-  final List<String> parents;
+  final StaffModel? parent;
 
   const AddParentTile({
     super.key,
@@ -22,7 +23,7 @@ class AddParentTile extends StatelessWidget {
     required this.iconPath,
     required this.onTap,
     this.isDelete = false,
-    required this.parents
+    required this.parent,
   });
 
   @override
@@ -33,7 +34,8 @@ class AddParentTile extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
         decoration: BoxDecoration(
-          color: isDelete ? AppColors.red10Percent : const Color(0xFFF1FDF8), // Light mint background
+          color: isDelete ? AppColors.red10Percent : const Color(0xFFF1FDF8),
+          // Light mint background
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
@@ -48,21 +50,18 @@ class AddParentTile extends StatelessWidget {
             Row(
               spacing: 8,
               children: [
-                SvgPicture.asset( iconPath ),
-                TextWidget(text: title, textAlignment: TextAlign.left,),
+                SvgPicture.asset(iconPath),
+                TextWidget(text: title, textAlignment: TextAlign.left),
               ],
             ),
             Divider(),
-            if( parents.isNotEmpty )
-            ListView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: parents.length,
-                itemBuilder: (context, index){
-              return Container(
+            if (parent != null )
+              Container(
                 color: Colors.transparent,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
                 child: Row(
                   children: [
                     ClipRRect(
@@ -72,7 +71,7 @@ class AddParentTile extends StatelessWidget {
                         width: 45.w,
                         color: AppColors.greyB2,
                         child: CachedImageWidget(
-                          imageUrl: Dummy.profileImageUrl,
+                          imageUrl: parent!.image,
                           iconSize: 28,
                         ),
                       ),
@@ -82,35 +81,38 @@ class AddParentTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Parent name',
+                          parent!.fullName,
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.black87,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        const Text(
-                          '+8801827347685',
+                        Text(
+                          parent!.contact,
                           style: TextStyle(color: Colors.grey, fontSize: 12),
                         ),
                       ],
                     ),
                   ],
                 ),
-              );
-            }),
+              ),
             Row(
               children: [
-                SizedBox(width: 10,),
-                Icon(Icons.add, color: AppColors.secondaryGreen,),
-                SizedBox(width: 10,),
-                TextWidget(text: AppStrings.addYourParent, textAlignment: TextAlign.left, fontColor: AppColors.secondaryGreen,),
+                SizedBox(width: 10),
+                Icon(Icons.add, color: AppColors.secondaryGreen),
+                SizedBox(width: 10),
+                TextWidget(
+                  text: AppStrings.addYourParent,
+                  textAlignment: TextAlign.left,
+                  fontColor: AppColors.secondaryGreen,
+                ),
                 Spacer(),
                 SvgPicture.asset(Assets.icons.rightTriangle),
               ],
             ),
           ],
-        )
+        ),
       ),
     );
   }

@@ -1,8 +1,10 @@
+import 'package:dr_dina_educology/data/models/staff/staff_model.dart';
+
 import '../../../core/utils/app_constants.dart';
 
 class ProfileModel {
   final String? id;
-  final String? parentId;
+  final StaffModel? parent;
   final String firstName;
   final String lastName;
   final String fullName;
@@ -17,7 +19,7 @@ class ProfileModel {
 
   ProfileModel({
     this.id,
-    this.parentId,
+    this.parent,
     required this.firstName,
     required this.lastName,
     required this.fullName,
@@ -34,7 +36,7 @@ class ProfileModel {
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
       id: json['_id'] as String?,
-      parentId: json['parentId'] as String?,
+        parent: json['parentId'] != null ? StaffModel.fromJson(json['parentId']) : null,
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
       fullName: json['fullName'] ?? '',
@@ -52,7 +54,7 @@ class ProfileModel {
   Map<String, dynamic> toJson() {
     return {
       '_id': id,
-      'parentId': parentId,
+      'parentId': parent?.toJson(),
       'firstName': firstName,
       'lastName': lastName,
       'fullName': fullName,

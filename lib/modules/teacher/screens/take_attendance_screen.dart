@@ -1,12 +1,19 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
+import 'package:dr_dina_educology/modules/teacher/controllers/take_attendance_controller.dart';
+import 'package:dr_dina_educology/modules/teacher/widgets/take_attendance_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../data/models/take_attendance/take_attendance_model.dart';
+
 class TakeAttendanceScreen extends StatelessWidget {
-  const TakeAttendanceScreen({super.key});
+
+  TakeAttendanceScreen({super.key});
+
+  final TakeAttendanceController controller = Get.find<TakeAttendanceController>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,35 +28,80 @@ class TakeAttendanceScreen extends StatelessWidget {
             icon: Icon(Icons.arrow_back, color: Colors.black)),
         title: const Text("Take Attendance", style: TextStyle( fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: (){
+                controller.uploadAttendance();
+              },
+              icon: Obx((){
+                if( controller.isUploading.value ){
+                  return SizedBox(
+                    height: 18,
+                      width: 18,
+                      child: CircularProgressIndicator( color: AppColors.primaryGold, strokeWidth: 2,));
+                }
+                return Icon( Icons.upload, color: Colors.black);
+              })
+          )
+        ],
       ),
       body: Column(
         children: [
-          const Text("Total Students  :  15", style: TextStyle(fontSize: 18, color: Color(0xFF2D5669))),
+          Obx((){
+            return Text("Total Students : ${controller.totalStudents.value}", style: TextStyle(fontSize: 18, color: Color(0xFF2D5669)));
+          }),
           const SizedBox(height: 20),
-          _buildStatsHeader(),
+          Obx((){
+            return _buildStatsHeader(
+                onTime: controller.attendanceStat.value?.onTimeCount ?? 0,
+                late: controller.attendanceStat.value?.lateCount ?? 0,
+                absent: controller.attendanceStat.value?.absentCount ?? 0,
+                onTimePercentage: controller.attendanceStat.value?.onTimePercentage ?? 0,
+                latePercentage: controller.attendanceStat.value?.latePercentage ?? 0,
+                absentPercentage: controller.attendanceStat.value?.absentPercentage ?? 0
+            );
+          }),
           const SizedBox(height: 20),
           _buildTableHeader(),
           Expanded(
-            child: ListView.builder(
-              itemCount: 15,
-              itemBuilder: (context, index) => const StudentTile(),
-            ),
+            child: Obx((){
+              if( controller.isFormLoading.value ){
+                return Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
+              }
+              if( controller.attendanceForm.isEmpty ){
+                return Center(child: Text("No Data Found"));
+              }
+              return ListView.builder(
+                itemCount: controller.attendanceForm.value.length,
+                itemBuilder: (context, index) {
+
+                  final TakeAttendanceModel model = controller.attendanceForm[index];
+                  //TODO: PASS STATUS IN THIS WIDGET
+                  return TakeAttendanceTile(
+                      imageUrl: model.student.image,
+                      name: model.student.fullName,
+                      time: model.time,
+                      phone: model.student.contact
+                  );
+                },
+              );
+            }),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildStatsHeader() {
+  Widget _buildStatsHeader({required int onTime, required int late, required int absent, required double onTimePercentage, required double latePercentage, required double absentPercentage}) {
     return IntrinsicHeight(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _statColumn("12", "70%", Colors.green),
+          _statColumn("Total: $onTime", "$onTimePercentage%", Colors.green),
           const VerticalDivider(thickness: 1, color: Colors.grey, indent: 5, endIndent: 5),
-          _statColumn("Late: 2", "20%", Colors.orange),
+          _statColumn("Late: $late", "$latePercentage%", Colors.orange),
           const VerticalDivider(thickness: 1, color: Colors.grey, indent: 5, endIndent: 5),
-          _statColumn("Absent: 01", "10%", Colors.red),
+          _statColumn("Absent: $absent", "$absentPercentage%", Colors.red),
         ],
       ),
     );
@@ -73,90 +125,6 @@ class TakeAttendanceScreen extends StatelessWidget {
           Expanded(flex: 3, child: Text("Student", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: 14))),
           Expanded(flex: 2, child: Center(child: Text("Join Time", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: 14)))),
           Expanded(flex: 2, child: Center(child: Text("Attendance", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: 14)))),
-        ],
-      ),
-    );
-  }
-}
-
-class StudentTile extends StatefulWidget {
-  const StudentTile({super.key});
-
-  @override
-  State<StudentTile> createState() => _StudentTileState();
-}
-
-class _StudentTileState extends State<StudentTile> {
-  String attendanceStatus = 'Present';
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFF0F0F0)))),
-      child: Row(
-        children: [
-          // Student Info
-           Expanded(
-            flex: 3,
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Container(
-                    height: 28.h,
-                    width: 28.w,
-                    color: AppColors.greyEB,
-                    child: CachedImageWidget(
-                        imageUrl: Dummy.profileImageUrl,
-                      iconSize: 25.r,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Rakibul Hasan", style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xFF5BA381))),
-                    Text("+8801827347685", style: TextStyle(fontSize: 10, color: Colors.grey)),
-                  ],
-                )
-              ],
-            ),
-          ),
-          // Join Time
-          const Expanded(flex: 2, child: Center(child: Text("12:00PM", style: TextStyle(color: Colors.grey)))),
-          // Attendance Dropdown
-          Expanded(
-            flex: 2,
-            child: Center(
-              child: DropdownButton<String>(
-                value: attendanceStatus,
-                underline: const SizedBox(),
-                icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
-                style: TextStyle(
-                  color: attendanceStatus == 'Present' ? Colors.green : (attendanceStatus == 'Late' ? Colors.orange : Colors.red),
-                  fontWeight: FontWeight.w500,
-                ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    attendanceStatus = newValue!;
-                  });
-                },
-                items: <String>['Present', 'Absent', 'Late']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                        value,
-                      style: TextStyle(
-                        color: value == 'Present' ? Colors.green : (value == 'Late' ? Colors.orange : Colors.red),)
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
         ],
       ),
     );

@@ -6,6 +6,7 @@ import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/core/widgets/custom_date_picker.dart';
 import 'package:dr_dina_educology/core/widgets/custom_text_field.dart';
 import 'package:dr_dina_educology/modules/content_details/widgets/document_item_widget.dart';
+import 'package:dr_dina_educology/modules/content_details/widgets/documents_list.dart';
 import 'package:dr_dina_educology/modules/teacher/controllers/add_content_controller.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/custom_time_picker.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/quill_toolbar.dart';
@@ -34,6 +35,7 @@ class _AddContentScreenState extends State<AddContentScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final quill.QuillController quillController = quill.QuillController.basic();
+  //SINGLE PDF FILE NAME FOR ANNOUNCEMENT
   RxString pdfFileName = "".obs;
 
   @override
@@ -196,23 +198,39 @@ class _AddContentScreenState extends State<AddContentScreen> {
                   ),
                 ),
                 const SizedBox(height: 15),
+                //=======================UPLOAD PDF SECTION=====================
                 buildLabel(
                     controller.contentType == AddContentType.cClass || controller.contentType == AddContentType.announcement ? "Attached Document (Optional)"
                         : "Attached Question"
                 ),
                 uploadPdfSection(),
+                SizedBox(height: 10,),
+                //=====================LIST OF PICKED PDF FILES if not announcement======================
+                if( controller.contentType != AddContentType.announcement )
                 Obx((){
-                  if( pdfFileName.value.isNotEmpty ){
-                    return DocumentItemWidget(pdfUrl: "http://abc/abc.pdf");
+                  if( controller.pdfFileNames.isEmpty ){
+                    return SizedBox.shrink();
                   }
-                  return SizedBox.shrink();
+                  return DocumentsList(
+                      documents: controller.pdfFileNames.value
+                  );
                 }),
+                //==================SINGLE PDF FILE IF ANNOUNCEMENT
+                if( controller.contentType == AddContentType.announcement )
+                Obx((){
+                  if( pdfFileName.value.isEmpty ){
+                    return SizedBox.shrink();
+                  }
+                  return DocumentItemWidget(pdfUrl: pdfFileName.value);
+                }
+                ),
                 const SizedBox(height: 15),
-                if( controller.contentType == AddContentType.cClass || controller.contentType == AddContentType.announcement )
+                //=================CLASS LINK========================
+                if( controller.contentType == AddContentType.cClass )
                 CustomTextField(
-                  label: controller.contentType == AddContentType.cClass ? AppStrings.shareZoomLink : "Share link(optional)",
+                  label: AppStrings.shareZoomLink,
                   controller: controller.zoomLinkController,
-                  hintText: controller.contentType == AddContentType.cClass ? AppStrings.pasteYourClassLinkHere : "paste any link here",
+                  hintText: AppStrings.pasteYourClassLinkHere
                 ),
                 const SizedBox(height: 25),
                 //=======================UPLOAD BUTTON=====================
@@ -307,8 +325,15 @@ class _AddContentScreenState extends State<AddContentScreen> {
     );
 
     if (result != null && result.files.single.path != null) {
-      pdfFileName.value = result.files.single.name;
-      controller.pdfFile = File(result.files.single.path!);
+      String fileName = result.files.single.name;
+      //SINGLE FILE IF ANNOUNCEMENT
+      if( controller.contentType == AddContentType.announcement ){
+        pdfFileName.value = fileName;
+        controller.pdfFile = File(result.files.single.path!);
+      }else{//MULTIPLE PDF FILES IF NOT ANNOUNCEMENT
+        controller.pdfFileNames.add(fileName);
+        controller.pdfFiles.add(File(result.files.single.path!));
+      }
     }
   }
 

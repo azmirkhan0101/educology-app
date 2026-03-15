@@ -139,6 +139,7 @@ class ApiService extends GetxService {
     required Map<String, dynamic> fields,
     File? image,
     File? pdfFile,
+    List<File>? multiplePdfFiles,
     int timeout = 20,
     String? imageKey,
     String? pdfKey
@@ -175,6 +176,7 @@ class ApiService extends GetxService {
         }
       }
 
+      //SINGLE PDF FILE
       if (pdfFile != null) {
         request.files.add(
           await http.MultipartFile.fromPath(
@@ -183,6 +185,19 @@ class ApiService extends GetxService {
             contentType: http.MediaType("application", "pdf"),
           ),
         );
+      }
+
+      //MULTIPLE PDF FILE
+      if (multiplePdfFiles != null && multiplePdfFiles.isNotEmpty) {
+        for (var file in multiplePdfFiles) {
+          request.files.add(
+            await http.MultipartFile.fromPath(
+              pdfKey!,
+              file.path,
+              contentType: http.MediaType("application", "pdf"),
+            ),
+          );
+        }
       }
 
       // Send request

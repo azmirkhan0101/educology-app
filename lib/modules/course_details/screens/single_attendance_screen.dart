@@ -1,3 +1,4 @@
+import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/extensions.dart';
 import 'package:dr_dina_educology/data/models/attendance/single_attendance_model.dart';
@@ -34,7 +35,7 @@ class SingleAttendanceScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFF34495E)));
             }),
             const SizedBox(height: 10),
-            // Summary Section
+            //======================Summary Section============================
             IntrinsicHeight(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -66,7 +67,7 @@ class SingleAttendanceScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            // Table Header
+            //=======================Table Header============================
             Container(
               color: const Color(0xFFE8F6F3),
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
@@ -89,7 +90,7 @@ class SingleAttendanceScreen extends StatelessWidget {
             Expanded(
               child: Obx((){
                 if( controller.isLoading.value ){
-                  return Center(child: CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
                 }
                 if( controller.attendanceList.isEmpty ){
                   return Center(child: Text("No Data Found"));

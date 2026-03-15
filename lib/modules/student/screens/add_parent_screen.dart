@@ -3,6 +3,9 @@ import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
+import 'package:dr_dina_educology/data/models/staff/staff_model.dart';
+import 'package:dr_dina_educology/modules/student/controllers/add_parent_controller.dart';
+import 'package:dr_dina_educology/modules/student/widgets/parent_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -10,6 +13,7 @@ import 'package:get/get.dart';
 class AddParentScreen extends StatelessWidget {
   AddParentScreen({super.key});
 
+  final AddParentController controller = Get.find<AddParentController>();
   //Observable variable to track the selected index
   final RxInt selectedIndex = 0.obs;
 
@@ -33,7 +37,7 @@ class AddParentScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Search Bar
+          //========================Search Bar=========================
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: TextField(
@@ -52,7 +56,6 @@ class AddParentScreen extends StatelessWidget {
               ),
             ),
           ),
-
           const Padding(
             padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
             child: Text(
@@ -63,68 +66,58 @@ class AddParentScreen extends StatelessWidget {
 
           const Divider(thickness: 1, height: 1),
 
-          // List of Parents
+          //===================List of Parents========================
           Expanded(
-            child: ListView.separated(
-              itemCount: 9,
-              separatorBuilder: (context, index) => const Divider(height: 1),
-              itemBuilder: (context, index) {
-                return Obx(() {
-                  final isSelected = selectedIndex.value == index;
-                  return InkWell(
-                    onTap: () => selectedIndex.value = index,
-                    child: Container(
-                      color: isSelected ? const Color(0xFFF3FAF6) : Colors.transparent,
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      child: Row(
-                        children: [
-                           ClipRRect(
-                             borderRadius: BorderRadius.circular(100),
-                             child: Container(
-                               height: 45.h,
-                               width: 45.w,
-                               color: AppColors.greyB2,
-                               child: CachedImageWidget(
-                                   imageUrl: "",
-                               iconSize: 28,
-                               ),
-                             ),
-                           ),
-                          const SizedBox(width: 15),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Parent name',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: isSelected ? const Color(0xFF6BA587) : Colors.black87,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const Text(
-                                '+8801827347685',
-                                style: TextStyle(color: Colors.grey, fontSize: 12),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                });
-              },
-            ),
+            child: Obx((){
+              if( controller.isParentsLoading.value ){
+                return const Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
+              }
+              if( controller.parents.isEmpty ){
+                return const Center(child: Text("No Parents Found"));
+              }
+              return ListView.separated(
+                itemCount: controller.parents.length,
+                separatorBuilder: (context, index) => const Divider(height: 1),
+                itemBuilder: (context, index) {
+
+                  final StaffModel staffModel = controller.parents[index];
+
+                  return Obx(() {
+                    final isSelected = selectedIndex.value == index;
+                    return ParentItemWidget(
+                        onPressed: (){
+                          selectedIndex.value = index;
+                          controller.selectedParentId = staffModel.id;
+                        },
+                        isSelected: isSelected,
+                        staffModel: StaffModel(
+                            id: staffModel.id,
+                            fullName: staffModel.fullName,
+                            image: staffModel.image,
+                            email: staffModel.email,
+                            contact: staffModel.contact
+                        )
+                    );
+                  });
+                },
+              );
+            })
           ),
           // Bottom Button
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: ButtonWidget(
+            child: Obx((){
+              return ButtonWidget(
+                isLoading: controller.isUploading.value,
                 label: AppStrings.addParent,
-              fontSize: 16,
-              buttonHeight: 48,
-              gradient: AppColors.primaryButtonGradient,
-            )
+                fontSize: 16,
+                buttonHeight: 48,
+                gradient: AppColors.primaryButtonGradient,
+                onPressed: (){
+                  controller.addParent();
+                },
+              );
+            })
           ),
         ],
       ),

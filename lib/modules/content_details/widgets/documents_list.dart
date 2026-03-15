@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class DocumentsList extends StatelessWidget {
 
-  final List<DocumentsModel> documents;
+  final List<String> documents;
   const DocumentsList({super.key, required this.documents});
 
   @override
@@ -15,7 +15,7 @@ class DocumentsList extends StatelessWidget {
         itemCount: documents.length,
         itemBuilder: (context, index) {
 
-          final String pdfUrl = documents[index].url;
+          final String pdfUrl = documents[index];
 
 
           return DocumentItemWidget(pdfUrl: pdfUrl);

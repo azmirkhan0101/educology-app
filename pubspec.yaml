@@ -41,6 +41,7 @@ dependencies:
   vsc_quill_delta_to_html: ^1.0.5
   file_picker: ^10.3.10
   html: ^0.15.6
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:

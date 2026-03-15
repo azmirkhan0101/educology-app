@@ -17,7 +17,7 @@ class SingleAttendanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    AttendanceStatus attendanceStatus = AttendanceStatus.values.firstWhere((element) => element.label == status);
+    AttendanceStatus attendanceStatus = AttendanceStatus.values.firstWhere((element) => element.label2 == status);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),

@@ -33,8 +33,13 @@ class HomeController extends GetxController {
 
     if( role == Role.teacher || role == Role.assistant ){
       getCourseCounts();
+      //getMyAssignCourses();
+    }
+
+    if( myAssignCourses.isEmpty ){
       getMyAssignCourses();
     }
+
     super.onInit();
   }
 

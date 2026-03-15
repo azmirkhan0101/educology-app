@@ -43,7 +43,6 @@ class DocumentItemWidget extends StatelessWidget {
             pdfFileName,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          subtitle:Text(""),
         ),
       ),
     );

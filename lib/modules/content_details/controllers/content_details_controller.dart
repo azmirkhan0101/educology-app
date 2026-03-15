@@ -7,6 +7,7 @@ import 'package:dr_dina_educology/modules/course_details/controllers/course_deta
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/services/api_service.dart';
 import '../../../core/utils/api_endpoints.dart';
@@ -24,7 +25,7 @@ class ContentDetailsController extends GetxController{
   final RoleService roleService = Get.find<RoleService>();
   late Role role;
   late ContentDetailsModel contentDetailsModel;
-  final RxList<DocumentsModel> documents = <DocumentsModel>[].obs;
+  final RxList<String> documents = <String>[].obs;
   final RxList<CommentModel> comments = <CommentModel>[].obs;
 
   TextEditingController commentController = TextEditingController();
@@ -40,10 +41,7 @@ class ContentDetailsController extends GetxController{
     appTitle = contentDetailsType.label;
     role = roleService.getUpdatedRole();
 
-    for( String document in contentDetailsModel.documents ){
-      //String size = await getPdfSize(url: document);
-      documents.value.add(DocumentsModel(url: document, fileSize: ""));
-    }
+    documents.value = contentDetailsModel.documents;
 
     super.onInit();
   }
@@ -135,6 +133,19 @@ class ContentDetailsController extends GetxController{
     }
 
     commentController.clear();
+  }
+
+  //OPEN CLASS LINK IN BROWSER
+  Future<void> openLinkInBrowser({required String classLink}) async {
+    final Uri url = Uri.parse(classLink);
+
+    // Check if the device is capable of handling the URL
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication, // Forces external browser
+    )) {
+      throw Exception('Could not launch');
+    }
   }
 
   //=========================GET PDF FILE SIZE==========================

@@ -33,6 +33,12 @@ class AddContentController extends GetxController {
   final TextEditingController zoomLinkController = TextEditingController();
   String? detailsHtmlString;
   String? quillRawText;
+  //FOR MULTIPLE PDF FILES
+  RxList<File> pdfFiles = <File>[].obs;
+  //FOR SHOWING NAMES IN UI
+  RxList<String> pdfFileNames = <String>[].obs;
+
+  //SINGLE FILE FOR ANNOUNCEMENT
   File? pdfFile;
 
   RxBool isLoading = false.obs;
@@ -48,7 +54,6 @@ class AddContentController extends GetxController {
   }
 
   //=====================UPLOAD CLASS=====================
-  //TODO: ADD PDF FILE AFTER GETTING SOLUTION FROM BACKEND
   Future<void> uploadClass() async {
     if (isLoading.value) {
       return;
@@ -62,14 +67,16 @@ class AddContentController extends GetxController {
       "date": startDate.toUtc().toIso8601String(),
       "time": startTimeController.text.trim(),
       "details": detailsHtmlString,
-      "link": zoomLinkController.text.trim(),
+      "link": zoomLinkController.text.trim()
     };
 
-    ApiResponse response = await apiService.networkRequest(
+    ApiResponse response = await apiService.multipartRequest(
       method: "POST",
       isAuthRequired: true,
       endPoint: ApiEndpoints.uploadClass,
-      body: payLoad,
+      fields: payLoad,
+      multiplePdfFiles: pdfFiles.value,
+      pdfKey: "documents"
     );
 
     String? message = response.data?["message"];
@@ -113,8 +120,8 @@ class AddContentController extends GetxController {
       isAuthRequired: true,
       endPoint: ApiEndpoints.uploadExamHomeWork,
       fields: payLoad,
-      pdfFile: pdfFile,
-      pdfKey: "document",
+      multiplePdfFiles: pdfFiles.value,
+      pdfKey: "documents"
     );
 
     String? message = response.data?["message"];
@@ -157,8 +164,8 @@ class AddContentController extends GetxController {
       isAuthRequired: true,
       endPoint: ApiEndpoints.uploadExamHomeWork,
       fields: payLoad,
-      pdfFile: pdfFile,
-      pdfKey: "document",
+      multiplePdfFiles: pdfFiles.value,
+      pdfKey: "documents"
     );
 
     String? message = response.data?["message"];
@@ -200,7 +207,7 @@ class AddContentController extends GetxController {
 
     Map<String, dynamic> payLoad = {
       "courseId": courseId,
-      "details": detailsHtmlString,
+      "details": detailsHtmlString
     };
 
     ApiResponse response = await apiService.multipartRequest(
@@ -209,7 +216,7 @@ class AddContentController extends GetxController {
       endPoint: ApiEndpoints.uploadAnnouncement,
       fields: payLoad,
       pdfFile: pdfFile,
-      pdfKey: "document",
+      pdfKey: "document"
     );
 
     String? message = response.data?["message"];
