@@ -163,7 +163,13 @@ class ContentDetailsScreen extends StatelessWidget {
                       borderWidth: 2,
                       iconColor: AppColors.darkGold,
                       onPressed: () {
-                        Get.toNamed(AppRoutes.takeAttendance, arguments: controller.contentDetailsModel.id);
+                        Get.toNamed(
+                            AppRoutes.takeAttendance,
+                            arguments: {
+                              "courseId" : controller.contentDetailsModel.courseId,
+                              "classId" : controller.contentDetailsModel.contentId
+                            }
+                        );
                       },
                     ),
                   ),

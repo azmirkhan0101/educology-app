@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../data/models/take_attendance/take_attendance_model.dart';
+import '../../../data/models/take_attendance/attendance_form_model.dart';
 
 class TakeAttendanceScreen extends StatelessWidget {
 
@@ -75,13 +75,20 @@ class TakeAttendanceScreen extends StatelessWidget {
                 itemCount: controller.attendanceForm.value.length,
                 itemBuilder: (context, index) {
 
-                  final TakeAttendanceModel model = controller.attendanceForm[index];
+                  final AttendanceFormModel model = controller.attendanceForm[index];
                   //TODO: PASS STATUS IN THIS WIDGET
                   return TakeAttendanceTile(
                       imageUrl: model.student.image,
                       name: model.student.fullName,
                       time: model.time,
-                      phone: model.student.contact
+                      phone: model.student.contact,
+                    status: model.status,
+                    onSelection: (String? status) {
+                        print("Statusssssssssssssssssssss: $status");
+                        if( status != null && status != TakeAttendanceStatus.notMarked.label ){
+                          controller.addAttendanceSubmitList(status: status, studentId: model.student.id);
+                        }
+                    },
                   );
                 },
               );

@@ -42,6 +42,7 @@ class ProfileController extends GetxController{
       getProfile();
     }
 
+    print("Profile imageeeeeeeeeee: ${profileImageUrl.value}");
     print("Parent: ${profileModel.value?.parent?.fullName}");
 
     super.onInit();

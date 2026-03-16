@@ -1,3 +1,4 @@
+import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,13 +11,17 @@ class TakeAttendanceTile extends StatefulWidget {
   final String name;
   final String time;
   final String phone;
+  final String status;
+  final Function(String?) onSelection;
 
   const TakeAttendanceTile({
     super.key,
     required this.imageUrl,
     required this.name,
     required this.time,
-    required this.phone
+    required this.phone,
+    required this.status,
+    required this.onSelection
   });
 
   @override
@@ -24,10 +29,19 @@ class TakeAttendanceTile extends StatefulWidget {
 }
 
 class _StudentTileState extends State<TakeAttendanceTile> {
-  String attendanceStatus = 'Present';
+
+  late TakeAttendanceStatus takeAttendanceStatus;
+
+  @override
+  void initState() {
+    super.initState();
+    takeAttendanceStatus = TakeAttendanceStatus.values
+        .firstWhere((element) => element.label2 == widget.status);
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFF0F0F0)))),
@@ -68,26 +82,30 @@ class _StudentTileState extends State<TakeAttendanceTile> {
             flex: 2,
             child: Center(
               child: DropdownButton<String>(
-                value: attendanceStatus,
+                value: takeAttendanceStatus.label,
                 underline: const SizedBox(),
                 icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
                 style: TextStyle(
-                  color: attendanceStatus == 'Present' ? Colors.green : (attendanceStatus == 'Late' ? Colors.orange : Colors.red),
+                  color: takeAttendanceStatus == TakeAttendanceStatus.notMarked ? Colors.green : (takeAttendanceStatus == TakeAttendanceStatus.late ? Colors.orange : Colors.red),
                   fontWeight: FontWeight.w500,
                 ),
                 onChanged: (String? newValue) {
-                  setState(() {
-                    attendanceStatus = newValue!;
-                  });
+                  widget.onSelection(newValue);
+                  if( newValue != null ){
+                    setState(() {
+                      takeAttendanceStatus = TakeAttendanceStatus.values
+                          .firstWhere((element) => element.label == newValue);
+                    });
+                  }
                 },
-                items: <String>['Present', 'Absent', 'Late']
+                items: <String>[TakeAttendanceStatus.notMarked.label, TakeAttendanceStatus.onTime.label, TakeAttendanceStatus.late.label, TakeAttendanceStatus.absent.label]
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(
                         value,
                         style: TextStyle(
-                          color: value == 'Present' ? Colors.green : (value == 'Late' ? Colors.orange : Colors.red),)
+                          color: value == TakeAttendanceStatus.notMarked.label ? Colors.green : (value == TakeAttendanceStatus.late.label ? Colors.orange : Colors.red),)
                     ),
                   );
                 }).toList(),

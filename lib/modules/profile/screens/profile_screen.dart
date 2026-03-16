@@ -24,6 +24,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    print("Profile imageeeeeeeeeee: ${controller.profileImageUrl.value}");
+
     bool isStudent = controller.role == Role.student;
 
     return Scaffold(
@@ -50,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
             height: 120.h,
             width: 120.w,
             decoration: BoxDecoration(
-                color: AppColors.primaryGold,
+                color: AppColors.greyEB,
               borderRadius: BorderRadius.circular(15)
             ),
             child: ClipRRect(

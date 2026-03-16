@@ -5,7 +5,8 @@ import 'package:dr_dina_educology/data/models/staff/staff_model.dart';
 import '../homework_exam/homework_exam_model.dart';
 
 class ContentDetailsModel {
-  final String id;
+  final String contentId;
+  final String? courseId;
   final String title;
   final List<String> documents;
   final List<CommentModel> comments;
@@ -19,7 +20,8 @@ class ContentDetailsModel {
   final String? details;
 
   ContentDetailsModel({
-    required this.id,
+    required this.contentId,
+    required this.courseId,
     required this.title,
     required this.documents,
     required this.comments,
@@ -35,7 +37,8 @@ class ContentDetailsModel {
 
   factory ContentDetailsModel.fromClassModel(ClassModel classModel) {
     return ContentDetailsModel(
-      id: classModel.id,
+      contentId: classModel.id,
+        courseId: classModel.courseId,
       title: classModel.title,
       documents: classModel.documents,
       comments: classModel.comments,
@@ -54,7 +57,8 @@ class ContentDetailsModel {
     HomeworkExamModel homeworkExamModel,
   ) {
     return ContentDetailsModel(
-      id: homeworkExamModel.id,
+      contentId: homeworkExamModel.id,
+        courseId: null,
       title: homeworkExamModel.title,
       documents: homeworkExamModel.documents,
       comments: homeworkExamModel.comments,

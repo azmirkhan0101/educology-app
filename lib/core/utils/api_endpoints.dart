@@ -71,10 +71,30 @@ class ApiEndpoints {
   static const uploadExamHomeWork = "/task/create";
   static const uploadAnnouncement = "/announcements/create";
 
+  //#############################################################
   //=========================STUDENTS============================
   static const comment = "/announcements/comment";
   static const getAllParents = "/user/all?role=parent";
   static const addParent = "/user/assign-parent";
+  static String myMarks({required String courseId}){
+    return "/report/my-marks-history/$courseId";
+  }
+  static String myAttendance({required String courseId}){
+    return "/report/my-attendance-history/$courseId";
+  }
+
+  //#############################################################
+  //=========================PARENT==============================
+  static String childCourses({required String childId}){
+    return "/report/child-courses/$childId";
+  }
+  static String childProgress({required String courseId, required String childId}){
+    return "/report/child-progress/$courseId/$childId";
+  }
+  static String childAllMarks({required String courseId, required String childId}){
+    return "/report/student-marks/$courseId/$childId";
+  }
+  static const myChildren = "/user/my-children";
 
   //=======================PROFILE================================
   //GET PROFILE

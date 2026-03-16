@@ -245,7 +245,7 @@ class CourseDetailsScreen extends StatelessWidget {
             onPressed: () {
               Get.toNamed(
                 AppRoutes.participants,
-                arguments: controller.courseId,
+                arguments: controller.courseId
               );
             },
           ),
@@ -269,7 +269,13 @@ class CourseDetailsScreen extends StatelessWidget {
             prefixIcon: Icons.calendar_today_outlined,
             prefixIconSize: 16,
             onPressed: () {
-              Get.toNamed(AppRoutes.studentProgress);
+              Get.toNamed(
+                  AppRoutes.studentProgress,
+                  arguments: {
+                    'courseId': controller.courseId,
+                    'studentId': controller.studentId
+                  }
+              );
             },
           ),
         ),
@@ -287,7 +293,10 @@ class CourseDetailsScreen extends StatelessWidget {
             prefixIcon: Icons.people_outline,
             prefixIconSize: 16,
             onPressed: () {
-              Get.toNamed(AppRoutes.participants);
+              Get.toNamed(
+                  AppRoutes.participants,
+                  arguments: controller.courseId
+              );
             },
           ),
         ),
@@ -296,7 +305,7 @@ class CourseDetailsScreen extends StatelessWidget {
   }
 
   //TAB BAR
-  tabBar({required bool isTeacher, required bool isStudent}) {
+  Column tabBar({required bool isTeacher, required bool isStudent}) {
     return Column(
       children: [
         TabBar(

@@ -1,6 +1,8 @@
 import 'package:dr_dina_educology/core/services/api_service.dart';
+import 'package:dr_dina_educology/core/services/role_service.dart';
 import 'package:dr_dina_educology/core/utils/api_endpoints.dart';
 import 'package:dr_dina_educology/core/utils/api_response.dart';
+import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/data/models/attendance/attendance_stat_model.dart';
 import 'package:dr_dina_educology/data/models/attendance/single_attendance_model.dart';
 import 'package:get/get.dart';
@@ -8,6 +10,8 @@ import 'package:get/get.dart';
 class SingleAttendanceController extends GetxController{
 
   final ApiService apiService = Get.find<ApiService>();
+  final RoleService roleService = Get.find<RoleService>();
+
   RxInt totalCompletedClass = 0.obs;
   Rxn<AttendanceStatModel> attendanceStat = Rxn<AttendanceStatModel>(null);
   RxList<SingleAttendanceModel> attendanceList = <SingleAttendanceModel>[].obs;
@@ -15,27 +19,32 @@ class SingleAttendanceController extends GetxController{
 
   late String courseId;
   late String studentId;
+  late Role role;
 
   @override
   void onInit() {
 
+    role = roleService.getUpdatedRole();
     courseId = Get.arguments['courseId'];
     studentId = Get.arguments['studentId'];
 
-    getSingleStudentAttendance();
+    getSingleStudentAttendance(
+      isStudent: role == Role.student
+    );
 
     super.onInit();
   }
 
   //GET SINGLE STUDENT ATTENDANCE
-Future<void> getSingleStudentAttendance() async{
+Future<void> getSingleStudentAttendance({required bool isStudent}) async{
 
     isLoading.value = true;
 
     ApiResponse response = await apiService.networkRequest(
         method: "GET",
         isAuthRequired: true,
-        endPoint: ApiEndpoints.singleStudentAttendance(courseId: courseId, studentId: studentId)
+        endPoint: isStudent ? ApiEndpoints.myAttendance(courseId: courseId) :
+        ApiEndpoints.singleStudentAttendance(courseId: courseId, studentId: studentId)
     );
     isLoading.value = false;
 

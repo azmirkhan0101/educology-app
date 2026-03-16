@@ -24,7 +24,6 @@ class StudentProgressScreen extends StatelessWidget {
 
   final StudentProgressController controller = Get.find<StudentProgressController>();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

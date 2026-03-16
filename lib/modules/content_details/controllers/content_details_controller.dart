@@ -38,6 +38,9 @@ class ContentDetailsController extends GetxController{
     contentDetailsModel = arguments["contentDetailsModel"];
     comments.value = contentDetailsModel.comments;
 
+    print("Details print classId: ${contentDetailsModel.contentId}");
+    print("Details print courseId: ${contentDetailsModel.courseId}");
+
     appTitle = contentDetailsType.label;
     role = roleService.getUpdatedRole();
 
@@ -55,12 +58,12 @@ class ContentDetailsController extends GetxController{
 
     if( isClass ){//CLASS COMMENT
       payLoad = {
-        "classId": contentDetailsModel.id,
+        "classId": contentDetailsModel.contentId,
         "comment": comment
       };
     }else{//TASK COMMENT
       payLoad = {
-        "taskId": contentDetailsModel.id,
+        "taskId": contentDetailsModel.contentId,
         "comment": comment
       };
     }
@@ -98,13 +101,13 @@ class ContentDetailsController extends GetxController{
 
     if( isClass ){
       payLoad = {
-        "classId": contentDetailsModel.id,
+        "classId": contentDetailsModel.contentId,
         "parentCommentId": comments.value[commentIndex].id,
         "comment": reply
       };
     }else{
       payLoad = {
-        "taskId": contentDetailsModel.id,
+        "taskId": contentDetailsModel.contentId,
         "parentCommentId": comments.value[commentIndex].id,
         "comment": reply
       };

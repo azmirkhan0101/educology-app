@@ -1,21 +1,21 @@
 import 'package:dr_dina_educology/data/models/staff/staff_model.dart';
 
-class TakeAttendanceModel {
+class AttendanceFormModel {
 
   final StaffModel student;
   final String status;
   final String time;
   final String attendanceId;
 
-  TakeAttendanceModel({
+  AttendanceFormModel({
     required this.student,
     required this.status,
     required this.time,
     required this.attendanceId
   });
 
-  factory TakeAttendanceModel.fromJson(Map<String, dynamic> json) {
-    return TakeAttendanceModel(
+  factory AttendanceFormModel.fromJson(Map<String, dynamic> json) {
+    return AttendanceFormModel(
       student: StaffModel.fromJson(json['student']),
       status: json['status'] ?? "",
       time: json['time'] ?? "--:--",

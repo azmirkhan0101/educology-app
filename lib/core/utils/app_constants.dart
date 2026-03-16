@@ -193,6 +193,36 @@ extension TakeAttendanceStatusColorExtension on TakeAttendanceStatus {
   }
 }
 
+//ATTENDANCE SUBMIT STATUS FOR TAKE ATTENDANCE
+////on time , late, absent
+enum AttendanceSubmitStatus{ onTime, absent, late }
+
+extension AttendanceSubmitStatusExtension on AttendanceSubmitStatus {
+
+  String get label {
+    switch (this) {
+      case AttendanceSubmitStatus.onTime:
+        return "On Time";
+      case AttendanceSubmitStatus.late:
+        return "Late";
+      case AttendanceSubmitStatus.absent:
+        return "Absent";
+    }
+  }
+
+  String get label2 {
+    switch (this) {
+      case AttendanceSubmitStatus.onTime:
+        return "on time";
+      case AttendanceSubmitStatus.late:
+        return "late";
+      case AttendanceSubmitStatus.absent:
+        return "absent";
+    }
+  }
+}
+
+
 //CONTENT TYPE - CLASS, EXAM, HOMEWORK, ANNOUNCEMENT
 enum AddContentType{ cClass, exam, homeWork, announcement }
 

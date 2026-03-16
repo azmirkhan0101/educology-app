@@ -27,7 +27,7 @@ class ViewAllMarksScreen extends StatelessWidget {
             Expanded(
                 child: Obx((){
                   if( controller.isLoading.value ){
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
                   }
                   if( controller.marksList.isEmpty ){
                     return Center(child: Text("No Marks Found"));

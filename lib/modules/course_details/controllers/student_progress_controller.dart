@@ -1,4 +1,6 @@
 import 'package:dr_dina_educology/core/services/api_service.dart';
+import 'package:dr_dina_educology/core/services/role_service.dart';
+import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/data/models/staff/staff_model.dart';
 import 'package:dr_dina_educology/data/models/student_progress/student_progress_model.dart';
 import 'package:get/get.dart';
@@ -9,31 +11,35 @@ import '../../../core/utils/api_response.dart';
 class StudentProgressController extends GetxController{
 
   final ApiService apiService = Get.find<ApiService>();
+  final RoleService roleService = Get.find<RoleService>();
+
   Rxn<StaffModel> studentModel = Rxn<StaffModel>(null);
   Rxn<StaffModel> parentModel = Rxn<StaffModel>(null);
   Rxn<StudentProgressModel> studentProgress = Rxn<StudentProgressModel>(null);
   RxString alertMessage = "".obs;
   late String courseId;
   late String studentId;
+  late Role role;
 
   @override
   void onInit() {
 
+    role = roleService.getUpdatedRole();
     courseId = Get.arguments['courseId'];
     studentId = Get.arguments['studentId'];
 
     if( studentProgress.value == null ){
-      getStudentProgress();
+      getStudentProgress(isParent: role == Role.parent);
     }
 
     super.onInit();
   }
 
-  Future<void> getStudentProgress() async{
+  Future<void> getStudentProgress({required bool isParent}) async{
     ApiResponse response = await apiService.networkRequest(
       method: "GET",
       isAuthRequired: true,
-      endPoint: ApiEndpoints.singleStudentProgress(courseId: courseId, studentId: studentId)
+      endPoint: isParent ? ApiEndpoints.childProgress(courseId: courseId, childId: studentId) :ApiEndpoints.singleStudentProgress(courseId: courseId, studentId: studentId)
     );
 
     if( response.statusCode == 200 ){

@@ -6,10 +6,8 @@ class CourseModel {
   final String subjectName;
   final String imageUrl;
   final String status;
-  final List<StudentModel> students;
   final int totalEnrolled;
   final StaffModel teacher;
-  final StaffModel assistant;
 
   CourseModel({
     required this.id,
@@ -17,10 +15,8 @@ class CourseModel {
     required this.subjectName,
     required this.imageUrl,
     required this.status,
-    required this.students,
     required this.totalEnrolled,
-    required this.teacher,
-    required this.assistant,
+    required this.teacher
   });
 
   factory CourseModel.fromJson(Map<String, dynamic> json) {
@@ -31,11 +27,7 @@ class CourseModel {
       imageUrl: json['image'] ?? '',
       status: json['status'] ?? '',
       totalEnrolled: json['totalEnrolled'] ?? 0,
-      students: (json['students'] as List?)
-          ?.map((item) => StudentModel.fromJson(item))
-          .toList() ?? [],
       teacher: StaffModel.fromJson(json['teacherId'] ?? {}),
-      assistant: StaffModel.fromJson(json['assistantId'] ?? {}),
     );
   }
 
@@ -47,9 +39,7 @@ class CourseModel {
       'image': imageUrl,
       'status': status,
       'totalEnrolled': totalEnrolled,
-      'students': students.map((e) => e.toJson()).toList(),
       'teacherId': teacher.toJson(),
-      'assistantId': assistant.toJson(),
     };
   }
 }

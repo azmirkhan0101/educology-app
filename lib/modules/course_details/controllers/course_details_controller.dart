@@ -24,6 +24,9 @@ class CourseDetailsController extends GetxController
   late String subject;
   late String status;
 
+  //STUDENT ID IF ROLE IS STUDENT
+  String? studentId;
+
   //CLASSES
   RxList<ClassModel> classes = <ClassModel>[].obs;
   RxBool isClassesLoading = false.obs;
@@ -47,6 +50,9 @@ class CourseDetailsController extends GetxController
     courseName = Get.arguments['courseName'];
     subject = Get.arguments['subject'];
     status = Get.arguments['status'];
+    if( role == Role.student ){
+      studentId = Get.arguments['studentId'];
+    }
 
     tabController = TabController(length: 4, vsync: this);
 

@@ -1,12 +1,15 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/show_snackbar.dart';
+import 'package:dr_dina_educology/data/models/take_attendance/attendance_submit_model.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../core/services/api_service.dart';
 import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
 import '../../../data/models/attendance/attendance_stat_model.dart';
-import '../../../data/models/take_attendance/take_attendance_model.dart';
+import '../../../data/models/take_attendance/attendance_form_model.dart';
 
 class TakeAttendanceController extends GetxController{
 
@@ -16,20 +19,42 @@ class TakeAttendanceController extends GetxController{
   RxBool isUploading = false.obs;
   RxInt totalStudents = 0.obs;
   Rxn<AttendanceStatModel> attendanceStat = Rxn<AttendanceStatModel>(null);
-  RxList<TakeAttendanceModel> attendanceForm = <TakeAttendanceModel>[].obs;
+  RxList<AttendanceFormModel> attendanceForm = <AttendanceFormModel>[].obs;
+
+  //ATTENDANCE SUBMIT LIST
+  List<AttendanceSubmitModel> takeAttendanceSubmitList = [];
 
   late String classId;
+  late String courseId;
 
   @override
   void onInit() {
 
-    classId = Get.arguments;
+    classId = Get.arguments['classId'];
+    courseId = Get.arguments['courseId'];
     if( attendanceForm.isEmpty ){
       getStudentsAttendanceForm();
     }
 
     super.onInit();
   }
+
+  //ADD ATTENDANCE TO LIST
+  void addAttendanceSubmitList({required String status, required String studentId}){
+    String statusEnum = AttendanceSubmitStatus.values.firstWhere((element) => element.label == status).label2;
+    String dateString = DateFormat("yyyy-MM-dd").format(DateTime.now());
+    String time = DateFormat("hh:mm a").format(DateTime.now());
+    AttendanceSubmitModel submitModel = AttendanceSubmitModel(
+        courseId: courseId,
+        classId: classId,
+        studentId: studentId,
+        date: dateString,
+        time: time,
+        status: statusEnum
+    );
+    takeAttendanceSubmitList.add(submitModel);
+  }
+
 
   //GET STUDENTS ATTENDANCE FORM
   Future<void> getStudentsAttendanceForm() async{
@@ -50,7 +75,7 @@ class TakeAttendanceController extends GetxController{
       totalStudents.value = ((response.data?['data']?['totalStudents'] as num?) ?? 0).toInt();
       final tempAttendanceList = response.data?['data']?['studentList'] as List<dynamic>?;
       if( tempAttendanceList is List && tempAttendanceList.isNotEmpty ){
-        attendanceForm.value = tempAttendanceList.map((e) => TakeAttendanceModel.fromJson(e)).toList();
+        attendanceForm.value = tempAttendanceList.map((e) => AttendanceFormModel.fromJson(e)).toList();
       }
     }
   }
@@ -64,15 +89,15 @@ class TakeAttendanceController extends GetxController{
 
     isUploading.value = true;
 
-    //TODO: MAKE PAYLOAD FROM BACKEND FORMAT
+    List<Map<String, dynamic>> mapList = takeAttendanceSubmitList.map((e){
+      return e.toJson();
+    }).toList();
+
     Map<String, dynamic> payLoad = {
-      "course":"69918b0e5c764119a79a4191",
-      "class":"6996c0c7484aa9cd689908af",
-      "student":"69929d8b736809b04fda47c9",
-      "date":"2026-02-17", //YYYY-MM-DD
-      "time": "12:00 PM",
-      "status":"late"  //on time , late, absent
+      "attendances": mapList
     };
+
+    print(payLoad);
 
     ApiResponse response = await apiService.networkRequest(
       method: "POST",
@@ -84,7 +109,7 @@ class TakeAttendanceController extends GetxController{
 
     String? message = response.data?["message"];
 
-    if( response.statusCode == 201 ){
+    if( response.statusCode == 200 ){
       showSnackBar(
           title: "Attendance submitted",
           message: message ?? "Attendance submitted successfully",

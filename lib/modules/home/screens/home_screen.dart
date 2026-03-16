@@ -1,9 +1,11 @@
 import 'package:dr_dina_educology/core/services/role_service.dart';
+import 'package:dr_dina_educology/core/utils/api_endpoints.dart';
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:dr_dina_educology/data/models/home/course_model.dart';
 import 'package:dr_dina_educology/modules/home/controllers/home_controller.dart';
+import 'package:dr_dina_educology/modules/home/widgets/children_dropdown.dart';
 import 'package:dr_dina_educology/modules/home/widgets/course_item_widget.dart';
 import 'package:dr_dina_educology/modules/home/widgets/home_banner.dart';
 import 'package:dr_dina_educology/modules/home/widgets/home_header_widget.dart';
@@ -26,13 +28,11 @@ class HomeScreen extends StatelessWidget {
     bool isStudent = controller.role == Role.student;
     bool isParent = controller.role == Role.parent;
 
-    print(controller.role.name);
-
     return Scaffold(
       backgroundColor: AppColors.white,
       body: RefreshIndicator(
         onRefresh: () async {
-          controller.getMyAssignCourses();
+          controller.refreshHome();
         },
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
@@ -50,6 +50,7 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 HomeBanner(isParent: isParent),
                 SizedBox(height: 20),
+                //====================YOUR CHILD FOR PARENT====================
                 if (isParent)
                   Align(
                     alignment: Alignment.centerLeft,
@@ -61,11 +62,22 @@ class HomeScreen extends StatelessWidget {
                       fontColor: AppColors.secondaryDarkBlue,
                     ),
                   ),
+                //===================CHILD DROPDOWN FOR PARENT=================
                 if (isParent)
-                  childDropdownWidget(
-                    selectedValue: "Rakibul Hasan",
-                    onChanged: (value) {},
-                  ),
+                  Obx((){
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: ChildrenDropdown(
+                          children: controller.children.value,
+                          selectedChild: controller.selectedChild.value,
+                          onItemSelected: (child){
+                            controller.selectedChild.value = child;
+                            controller.refreshChildCourses();
+                          }
+                      ),
+                    );
+                  }),
+                //===================COURSE COUNTS FOR STAFF===================
                 if (isStaff)
                   Obx(() {
                     return teacherCourseCount(
@@ -82,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                         ? AppStrings.myAssignCourses
                         : isStudent
                         ? "My Courses"
-                        : "Enrolled Classes",
+                        : "Enrolled Courses",
                     textAlignment: TextAlign.left,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -90,11 +102,12 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
+                //=======================COURSES==========================
                 Obx(() {
-                  if (controller.isMyAssignCoursesLoading.value) {
+                  if (controller.isCoursesLoading.value) {
                     return Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
                   }
-                  if (controller.myAssignCourses.isEmpty) {
+                  if (controller.courses.isEmpty) {
                     if (controller.role == Role.student) {
                       return LearningJourneyWidget();
                     } else {
@@ -106,10 +119,10 @@ class HomeScreen extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: controller.myAssignCourses.length,
+                    itemCount: controller.courses.length,
                     itemBuilder: (context, index) {
                       final CourseModel model =
-                          controller.myAssignCourses[index];
+                          controller.courses[index];
 
                       return CourseItemWidget(
                         title: model.className,
@@ -117,17 +130,24 @@ class HomeScreen extends StatelessWidget {
                         subject: model.subjectName,
                         status: model.status,
                         isStaff: isStaff,
-                        teacherName: null,//TODO: CHECK TEACHER NAME IN STUDENT ROLE, UPDATE MODEL AND PASS HERE
+                        teacherName: model.teacher.fullName,
                         enrolledCount: model.totalEnrolled,
                         onClick: () {
                           if (isParent) {
-                            Get.toNamed(AppRoutes.studentProgress);
+                            Get.toNamed(
+                                AppRoutes.studentProgress,
+                                arguments: {
+                                  'courseId': model.id,
+                                  'studentId': controller.selectedChild.value?.id ?? ""
+                                }
+                            );
                           } else {
                             Map<String, String> arguments = {
                               "courseId": model.id,
                               "courseName": model.className,
                               "subject": model.subjectName,
-                              "status": model.status
+                              "status": model.status,
+                              "studentId": isStudent ? controller.profileController.profileModel.value?.id ?? "" : ""
                             };
                             Get.toNamed(
                                 AppRoutes.courseDetails,
@@ -217,83 +237,6 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget childDropdownWidget({
-    required String? selectedValue,
-    required ValueChanged<String?> onChanged,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(15), // Soft shadow
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: selectedValue,
-          isExpanded: true,
-          icon: const Icon(
-            Icons.arrow_drop_down,
-            color: Colors.black,
-            size: 30,
-          ),
-          // This acts as the default "Rakibul Hasan" view from your image
-          hint: profileRow("Rakibul Hasan", "+8801827347685"),
-          onChanged: onChanged,
-          items: [
-            dropdownItem("Rakibul Hasan", "+8801827347685"),
-            dropdownItem("Jasmine Akter", "+8801700000000"),
-            dropdownItem("Tanvir Ahmed", "+8801900000000"),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Helper: Creates the actual selectable menu item
-  DropdownMenuItem<String> dropdownItem(String name, String phone) {
-    return DropdownMenuItem<String>(
-      value: name,
-      child: profileRow(name, phone),
-    );
-  }
-
-  Widget profileRow(String name, String phone) {
-    return Row(
-      children: [
-        const CircleAvatar(
-          radius: 22,
-          backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=12'),
-        ),
-        const SizedBox(width: 12),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              name,
-              style: const TextStyle(
-                color: Color(0xFF6B9080),
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
-            ),
-            Text(
-              phone,
-              style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
-            ),
-          ],
         ),
       ],
     );
