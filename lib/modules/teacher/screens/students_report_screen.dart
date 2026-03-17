@@ -28,7 +28,9 @@ class StudentsReportScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.file_download_outlined, color: Colors.black),
-            onPressed: () {},
+            onPressed: () {
+              controller.exportToPdf();
+            },
           ),
         ],
       ),

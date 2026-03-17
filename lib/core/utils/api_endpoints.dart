@@ -4,9 +4,8 @@ class ApiEndpoints {
 
   //=======================BASE====================================
   //BASE URL
-  //static const baseUrl = "https://lms-orpin-five.vercel.app/api/v1";
-  static const baseUrl = "http://10.10.20.34:5001/api/v1";
-
+  static const baseUrl = "https://lms-orpin-five.vercel.app/api/v1";
+  //static const baseUrl = "http://10.10.20.34:5001/api/v1";
   //=======================AUTH====================================
   //LOGIN/SIGNIN
   static const login = "/auth/login";
@@ -66,6 +65,16 @@ class ApiEndpoints {
   static String getAttendanceSheet({required String classId}){
     return "/attendance/course-attendance/$classId";
   }
+  static String provideMark({required String submissionId}){
+    return "/submit/mark/$submissionId";
+  }
+  static String getTaskAnswer({required String taskId, required bool isExam}){
+    if( isExam ){
+      return "/submit/task/$taskId?type=exam";
+    }else{
+      return "/submit/task/$taskId?type=homework";
+    }
+  }
   //==================ADD CONTENTS===================
   static const uploadClass = "/class/add";
   static const uploadExamHomeWork = "/task/create";
@@ -82,6 +91,7 @@ class ApiEndpoints {
   static String myAttendance({required String courseId}){
     return "/report/my-attendance-history/$courseId";
   }
+  static const submitAnswer = "/submit/task";
 
   //#############################################################
   //=========================PARENT==============================

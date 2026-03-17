@@ -155,7 +155,7 @@ extension AttendanceStatusColorExtension on AttendanceStatus {
       case AttendanceStatus.onTime: return Colors.green;
       case AttendanceStatus.late: return Colors.orange;
       case AttendanceStatus.absent: return Colors.red;
-      case AttendanceStatus.notMarked: return Colors.yellow.shade700;
+      case AttendanceStatus.notMarked: return Colors.yellow.shade900;
     }
   }
 }
@@ -263,7 +263,7 @@ extension AnswerSubmissionStatusExtension on AnswerSubmissionStatus {
         return "In Time";
       case AnswerSubmissionStatus.submittedOnTime:
         return "Submitted on Time";
-      case AnswerSubmissionStatus.lateSubmitted:
+        default:
         return "Late Submitted";
     }
   }
@@ -278,8 +278,8 @@ extension AnswerSubmissionStatusExtension on AnswerSubmissionStatus {
         return "in time";
       case AnswerSubmissionStatus.submittedOnTime:
         return "Submitted on time";
-      case AnswerSubmissionStatus.lateSubmitted:
-        return "Late submitted";
+      default:
+        return "Late Submitted";
     }
   }
 

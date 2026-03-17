@@ -6,7 +6,6 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/cached_image_widget.dart';
 
 class TakeAttendanceTile extends StatefulWidget {
-
   final String imageUrl;
   final String name;
   final String time;
@@ -21,7 +20,7 @@ class TakeAttendanceTile extends StatefulWidget {
     required this.time,
     required this.phone,
     required this.status,
-    required this.onSelection
+    required this.onSelection,
   });
 
   @override
@@ -29,22 +28,23 @@ class TakeAttendanceTile extends StatefulWidget {
 }
 
 class _StudentTileState extends State<TakeAttendanceTile> {
-
   late TakeAttendanceStatus takeAttendanceStatus;
 
   @override
   void initState() {
     super.initState();
-    takeAttendanceStatus = TakeAttendanceStatus.values
-        .firstWhere((element) => element.label2 == widget.status);
+    takeAttendanceStatus = TakeAttendanceStatus.values.firstWhere(
+      (element) => element.label2 == widget.status,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFF0F0F0)))),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: Color(0xFFF0F0F0))),
+      ),
       child: Row(
         children: [
           // Student Info
@@ -68,47 +68,78 @@ class _StudentTileState extends State<TakeAttendanceTile> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text( widget.name, style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xFF5BA381))),
-                    Text(widget.phone, style: TextStyle(fontSize: 10, color: Colors.grey)),
+                    Text(
+                      widget.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF5BA381),
+                      ),
+                    ),
+                    Text(
+                      widget.phone,
+                      style: TextStyle(fontSize: 10, color: Colors.grey),
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),
           // Join Time
-          Expanded(flex: 2, child: Center(child: Text(widget.time, style: TextStyle(color: Colors.grey)))),
+          Expanded(
+            flex: 2,
+            child: Center(
+              child: Text(widget.time, style: TextStyle(color: Colors.grey)),
+            ),
+          ),
           // Attendance Dropdown
           Expanded(
             flex: 2,
             child: Center(
               child: DropdownButton<String>(
+                dropdownColor: Colors.white,
                 value: takeAttendanceStatus.label,
                 underline: const SizedBox(),
                 icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
                 style: TextStyle(
-                  color: takeAttendanceStatus == TakeAttendanceStatus.notMarked ? Colors.green : (takeAttendanceStatus == TakeAttendanceStatus.late ? Colors.orange : Colors.red),
+                  color: takeAttendanceStatus == TakeAttendanceStatus.notMarked
+                      ? Colors.green
+                      : (takeAttendanceStatus == TakeAttendanceStatus.late
+                            ? Colors.orange
+                            : Colors.red),
                   fontWeight: FontWeight.w500,
                 ),
                 onChanged: (String? newValue) {
                   widget.onSelection(newValue);
-                  if( newValue != null ){
+                  if (newValue != null) {
                     setState(() {
                       takeAttendanceStatus = TakeAttendanceStatus.values
                           .firstWhere((element) => element.label == newValue);
                     });
                   }
                 },
-                items: <String>[TakeAttendanceStatus.notMarked.label, TakeAttendanceStatus.onTime.label, TakeAttendanceStatus.late.label, TakeAttendanceStatus.absent.label]
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                        value,
-                        style: TextStyle(
-                          color: value == TakeAttendanceStatus.notMarked.label ? Colors.green : (value == TakeAttendanceStatus.late.label ? Colors.orange : Colors.red),)
-                    ),
-                  );
-                }).toList(),
+                items:
+                    <String>[
+                      TakeAttendanceStatus.notMarked.label,
+                      TakeAttendanceStatus.onTime.label,
+                      TakeAttendanceStatus.late.label,
+                      TakeAttendanceStatus.absent.label,
+                    ].map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                            color: value == TakeAttendanceStatus.notMarked.label
+                                ? Colors.yellow.shade700
+                                : value == TakeAttendanceStatus.onTime.label
+                                ? Colors.green
+                                : value == TakeAttendanceStatus.late.label
+                                ? Colors.orange
+                                : Colors.red,
+                          ),
+                        ),
+                      );
+                    }).toList(),
               ),
             ),
           ),

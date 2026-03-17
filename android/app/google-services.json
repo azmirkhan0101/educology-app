@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "785968251870",
-    "project_id": "dr-dina-lms",
-    "storage_bucket": "dr-dina-lms.firebasestorage.app"
+    "project_number": "804793355673",
+    "project_id": "educology-a328f",
+    "storage_bucket": "educology-a328f.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:785968251870:android:701e6169129c85a2ded34f",
+        "mobilesdk_app_id": "1:804793355673:android:e4b2de98589ce60ce39708",
         "android_client_info": {
           "package_name": "com.drdina.dr_dina_educology"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyARBvtY96m15DYwtiTPRAxbFQKZqycImXw"
+          "current_key": "AIzaSyB3PdLYwnA0g00SiwaECtpwSWZ1NYDr3Uw"
         }
       ],
       "services": {

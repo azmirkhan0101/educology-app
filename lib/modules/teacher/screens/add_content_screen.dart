@@ -230,7 +230,13 @@ class _AddContentScreenState extends State<AddContentScreen> {
                 CustomTextField(
                   label: AppStrings.shareZoomLink,
                   controller: controller.zoomLinkController,
-                  hintText: AppStrings.pasteYourClassLinkHere
+                  hintText: AppStrings.pasteYourClassLinkHere,
+                  validator: (value){
+                    if( controller.zoomLinkController.text.isEmpty ){
+                      return "Zoom link is required";
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 25),
                 //=======================UPLOAD BUTTON=====================

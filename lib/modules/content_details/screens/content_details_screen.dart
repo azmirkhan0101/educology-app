@@ -101,7 +101,13 @@ class ContentDetailsScreen extends StatelessWidget {
                 fontSize: 14,
                 buttonHeight: 45,
                 onPressed: () {
-                  Get.toNamed(AppRoutes.checkAnswer);
+                  Get.toNamed(
+                      AppRoutes.checkAnswer,
+                      arguments: {
+                        "taskId" : controller.contentDetailsModel.contentId,
+                        "isExam" : controller.contentDetailsType == ContentDetailsType.exam
+                      }
+                  );
                 },
               ),
             //===============SUBMIT ANSWER FOR STUDENT IF EXAM================
@@ -113,7 +119,15 @@ class ContentDetailsScreen extends StatelessWidget {
                 fontSize: 14,
                 buttonHeight: 45,
                 onPressed: () {
-                  //Get.toNamed(AppRoutes.checkAnswer);
+                  print("Course id: ${controller.contentDetailsModel.courseId}");
+                  print("Task id: ${controller.contentDetailsModel.contentId}");
+                  Get.toNamed(
+                      AppRoutes.submitAnswer,
+                    arguments: {
+                        "taskId" : controller.contentDetailsModel.contentId,
+                      "courseId" : controller.contentDetailsModel.courseId
+                    }
+                  );
                 },
               ),
             //===============JOIN CLASS FOR STUDENT IF CLASS  ================

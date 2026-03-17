@@ -7,7 +7,8 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class ViewDocumentScreen extends StatefulWidget {
   final String url;
-  const ViewDocumentScreen({super.key, required this.url});
+  final String? title;
+  const ViewDocumentScreen({super.key, required this.url, this.title});
 
   @override
   State<ViewDocumentScreen> createState() => _ViewDocumentScreenState();
@@ -67,8 +68,8 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
-          title: const Text(
-              "View Document",
+          title: Text(
+              widget.title ?? "View Document",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         centerTitle: true,

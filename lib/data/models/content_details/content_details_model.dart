@@ -58,7 +58,7 @@ class ContentDetailsModel {
   ) {
     return ContentDetailsModel(
       contentId: homeworkExamModel.id,
-        courseId: null,
+        courseId: homeworkExamModel.courseId,
       title: homeworkExamModel.title,
       documents: homeworkExamModel.documents,
       comments: homeworkExamModel.comments,

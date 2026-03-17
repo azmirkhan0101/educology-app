@@ -96,7 +96,7 @@ class EditProfileScreen extends StatelessWidget {
                 SizedBox(height: 10),
                 //=======================DATE OF BIRTH=====================
                 CustomDatePicker(
-                  initialDate: controller.dateOfBirth ?? DateTime.now(),
+                  initialDate: controller.dateOfBirth,
                   label: AppStrings.dateOfBirth,
                   onDateSelected: (date) {
                     print(date?.toIso8601String());
@@ -107,10 +107,18 @@ class EditProfileScreen extends StatelessWidget {
                   initialYear: DateTime.now().year,
                   firstYear: 1900,
                   lastYear: DateTime.now().year,
+                  validator: (date){
+                    if( date == null ){
+                      return "Date of birth required";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 10),
                 //========================GENDER============================
-                genderDropdown(),
+                Obx((){
+                  return genderDropdown(selectedValue: controller.gender.value);
+                }),
                 SizedBox(height: 10),
                 //=======================ABOUT ME============================
                 CustomTextField(
@@ -149,8 +157,16 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget genderDropdown() {
+  Widget genderDropdown({required String selectedValue}) {
     return Obx(() {
+      // Ensure the current value exists in our list to avoid "assertion failed" errors
+      List<String> options = ['select', 'male', 'female', 'others'];
+
+      // Fallback logic: if the controller value isn't in the list, default to 'select'
+      String currentValue = options.contains(controller.gender.value)
+          ? controller.gender.value
+          : 'select';
+
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -163,48 +179,37 @@ class EditProfileScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Container(
-            child: DropdownButtonFormField<String>(
-              value: controller.gender.value,
-              decoration: InputDecoration(
-                // The rounded border and light grey color
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 8,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                  borderSide: const BorderSide(
-                    color: Color(0xFFE0E0E0),
-                    width: 1,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                  borderSide: const BorderSide(
-                    color: Color(0xFFE0E0E0),
-                    width: 1,
-                  ),
-                ),
-                filled: true,
-                fillColor: const Color(0xFFF9F9F9),
+          DropdownButtonFormField<String>(
+            // Use the validated current value from your controller
+            value: currentValue,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
               ),
-              // Styling the text and icon
-              icon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
-              style: const TextStyle(color: Colors.grey, fontSize: 16),
-              dropdownColor: Colors.white,
-              items: <String>['male', 'female', 'others'].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text("${value[0].toUpperCase()}${value.substring(1).toLowerCase()}",),
-                );
-              }).toList(),
-              onChanged: (newValue) {
-                if (newValue != null) {
-                  controller.gender.value = newValue;
-                }
-              },
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
+              ),
+              filled: true,
+              fillColor: const Color(0xFFF9F9F9),
             ),
+            icon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+            style: const TextStyle(color: Colors.black87, fontSize: 16),
+            dropdownColor: Colors.white,
+            // FIX: Assign 'value' to the specific string from the list, not 'selectedValue'
+            items: options.map((String val) {
+              return DropdownMenuItem<String>(
+                value: val,
+                child: Text(val[0].toUpperCase() + val.substring(1).toLowerCase()),
+              );
+            }).toList(),
+            onChanged: (newValue) {
+              if (newValue != null) {
+                controller.gender.value = newValue;
+              }
+            },
           ),
         ],
       );

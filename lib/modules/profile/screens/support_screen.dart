@@ -59,7 +59,7 @@ class SupportScreen extends StatelessWidget {
                   ],
                 ),
                 TextWidget(
-                  text: "azmir.azamkhan@gmail.com",
+                  text: "educology.admin@gmail.com",
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   fontColor: AppColors.secondaryDarkBlue,
@@ -82,7 +82,7 @@ class SupportScreen extends StatelessWidget {
                   ],
                 ),
                 TextWidget(
-                  text: "+8801609-537568",
+                  text: "+20 101 234 5678",
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   fontColor: AppColors.secondaryDarkBlue,

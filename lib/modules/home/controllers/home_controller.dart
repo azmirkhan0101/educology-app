@@ -49,16 +49,13 @@ class HomeController extends GetxController {
     if (role == Role.teacher || role == Role.assistant) {
       getCourseCounts();
     }
-    if (courses.isEmpty) {
-      //GET COURSES IF TEACHER, ASSISTANT OR STUDENT
-      if (role != Role.parent) {
-        getCourses(
+    if (role != Role.parent) {
+      getCourses(
           isParent: false,
-            apiEndPoint: ApiEndpoints.myAssignCourses
-        );
-      } else {
-        getChildren();
-      }
+          apiEndPoint: ApiEndpoints.myAssignCourses
+      );
+    } else {
+      getChildren();
     }
   }
 

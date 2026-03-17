@@ -12,6 +12,8 @@ class ProfileModel {
   final String email;
   final String contact;
   final String location;
+  final String gender;
+  final String about;
   final DateTime? dob;
   final UserStatus status;
   final Role role;
@@ -27,6 +29,8 @@ class ProfileModel {
     required this.email,
     required this.contact,
     required this.location,
+    required this.gender,
+    required this.about,
     this.dob,
     required this.status,
     required this.role,
@@ -44,6 +48,8 @@ class ProfileModel {
       email: json['email'] ?? '',
       contact: json['contact'] ?? '',
       location: json['location'] ?? '',
+        gender: json['gender'] ?? 'select',
+        about: json['about'] ?? '',
       dob: json['dob'] != null ? DateTime.parse(json['dob']) : null,
       status: UserStatus.fromString(json['status'] ?? ''),
       role: Role.fromString(json['role'] ?? ''),
@@ -65,7 +71,9 @@ class ProfileModel {
       'dob': dob?.toIso8601String(),
       'status': status.toJson(),
       'role': role.toJson(),
-      'isOtpVerified': isOtpVerified
+      'isOtpVerified': isOtpVerified,
+      'about' : about,
+      'gender' : gender
     };
   }
 }

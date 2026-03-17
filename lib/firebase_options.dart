@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyARBvtY96m15DYwtiTPRAxbFQKZqycImXw',
-    appId: '1:785968251870:android:701e6169129c85a2ded34f',
-    messagingSenderId: '785968251870',
-    projectId: 'dr-dina-lms',
-    storageBucket: 'dr-dina-lms.firebasestorage.app',
+    apiKey: 'AIzaSyB3PdLYwnA0g00SiwaECtpwSWZ1NYDr3Uw',
+    appId: '1:804793355673:android:e4b2de98589ce60ce39708',
+    messagingSenderId: '804793355673',
+    projectId: 'educology-a328f',
+    storageBucket: 'educology-a328f.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC57jqPrBjn54jq8pUU6KlO-ngt8uKXs2Q',
-    appId: '1:785968251870:ios:48e35ddae79ee4f4ded34f',
-    messagingSenderId: '785968251870',
-    projectId: 'dr-dina-lms',
-    storageBucket: 'dr-dina-lms.firebasestorage.app',
+    apiKey: 'AIzaSyDv82xZUs8gw06FWYKNAmTxYjYDJFWQh_8',
+    appId: '1:804793355673:ios:e80ccfd105ca6a35e39708',
+    messagingSenderId: '804793355673',
+    projectId: 'educology-a328f',
+    storageBucket: 'educology-a328f.firebasestorage.app',
     iosBundleId: 'com.drdina.drDinaEducology',
   );
+
 }

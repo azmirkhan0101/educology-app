@@ -201,7 +201,7 @@ class ApiService extends GetxService {
       }
 
       // Send request
-      var response = await request.send();
+      var response = await request.send().timeout(Duration(seconds: timeout));
       var responseBody = await response.stream.bytesToString();
       result = responseBody;
       if( response.statusCode == 401 && isAuthRequired ) {

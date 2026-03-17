@@ -7,6 +7,8 @@ import 'package:dr_dina_educology/modules/course_details/widgets/view_marks_item
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../content_details/screens/view_document_screen.dart';
+
 class ViewAllMarksScreen extends StatelessWidget {
   ViewAllMarksScreen({super.key});
 
@@ -51,7 +53,26 @@ class ViewAllMarksScreen extends StatelessWidget {
                           imageUrl: model.teacher.image,
                           isMarked: model.isMarked,
                           onViewAnswer: (){
-
+                            final pdfUrl = model.answerPdf;
+                            if (pdfUrl != null && pdfUrl.isNotEmpty) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ViewDocumentScreen(
+                                    url: pdfUrl,
+                                    title: "Answer",
+                                  ),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("No answer found."),
+                                  backgroundColor: Colors.redAccent,
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            }
                           }
                       );
                       });

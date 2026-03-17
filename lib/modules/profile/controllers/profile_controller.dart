@@ -37,6 +37,7 @@ class ProfileController extends GetxController{
     if( profile != null ) {
       profileModel.value = ProfileModel.fromJson(profile);
       profileImageUrl.value = profileModel.value?.image ?? "";
+      gender.value = profileModel.value?.gender ?? "select";
       initializeEditProfileControllers();
     }else{
       getProfile();
@@ -56,13 +57,15 @@ class ProfileController extends GetxController{
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController aboutMeController = TextEditingController();
   DateTime? dateOfBirth;
-  RxString gender = 'male'.obs;
+  RxString gender = 'select'.obs;
 
   //INITIALIZE EDIT PROFILE CONTROLLERS
   void initializeEditProfileControllers(){
     firstNameController.text = profileModel.value?.firstName ?? "";
     lastNameController.text = profileModel.value?.lastName ?? "";
     dateOfBirth = profileModel.value?.dob;
+    gender.value = profileModel.value?.gender ?? "select";
+    aboutMeController.text = profileModel.value?.about ?? "";
   }
 
   //GET PROFILE
@@ -99,7 +102,7 @@ class ProfileController extends GetxController{
       "lastName": lastNameController.text.trim(),
       "dob": dateOfBirth?.toIso8601String(),
       "gender": gender.value,
-      "aboutMe": aboutMeController.text.trim()
+      "about": aboutMeController.text.trim()
     };
     ApiResponse response = await apiService.multipartRequest(
         method: "PATCH",
