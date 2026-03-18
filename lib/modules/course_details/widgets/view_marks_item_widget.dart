@@ -93,7 +93,7 @@ class ViewMarksItemWidget extends StatelessWidget {
                 ),
                 child: Text(
                   submissionStatus.label,
-                  style: TextStyle(color: Color(0xFF2E7D32), fontSize: 13),
+                  style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 13),
                 ),
               ),
             ],

@@ -140,14 +140,24 @@ class ContentDetailsController extends GetxController{
 
   //OPEN CLASS LINK IN BROWSER
   Future<void> openLinkInBrowser({required String classLink}) async {
-    final Uri url = Uri.parse(classLink);
+    final Uri? url = Uri.tryParse(classLink);
 
-    // Check if the device is capable of handling the URL
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.externalApplication, // Forces external browser
-    )) {
-      throw Exception('Could not launch');
+    if (url == null || !url.hasScheme) {
+      showSnackBar(title: "Cannot open", message: "Invalid URL format", backgroundColor: AppColors.errorRed);
+      return;
+    }
+
+    try {
+      if (await canLaunchUrl(url)) {
+        await launchUrl(
+          url,
+          mode: LaunchMode.externalApplication,
+        );
+      } else {
+        showSnackBar(title: "Failed", message: "No application found to handle this link.", backgroundColor: AppColors.errorRed);
+      }
+    } catch (e) {
+      showSnackBar(title: "Cannot open link", message: "Error launching URL", backgroundColor: AppColors.errorRed);
     }
   }
 

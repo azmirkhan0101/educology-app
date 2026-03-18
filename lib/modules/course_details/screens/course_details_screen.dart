@@ -334,11 +334,13 @@ class CourseDetailsScreen extends StatelessWidget {
             children: [
               Obx(() {
                 return ClassesTab(
+                  scrollController: controller.classesScrollController,
+                  isMoreLoading: controller.isClassesMoreLoading.value,
                   showAddButton: isTeacher,
                   isLoading: controller.isClassesLoading.value,
                   classes: controller.classes.value,
                   onRefresh: () {
-                    controller.getClasses();
+                    controller.getClasses(refresh: true);
                   },
                   onAddClass: () {
                     Get.toNamed(
@@ -353,6 +355,8 @@ class CourseDetailsScreen extends StatelessWidget {
               }),
               Obx(() {
                 return HomeworkTab(
+                  scrollController: controller.homeworksScrollController,
+                  isMoreLoading: controller.isHomeworkMoreLoading.value,
                   showAddButton: isTeacher,
                   isStudent: isStudent,
                   isLoading: controller.isHomeworkLoading.value,
@@ -373,6 +377,8 @@ class CourseDetailsScreen extends StatelessWidget {
               }),
               Obx(() {
                 return ExamTab(
+                  scrollController: controller.examsScrollController,
+                  isMoreLoading: controller.isExamMoreLoading.value,
                   showAddButton: isTeacher,
                   isStudent: isStudent,
                   isLoading: controller.isExamLoading.value,
@@ -393,6 +399,8 @@ class CourseDetailsScreen extends StatelessWidget {
               }),
               Obx(() {
                 return AnnounceTab(
+                  scrollController: controller.announcementsScrollController,
+                  isMoreLoading: controller.isAnnouncementMoreLoading.value,
                   showAddButton: isTeacher,
                   isLoading: controller.isAnnouncementLoading.value,
                   announcements: controller.announcements.value,

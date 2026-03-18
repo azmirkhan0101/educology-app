@@ -288,7 +288,7 @@ extension AnswerSubmissionStatusExtension on AnswerSubmissionStatus {
       case AnswerSubmissionStatus.missing:
         return Colors.orange;
       case AnswerSubmissionStatus.notSubmitted:
-        return Colors.red;
+        return Colors.red.shade600;
         case AnswerSubmissionStatus.inTime:
         return Colors.green;
       case AnswerSubmissionStatus.submittedOnTime:

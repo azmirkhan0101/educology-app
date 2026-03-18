@@ -11,6 +11,8 @@ import '../../../data/models/homework_exam/homework_exam_model.dart';
 import '../../../routes/app_pages.dart';
 
 class ExamTab extends StatelessWidget {
+  final ScrollController scrollController;
+  final bool isMoreLoading;
   final bool showAddButton;
   final bool isStudent;
   final bool isLoading;
@@ -20,6 +22,8 @@ class ExamTab extends StatelessWidget {
 
   const ExamTab({
     super.key,
+    required this.scrollController,
+    required this.isMoreLoading,
     required this.showAddButton,
     required this.isStudent,
     required this.isLoading,
@@ -70,7 +74,7 @@ class ExamTab extends StatelessWidget {
                     ),
                   ),
                 )
-              : mainBody(context),
+              : Expanded(child: mainBody(context)),
         ],
       ),
     );
@@ -78,34 +82,44 @@ class ExamTab extends StatelessWidget {
 
   //MAIN BODY
   mainBody(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: exams.length,
-        itemBuilder: (context, index) {
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            controller: scrollController,
+            itemCount: exams.length,
+            itemBuilder: (context, index) {
 
-          final HomeworkExamModel model = exams[index];
+              final HomeworkExamModel model = exams[index];
 
-          return HomeworkExamItemWidget(
-            title: model.title,
-            staff: model.teacher,
-            startDate: model.startDate,
-            startTime: model.startTime,
-            commentCount: model.comments.length,
-            endDate: model.endDate,
-            endTime: model.endTime,
-            isStudent: isStudent,
-            onClick: () {
-              Get.toNamed(
-                AppRoutes.contentDetails,
-                arguments: {
-                  "contentDetailsType": ContentDetailsType.exam,
-                  "contentDetailsModel": ContentDetailsModel.fromHomeworkExamModel(model)
+              return HomeworkExamItemWidget(
+                title: model.title,
+                staff: model.teacher,
+                startDate: model.startDate,
+                startTime: model.startTime,
+                commentCount: model.comments.length,
+                endDate: model.endDate,
+                endTime: model.endTime,
+                isStudent: isStudent,
+                onClick: () {
+                  Get.toNamed(
+                    AppRoutes.contentDetails,
+                    arguments: {
+                      "contentDetailsType": ContentDetailsType.exam,
+                      "contentDetailsModel": ContentDetailsModel.fromHomeworkExamModel(model)
+                    },
+                  );
                 },
               );
             },
-          );
-        },
-      ),
+          ),
+        ),
+        if (isMoreLoading)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Center(child: CircularProgressIndicator(color: AppColors.primaryGold)),
+          )
+      ],
     );
   }
 }

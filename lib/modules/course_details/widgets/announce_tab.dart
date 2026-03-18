@@ -10,6 +10,9 @@ import '../../../core/widgets/button_widget.dart';
 import '../../../routes/app_pages.dart';
 
 class AnnounceTab extends StatelessWidget {
+
+  final ScrollController scrollController;
+  final bool isMoreLoading;
   final bool showAddButton;
   final bool isLoading;
   final List<AnnounceModel> announcements;
@@ -18,6 +21,8 @@ class AnnounceTab extends StatelessWidget {
 
   const AnnounceTab({
     super.key,
+    required this.scrollController,
+    required this.isMoreLoading,
     required this.showAddButton,
     required this.isLoading,
     required this.announcements,
@@ -67,7 +72,7 @@ class AnnounceTab extends StatelessWidget {
                     ),
                   ),
                 )
-              : mainBody(context),
+              : Expanded(child: mainBody(context)),
         ],
       ),
     );
@@ -75,25 +80,35 @@ class AnnounceTab extends StatelessWidget {
 
   //MAIN BODY
   Widget mainBody(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: announcements.length,
-        itemBuilder: (context, index) {
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            controller: scrollController,
+            itemCount: announcements.length,
+            itemBuilder: (context, index) {
 
-          final AnnounceModel model = announcements[index];
+              final AnnounceModel model = announcements[index];
 
-          return AnnounceItemWidget(
-            userName: model.teacher.fullName,
-            profileImageUrl: model.teacher.image,
-            createdAt: model.createdAt,
-            htmlString: model.announce,
-            commentCount: model.comments.length,
-            onClick: () {
-              Get.toNamed(AppRoutes.announcementDetails, arguments: model);
+              return AnnounceItemWidget(
+                userName: model.teacher.fullName,
+                profileImageUrl: model.teacher.image,
+                createdAt: model.createdAt,
+                htmlString: model.announce,
+                commentCount: model.comments.length,
+                onClick: () {
+                  Get.toNamed(AppRoutes.announcementDetails, arguments: model);
+                },
+              );
             },
-          );
-        },
-      ),
+          ),
+        ),
+        if (isMoreLoading)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Center(child: CircularProgressIndicator(color: AppColors.primaryGold)),
+          )
+      ],
     );
   }
 }

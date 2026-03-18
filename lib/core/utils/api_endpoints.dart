@@ -49,17 +49,17 @@ class ApiEndpoints {
   static String singleStudentAllMarks({required String courseId, required String studentId}){
     return "/report/student-marks/$courseId/$studentId";
   }
-  static String getClasses({required String courseId}){
-    return "/class/$courseId";
+  static String getClasses({required String courseId, required int page}){
+    return "/class/$courseId?page=$page&limit=10";
   }
-  static String getHomeworks({required String courseId}){
-    return "/task/$courseId/?type=homework";
+  static String getHomeworks({required String courseId, required int page}){
+    return "/task/$courseId?type=homework&page=$page&limit=10";
   }
-  static String getExams({required String courseId}){
-    return "/task/$courseId/?type=exam";
+  static String getExams({required String courseId, required int page}){
+    return "/task/$courseId?type=exam&page=$page&limit=10";
   }
-  static String getAnnouncements({required String courseId}){
-    return "/announcements/course/$courseId";
+  static String getAnnouncements({required String courseId, required int page}){
+    return "/announcements/course/$courseId?page=$page&limit=10";
   }
   static const takeAttendance = "/attendance/mark";
   static String getAttendanceSheet({required String classId}){

@@ -1,3 +1,4 @@
+import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/modules/teacher/controllers/course_overview_controller.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/status_card.dart';
@@ -70,35 +71,37 @@ class CourseOverviewScreen extends StatelessWidget {
                 ),
                 Obx((){
                   return Text(
-                    '${controller.courseOverviewStat.value?.totalStudents ?? 0} Student',
+                    '${controller.filteredStudentList.length} Student(s)',
                     style: TextStyle(fontWeight: FontWeight.w500),
                   );
                 }),
                 // Filter SVG Icon
                 PopupMenuButton<String>(
                   color: Colors.white,
-                  // The icon that triggers the menu
                   icon: SvgPicture.asset(Assets.icons.sort),
                   onSelected: (String result) {
-                    // Handle the logic for each selection here
-                    print('Selected: $result');
+                    controller.selectedFilter.value = result;
                   },
                   itemBuilder: (BuildContext context) =>
                       <PopupMenuEntry<String>>[
                         const PopupMenuItem<String>(
-                          value: 'On Track',
+                          value: 'all',
+                          child: Text('All'),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'on track',
                           child: Text('On Track'),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Attention',
+                          value: 'attention',
                           child: Text('Attention'),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Behind',
+                          value: 'behind',
                           child: Text('Behind'),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Critical Risk',
+                          value: 'critical',
                           child: Text('Critical Risk'),
                         ),
                       ],
@@ -111,24 +114,26 @@ class CourseOverviewScreen extends StatelessWidget {
             Expanded(
               child: Obx((){
                 if( controller.isLoading.value ){
-                  return Center(child: CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
                 }
-                if( controller.studentStatusList.isEmpty ){
+                if( controller.filteredStudentList.isEmpty ){
                   return Center(child: Text("No Data Found"));
                 }
                 return ListView.separated(
-                  itemCount: controller.studentStatusList.length,
+                  itemCount: controller.filteredStudentList.length,
                   separatorBuilder: (context, index) => const Divider(height: 1),
                   itemBuilder: (context, index) {
 
-                    final StudentStatusModel model = controller.studentStatusList[index];
+                    final StudentStatusModel model = controller.filteredStudentList[index];
 
                     return StudentStatusListItem(
                       name: model.fullName,
                       phoneNumber: model.contact,
                       imageUrl: model.image,
                       onViewPressed: () {
-                        Get.toNamed(AppRoutes.studentProgress, arguments: {
+                        Get.toNamed(
+                            AppRoutes.studentProgress,
+                            arguments: {
                           'courseId': controller.courseId,
                           'studentId': model.id
                         });

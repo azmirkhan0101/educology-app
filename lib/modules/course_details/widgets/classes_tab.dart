@@ -11,6 +11,9 @@ import 'package:get/get.dart';
 import 'class_item_widget.dart';
 
 class ClassesTab extends StatelessWidget {
+
+  final ScrollController scrollController;
+  final bool isMoreLoading;
   final bool showAddButton;
   final bool isLoading;
   final List<ClassModel> classes;
@@ -19,6 +22,8 @@ class ClassesTab extends StatelessWidget {
 
   const ClassesTab({
     super.key,
+    required this.scrollController,
+    required this.isMoreLoading,
     required this.showAddButton,
     required this.isLoading,
     required this.classes,
@@ -31,7 +36,7 @@ class ClassesTab extends StatelessWidget {
     return RefreshIndicator(
       backgroundColor: Colors.white,
       color: AppColors.primaryGold,
-      onRefresh: () async{
+      onRefresh: () async {
         onRefresh();
       },
       child: Column(
@@ -50,18 +55,20 @@ class ClassesTab extends StatelessWidget {
               ),
             ),
           isLoading
-              ? SizedBox( height: 100,child: const Center(child: CircularProgressIndicator(color: AppColors.primaryGold,)))
+              ? SizedBox(height: 100,
+              child: const Center(child: CircularProgressIndicator(
+                color: AppColors.primaryGold,)))
               : classes.isEmpty
               ? SizedBox(
-                  height: 180,
-                  child: const Center(
-                    child: Text(
-                      "No classes found.",
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                )
-              : mainBody(context),
+            height: 180,
+            child: const Center(
+              child: Text(
+                "No classes found.",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+              ),
+            ),
+          )
+              : Expanded(child: mainBody(context)),
         ],
       ),
     );
@@ -69,31 +76,42 @@ class ClassesTab extends StatelessWidget {
 
   //MAIN BODY
   Widget mainBody(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: classes.length,
-        itemBuilder: (context, index) {
-          final ClassModel model = classes[index];
+    return Column(
+      children: [
+        Expanded(
+            child: ListView.builder(
+              controller: scrollController,
+              itemCount: classes.length,
+              itemBuilder: (context, index) {
+                final ClassModel model = classes[index];
 
-          return ClassItemWidget(
-            title: model.title,
-            startDate: model.startDate,
-            startTime: model.startTime,
-            createdAt: model.createdAt,
-            staff: model.teacher,
-            commentCount: model.comments.length,
-            onClick: () {
-              Get.toNamed(
-                AppRoutes.contentDetails,
-                arguments: {
-                  "contentDetailsType": ContentDetailsType.cClass,
-                  "contentDetailsModel": ContentDetailsModel.fromClassModel(model)
-                },
-              );
-            },
-          );
-        },
-      ),
+                return ClassItemWidget(
+                  title: model.title,
+                  startDate: model.startDate,
+                  startTime: model.startTime,
+                  createdAt: model.createdAt,
+                  staff: model.teacher,
+                  commentCount: model.comments.length,
+                  onClick: () {
+                    Get.toNamed(
+                      AppRoutes.contentDetails,
+                      arguments: {
+                        "contentDetailsType": ContentDetailsType.cClass,
+                        "contentDetailsModel": ContentDetailsModel.fromClassModel(
+                            model)
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+        ),
+        if (isMoreLoading)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Center(child: CircularProgressIndicator(color: AppColors.primaryGold)),
+          )
+      ],
     );
   }
 }

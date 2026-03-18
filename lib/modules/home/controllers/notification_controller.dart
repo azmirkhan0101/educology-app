@@ -25,11 +25,8 @@ class NotificationController extends GetxController{
     }
 
     notificationScrollController.addListener((){
-      if( notificationScrollController.position.pixels == notificationScrollController.position.maxScrollExtent ){
-        if (isMoreLoading.value || !hasMoreData) return;
-        if ( notificationScrollController.position.pixels >= notificationScrollController.position.maxScrollExtent * 0.9 ) {
-          getNotifications(isRefresh: false);
-        }
+      if( notificationScrollController.position.pixels > notificationScrollController.position.maxScrollExtent * 0.9 ){
+        getNotifications(isRefresh: false);
       }
     });
 
@@ -48,7 +45,6 @@ class NotificationController extends GetxController{
       hasMoreData = true;
       isNotificationsLoading.value = true;
     } else {
-      // If already loading or no more data to fetch, exit
       if (isMoreLoading.value || !hasMoreData) return;
       isMoreLoading.value = true;
     }

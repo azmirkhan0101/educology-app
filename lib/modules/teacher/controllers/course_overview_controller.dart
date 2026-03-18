@@ -12,6 +12,18 @@ class CourseOverviewController extends GetxController {
   RxList<StudentStatusModel> studentStatusList = <StudentStatusModel>[].obs;
   RxBool isLoading = false.obs;
 
+  RxString selectedFilter = 'all'.obs;
+
+  List<StudentStatusModel> get filteredStudentList {
+    if (selectedFilter.value == 'all') {
+      return studentStatusList;
+    } else {
+      return studentStatusList
+          .where((student) => student.status == selectedFilter.value)
+          .toList();
+    }
+  }
+
   late String courseId;
 
   @override
