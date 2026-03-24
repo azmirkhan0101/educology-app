@@ -52,7 +52,7 @@ class SplashScreen extends StatelessWidget {
             WidgetsBinding.instance.addPostFrameCallback((_){
               final AuthStatus status = snapshot.data!;
               if( status == AuthStatus.loggedInAndVerified ){
-                Get.offNamed( AppRoutes.home );
+                Get.offNamed( AppRoutes.mainNav );
               }else if( status == AuthStatus.loggedInNotVerified ){
                 Get.offNamed( AppRoutes.accountApproval );
               }else{

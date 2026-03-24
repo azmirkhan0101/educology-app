@@ -37,6 +37,28 @@ class ParticipantScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: [
+            //========================Search Bar=========================
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: TextField(
+                onChanged: (query){
+                  controller.filterParticipants(query);
+                },
+                decoration: InputDecoration(
+                  hintText: 'Search by name or phone no.',
+                  hintStyle: TextStyle(color: Colors.grey.shade400),
+                  prefixIcon: const Icon(Icons.search, color: Color(0xFF4A6572)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(color: Colors.grey.shade200),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(color: Colors.grey.shade200),
+                  ),
+                ),
+              ),
+            ),
             Align(
               alignment: Alignment.topLeft,
               child: Text(
@@ -82,7 +104,7 @@ class ParticipantScreen extends StatelessWidget {
               children: [
                 Obx(() {
                   return Text(
-                    'Student( ${controller.studentStatusList.value.length} Students )',
+                    'Student( ${controller.participantsList.value.length} Students )',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   );
                 }),
@@ -96,16 +118,16 @@ class ParticipantScreen extends StatelessWidget {
                   if (controller.isLoading.value) {
                     return Center(child: CircularProgressIndicator());
                   }
-                  if (controller.studentStatusList.isEmpty) {
+                  if (controller.filteredParticipantsList.isEmpty) {
                     return Center(child: Text("No Data Found"));
                   }
                   return ListView.separated(
-                    itemCount: controller.studentStatusList.length,
+                    itemCount: controller.filteredParticipantsList.length,
                     separatorBuilder: (context, index) =>
                         const Divider(height: 1),
                     itemBuilder: (context, index) {
                       final StudentStatusModel model =
-                          controller.studentStatusList[index];
+                          controller.filteredParticipantsList[index];
 
                       return ParticipantListItem(
                         name: model.fullName,

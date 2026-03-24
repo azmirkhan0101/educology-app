@@ -15,7 +15,7 @@ class AddParentScreen extends StatelessWidget {
 
   final AddParentController controller = Get.find<AddParentController>();
   //Observable variable to track the selected index
-  final RxInt selectedIndex = 0.obs;
+  //final RxInt selectedIndex = 0.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +41,9 @@ class AddParentScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: TextField(
+              onChanged: (query){
+                controller.filterParents(query);
+              },
               decoration: InputDecoration(
                 hintText: 'Search by name or phone no.',
                 hintStyle: TextStyle(color: Colors.grey.shade400),
@@ -72,22 +75,24 @@ class AddParentScreen extends StatelessWidget {
               if( controller.isParentsLoading.value ){
                 return const Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
               }
-              if( controller.parents.isEmpty ){
+              if( controller.filteredParents.isEmpty ){
                 return const Center(child: Text("No Parents Found"));
               }
               return ListView.separated(
-                itemCount: controller.parents.length,
+                itemCount: controller.filteredParents.length,
                 separatorBuilder: (context, index) => const Divider(height: 1),
                 itemBuilder: (context, index) {
 
-                  final StaffModel staffModel = controller.parents[index];
+                  final StaffModel staffModel = controller.filteredParents[index];
 
                   return Obx(() {
-                    final isSelected = selectedIndex.value == index;
+
+                    final isSelected = controller.selectedParentId.value == staffModel.id;
+
                     return ParentItemWidget(
                         onPressed: (){
-                          selectedIndex.value = index;
-                          controller.selectedParentId = staffModel.id;
+                          controller.selectedParentId.value = staffModel.id;
+                          controller.filteredParents.refresh();
                         },
                         isSelected: isSelected,
                         staffModel: StaffModel(

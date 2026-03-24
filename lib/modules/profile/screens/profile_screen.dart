@@ -24,19 +24,12 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    print("Profile imageeeeeeeeeee: ${controller.profileImageUrl.value}");
-
     bool isStudent = controller.role == Role.student;
 
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
-        leading: IconButton(
-            onPressed: (){
-          Get.back();
-        }, icon: Icon(Icons.arrow_back_sharp)
-        ),
         centerTitle: true,
         title: TextWidget(text: AppStrings.profile,
         fontSize: 18,
@@ -47,6 +40,7 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 30,),
+          //===================PROFILE IMAGE========================
           Container(
             padding: EdgeInsets.all(2),
             height: 120.h,
@@ -65,6 +59,7 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
             SizedBox(height: 10,),
+            //===================NAME======================
             Obx((){
               return TextWidget(
                 text: controller.profileModel.value?.fullName ?? "",
@@ -74,6 +69,7 @@ class ProfileScreen extends StatelessWidget {
               );
             }),
             SizedBox(height: 10,),
+            //========================EMAIL=====================
             Row(
               spacing: 3,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -92,7 +88,9 @@ class ProfileScreen extends StatelessWidget {
                 }),
               ],
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 8,),
+            Center(child: TextWidget(text: controller.profileModel.value?.about ?? "")),
+            SizedBox(height: 15,),
             //========================ADD PARENT TILE IF STUDENT==========================
             if( isStudent )
               Obx((){
@@ -119,13 +117,13 @@ class ProfileScreen extends StatelessWidget {
                   Get.toNamed(AppRoutes.support);
                 }
             ),
-            ProfileMenuTile(
-                title: AppStrings.settings,
-                iconPath: Assets.icons.settings,
-                onTap: (){
-                  Get.toNamed(AppRoutes.settings);
-                }
-            ),
+            // ProfileMenuTile(
+            //     title: AppStrings.settings,
+            //     iconPath: Assets.icons.settings,
+            //     onTap: (){
+            //       Get.toNamed(AppRoutes.settings);
+            //     }
+            // ),
             ProfileMenuTile(
                 title: AppStrings.logout,
                 iconPath: Assets.icons.logout,
@@ -133,7 +131,7 @@ class ProfileScreen extends StatelessWidget {
                   showLogOutDialog();
                 }
             ),
-            SizedBox( height: 20,)
+            SizedBox( height: 60,)
           ],
         ),
       ),

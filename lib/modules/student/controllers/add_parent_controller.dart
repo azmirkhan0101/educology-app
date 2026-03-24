@@ -16,7 +16,9 @@ class AddParentController extends GetxController {
   RxBool isParentsLoading = false.obs;
   RxBool isUploading = false.obs;
   RxList<StaffModel> parents = <StaffModel>[].obs;
-  String? selectedParentId;
+  //FILTER FOR SEARCH
+  RxList<StaffModel> filteredParents = <StaffModel>[].obs;
+  RxString selectedParentId = "".obs;
 
   @override
   void onInit() {
@@ -44,6 +46,7 @@ class AddParentController extends GetxController {
       final tempList = response.data['data']['result'] as List<dynamic>?;
       if (tempList is List && tempList.isNotEmpty) {
         parents.value = tempList.map((e) => StaffModel.fromJson(e)).toList();
+        filteredParents.assignAll(parents);
       }
     }
   }
@@ -54,7 +57,7 @@ class AddParentController extends GetxController {
       return;
     }
 
-    if( selectedParentId == null || selectedParentId!.isEmpty ){
+    if( selectedParentId.value.isEmpty ){
       showSnackBar(
           title: "Failed!",
           message: "Please select a parent",
@@ -64,7 +67,7 @@ class AddParentController extends GetxController {
     }
 
     isUploading.value = true;
-    Map<String, dynamic> payLoad = {"parentId": selectedParentId};
+    Map<String, dynamic> payLoad = {"parentId": selectedParentId.value};
 
     ApiResponse response = await apiService.networkRequest(
       method: "PATCH",
@@ -80,6 +83,21 @@ class AddParentController extends GetxController {
           title: "Added!",
           message: "Your parent has been added successfully",
           backgroundColor: AppColors.greenPrimary
+      );
+    }
+  }
+
+
+  void filterParents(String query) {
+    if (query.isEmpty) {
+      filteredParents.assignAll(parents);
+    } else {
+      filteredParents.assignAll(
+        parents.where((parent) {
+          final name = parent.fullName.toLowerCase();
+          final phone = parent.contact.toLowerCase();
+          return name.contains(query.toLowerCase()) || phone.contains(query.toLowerCase());
+        }).toList()
       );
     }
   }

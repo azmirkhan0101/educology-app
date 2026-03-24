@@ -1,6 +1,7 @@
 import 'package:dr_dina_educology/core/assets_gen/fonts.gen.dart';
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
+import 'package:dr_dina_educology/modules/main_nav/controllers/main_nav_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,8 +14,9 @@ class HomeHeaderWidget extends StatelessWidget {
 
   final String? profileImageUrl;
   final String? userName;
+  final MainNavController controller = Get.isRegistered<MainNavController>() ? Get.find<MainNavController>() : Get.put(MainNavController());
 
-  const HomeHeaderWidget({
+  HomeHeaderWidget({
     super.key,
     required this.profileImageUrl,
     required this.userName
@@ -29,7 +31,8 @@ class HomeHeaderWidget extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: (){
-              Get.toNamed(AppRoutes.profile);
+              //Get.toNamed(AppRoutes.profile);
+              controller.changeIndex(3);
             },
             child: Row(
               children: [
@@ -65,7 +68,8 @@ class HomeHeaderWidget extends StatelessWidget {
           // Notification icon
           GestureDetector(
             onTap: (){
-              Get.toNamed(AppRoutes.notification);
+              //Get.toNamed(AppRoutes.notification);
+              controller.changeIndex(1);
             },
             child: Container(
               width: 25.w,

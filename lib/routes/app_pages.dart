@@ -12,53 +12,47 @@ import 'package:dr_dina_educology/modules/auth/screens/signup_screen.dart';
 import 'package:dr_dina_educology/modules/auth/screens/verify_email_screen.dart';
 import 'package:dr_dina_educology/modules/content_details/bindings/announce_details_binding.dart';
 import 'package:dr_dina_educology/modules/content_details/bindings/content_details_binding.dart';
-import 'package:dr_dina_educology/modules/course_details/bindings/course_details_binding.dart';
 import 'package:dr_dina_educology/modules/content_details/screens/announcement_details_screen.dart';
 import 'package:dr_dina_educology/modules/content_details/screens/content_details_screen.dart';
+import 'package:dr_dina_educology/modules/course_details/bindings/course_details_binding.dart';
 import 'package:dr_dina_educology/modules/course_details/bindings/participants_binding.dart';
 import 'package:dr_dina_educology/modules/course_details/bindings/single_attendance_binding.dart';
 import 'package:dr_dina_educology/modules/course_details/bindings/student_progress_binding.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/course_details_screen.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/participant_screen.dart';
 import 'package:dr_dina_educology/modules/course_details/screens/single_attendance_screen.dart';
-import 'package:dr_dina_educology/modules/home/bindings/home_binding.dart';
-import 'package:dr_dina_educology/modules/home/bindings/notification_binding.dart';
-import 'package:dr_dina_educology/modules/home/screens/home_screen.dart';
-import 'package:dr_dina_educology/modules/home/screens/notification_screen.dart';
+import 'package:dr_dina_educology/modules/course_details/screens/student_progress_screen.dart';
+import 'package:dr_dina_educology/modules/course_details/screens/view_all_marks_screen.dart';
+import 'package:dr_dina_educology/modules/main_nav/bindings/main_nav_binding.dart';
+import 'package:dr_dina_educology/modules/main_nav/screens/main_nav_screen.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_one.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_three.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_two.dart';
 import 'package:dr_dina_educology/modules/profile/bindings/about_us_binding.dart';
 import 'package:dr_dina_educology/modules/profile/bindings/privacy_binding.dart';
-import 'package:dr_dina_educology/modules/profile/bindings/profile_binding.dart';
-import 'package:dr_dina_educology/modules/profile/bindings/settings_binding.dart';
 import 'package:dr_dina_educology/modules/profile/bindings/terms_binding.dart';
 import 'package:dr_dina_educology/modules/profile/screens/about_us_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/change_password_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/edit_profile_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/privacy_screen.dart';
-import 'package:dr_dina_educology/modules/profile/screens/profile_screen.dart';
-import 'package:dr_dina_educology/modules/profile/screens/settings_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/support_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/terms_screen.dart';
 import 'package:dr_dina_educology/modules/student/bindings/add_parent_binding.dart';
 import 'package:dr_dina_educology/modules/student/bindings/submit_answer_binding.dart';
 import 'package:dr_dina_educology/modules/student/screens/add_parent_screen.dart';
 import 'package:dr_dina_educology/modules/student/screens/submit_answer_screen.dart';
+import 'package:dr_dina_educology/modules/teacher/bindings/add_content_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/bindings/check_answer_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/bindings/course_overview_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/bindings/provide_mark_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/bindings/student_report_binding.dart';
-import 'package:dr_dina_educology/modules/teacher/bindings/add_content_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/bindings/take_attendance_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/add_content_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/check_answer_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/course_overview_screen.dart';
-import 'package:dr_dina_educology/modules/course_details/screens/student_progress_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/provide_mark_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/students_report_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/take_attendance_screen.dart';
-import 'package:dr_dina_educology/modules/course_details/screens/view_all_marks_screen.dart';
 import 'package:get/get.dart';
 
 import '../modules/course_details/bindings/view_marks_binding.dart';
@@ -143,25 +137,11 @@ class AppPages {
         }
     ),
     GetPage(
-        name: AppRoutes.home,
+        name: AppRoutes.mainNav,
         page: (){
-          return HomeScreen();
+          return MainNavScreen();
         },
-      binding: HomeBinding()
-    ),
-    GetPage(
-        name: AppRoutes.notification,
-        page: (){
-          return NotificationScreen();
-        },
-      binding: NotificationBinding()
-    ),
-    GetPage(
-        name: AppRoutes.profile,
-        page: (){
-          return ProfileScreen();
-        },
-      binding: ProfileBinding()
+      binding: MainNavBinding()
     ),
     GetPage(
         name: AppRoutes.editProfile,
@@ -174,13 +154,6 @@ class AppPages {
         page: (){
           return SupportScreen();
         }
-    ),
-    GetPage(
-        name: AppRoutes.settings,
-        page: (){
-          return SettingsScreen();
-        },
-      binding: SettingsBinding()
     ),
     GetPage(
         name: AppRoutes.changePassword,

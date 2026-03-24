@@ -11,7 +11,9 @@ class ParticipantsController extends GetxController{
   final ApiService apiService = Get.find<ApiService>();
   Rxn<StaffModel> teacherModel = Rxn<StaffModel>(null);
   Rxn<StaffModel> assistantModel = Rxn<StaffModel>(null);
-  RxList<StudentStatusModel> studentStatusList = <StudentStatusModel>[].obs;
+  RxList<StudentStatusModel> participantsList = <StudentStatusModel>[].obs;
+  //FILTER FOR SEARCH
+  RxList<StudentStatusModel> filteredParticipantsList = <StudentStatusModel>[].obs;
   RxBool isLoading = false.obs;
 
   late String courseId;
@@ -21,7 +23,7 @@ class ParticipantsController extends GetxController{
 
     courseId = Get.arguments;
 
-    if( studentStatusList.isEmpty ){
+    if( participantsList.isEmpty ){
       getStudentStatusList();
     }
 
@@ -49,8 +51,23 @@ class ParticipantsController extends GetxController{
       }
       final tempStats = response.data['data']['studentList'];
       if ( tempStats is List && tempStats.isNotEmpty ) {
-        studentStatusList.value = tempStats.map((e) => StudentStatusModel.fromJson(e)).toList();
+        participantsList.value = tempStats.map((e) => StudentStatusModel.fromJson(e)).toList();
+        filteredParticipantsList.assignAll(participantsList);
       }
+    }
+  }
+
+  void filterParticipants(String query) {
+    if (query.isEmpty) {
+      filteredParticipantsList.assignAll(participantsList);
+    } else {
+      filteredParticipantsList.assignAll(
+          participantsList.where((parent) {
+            final name = parent.fullName.toLowerCase();
+            final phone = parent.contact.toLowerCase();
+            return name.contains(query.toLowerCase()) || phone.contains(query.toLowerCase());
+          }).toList()
+      );
     }
   }
 }

@@ -139,7 +139,9 @@ class ContentDetailsScreen extends StatelessWidget {
                 fontSize: 14,
                 buttonHeight: 45,
                 onPressed: () {
-                  //Get.toNamed(AppRoutes.checkAnswer);
+                  if( controller.contentDetailsModel.classLink != null ) {
+                    controller.openLinkInBrowser(classLink: controller.contentDetailsModel.classLink! );
+                  }
                 },
               ),
             //===============START CLASS | TAKE ATTENDANCE FOR TEACHER IF CLASS================

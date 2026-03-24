@@ -88,7 +88,7 @@ class OtpVerifyController extends GetxController {
       showSnackBar(title: "Otp verified!", message: message ?? "Otp verified successfully.", backgroundColor: AppColors.greenPrimary);
       storage.write( requireVerificationKey, false );
       saveTokens( response.data );
-      Get.offAllNamed( AppRoutes.home );
+      Get.offAllNamed( AppRoutes.mainNav );
     }else if( response.statusCode == 400 ){
       showSnackBar(title: "OTP required", message: message ?? "Please enter the otp and try again.", backgroundColor: AppColors.warningYellow);
     }else if( response.statusCode == 401 || response.statusCode == 404 ){

@@ -4,10 +4,13 @@ class AppRoutes {
 
   AppRoutes._();
 
+  //==============ONBOARDING===============
   static const String splash = '/splash';
   static const String onBoardingOne = '/onBoarding_one';
   static const String onBoardingTwo = '/onBoarding_two';
   static const String onBoardingThree = '/onBoarding_three';
+
+  //===============AUTH====================
   static const String roleSelection = '/role_selection';
   static const String signIn = '/signIn';
   static const String signUp = '/signUp';
@@ -15,9 +18,8 @@ class AppRoutes {
   static const String verifyEmail = '/verify_email';
   static const String resetPassword = '/reset_password';
   static const String accountApproval = '/account_approval';
-  static const String notification = '/notification';
 
-  static const String home = '/home';
+  static const String mainNav = '/main_nav';
 
   static const String courseDetails = '/course_details';
   static const String courseOverview = '/course_overview';
@@ -39,12 +41,8 @@ class AppRoutes {
   static const String addParent = '/add_parent';
   static const String submitAnswer = '/submit_answer';
 
-
-
-  static const String profile = '/profile';
   static const String editProfile = '/edit_profile';
   static const String support = '/support';
-  static const String settings = '/settings';
   static const String changePassword = '/change_password';
   static const String aboutUs = '/about_us';
   static const String termsConditions = '/terms_conditions';

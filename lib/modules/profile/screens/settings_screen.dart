@@ -32,10 +32,6 @@ class SettingsScreen extends StatelessWidget {
         fontSize: 18,
           fontWeight: FontWeight.w700,
         ),
-        leading: IconButton(onPressed: (){
-          Get.back();
-        }, icon: Icon(Icons.arrow_back_sharp)
-        ),
       ),
       body: Column(
         children: [

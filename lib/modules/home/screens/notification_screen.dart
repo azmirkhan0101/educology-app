@@ -24,11 +24,10 @@ class NotificationScreen extends StatelessWidget {
           fontWeight: FontWeight.w600,
           fontSize: 18,
         ),
-        leading: IconButton(onPressed: (){
-          Get.back();
-        }, icon: Icon(Icons.arrow_back_sharp)),
       ),
       body: RefreshIndicator(
+        backgroundColor: Colors.white,
+        color: AppColors.primaryGold,
         onRefresh: (){
           return controller.getNotifications(isRefresh: true);
         },
@@ -37,15 +36,22 @@ class NotificationScreen extends StatelessWidget {
           child: Obx((){
             if( controller.isNotificationsLoading.value ) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(color: AppColors.primaryGold,),
               );
             }else if( controller.notifications.isEmpty ){
-              return const Center( child: Text("No notifications found"),);
+              return ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: const [
+                  SizedBox(height: 200), // Adjust to center the text
+                  Center(child: Text("No notifications found")),
+                ],
+              );
             }else{
               return Column(
                 children: [
                   Expanded(
                     child: ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       controller: controller.notificationScrollController,
                       itemCount: controller.notifications.length,
                       itemBuilder: (context, index){
@@ -75,7 +81,7 @@ class NotificationScreen extends StatelessWidget {
                       return const Padding(
                         padding: EdgeInsets.symmetric(vertical: 12.0),
                         child: Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(color: AppColors.primaryGold,),
                         ),
                       );
                     }else{

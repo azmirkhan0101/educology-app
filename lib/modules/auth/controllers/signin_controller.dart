@@ -189,7 +189,7 @@ class SigninController extends GetxController {
         return;
       }
       if( status == UserStatus.inProgress ){
-        Get.offAllNamed(AppRoutes.home);
+        Get.offAllNamed(AppRoutes.mainNav);
         showSnackBar(
           title: "Login Successful!",
           message: "Welcome back!",
