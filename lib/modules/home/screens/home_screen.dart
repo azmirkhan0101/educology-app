@@ -111,11 +111,11 @@ class HomeScreen extends StatelessWidget {
                     if (controller.role == Role.student) {
                       return LearningJourneyWidget();
                     } else {
-                      //TODO: ADD COURSE/CLASS BUTTON FOR STAFF
                       return Center(child: Text("No Courses Found"));
                     }
                   }
                   return ListView.builder(
+                    controller: controller.coursesScrollController,
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),

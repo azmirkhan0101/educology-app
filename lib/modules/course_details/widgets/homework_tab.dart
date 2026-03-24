@@ -97,6 +97,7 @@ Widget mainBody(BuildContext context){
                 endDate: model.endDate,
                 endTime: model.endTime,
                 isStudent: isStudent,
+                status: model.status,
                 onClick: () {
                   Get.toNamed(
                     AppRoutes.contentDetails,

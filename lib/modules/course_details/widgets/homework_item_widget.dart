@@ -1,9 +1,11 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:dr_dina_educology/data/models/staff/staff_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class HomeworkExamItemWidget extends StatelessWidget {
@@ -15,6 +17,7 @@ class HomeworkExamItemWidget extends StatelessWidget {
   final DateTime endDate;
   final String endTime;
   final bool isStudent;
+  final String? status;
   final VoidCallback? onClick;
 
   const HomeworkExamItemWidget({
@@ -25,6 +28,7 @@ class HomeworkExamItemWidget extends StatelessWidget {
     required this.startTime,
     required this.commentCount,
     required this.isStudent,
+    required this.status,
     required this.endDate,
     required this.endTime,
     this.onClick
@@ -32,6 +36,9 @@ class HomeworkExamItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    TaskStatus taskStatus = TaskStatus.values.firstWhereOrNull((element) => element.label2 == status) ?? TaskStatus.active;
+
     return GestureDetector(
       onTap: onClick,
       child: Card(
@@ -59,15 +66,14 @@ class HomeworkExamItemWidget extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Color(0x3300A442),
+                      color: taskStatus.taskStatusColor,
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                    child: TextWidget(text: "Done", fontSize: 12, fontColor: AppColors.secondaryGreen,),
+                    child: TextWidget(text: taskStatus.label, fontSize: 12, fontColor: Colors.white,),
                   )
                 ],
               ),
               const SizedBox(height: 6),
-
               // Author Row
               Row(
                 children: [

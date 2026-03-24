@@ -4,6 +4,7 @@ import 'package:dr_dina_educology/data/models/course_details/course_stat_model.d
 import 'package:dr_dina_educology/data/models/home/staff_course_stats.dart';
 import 'package:dr_dina_educology/data/models/staff/staff_model.dart';
 import 'package:dr_dina_educology/modules/profile/controllers/profile_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../core/services/api_service.dart';
@@ -27,7 +28,11 @@ class HomeController extends GetxController {
 
   //COURSES
   RxBool isCoursesLoading = false.obs;
+  RxBool isCoursesMoreLoading = false.obs;
   RxList<CourseModel> courses = <CourseModel>[].obs;
+  ScrollController coursesScrollController = ScrollController();
+  int coursesCurrentPage = 1;
+  bool coursesHasMorePages = true;
 
   //CHILDREN FOR PARENT
   RxList<StaffModel> children = <StaffModel>[].obs;
@@ -37,9 +42,26 @@ class HomeController extends GetxController {
   void onInit() {
     role = roleService.getUpdatedRole();
 
-
-
     refreshHome();
+
+    coursesScrollController.addListener(() {
+      if (coursesScrollController.position.pixels >
+          coursesScrollController.position.maxScrollExtent * 0.9) {
+        if (role == Role.parent) {
+          getCourses(
+              refresh: false,
+              isParent: true,
+              apiEndPoint: ApiEndpoints.childCourses(page: coursesCurrentPage,childId: selectedChild.value!.id)
+          );
+        } else {
+          getCourses(
+            refresh: false,
+            isParent: false,
+            apiEndPoint: ApiEndpoints.myAssignCourses(page: coursesCurrentPage)
+          );
+        }
+      }
+    });
 
     super.onInit();
   }
@@ -51,8 +73,9 @@ class HomeController extends GetxController {
     }
     if (role != Role.parent) {
       getCourses(
-          isParent: false,
-          apiEndPoint: ApiEndpoints.myAssignCourses
+        refresh: true,
+        isParent: false,
+        apiEndPoint: ApiEndpoints.myAssignCourses(page: coursesCurrentPage),
       );
     } else {
       getChildren();
@@ -75,29 +98,53 @@ class HomeController extends GetxController {
   }
 
   //GET MY ASSIGN COURSES - TEACHER, ASSISTANT AND STUDENT
-  Future<void> getCourses({required bool isParent, required String apiEndPoint}) async {
+  Future<void> getCourses({
+    bool refresh = true,
+    required bool isParent,
+    required String apiEndPoint,
+  }) async {
     if (isCoursesLoading.value) {
       return;
     }
 
-    isCoursesLoading.value = true;
+    if (refresh) {
+      coursesCurrentPage = 1;
+      coursesHasMorePages = true;
+      isCoursesLoading.value = true;
+    } else {
+      if (isCoursesMoreLoading.value || !coursesHasMorePages) return;
+      isCoursesMoreLoading.value = true;
+    }
+
     ApiResponse response = await apiService.networkRequest(
       method: "GET",
       isAuthRequired: true,
       endPoint: apiEndPoint,
     );
     isCoursesLoading.value = false;
+    isCoursesMoreLoading.value = false;
+
     if (response.statusCode == 200) {
       final List<dynamic>? tempList;
-      if( isParent ){
+      if (isParent) {
         tempList = response.data['data']['enrolledCourses'] as List<dynamic>?;
-      }else{
+      } else {
         tempList = response.data['data']['result'] as List<dynamic>?;
       }
       if (tempList is List && tempList.isNotEmpty) {
-        courses.value = tempList.map<CourseModel>((e) {
+        final fetchedCourses = tempList.map<CourseModel>((e) {
           return CourseModel.fromJson(e);
         }).toList();
+        if (refresh) {
+          courses.value = fetchedCourses;
+        } else {
+          courses.addAll(fetchedCourses);
+        }
+        if (fetchedCourses.length < 10) {
+          coursesHasMorePages = false;
+        } else {
+          coursesCurrentPage++;
+        }
       } else {
         courses.value = [];
       }
@@ -110,10 +157,9 @@ class HomeController extends GetxController {
       return;
     }
     getCourses(
+      refresh: true,
       isParent: true,
-      apiEndPoint: ApiEndpoints.childCourses(
-        childId: selectedChild.value!.id,
-      ),
+      apiEndPoint: ApiEndpoints.childCourses(page: coursesCurrentPage,childId: selectedChild.value!.id),
     );
   }
 

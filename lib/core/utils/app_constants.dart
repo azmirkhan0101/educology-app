@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../assets_gen/assets.gen.dart';
@@ -34,7 +35,7 @@ enum Role {
   static Role fromString(String role) {
     return Role.values.firstWhere(
           (e) => e.name == role.toLowerCase(),
-      orElse: () => Role.student, // Default fallback
+      orElse: () => Role.student,
     );
   }
 
@@ -57,12 +58,6 @@ enum UserStatus {
 }
 
 const String roleKey = "roleKey";
-
-//DUMMY IMAGE URL
-class Dummy{
-
-  static const String profileImageUrl = "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-}
 
 //STUDENT STATUS - ON TRACK, ATTENTION, BEHIND, CRITICAL
 //on track', 'behind', 'attention', 'critical'
@@ -245,6 +240,37 @@ extension ContentDetailsTypeExtension on ContentDetailsType {
       case ContentDetailsType.cClass: return "Class Details";
       case ContentDetailsType.exam: return "Exam";
       case ContentDetailsType.homeWork: return "Homework";
+    }
+  }
+}
+
+//HOMEWORK EXAM STATUS
+enum TaskStatus{ active, timeOver }
+extension TaskStatusExtension on TaskStatus {
+  String get label {
+    switch (this) {
+      case TaskStatus.active:
+        return "Active";
+      case TaskStatus.timeOver:
+        return "Time Over";
+    }
+  }
+
+  String get label2 {
+    switch (this) {
+      case TaskStatus.active:
+        return "active";
+      case TaskStatus.timeOver:
+        return "time over";
+    }
+  }
+
+  Color get taskStatusColor {
+    switch (this) {
+      case TaskStatus.active:
+        return Colors.green.shade500;
+      case TaskStatus.timeOver:
+        return Colors.yellow.shade900;
     }
   }
 }

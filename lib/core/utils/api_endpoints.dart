@@ -26,7 +26,9 @@ class ApiEndpoints {
 
   //##############################################################
   //=====================TEACHER AND ASSISTANT====================
-  static const myAssignCourses = "/courses/my-courses";
+  static String myAssignCourses({required int page}){
+    return "/courses/my-courses?page=$page&limit=10";
+  }
   static const staffCourseStats = "/courses/teacher-stats";
   static String overallCourseStats({required String courseID}){
     return  "/report/overall-stats/$courseID";
@@ -95,8 +97,8 @@ class ApiEndpoints {
 
   //#############################################################
   //=========================PARENT==============================
-  static String childCourses({required String childId}){
-    return "/report/child-courses/$childId";
+  static String childCourses({required String childId, required int page}){
+    return "/report/child-courses/$childId?page=$page&limit=10";
   }
   static String childProgress({required String courseId, required String childId}){
     return "/report/child-progress/$courseId/$childId";
