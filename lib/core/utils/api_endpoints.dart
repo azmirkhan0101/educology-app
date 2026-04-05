@@ -4,8 +4,8 @@ class ApiEndpoints {
 
   //=======================BASE====================================
   //BASE URL
-  static const baseUrl = "https://lms-orpin-five.vercel.app/api/v1";
-  //static const baseUrl = "http://10.10.20.34:5001/api/v1";
+  //static const baseUrl = "https://lms-orpin-five.vercel.app/api/v1";
+  static const baseUrl = "http://10.10.20.34:5000/api/v1";
   //=======================AUTH====================================
   //LOGIN/SIGNIN
   static const login = "/auth/login";
