@@ -5,7 +5,7 @@ import 'package:dr_dina_educology/modules/profile/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../profile/screens/settings_screen.dart';
+import '../../settings/screens/settings_screen.dart';
 import '../controllers/main_nav_controller.dart';
 import '../widgets/custom_bottom_nav.dart';
 

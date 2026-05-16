@@ -1,7 +1,8 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
-import 'package:dr_dina_educology/modules/profile/controllers/about_us_controller.dart';
+import 'package:dr_dina_educology/modules/settings/controllers/info_controller.dart';
 import 'package:dr_dina_educology/modules/profile/widgets/profile_menu_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -13,10 +14,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:shimmer/shimmer.dart';
 
-class AboutUsScreen extends StatelessWidget {
-  AboutUsScreen({super.key});
+class InfoScreen extends StatelessWidget {
+  InfoScreen({super.key});
 
-  final AboutUsController controller = Get.find<AboutUsController>();
+  final InfoController controller = Get.find<InfoController>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,31 +26,28 @@ class AboutUsScreen extends StatelessWidget {
       appBar: AppBar(
         forceMaterialTransparency: true,
         centerTitle: true,
-        title: TextWidget(text: AppStrings.aboutUs,
+        title: TextWidget(text: controller.pageType.label,
         fontSize: 18,
           fontWeight: FontWeight.w700,
         ),
-        leading: IconButton(onPressed: (){
-          Get.back();
-        }, icon: Icon(Icons.arrow_back_sharp)
-        ),
+        leading: const BackButton(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Obx((){
-          if( controller.isAboutUsLoading.value ){
+          if( controller.isInfoLoading.value ){
             return const Center(
               child: CircularProgressIndicator(),
             );
           }else{
-            if( controller.aboutUs.value.isEmpty ){
+            if( controller.info.value.isEmpty ){
               return const Center( child: Text("No data found"),);
             }else{
               return SingleChildScrollView(
                   child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 25.h),
                       child: Html(
-                        data: controller.aboutUs.value,
+                        data: controller.info.value,
                         style: {
                           "body": Style(
                             fontSize: FontSize(14),

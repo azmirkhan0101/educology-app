@@ -10,7 +10,7 @@ import 'package:get_storage/get_storage.dart';
 
 import 'core/services/firebase_notification_service.dart';
 import 'firebase_options.dart';
-import 'main_app.dart';
+import 'educology_main_app.dart';
 
 void main() async{
 
@@ -33,5 +33,5 @@ void main() async{
   }
   print("Token: $token");
 
-  runApp( const MainApp() );
+  runApp( const EducologyMainApp() );
 }

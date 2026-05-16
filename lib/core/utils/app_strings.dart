@@ -167,6 +167,7 @@ class AppStrings {
   static const String writeAboutYou = "Write about you";
   static const String max200Word = "Max : 200 word";
   static const String update = "Update";
+  static const String connectZoom = "Connect Zoom";
   static const String changePassword = "Change Password";
   static const String aboutUs = "About Us";
   static const String termsConditions = "Terms & Conditions";

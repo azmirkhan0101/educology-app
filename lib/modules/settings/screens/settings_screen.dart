@@ -1,7 +1,7 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
-import 'package:dr_dina_educology/modules/profile/controllers/settings_controller.dart';
+import 'package:dr_dina_educology/modules/settings/controllers/settings_controller.dart';
 import 'package:dr_dina_educology/modules/profile/widgets/profile_menu_tile.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,6 +14,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:shimmer/shimmer.dart';
 
+import '../../../core/utils/app_constants.dart';
 import '../../../core/widgets/button_widget.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -37,6 +38,14 @@ class SettingsScreen extends StatelessWidget {
         children: [
           SizedBox(height: 30,),
           ProfileMenuTile(
+              title: AppStrings.connectZoom,
+              iconPath: "",
+              isZoomIcon: true,
+              onTap: (){
+                controller.connectZoom();
+              }
+          ),
+          ProfileMenuTile(
               title: AppStrings.changePassword,
               iconPath: Assets.icons.changePassword,
               onTap: (){
@@ -47,21 +56,28 @@ class SettingsScreen extends StatelessWidget {
               title: AppStrings.aboutUs,
               iconPath: Assets.icons.aboutUs,
               onTap: (){
-                Get.toNamed(AppRoutes.aboutUs);
+                Get.toNamed(
+                    AppRoutes.info,
+                  arguments: InfoPageType.aboutUs
+                );
               }
           ),
           ProfileMenuTile(
               title: AppStrings.termsConditions,
               iconPath: Assets.icons.terms,
               onTap: (){
-                Get.toNamed(AppRoutes.termsConditions);
+                Get.toNamed(AppRoutes.info,
+                  arguments: InfoPageType.termsAndConditions
+                );
               }
           ),
           ProfileMenuTile(
               title: AppStrings.privacyPolicy,
               iconPath: Assets.icons.privacy,
               onTap: (){
-                Get.toNamed(AppRoutes.privacyPolicy);
+                Get.toNamed(AppRoutes.info,
+                  arguments: InfoPageType.privacyPolicy
+                );
               }
           ),
           ProfileMenuTile(
@@ -77,6 +93,7 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
+  //DELETE ACCOUNT DIALOG
   Future<void> showDeleteDialog() async{
     Get.dialog(
         AlertDialog(

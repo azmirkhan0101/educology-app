@@ -28,15 +28,11 @@ import 'package:dr_dina_educology/modules/main_nav/screens/main_nav_screen.dart'
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_one.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_three.dart';
 import 'package:dr_dina_educology/modules/onboarding/screens/onboarding_two.dart';
-import 'package:dr_dina_educology/modules/profile/bindings/about_us_binding.dart';
-import 'package:dr_dina_educology/modules/profile/bindings/privacy_binding.dart';
-import 'package:dr_dina_educology/modules/profile/bindings/terms_binding.dart';
-import 'package:dr_dina_educology/modules/profile/screens/about_us_screen.dart';
-import 'package:dr_dina_educology/modules/profile/screens/change_password_screen.dart';
+import 'package:dr_dina_educology/modules/settings/bindings/info_binding.dart';
+import 'package:dr_dina_educology/modules/settings/screens/info_screen.dart';
+import 'package:dr_dina_educology/modules/settings/screens/change_password_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/edit_profile_screen.dart';
-import 'package:dr_dina_educology/modules/profile/screens/privacy_screen.dart';
 import 'package:dr_dina_educology/modules/profile/screens/support_screen.dart';
-import 'package:dr_dina_educology/modules/profile/screens/terms_screen.dart';
 import 'package:dr_dina_educology/modules/student/bindings/add_parent_binding.dart';
 import 'package:dr_dina_educology/modules/student/bindings/submit_answer_binding.dart';
 import 'package:dr_dina_educology/modules/student/screens/add_parent_screen.dart';
@@ -162,25 +158,11 @@ class AppPages {
         }
     ),
     GetPage(
-        name: AppRoutes.termsConditions,
+        name: AppRoutes.info,
         page: (){
-          return TermsScreen();
+          return InfoScreen();
         },
-      binding: TermsBinding()
-    ),
-    GetPage(
-        name: AppRoutes.privacyPolicy,
-        page: (){
-          return PrivacyScreen();
-        },
-      binding: PrivacyBinding()
-    ),
-    GetPage(
-        name: AppRoutes.aboutUs,
-        page: (){
-          return AboutUsScreen();
-        },
-      binding: AboutUsBinding()
+      binding: InfoBinding()
     ),
     GetPage(
         name: AppRoutes.courseDetails,

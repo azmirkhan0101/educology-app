@@ -44,7 +44,5 @@ class AppRoutes {
   static const String editProfile = '/edit_profile';
   static const String support = '/support';
   static const String changePassword = '/change_password';
-  static const String aboutUs = '/about_us';
-  static const String termsConditions = '/terms_conditions';
-  static const String privacyPolicy = '/privacy_policy';
+  static const String info = '/info'; //TERMS, ABOUT US, PRIVACY
 }

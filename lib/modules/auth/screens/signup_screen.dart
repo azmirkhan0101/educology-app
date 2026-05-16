@@ -241,7 +241,9 @@ class SignupScreen extends StatelessWidget {
                             style: TextStyle(color: AppColors.secondaryDarkBlue, fontWeight: FontWeight.bold),
                           recognizer: TapGestureRecognizer()
                               ..onTap = (){
-                              Get.toNamed(AppRoutes.termsConditions);
+                              Get.toNamed(AppRoutes.info,
+                                arguments: InfoPageType.termsAndConditions
+                              );
                           }
                           ),
                           TextSpan(text: ' and '),
@@ -250,7 +252,9 @@ class SignupScreen extends StatelessWidget {
                             style: TextStyle(color: AppColors.secondaryDarkBlue, fontWeight: FontWeight.bold),
                           recognizer: TapGestureRecognizer()
                               ..onTap = (){
-                              Get.toNamed(AppRoutes.privacyPolicy);
+                              Get.toNamed(AppRoutes.info,
+                                arguments: InfoPageType.privacyPolicy
+                              );
                               }
                           ),
                         ],

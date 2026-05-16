@@ -33,6 +33,7 @@ class ApiService extends GetxService {
     required String endPoint,
     Map<String, dynamic>? body,
     int timeout = 12,
+    bool shouldPrint = false
   }) async {
     var result;
     var code;
@@ -121,13 +122,16 @@ class ApiService extends GetxService {
     } on TimeoutException {
       return ApiResponse(statusCode: 408);
     } catch (e) {
-      print("🛑 Error: $e");
+      if( shouldPrint ){
+        print("🛑 Error: $e");
+      }
       return ApiResponse(statusCode: 500);
     }finally{
-      print("🌐 Endpoint: $endPoint");
-      print("🟢 Code: $code");
-      //developer.log("✅ Result: $result");
-      logPrettyJson(result.toString());
+      if( shouldPrint ){
+        print("🌐 Endpoint: $endPoint");
+        print("🟢 Code: $code");
+        logPrettyJson(result.toString());
+      }
     }
   }
 
@@ -326,16 +330,10 @@ class ApiService extends GetxService {
 
   void logPrettyJson(String responseBody) {
     try {
-      // 1. Parse the string into an object (Map or List)
       final dynamic decoded = json.decode(responseBody);
-
-      // 2. Encode it back to a string with 2-space indentation
       final String prettyString = const JsonEncoder.withIndent('  ').convert(decoded);
-
-      // 3. Log the result
       developer.log(prettyString, name: 'API_RESPONSE');
     } catch (e) {
-      // If it's not valid JSON, just log the raw string
       developer.log("Invalid JSON: $responseBody", name: 'ERROR');
     }
   }

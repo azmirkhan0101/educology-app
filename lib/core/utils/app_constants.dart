@@ -4,6 +4,7 @@ import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../assets_gen/assets.gen.dart';
+import 'api_endpoints.dart';
 import 'app_strings.dart';
 
 //GET STORAGE KEYS
@@ -42,6 +43,50 @@ enum Role {
   String toJson() => name;
 }
 
+//INFO SCREEN TYPE
+enum InfoPageType {
+  privacyPolicy,
+  termsAndConditions,
+  aboutUs,
+}
+
+extension InfoPageTypeExtension on InfoPageType {
+  String get label {
+    switch (this) {
+      case InfoPageType.privacyPolicy:
+        return AppStrings.privacyPolicy;
+      case InfoPageType.termsAndConditions:
+        return AppStrings.termsConditions;
+      case InfoPageType.aboutUs:
+        return AppStrings.aboutUs;
+    }
+  }
+  //ENDPOINT BASED ON TYPE
+  String get endPoint {
+    switch (this) {
+      case InfoPageType.privacyPolicy:
+        return ApiEndpoints.privacyPolicy;
+      case InfoPageType.termsAndConditions:
+        return ApiEndpoints.termsAndConditions;
+      case InfoPageType.aboutUs:
+        return ApiEndpoints.aboutUs;
+    }
+  }
+  //FOR PARSING DATA FROM API
+  String get parseKey {
+    switch (this) {
+      case InfoPageType.privacyPolicy:
+        return 'privacyPolicy';
+      case InfoPageType.termsAndConditions:
+        return 'termsCondition';
+      case InfoPageType.aboutUs:
+        return 'aboutUs';
+    }
+  }
+}
+
+
+//USER STATUS - IN PROGRESS, BLOCKED, PENDING
 enum UserStatus {
   inProgress,
   blocked,

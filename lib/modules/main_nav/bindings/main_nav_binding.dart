@@ -1,7 +1,7 @@
 import 'package:dr_dina_educology/modules/home/controllers/notification_controller.dart';
 import 'package:dr_dina_educology/modules/main_nav/controllers/main_nav_controller.dart';
 import 'package:dr_dina_educology/modules/profile/controllers/profile_controller.dart';
-import 'package:dr_dina_educology/modules/profile/controllers/settings_controller.dart';
+import 'package:dr_dina_educology/modules/settings/controllers/settings_controller.dart';
 import 'package:get/get.dart';
 
 import '../../home/controllers/home_controller.dart';

@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:dr_dina_educology/modules/profile/controllers/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -9,15 +10,13 @@ import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_constants.dart';
-import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/show_snackbar.dart';
-import '../../../core/widgets/button_widget.dart';
-import '../../../core/widgets/text_widget.dart';
 import '../../../routes/app_pages.dart';
 
 class SettingsController extends GetxController {
 
   final ApiService apiService = Get.find<ApiService>();
+  final ProfileController profileController = Get.find<ProfileController>();
 
   //CHANGE PASSWORD
   RxBool isChangePasswordLoading = false.obs;
@@ -26,7 +25,56 @@ class SettingsController extends GetxController {
   final TextEditingController newPassword = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
 
-  //CHANGE PASSWORD
+  //======================CONNECT ZOOM=====================
+  Future<void> connectZoom() async {
+    String? id = profileController.profileModel.value?.id;
+    if (id == null) {
+      showSnackBar(title: "Id not found!", message: "User id not found.", backgroundColor: AppColors.warningYellow);
+      return;
+    }
+
+    //LIVE URL
+    final String authUrl = 'https://zoom.us/oauth/authorize'
+        '?response_type=code'
+        '&client_id=0amFVARESkaqpI3ui42ohA'
+        '&redirect_uri=https://lms-orpin-five.vercel.app/api/v1/zoom/callback'
+        '&state=$id';
+
+    //The Custom Scheme registered in your Android/iOS native files
+    //TRACK: educology://zoom-success
+    final String callbackScheme = 'educology';
+
+    try {
+      //Open the secure in-app browser and wait for the OS to redirect back
+      final result = await FlutterWebAuth2.authenticate(
+        url: authUrl,
+        callbackUrlScheme: callbackScheme
+      );
+
+      if (result.contains('zoom-success')) {
+        Get.snackbar(
+          'Success!',
+          'Zoom account connected successfully.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Get.theme.primaryColor.withOpacity(0.1),
+        );
+      } else {
+        Get.snackbar(
+          'Failed',
+          'Could not connect Zoom account.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Cancelled',
+        'Zoom connection was cancelled.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  //======================CHANGE PASSWORD=====================
   Future<void> changePassword() async{
 
     if( isChangePasswordLoading.value ){
@@ -70,7 +118,7 @@ class SettingsController extends GetxController {
     }
   }
 
-  //DELETE ACCOUNT
+  //======================DELETE ACCOUNT=====================
   Future<void> deleteAccount() async {
 
     showDeletingAlert();
@@ -94,7 +142,7 @@ class SettingsController extends GetxController {
     }
   }
 
-  //DELETING ALERT
+  //======================DELETING ALERT=====================
   Future<void> showDeletingAlert() async{
     Get.dialog(
       AlertDialog(
@@ -113,7 +161,7 @@ class SettingsController extends GetxController {
     );
   }
 
-  //DELETe SUCCESS ALERT
+  //======================DELETE SUCCESS ALERT=====================
   Future<void> showDeleteSuccessAlert() async{
     Get.dialog(
         AlertDialog(
@@ -150,7 +198,7 @@ class SettingsController extends GetxController {
     );
   }
 
-  //SAVE TOKENS IN STORAGE
+  //======================SAVE TOKENS IN STORAGE=====================
   void saveTokens(Map<String, dynamic> response) {
 
     final accessToken = response["data"]["accessToken"];

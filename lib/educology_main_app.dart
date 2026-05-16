@@ -6,8 +6,8 @@ import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class EducologyMainApp extends StatelessWidget {
+  const EducologyMainApp({super.key});
 
   @override
   Widget build(BuildContext context) {

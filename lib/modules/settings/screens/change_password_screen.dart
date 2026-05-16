@@ -3,7 +3,7 @@ import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/core/widgets/custom_text_field.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
-import 'package:dr_dina_educology/modules/profile/controllers/settings_controller.dart';
+import 'package:dr_dina_educology/modules/settings/controllers/settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
