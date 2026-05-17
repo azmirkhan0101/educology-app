@@ -1,3 +1,4 @@
+import 'package:dr_dina_educology/core/helpers/pagination_helper.dart';
 import 'package:dr_dina_educology/core/services/role_service.dart';
 import 'package:dr_dina_educology/core/utils/api_endpoints.dart';
 import 'package:dr_dina_educology/core/utils/api_response.dart';
@@ -28,35 +29,19 @@ class CourseDetailsController extends GetxController
   String? studentId;
 
   //CLASSES
-  RxList<ClassModel> classes = <ClassModel>[].obs;
-  RxBool isClassesLoading = false.obs;
-  RxBool isClassesMoreLoading = false.obs;
-  int classesCurrentPage = 1;
-  bool classesHasMorePages = true;
+  final PaginationHelper<ClassModel> classesHelper = PaginationHelper<ClassModel>();
   ScrollController classesScrollController = ScrollController();
 
   //HOMEWORK
-  RxList<HomeworkExamModel> homeworks = <HomeworkExamModel>[].obs;
-  RxBool isHomeworkLoading = false.obs;
-  RxBool isHomeworkMoreLoading = false.obs;
-  int homeworksCurrentPage = 1;
-  bool homeworksHasMorePages = true;
+  final PaginationHelper<HomeworkExamModel> homeworkHelper = PaginationHelper<HomeworkExamModel>();
   ScrollController homeworksScrollController = ScrollController();
 
   //EXAM
-  RxList<HomeworkExamModel> exams = <HomeworkExamModel>[].obs;
-  RxBool isExamLoading = false.obs;
-  RxBool isExamMoreLoading = false.obs;
-  int examsCurrentPage = 1;
-  bool examsHasMorePages = true;
+  final PaginationHelper<HomeworkExamModel> examHelper = PaginationHelper<HomeworkExamModel>();
   ScrollController examsScrollController = ScrollController();
 
   //ANNOUNCEMENT
-  RxList<AnnounceModel> announcements = <AnnounceModel>[].obs;
-  RxBool isAnnouncementLoading = false.obs;
-  RxBool isAnnouncementMoreLoading = false.obs;
-  int announcementsCurrentPage = 1;
-  bool announcementsHasMorePages = true;
+  final PaginationHelper<AnnounceModel> announcementHelper = PaginationHelper<AnnounceModel>();
   ScrollController announcementsScrollController = ScrollController();
 
   @override
@@ -71,6 +56,7 @@ class CourseDetailsController extends GetxController
     }
 
     tabController = TabController(length: 4, vsync: this);
+    initPaginationHelpers();
 
     tabController.addListener(_onTabChanged);
 
@@ -79,35 +65,44 @@ class CourseDetailsController extends GetxController
     }
 
     //GET CLASSES IF EMPTY
-    if (classes.isEmpty) {
-      getClasses(refresh: true);
+    if (classesHelper.items.isEmpty) {
+      getClasses();
     }
 
-    classesScrollController.addListener((){
-      if( classesScrollController.position.pixels > classesScrollController.position.maxScrollExtent * 0.9 ){
-        getClasses(refresh: false);
-      }
-    });
-
-    homeworksScrollController.addListener((){
-      if( homeworksScrollController.position.pixels > homeworksScrollController.position.maxScrollExtent * 0.9 ){
-        getHomeworks(refresh: false);
-      }
-    });
-
-    examsScrollController.addListener((){
-      if( examsScrollController.position.pixels > examsScrollController.position.maxScrollExtent * 0.9 ){
-        getExams(refresh: false);
-      }
-    });
-
-    announcementsScrollController.addListener((){
-      if( announcementsScrollController.position.pixels > announcementsScrollController.position.maxScrollExtent * 0.9 ){
-        getAnnouncements(refresh: false);
-      }
-    });
-
     super.onInit();
+  }
+
+  //INIT PAGINATION HELPERS
+  void initPaginationHelpers() {
+    List<dynamic>? extractor(data) => data['data']['result'] as List<dynamic>?;
+    classesHelper.init(
+        endPoint: (page) => ApiEndpoints.getClasses(courseId: courseId, page: page),
+        fromJson: (json) => ClassModel.fromJson(json),
+        listExtractor: (data) => extractor(data),
+      scrollController: classesScrollController
+    );
+
+    homeworkHelper.init(
+        endPoint: (page) => ApiEndpoints.getHomeworks(courseId: courseId, page: page),
+        fromJson: (json) => HomeworkExamModel.fromJson(json),
+        listExtractor: (data) => extractor(data),
+      scrollController: homeworksScrollController
+    );
+
+    examHelper.init(
+        endPoint: (page) => ApiEndpoints.getExams(courseId: courseId, page: page),
+        fromJson: (json) => HomeworkExamModel.fromJson(json),
+        listExtractor: (data) => extractor(data),
+      scrollController: examsScrollController
+    );
+
+    announcementHelper.init(
+        endPoint: (page) => ApiEndpoints.getAnnouncements(courseId: courseId, page: page),
+        fromJson: (json) => AnnounceModel.fromJson(json),
+        listExtractor: (data) => extractor(data),
+      scrollController: announcementsScrollController
+    );
+
   }
 
   void _onTabChanged() {
@@ -118,26 +113,26 @@ class CourseDetailsController extends GetxController
 
     switch (tabIndex.value) {
       case 0:
-        if (classes.isEmpty && !isClassesLoading.value) {
-          getClasses(refresh: true);
+        if (classesHelper.items.isEmpty && !classesHelper.isLoading.value) {
+          getClasses();
         }
         break;
 
       case 1:
-        if (homeworks.isEmpty && !isHomeworkLoading.value) {
-          getHomeworks(refresh: true);
+        if (homeworkHelper.items.isEmpty && !homeworkHelper.isLoading.value) {
+          getHomeworks();
         }
         break;
 
       case 2:
-        if (exams.isEmpty && !isExamLoading.value) {
-          getExams(refresh: true);
+        if (examHelper.items.isEmpty && !examHelper.isLoading.value) {
+          getExams();
         }
         break;
 
       case 3:
-        if (announcements.isEmpty && !isAnnouncementLoading.value) {
-          getAnnouncements(refresh: true);
+        if (announcementHelper.items.isEmpty && !announcementHelper.isLoading.value) {
+          getAnnouncements();
         }
         break;
     }
@@ -160,169 +155,22 @@ class CourseDetailsController extends GetxController
   }
 
   //GET CLASSES
-  Future<void> getClasses({bool refresh = true}) async {
-
-    if( isClassesLoading.value ){
-      return;
-    }
-
-    if( refresh ){
-      classesCurrentPage = 1;
-      classesHasMorePages = true;
-      isClassesLoading.value = true;
-    }else{
-      if( isClassesMoreLoading.value || !classesHasMorePages ){
-        return;
-      }
-      isClassesMoreLoading.value = true;
-    }
-
-    ApiResponse response = await apiService.networkRequest(
-      method: "GET",
-      isAuthRequired: true,
-      endPoint: ApiEndpoints.getClasses(courseId: courseId, page: classesCurrentPage),
-    );
-    isClassesLoading.value = false;
-    isClassesMoreLoading.value = false;
-    if (response.statusCode == 200) {
-      final fetchedClasses =
-          (response.data['data']['result'] as List<dynamic>?)
-              ?.map((e) => ClassModel.fromJson(e))
-              .toList() ??
-          [];
-
-      if( refresh ){
-        classes.value = fetchedClasses;
-      }else{
-        classes.addAll(fetchedClasses);
-      }
-      if( fetchedClasses.length < 10 ){
-        classesHasMorePages = false;
-      }else{
-        classesCurrentPage++;
-      }
-
-    }
+  Future<void> getClasses() async {
+    await classesHelper.fetch(isRefresh: true);
   }
 
   //GET HOMEWORKS
-  Future<void> getHomeworks({bool refresh = true}) async {
-
-    if( refresh ){
-      homeworksCurrentPage = 1;
-      homeworksHasMorePages = true;
-      isHomeworkLoading.value = true;
-    }else{
-      if( isHomeworkMoreLoading.value || !homeworksHasMorePages ){
-        return;
-      }
-      isHomeworkMoreLoading.value = true;
-    }
-
-    ApiResponse response = await apiService.networkRequest(
-      method: "GET",
-      isAuthRequired: true,
-      endPoint: ApiEndpoints.getHomeworks(courseId: courseId, page: homeworksCurrentPage),
-    );
-    isHomeworkLoading.value = false;
-    isHomeworkMoreLoading.value = false;
-    if (response.statusCode == 200) {
-      final fetchedHomeworks =
-          (response.data['data']['result'] as List<dynamic>?)
-              ?.map((e) => HomeworkExamModel.fromJson(e))
-              .toList() ??
-          [];
-
-      if( refresh ){
-        homeworks.value = fetchedHomeworks;
-      }else{
-        homeworks.addAll(fetchedHomeworks);
-      }
-      if( fetchedHomeworks.length < 10 ) {
-        homeworksHasMorePages = false;
-      }else{
-        homeworksCurrentPage++;
-      }
-    }
+  Future<void> getHomeworks() async {
+    await homeworkHelper.fetch(isRefresh: true);
   }
 
   //GET EXAMS
-  Future<void> getExams({bool refresh = true}) async {
-
-    if( refresh ){
-      examsCurrentPage = 1;
-      examsHasMorePages = true;
-      isExamLoading.value = true;
-    }else{
-      if( isExamMoreLoading.value || !examsHasMorePages ){
-        return;
-      }
-      isExamMoreLoading.value = true;
-    }
-
-    ApiResponse response = await apiService.networkRequest(
-      method: "GET",
-      isAuthRequired: true,
-      endPoint: ApiEndpoints.getExams(courseId: courseId, page: examsCurrentPage),
-    );
-    isExamLoading.value = false;
-    isExamMoreLoading.value = false;
-    if (response.statusCode == 200) {
-      final fetchedExams =
-          (response.data['data']['result'] as List<dynamic>?)?.map((e) {
-            return HomeworkExamModel.fromJson(e);
-          }).toList() ??
-          [];
-      if( refresh ){
-        exams.value = fetchedExams;
-      }else {
-        exams.addAll(fetchedExams);
-      }
-      if( fetchedExams.length < 10 ){
-        examsHasMorePages = false;
-      }else{
-        examsCurrentPage++;
-      }
-    }
+  Future<void> getExams() async {
+    await examHelper.fetch(isRefresh: true);
   }
 
   //GET ANNOUNCEMENTS
-  Future<void> getAnnouncements({bool refresh = true}) async {
-
-    if( refresh ){
-      announcementsCurrentPage = 1;
-      announcementsHasMorePages = true;
-      isAnnouncementLoading.value = true;
-    }else{
-      if( isAnnouncementMoreLoading.value || !announcementsHasMorePages ){
-        return;
-      }
-      isAnnouncementMoreLoading.value = true;
-    }
-
-    ApiResponse response = await apiService.networkRequest(
-      method: "GET",
-      isAuthRequired: true,
-      endPoint: ApiEndpoints.getAnnouncements(courseId: courseId, page: announcementsCurrentPage),
-    );
-    isAnnouncementLoading.value = false;
-    isAnnouncementMoreLoading.value = false;
-    if (response.statusCode == 200) {
-      final fetchedAnnouncements =
-          (response.data['data']['result'] as List<dynamic>?)?.map((e) {
-            return AnnounceModel.fromJson(e);
-          }).toList() ??
-          [];
-      if( refresh ){
-        announcements.value = fetchedAnnouncements;
-      }else {
-        announcements.addAll(fetchedAnnouncements);
-      }
-      if( fetchedAnnouncements.length < 10 ){
-        announcementsHasMorePages = false;
-      }else{
-        announcementsCurrentPage++;
-      }
-    }
+  Future<void> getAnnouncements() async {
+    await announcementHelper.fetch(isRefresh: true);
   }
 }

@@ -82,6 +82,7 @@ class ClassesTab extends StatelessWidget {
             child: ListView.builder(
               controller: scrollController,
               itemCount: classes.length,
+              physics: const AlwaysScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 final ClassModel model = classes[index];
 

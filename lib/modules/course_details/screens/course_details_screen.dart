@@ -335,12 +335,12 @@ class CourseDetailsScreen extends StatelessWidget {
               Obx(() {
                 return ClassesTab(
                   scrollController: controller.classesScrollController,
-                  isMoreLoading: controller.isClassesMoreLoading.value,
+                  isMoreLoading: controller.classesHelper.isMoreLoading.value,
                   showAddButton: isTeacher,
-                  isLoading: controller.isClassesLoading.value,
-                  classes: controller.classes.value,
+                  isLoading: controller.classesHelper.isLoading.value,
+                  classes: controller.classesHelper.items.value,
                   onRefresh: () {
-                    controller.getClasses(refresh: true);
+                    controller.getClasses();
                   },
                   onAddClass: () {
                     Get.toNamed(
@@ -356,11 +356,11 @@ class CourseDetailsScreen extends StatelessWidget {
               Obx(() {
                 return HomeworkTab(
                   scrollController: controller.homeworksScrollController,
-                  isMoreLoading: controller.isHomeworkMoreLoading.value,
+                  isMoreLoading: controller.homeworkHelper.isMoreLoading.value,
                   showAddButton: isTeacher,
                   isStudent: isStudent,
-                  isLoading: controller.isHomeworkLoading.value,
-                  homeworks: controller.homeworks.value,
+                  isLoading: controller.homeworkHelper.isLoading.value,
+                  homeworks: controller.homeworkHelper.items.value,
                   onRefresh: () {
                     controller.getHomeworks();
                   },
@@ -378,11 +378,11 @@ class CourseDetailsScreen extends StatelessWidget {
               Obx(() {
                 return ExamTab(
                   scrollController: controller.examsScrollController,
-                  isMoreLoading: controller.isExamMoreLoading.value,
+                  isMoreLoading: controller.examHelper.isMoreLoading.value,
                   showAddButton: isTeacher,
                   isStudent: isStudent,
-                  isLoading: controller.isExamLoading.value,
-                  exams: controller.exams.value,
+                  isLoading: controller.examHelper.isLoading.value,
+                  exams: controller.examHelper.items.value,
                   onRefresh: () {
                     controller.getExams();
                   },
@@ -400,10 +400,10 @@ class CourseDetailsScreen extends StatelessWidget {
               Obx(() {
                 return AnnounceTab(
                   scrollController: controller.announcementsScrollController,
-                  isMoreLoading: controller.isAnnouncementMoreLoading.value,
+                  isMoreLoading: controller.announcementHelper.isMoreLoading.value,
                   showAddButton: isTeacher,
-                  isLoading: controller.isAnnouncementLoading.value,
-                  announcements: controller.announcements.value,
+                  isLoading: controller.announcementHelper.isLoading.value,
+                  announcements: controller.announcementHelper.items.value,
                   onRefresh: () {
                     controller.getAnnouncements();
                   },

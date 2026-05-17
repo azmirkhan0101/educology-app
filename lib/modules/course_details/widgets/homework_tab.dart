@@ -84,6 +84,7 @@ Widget mainBody(BuildContext context){
           child: ListView.builder(
             controller: scrollController,
             itemCount: homeworks.length,
+            physics: const AlwaysScrollableScrollPhysics(),
             itemBuilder: (context, index) {
 
               final HomeworkExamModel model = homeworks[index];

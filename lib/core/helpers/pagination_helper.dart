@@ -57,6 +57,8 @@ class PaginationHelper<T> {
       scrollController.addListener(() {
         if (!scrollController.hasClients) return;
 
+        if (isLoading.value || isMoreLoading.value || !hasMore) return;
+
         if (scrollController.position.pixels >=
               scrollController.position.maxScrollExtent * 0.9) {
             fetch(isRefresh: false);
