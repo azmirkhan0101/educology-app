@@ -134,7 +134,7 @@ class ProfileController extends GetxController{
   Future<void> logOut() async{
     await storage.erase();
     Get.back();
-    Get.offAllNamed(AppRoutes.roleSelection);
+    Get.offAllNamed(AppRoutes.signIn);
   }
 
 

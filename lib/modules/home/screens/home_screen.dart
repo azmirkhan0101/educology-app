@@ -35,9 +35,8 @@ class HomeScreen extends StatelessWidget {
         onRefresh: () async {
           controller.refreshHome();
         },
-        // 1. Replace Padding/Column with CustomScrollView
         child: CustomScrollView(
-          controller: controller.coursesScrollController, // Attach your controller here
+          controller: controller.coursesScrollController,
           slivers:[
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15),
@@ -109,12 +108,12 @@ class HomeScreen extends StatelessWidget {
 
             // 2. Handle the Dynamic List inside a Sliver
             Obx(() {
-              if (controller.isCoursesLoading.value) {
+              if (controller.courseHelper.isLoading.value) {
                 return const SliverFillRemaining(
                   child: Center(child: CircularProgressIndicator(color: AppColors.primaryGold)),
                 );
               }
-              if (controller.courses.isEmpty) {
+              if (controller.courseHelper.items.isEmpty) {
                 return SliverToBoxAdapter(
                   child: controller.role == Role.student
                       ? LearningJourneyWidget()
@@ -126,7 +125,7 @@ class HomeScreen extends StatelessWidget {
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                    final CourseModel model = controller.courses[index];
+                    final CourseModel model = controller.courseHelper.items[index];
                     return CourseItemWidget(
                       title: model.className,
                       imageUrl: model.imageUrl,
@@ -153,14 +152,14 @@ class HomeScreen extends StatelessWidget {
                       },
                     );
                   },
-                  childCount: controller.courses.length,
+                  childCount: controller.courseHelper.items.length,
                 ),
               );
             }),
 
             // 4. Loading indicator at the bottom
             SliverToBoxAdapter(
-              child: Obx(() => controller.isCoursesMoreLoading.value
+              child: Obx(() => controller.courseHelper.isMoreLoading.value
                   ? const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Center(child: CircularProgressIndicator(color: AppColors.primaryGold)),

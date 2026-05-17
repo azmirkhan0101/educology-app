@@ -29,16 +29,16 @@ class NotificationScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         color: AppColors.primaryGold,
         onRefresh: (){
-          return controller.getNotifications(isRefresh: true);
+          return controller.getNotifications();
         },
         child: Padding(
           padding: const EdgeInsets.symmetric( horizontal: 12.0, vertical: 15),
           child: Obx((){
-            if( controller.isNotificationsLoading.value ) {
+            if( controller.notificationHelper.isLoading.value ) {
               return const Center(
                 child: CircularProgressIndicator(color: AppColors.primaryGold,),
               );
-            }else if( controller.notifications.isEmpty ){
+            }else if( controller.notificationHelper.items.isEmpty ){
               return ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: const [
@@ -53,10 +53,10 @@ class NotificationScreen extends StatelessWidget {
                     child: ListView.builder(
                       physics: const AlwaysScrollableScrollPhysics(),
                       controller: controller.notificationScrollController,
-                      itemCount: controller.notifications.length,
+                      itemCount: controller.notificationHelper.items.length,
                       itemBuilder: (context, index){
 
-                        final NotificationModel notification = controller.notifications[index];
+                        final NotificationModel notification = controller.notificationHelper.items[index];
                         RxBool read = notification.isRead.obs;
 
                         return Obx((){
@@ -77,7 +77,7 @@ class NotificationScreen extends StatelessWidget {
                     ),
                   ),
                   Obx((){
-                    if( controller.isMoreLoading.value ){
+                    if( controller.notificationHelper.isMoreLoading.value ){
                       return const Padding(
                         padding: EdgeInsets.symmetric(vertical: 12.0),
                         child: Center(

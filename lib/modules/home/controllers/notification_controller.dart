@@ -1,78 +1,42 @@
+import 'package:dr_dina_educology/core/helpers/pagination_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../core/services/api_service.dart';
 import '../../../core/utils/api_endpoints.dart';
-import '../../../core/utils/api_response.dart';
 import '../../../data/models/notification/notification_model.dart';
 
 class NotificationController extends GetxController{
 
   ApiService apiService = Get.find<ApiService>();
-  RxBool isNotificationsLoading = false.obs;
-  RxList<NotificationModel> notifications = <NotificationModel>[].obs;
   ScrollController notificationScrollController = ScrollController();
-  RxBool isMoreLoading = false.obs;
-  int currentPage = 1;
-  bool hasMoreData = true;
-
+  PaginationHelper notificationHelper = PaginationHelper<NotificationModel>();
 
   @override
   void onInit() {
 
-    if( notifications.isEmpty ){
-      getNotifications(isRefresh: true);
-    }
+    initNotificationHelper();
 
-    notificationScrollController.addListener((){
-      if( notificationScrollController.position.pixels > notificationScrollController.position.maxScrollExtent * 0.9 ){
-        getNotifications(isRefresh: false);
-      }
-    });
+    if( notificationHelper.items.isEmpty ){
+      getNotifications();
+    }
 
     super.onInit();
     }
 
-  //GET NOTIFICATIONS
-  Future<void> getNotifications({bool isRefresh = true}) async{
-
-    if( isNotificationsLoading.value ){
-      return;
-    }
-
-    if (isRefresh) {
-      currentPage = 1;
-      hasMoreData = true;
-      isNotificationsLoading.value = true;
-    } else {
-      if (isMoreLoading.value || !hasMoreData) return;
-      isMoreLoading.value = true;
-    }
-
-    ApiResponse response = await apiService.networkRequest(
-        method: "GET",
-        isAuthRequired: true,
-        endPoint: ApiEndpoints.getNotifications(page: currentPage)
+    //INIT NOTIFICATION HELPER
+  void initNotificationHelper(){
+    notificationHelper.init(
+        endPoint: (page) => ApiEndpoints.getNotifications(page: page),
+        fromJson: (json) => NotificationModel.fromJson(json),
+        listExtractor: (data) => data['data']['notifications'] as List<dynamic>?,
+      scrollController: notificationScrollController
     );
-    isNotificationsLoading.value = false;
-    isMoreLoading.value = false;
-    if( response.statusCode == 200 ){
-      final tempNotifications = (response.data['data']['notifications'] as List<dynamic>?) ?? [];
-      List<NotificationModel> fetchedNotifications = tempNotifications.map<NotificationModel>((e){
-        return NotificationModel.fromJson(e);
-      }).toList();
+  }
 
-      if( isRefresh ){
-        notifications.value = fetchedNotifications;
-      }else{
-        notifications.addAll(fetchedNotifications);
-      }
-      if (fetchedNotifications.length < 10) {
-        hasMoreData = false;
-      } else {
-        currentPage++;
-      }
-    }
+  //GET NOTIFICATIONS
+  Future<void> getNotifications() async{
+    await notificationHelper.fetch(isRefresh: true, shouldPrint: true);
   }
 
   //NOTIFICATION MARK AS READ
