@@ -5,10 +5,12 @@ import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/core/widgets/custom_date_picker.dart';
 import 'package:dr_dina_educology/core/widgets/custom_text_field.dart';
+import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:dr_dina_educology/modules/content_details/widgets/document_item_widget.dart';
 import 'package:dr_dina_educology/modules/content_details/widgets/documents_list.dart';
 import 'package:dr_dina_educology/modules/teacher/controllers/add_content_controller.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/custom_time_picker.dart';
+import 'package:dr_dina_educology/modules/teacher/widgets/generate_link_switch.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/quill_toolbar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -226,18 +228,37 @@ class _AddContentScreenState extends State<AddContentScreen> {
                 ),
                 const SizedBox(height: 15),
                 //=================CLASS LINK========================
-                if( controller.contentType == AddContentType.cClass )
-                CustomTextField(
-                  label: AppStrings.shareZoomLink,
-                  controller: controller.zoomLinkController,
-                  hintText: AppStrings.pasteYourClassLinkHere,
-                  validator: (value){
-                    if( controller.zoomLinkController.text.isEmpty ){
-                      return "Zoom link is required";
-                    }
-                    return null;
-                  },
-                ),
+                if( controller.contentType == AddContentType.cClass )...[
+                  CustomTextField(
+                    label: AppStrings.shareZoomLink,
+                    controller: controller.zoomLinkController,
+                    hintText: AppStrings.pasteYourClassLinkHere,
+                    validator: (value){
+                      if( !controller.isZoomEnabled && controller.zoomLinkController.text.isEmpty ){
+                        return "Zoom link is required";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    spacing: 10,
+                    children: [
+                      Expanded(child: Divider(color: Colors.grey.shade200,)),
+                      TextWidget(text: "Or"),
+                      Expanded(child: Divider(color: Colors.grey.shade200,)),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  //=================SWITCH TO TOGGLE AUTO GEN ZOOM LINK=================
+                  GenerateZoomSwitch(
+                    onChanged: (enabled){
+                      controller.isZoomEnabled = enabled;
+                      print("Zoom enabled: ${controller.isZoomEnabled}");
+                      _formKey.currentState?.validate();
+                    },
+                  )
+                ],
                 const SizedBox(height: 25),
                 //=======================UPLOAD BUTTON=====================
                 Obx((){

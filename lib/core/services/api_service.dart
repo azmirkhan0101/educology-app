@@ -206,6 +206,7 @@ class ApiService extends GetxService {
 
       // Send request
       var response = await request.send().timeout(Duration(seconds: timeout));
+      print("🟢 Code: ${response.statusCode}");
       var responseBody = await response.stream.bytesToString();
       result = responseBody;
       if( response.statusCode == 401 && isAuthRequired ) {
@@ -236,8 +237,7 @@ class ApiService extends GetxService {
       return ApiResponse(statusCode: 500);
     }finally{
       print("🌐 Endpoint: $endPoint");
-      print("✅ Result: $result");
-
+      logPrettyJson(result.toString());
     }
   }
 

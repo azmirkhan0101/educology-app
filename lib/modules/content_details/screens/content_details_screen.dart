@@ -158,8 +158,8 @@ class ContentDetailsScreen extends StatelessWidget {
                       prefixIcon: Icons.timer_outlined,
                       fontSize: 13,
                       onPressed: (){
-                        if( controller.contentDetailsModel.classLink != null ) {
-                          controller.openLinkInBrowser(classLink: controller.contentDetailsModel.classLink! );
+                        if( controller.contentDetailsModel.startUrl != null ) {
+                          controller.openLinkInBrowser(classLink: controller.contentDetailsModel.startUrl! );
                         }
                       },
                     ),

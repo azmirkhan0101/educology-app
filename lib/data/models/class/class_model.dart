@@ -10,6 +10,7 @@ class ClassModel {
   final String startTime;
   final String details;
   final String link;
+  final String? startUrl;
   final StaffModel teacher;
   final DateTime createdAt;
   final List<CommentModel> comments;
@@ -23,6 +24,7 @@ class ClassModel {
     required this.startTime,
     required this.details,
     required this.link,
+    required this.startUrl,
     required this.teacher,
     required this.createdAt,
     required this.comments,
@@ -42,6 +44,7 @@ class ClassModel {
       startTime: json['time'] ?? "",
       details: json['details'] ?? "",
       link: json['link'] ?? "",
+      startUrl: json['startUrl'],
       teacher: StaffModel.fromJson(json['createdBy']),
       createdAt: DateTime.parse(json['createdAt']),
       comments: json['comments'] != null

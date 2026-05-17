@@ -30,7 +30,10 @@ class AddContentController extends GetxController {
   final TextEditingController startTimeController = TextEditingController();
   late DateTime deadlineDate;
   final TextEditingController deadlineTimeController = TextEditingController();
+  //==============MANUAL LINK ENTRY========================================
   final TextEditingController zoomLinkController = TextEditingController();
+  //===================GENERATE ZOOM LINK==================================
+  bool isZoomEnabled = false;
   String? detailsHtmlString;
   String? quillRawText;
   //FOR MULTIPLE PDF FILES
@@ -67,7 +70,8 @@ class AddContentController extends GetxController {
       "date": startDate.toUtc().toIso8601String(),
       "time": startTimeController.text.trim(),
       "details": detailsHtmlString,
-      "link": zoomLinkController.text.trim()
+      "link": zoomLinkController.text.trim(),
+      "isZoomMeeting": isZoomEnabled
     };
 
     ApiResponse response = await apiService.multipartRequest(
