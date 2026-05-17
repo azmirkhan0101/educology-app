@@ -17,7 +17,7 @@
     </queries>
 
     <application
-        android:label="dr_dina_educology"
+        android:label="Educology"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 

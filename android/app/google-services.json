@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:804793355673:android:e4b2de98589ce60ce39708",
+        "mobilesdk_app_id": "1:804793355673:android:c3bb07c8c1e0dc8ae39708",
         "android_client_info": {
-          "package_name": "com.drdina.dr_dina_educology"
+          "package_name": "com.educology.educologyapp"
         }
       },
       "oauth_client": [],

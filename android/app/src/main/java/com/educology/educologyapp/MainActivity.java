@@ -1,4 +1,4 @@
-package com.drdina.dr_dina_educology;
+package com.educology.educologyapp;
 
 import io.flutter.embedding.android.FlutterActivity;
 

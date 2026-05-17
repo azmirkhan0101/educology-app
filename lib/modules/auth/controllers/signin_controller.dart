@@ -50,13 +50,27 @@ class SigninController extends GetxController {
     }
 
     isSigninLoading.value = true;
-    late String? token;
+    String? token;
 
     if (Platform.isIOS) {
-      token = await FirebaseMessaging.instance.getAPNSToken();
-    } else {
-      token = await FirebaseMessaging.instance.getToken();
+      String? apnsToken;
+      for( int i = 0; i < 5; i++ ){
+        apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+
+        if( apnsToken != null ){
+          break;
+        }
+        await Future.delayed(const Duration(seconds: 2));
+      }
     }
+
+    try{
+      token = await FirebaseMessaging.instance.getToken();
+    }catch(e){
+      print("FCM error: $e");
+    }
+
+    print("FCM Token: $token");
 
     Map<String, dynamic> credentials = {
       "email": emailController.text.trim(),
