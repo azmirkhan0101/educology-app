@@ -24,6 +24,9 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isStaff = controller.role == Role.teacher || controller.role == Role.assistant;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -37,6 +40,8 @@ class SettingsScreen extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(height: 30,),
+          //==========CONNECT ZOOM IF STAFF=========
+          if( isStaff )
           ProfileMenuTile(
               title: AppStrings.connectZoom,
               iconPath: "",

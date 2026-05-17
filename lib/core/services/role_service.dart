@@ -4,7 +4,6 @@ import 'package:get_storage/get_storage.dart';
 
 class RoleService extends GetxService{
 
-
   final storage = GetStorage();
   late Role role;
 

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../core/services/api_service.dart';
+import '../../../core/services/role_service.dart';
 import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
 import '../../../core/utils/app_colors.dart';
@@ -15,8 +16,20 @@ import '../../../routes/app_pages.dart';
 
 class SettingsController extends GetxController {
 
+
+  final RoleService roleService = Get.find<RoleService>();
+
+  @override
+  void onInit() {
+
+    role = roleService.getUpdatedRole();
+
+    super.onInit();
+  }
+
   final ApiService apiService = Get.find<ApiService>();
   final ProfileController profileController = Get.find<ProfileController>();
+  late Role role;
 
   //CHANGE PASSWORD
   RxBool isChangePasswordLoading = false.obs;
@@ -52,6 +65,8 @@ class SettingsController extends GetxController {
       );
 
       if (result.contains('zoom-success')) {
+        //TODO: GET PROFILE, CHECK RESPONSE
+        profileController.getProfile();
         Get.snackbar(
           'Success!',
           'Zoom account connected successfully.',

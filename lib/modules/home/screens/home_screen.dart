@@ -23,8 +23,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isStaff =
-        controller.role == Role.teacher || controller.role == Role.assistant;
+    bool isStaff = controller.role == Role.teacher || controller.role == Role.assistant;
     bool isStudent = controller.role == Role.student;
     bool isParent = controller.role == Role.parent;
 
@@ -36,144 +35,139 @@ class HomeScreen extends StatelessWidget {
         onRefresh: () async {
           controller.refreshHome();
         },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15),
-          child: Column(
-            children: [
-              SizedBox(height: 22),
-              Obx((){
-                return HomeHeaderWidget(
-                    profileImageUrl: controller.profileController.profileImageUrl.value,
-                    userName: controller.profileController.profileModel.value?.fullName ?? ""
-                );
-              }),
-              SizedBox(height: 20),
-              HomeBanner(isParent: isParent),
-              SizedBox(height: 20),
-              //====================YOUR CHILD FOR PARENT====================
-              if (isParent)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextWidget(
-                    text: AppStrings.yourChild,
-                    textAlignment: TextAlign.left,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    fontColor: AppColors.secondaryDarkBlue,
-                  ),
-                ),
-              //===================CHILD DROPDOWN FOR PARENT=================
-              if (isParent)
-                Obx((){
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: ChildrenDropdown(
-                        children: controller.children.value,
-                        selectedChild: controller.selectedChild.value,
-                        onItemSelected: (child){
-                          controller.selectedChild.value = child;
-                          controller.refreshChildCourses();
-                        }
+        // 1. Replace Padding/Column with CustomScrollView
+        child: CustomScrollView(
+          controller: controller.coursesScrollController, // Attach your controller here
+          slivers:[
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  const SizedBox(height: 22),
+                  Obx(() {
+                    return HomeHeaderWidget(
+                        profileImageUrl: controller.profileController.profileImageUrl.value,
+                        userName: controller.profileController.profileModel.value?.fullName ?? "");
+                  }),
+                  const SizedBox(height: 20),
+                  HomeBanner(isParent: isParent),
+                  const SizedBox(height: 20),
+                  //====================YOUR CHILD FOR PARENT====================
+                  if (isParent)
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextWidget(
+                        text: AppStrings.yourChild,
+                        textAlignment: TextAlign.left,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        fontColor: AppColors.secondaryDarkBlue,
+                      ),
                     ),
-                  );
-                }),
-              //===================COURSE COUNTS FOR STAFF===================
-              if (isStaff)
-                Obx(() {
-                  return teacherCourseCount(
-                    totalCourse: controller.staffCourseStats.value?.totalCourses ?? 0,
-                    totalStudents: controller.staffCourseStats.value?.totalStudents ?? 0
-                  );
-                },
-                ),
-              SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextWidget(
-                  text: isStaff
-                      ? AppStrings.myAssignCourses
-                      : isStudent
-                      ? "My Courses"
-                      : "Enrolled Courses",
-                  textAlignment: TextAlign.left,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  fontColor: AppColors.secondaryDarkBlue,
-                ),
-              ),
-              SizedBox(height: 10),
-              //=======================COURSES==========================
-              Obx(() {
-                if (controller.isCoursesLoading.value) {
-                  return Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
-                }
-                if (controller.courses.isEmpty) {
-                  if (controller.role == Role.student) {
-                    return LearningJourneyWidget();
-                  } else {
-                    return Center(child: Text("No Courses Found"));
-                  }
-                }
-                return Column(
-                  children: [
-                    ListView.builder(
-                      controller: controller.coursesScrollController,
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: controller.courses.length,
-                      itemBuilder: (context, index) {
-                        final CourseModel model =
-                            controller.courses[index];
-
-                        return CourseItemWidget(
-                          title: model.className,
-                          imageUrl: model.imageUrl,
-                          subject: model.subjectName,
-                          status: model.status,
-                          isStaff: isStaff,
-                          teacherName: model.teacher.fullName,
-                          enrolledCount: model.totalEnrolled,
-                          onClick: () {
-                            if (isParent) {
-                              Get.toNamed(
-                                  AppRoutes.studentProgress,
-                                  arguments: {
-                                    'courseId': model.id,
-                                    'studentId': controller.selectedChild.value?.id ?? ""
-                                  }
-                              );
-                            } else {
-                              Map<String, String> arguments = {
-                                "courseId": model.id,
-                                "courseName": model.className,
-                                "subject": model.subjectName,
-                                "status": model.status,
-                                "studentId": isStudent ? controller.profileController.profileModel.value?.id ?? "" : ""
-                              };
-                              Get.toNamed(
-                                  AppRoutes.courseDetails,
-                                  arguments: arguments
-                              );
-                            }
-                          },
-                        );
+                  //===================CHILD DROPDOWN FOR PARENT=================
+                  if (isParent)
+                    Obx(() {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: ChildrenDropdown(
+                            children: controller.children.value,
+                            selectedChild: controller.selectedChild.value,
+                            onItemSelected: (child) {
+                              controller.selectedChild.value = child;
+                              controller.refreshChildCourses();
+                            }),
+                      );
+                    }),
+                  //===================COURSE COUNTS FOR STAFF===================
+                  if (isStaff)
+                    Obx(
+                          () {
+                        return teacherCourseCount(
+                            totalCourse: controller.staffCourseStats.value?.totalCourses ?? 0,
+                            totalStudents: controller.staffCourseStats.value?.totalStudents ?? 0);
                       },
                     ),
-                    if (controller.isCoursesMoreLoading.value)
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.primaryGold,
-                          ),
-                        ),
-                      )
-                  ],
+                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextWidget(
+                      text: isStaff
+                          ? AppStrings.myAssignCourses
+                          : isStudent
+                          ? "My Courses"
+                          : "Enrolled Courses",
+                      textAlignment: TextAlign.left,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      fontColor: AppColors.secondaryDarkBlue,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                ]),
+              ),
+            ),
+
+            // 2. Handle the Dynamic List inside a Sliver
+            Obx(() {
+              if (controller.isCoursesLoading.value) {
+                return const SliverFillRemaining(
+                  child: Center(child: CircularProgressIndicator(color: AppColors.primaryGold)),
                 );
-              }),
-            ],
-          ),
+              }
+              if (controller.courses.isEmpty) {
+                return SliverToBoxAdapter(
+                  child: controller.role == Role.student
+                      ? LearningJourneyWidget()
+                      : const Center(child: Text("No Courses Found")),
+                );
+              }
+
+              // 3. This replaces the ListView.builder
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                    final CourseModel model = controller.courses[index];
+                    return CourseItemWidget(
+                      title: model.className,
+                      imageUrl: model.imageUrl,
+                      subject: model.subjectName,
+                      status: model.status,
+                      isStaff: isStaff,
+                      teacherName: model.teacher.fullName,
+                      enrolledCount: model.totalEnrolled,
+                      onClick: () {
+                        if (isParent) {
+                          Get.toNamed(AppRoutes.studentProgress, arguments: {
+                            'courseId': model.id,
+                            'studentId': controller.selectedChild.value?.id ?? ""
+                          });
+                        } else {
+                          Get.toNamed(AppRoutes.courseDetails, arguments: {
+                            "courseId": model.id,
+                            "courseName": model.className,
+                            "subject": model.subjectName,
+                            "status": model.status,
+                            "studentId": isStudent ? controller.profileController.profileModel.value?.id ?? "" : ""
+                          });
+                        }
+                      },
+                    );
+                  },
+                  childCount: controller.courses.length,
+                ),
+              );
+            }),
+
+            // 4. Loading indicator at the bottom
+            SliverToBoxAdapter(
+              child: Obx(() => controller.isCoursesMoreLoading.value
+                  ? const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(child: CircularProgressIndicator(color: AppColors.primaryGold)),
+              )
+                  : const SizedBox.shrink()),
+            ),
+          ],
         ),
       ),
     );

@@ -73,7 +73,8 @@ class ProfileController extends GetxController{
     ApiResponse response = await apiService.networkRequest(
         method: "GET",
         isAuthRequired: true,
-        endPoint: ApiEndpoints.getProfile
+        endPoint: ApiEndpoints.getProfile,
+      shouldPrint: true
     );
 
     if( response.statusCode == 200 ) { //FETCHED PROFILE DATA
