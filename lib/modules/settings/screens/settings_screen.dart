@@ -40,16 +40,21 @@ class SettingsScreen extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(height: 30,),
-          //==========CONNECT ZOOM IF STAFF=========
+          //==========CONNECT ZOOM IF STAFF AND IF ZOOM IS NOT CONNECTED=========
           if( isStaff )
-          ProfileMenuTile(
-              title: AppStrings.connectZoom,
-              iconPath: "",
-              isZoomIcon: true,
-              onTap: (){
-                controller.connectZoom();
-              }
-          ),
+          Obx((){
+            if( controller.profileController.profileModel.value?.isZoomConnected ?? false ){
+              return SizedBox.shrink();
+            }
+            return ProfileMenuTile(
+                title: AppStrings.connectZoom,
+                iconPath: "",
+                isZoomIcon: true,
+                onTap: (){
+                  controller.connectZoom();
+                }
+            );
+          }),
           ProfileMenuTile(
               title: AppStrings.changePassword,
               iconPath: Assets.icons.changePassword,

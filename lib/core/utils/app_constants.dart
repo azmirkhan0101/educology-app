@@ -275,6 +275,15 @@ extension AddContentTypeExtension on AddContentType {
       case AddContentType.announcement: return "Add Announcement";
     }
   }
+
+  String get hint {
+    switch (this) {
+      case AddContentType.cClass: return "Enter class name";
+      case AddContentType.exam: return "Enter exam name";
+      case AddContentType.homeWork: return "Enter homework name";
+      case AddContentType.announcement: return "Enter announcement title";
+    }
+  }
 }
 
 enum ContentDetailsType{ cClass, exam, homeWork }

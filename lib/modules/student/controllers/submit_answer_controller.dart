@@ -38,13 +38,10 @@ class SubmitAnswerController extends GetxController {
       return;
     }
 
-
     Map<String, dynamic> payLoad = {
       "task" : taskId,
       "course" : courseId
     };
-
-    print("Payloaddddddddddddddddddd: $payLoad");
 
     isUploading.value = true;
     ApiResponse response = await apiService.multipartRequest(
@@ -59,9 +56,8 @@ class SubmitAnswerController extends GetxController {
 
     if (response.statusCode == 201) {
       Get.back();
-      showSnackBar(title: "Answer submitted", message: "Answer submitted successfully", backgroundColor: AppColors.greenPrimary);
-    }else{
-      showSnackBar(title: "Error", message: response.data?['message'] ?? "Something went wrong", backgroundColor: AppColors.errorRed);
-    }
+      }
+
+    showApiSnackBar(statusCode: response.statusCode, data: response.data);
   }
 }

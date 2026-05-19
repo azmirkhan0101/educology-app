@@ -156,7 +156,7 @@ class CourseDetailsController extends GetxController
 
   //GET CLASSES
   Future<void> getClasses() async {
-    await classesHelper.fetch(isRefresh: true);
+    await classesHelper.fetch(isRefresh: true, shouldPrint: true);
   }
 
   //GET HOMEWORKS

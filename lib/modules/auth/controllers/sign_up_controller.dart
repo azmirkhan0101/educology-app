@@ -106,17 +106,6 @@ class SignUpController extends GetxController {
     }
     print("FCM token: $token");
 
-    // Map<String, dynamic> signupPayload = {
-    //   "firstName": firstNameController.text.trim(),
-    //   "lastName": firstNameController.text.trim(),
-    //   "email": emailController.text.trim(),
-    //   "password": passwordController.text.trim(),
-    //   "location": locationController.text.trim(),
-    //   "contact": contactNumber,
-    //   "dob": "${dateOfBirth?.toIso8601String()}",
-    //   "fcmToken": token ?? ""
-    // };
-
     Map<String, dynamic> signupPayload = {
       "role": role.name,
       "firstName": firstNameController.text.trim(),
@@ -139,8 +128,6 @@ class SignUpController extends GetxController {
     isSignupLoading.value = false;
 
     if ( response.statusCode == 201 ) {//ACCOUNT CREATED
-      showSnackBar(title: "Account Created", message: "Successfully created account.", backgroundColor: AppColors.greenPrimary);
-
       storage.write( emailKey, emailController.text.trim() );
       storage.write( requireVerificationKey, true );
       Map<String, dynamic> arguments = {
@@ -148,21 +135,8 @@ class SignUpController extends GetxController {
         isSignupKey : true
       };
       Get.offAndToNamed( AppRoutes.verifyEmail, arguments: arguments );
-    }else if( response.statusCode == 400 ){//PHONE NUMBER EXISTS
-      showSnackBar(title: "Failed!", message: response.data?['message'] ?? "Phone number already exist.", backgroundColor: AppColors.errorRed);
-    }else if (response.statusCode == 409) {//USER ALREADY EXISTS
-      showSnackBar(
-        title: "User Exists!",
-        message: response.data?['message'] ?? "User already exist with this email. Try login instead.",
-        backgroundColor: AppColors.warningYellow,
-      );
-    }else if (response.statusCode == 408) {//TIME OUT
-      timeOutSnackBar();
-    }else if (response.statusCode == 503) {//NO INTERNET
-      noInternetSnackBar();
-    } else {
-      errorSnackBar();
     }
+    showApiSnackBar(statusCode: response.statusCode, data: response.data);
   }
 
   @override

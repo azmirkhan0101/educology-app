@@ -65,7 +65,6 @@ class SettingsController extends GetxController {
       );
 
       if (result.contains('zoom-success')) {
-        //TODO: GET PROFILE, CHECK RESPONSE
         profileController.getProfile();
         Get.snackbar(
           'Success!',
@@ -109,7 +108,6 @@ class SettingsController extends GetxController {
       body: payLoad
     );
     isChangePasswordLoading.value = false;
-    String? message = response.data?["message"];
 
     if( response.statusCode == 200 ){
       saveTokens( response.data );
@@ -117,20 +115,8 @@ class SettingsController extends GetxController {
       newPassword.clear();
       confirmPassword.clear();
       Get.back();
-      showSnackBar(title: "Password changed!", message: message ?? "Your password has been changed successfully.", backgroundColor: AppColors.greenPrimary);
-    }else if( response.statusCode == 400 ){
-      showSnackBar(title: "Failed!", message: message ?? "New password cannot be the same as the old password.", backgroundColor: AppColors.warningYellow);
-    }else if( response.statusCode == 401 ){
-      showSnackBar(title: "Unauthorized!", message: message ?? "You are not authorized.", backgroundColor: AppColors.errorRed);
-    }else if( response.statusCode == 403 ){
-      showSnackBar(title: "Wrong password!", message: message ?? "Your current password is wrong.", backgroundColor: AppColors.warningYellow);
-    }else if (response.statusCode == 408) {//TIME OUT
-      timeOutSnackBar();
-    }else if (response.statusCode == 503) {//NO INTERNET
-      noInternetSnackBar();
-    } else {
-      errorSnackBar();
-    }
+      }
+    showApiSnackBar(statusCode: response.statusCode, data: response.data);
   }
 
   //======================DELETE ACCOUNT=====================

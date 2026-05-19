@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 
 class CopyLinkWidget extends StatelessWidget {
 
-  final String classLink;
+  final String link;
+  final bool isClassLink;
 
   const CopyLinkWidget({
     super.key,
-    required this.classLink
+    required this.link,
+    required this.isClassLink
   });
 
   @override
@@ -26,9 +28,9 @@ class CopyLinkWidget extends StatelessWidget {
               text: TextSpan(
                 style: const TextStyle(color: Colors.grey, fontSize: 14),
                 children: [
-                  const TextSpan(text: 'Class link: '),
+                  TextSpan(text: isClassLink ? 'Class link: ' : 'Recording link: '),
                   TextSpan(
-                    text: classLink,
+                    text: link,
                     style: const TextStyle(
                       color: Colors.blue,
                       fontWeight: FontWeight.w600,
@@ -45,7 +47,7 @@ class CopyLinkWidget extends StatelessWidget {
             padding: EdgeInsets.zero,
             icon: const Icon(Icons.copy, size: 20, color: Colors.blueGrey),
             onPressed: () {
-              Clipboard.setData(ClipboardData(text: classLink ));
+              Clipboard.setData(ClipboardData(text: link ));
 
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(

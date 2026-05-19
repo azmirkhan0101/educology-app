@@ -77,14 +77,23 @@ class ContentDetailsScreen extends StatelessWidget {
             //====================CLASS START TIME============================
             if (!isExam)
               Text(
-                'Live class starting time: ${DateFormat("dd MMM yyyy").format(controller.contentDetailsModel.startDate.toLocal())} | ${controller.contentDetailsModel.startTime}',
+                'Live class starting time: ${DateFormat("dd MMM yyyy").format(controller.contentDetailsModel.startDate)} | ${controller.contentDetailsModel.startTime}',
                 style: TextStyle(color: Colors.grey, fontSize: 14),
               ),
             //======================CLASS LINK==============================
             if (!isExam)
               CopyLinkWidget(
-                classLink: controller.contentDetailsModel.classLink!,
+                link: controller.contentDetailsModel.classLink!,
+                isClassLink: true,
               ),
+            //==============CLASS RECORDING LINK IF CLASS, AND RECORDING LINK EXISTS==============
+            if (!isExam && controller.contentDetailsModel.recordingLink != null)...[
+              SizedBox(height: 10,),
+              CopyLinkWidget(
+                link: controller.contentDetailsModel.recordingLink!,
+                isClassLink: true,
+              ),
+            ],
             const SizedBox(height: 12),
             //==========================TEACHER SECTION====================
             StaffInfoWidget(

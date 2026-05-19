@@ -112,11 +112,11 @@ class _CustomDatePickerView extends StatelessWidget {
                       : AppStrings.ddmmyyyy,
                   style: TextStyle(
                     color: state.value == null ? Colors.grey : Colors.black,
-                    fontSize: 14,
+                    fontSize: 12,
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.calendar_month, color: AppColors.grey92,),
+                  icon: const Icon(Icons.calendar_month, color: AppColors.grey92, size: 16,),
                   onPressed: () {
                     showCustomDatePicker(
                       context: context,
@@ -136,7 +136,7 @@ class _CustomDatePickerView extends StatelessWidget {
             padding: EdgeInsets.only(left: 12.w, top: 5.h),
             child: Text(
               state.errorText ?? '',
-              style: TextStyle(color: Colors.red.shade700, fontSize: 12.sp),
+              style: TextStyle(color: Colors.red.shade700, fontSize: 12),
             ),
           ),
       ],

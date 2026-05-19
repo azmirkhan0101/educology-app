@@ -49,20 +49,10 @@ class ResetPasswordController extends GetxController {
     );
     isPasswordChanging.value = false;
 
-    String? message = response.data?['message'];
-
     if( response.statusCode == 200 ){
-      showSnackBar(title: "Done!", message: message ?? "Password has been reset.", backgroundColor: AppColors.greenPrimary);
       Get.offAndToNamed( AppRoutes.signIn );
-    }else if( response.statusCode == 404 ){
-      showSnackBar(title: "No account found!", message: message ?? "No account found with this email.", backgroundColor: AppColors.warningYellow);
-    }else if( response.statusCode == 408 ){
-      timeOutSnackBar();
-    }else if( response.statusCode == 503 ){
-      noInternetSnackBar();
-    }else{
-      errorSnackBar();
     }
+    showApiSnackBar(statusCode: response.statusCode, data: response.data );
 
   }
 }

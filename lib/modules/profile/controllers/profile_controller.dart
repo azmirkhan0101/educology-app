@@ -118,16 +118,8 @@ class ProfileController extends GetxController{
     if( response.statusCode == 200 ){
       getProfile();
       Get.back();
-      showSnackBar(title: "Profile updated!", message: "Your profile has been updated successfully.", backgroundColor: AppColors.greenPrimary);
-    }else if( response.statusCode == 401 ){
-      showSnackBar(title: "Unauthorized!", message: "You are not authorized.", backgroundColor: AppColors.errorRed);
-    }else if( response.statusCode == 408 ){
-      timeOutSnackBar();
-    }else if( response.statusCode == 503 ){
-      noInternetSnackBar();
-    }else{
-      errorSnackBar();
-    }
+      }
+    showApiSnackBar(statusCode: response.statusCode, data: response.data);
   }
 
   //LOGOUT

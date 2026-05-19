@@ -70,7 +70,8 @@ class _AddContentScreenState extends State<AddContentScreen> {
                       return null;
                     },
                     controller: controller.titleController,
-                    hintText: AppStrings.enterClassName
+                    //hintText: AppStrings.enterClassName
+                    hintText: controller.contentType.hint
                   ),
                 const SizedBox(height: 15),
                 //======================START DATE AND TIME========================

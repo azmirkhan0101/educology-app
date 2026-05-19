@@ -59,9 +59,7 @@ class ProvideMarkController extends GetxController {
 
     if (response.statusCode == 200) {
       Get.back();
-      showSnackBar(title: "Marks submitted", message: "Marks submitted successfully", backgroundColor: AppColors.greenPrimary);
-    }else{
-      showSnackBar(title: "Error", message: response.data?['message'] ?? "Something went wrong", backgroundColor: AppColors.errorRed);
-    }
+      }
+    showApiSnackBar(statusCode: response.statusCode, data: response.data);
   }
 }

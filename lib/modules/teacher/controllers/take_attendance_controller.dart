@@ -107,21 +107,7 @@ class TakeAttendanceController extends GetxController{
     );
     isUploading.value = false;
 
-    String? message = response.data?["message"];
-
-    if( response.statusCode == 200 ){
-      showSnackBar(
-          title: "Attendance submitted",
-          message: message ?? "Attendance submitted successfully",
-          backgroundColor: AppColors.greenPrimary
-      );
-    }else{
-      showSnackBar(
-          title: "Failed",
-          message: message ?? "Something went wrong",
-          backgroundColor: AppColors.errorRed
-      );
-    }
+    showApiSnackBar(statusCode: response.statusCode, data: response.data);
 
   }
 

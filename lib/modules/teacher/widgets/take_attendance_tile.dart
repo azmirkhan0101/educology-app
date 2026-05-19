@@ -107,6 +107,7 @@ class _StudentTileState extends State<TakeAttendanceTile> {
                             ? Colors.orange
                             : Colors.red),
                   fontWeight: FontWeight.w500,
+                  fontSize: 12
                 ),
                 onChanged: (String? newValue) {
                   widget.onSelection(newValue);

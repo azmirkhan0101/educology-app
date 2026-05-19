@@ -18,6 +18,7 @@ class ProfileModel {
   final UserStatus status;
   final Role role;
   final bool isOtpVerified;
+  final bool isZoomConnected;
 
   ProfileModel({
     this.id,
@@ -34,7 +35,8 @@ class ProfileModel {
     this.dob,
     required this.status,
     required this.role,
-    required this.isOtpVerified
+    required this.isOtpVerified,
+    required this.isZoomConnected
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
@@ -53,7 +55,8 @@ class ProfileModel {
       dob: json['dob'] != null ? DateTime.parse(json['dob']) : null,
       status: UserStatus.fromString(json['status'] ?? ''),
       role: Role.fromString(json['role'] ?? ''),
-      isOtpVerified: json['isOtpVerified'] ?? false
+      isOtpVerified: json['isOtpVerified'] ?? false,
+        isZoomConnected: json['isZoomConnected'] ?? false
     );
   }
 
@@ -72,6 +75,7 @@ class ProfileModel {
       'status': status.toJson(),
       'role': role.toJson(),
       'isOtpVerified': isOtpVerified,
+      'isZoomConnected': isZoomConnected,
       'about' : about,
       'gender' : gender
     };

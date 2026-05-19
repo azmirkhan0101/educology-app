@@ -67,7 +67,7 @@ class AddContentController extends GetxController {
     Map<String, dynamic> payLoad = {
       "course": courseId,
       "title": titleController.text.trim(),
-      "date": startDate.toUtc().toIso8601String(),
+      "date": startDate.toIso8601String(),
       "time": startTimeController.text.trim(),
       "details": detailsHtmlString,
       "link": zoomLinkController.text.trim(),
@@ -83,23 +83,12 @@ class AddContentController extends GetxController {
       pdfKey: "documents"
     );
 
-    String? message = response.data?["message"];
-
     if (response.statusCode == 201) {
       courseDetailsController.getClasses();
       Get.back();
-      showSnackBar(
-        title: "Uploaded!",
-        message: message ?? "Class uploaded successfully",
-        backgroundColor: AppColors.greenPrimary,
-      );
-    } else {
-      showSnackBar(
-        title: "Failed!",
-        message: message ?? "Something went wrong",
-        backgroundColor: AppColors.errorRed,
-      );
-    }
+      }
+
+    showApiSnackBar(statusCode: response.statusCode, data: response.data);
 
     isLoading.value = false;
   }
@@ -128,23 +117,11 @@ class AddContentController extends GetxController {
       pdfKey: "documents"
     );
 
-    String? message = response.data?["message"];
-
     if (response.statusCode == 201) {
       courseDetailsController.getHomeworks();
       Get.back();
-      showSnackBar(
-        title: "Uploaded!",
-        message: message ?? "Homework uploaded successfully",
-        backgroundColor: AppColors.greenPrimary,
-      );
-    } else {
-      showSnackBar(
-        title: "Failed!",
-        message: message ?? "Something went wrong",
-        backgroundColor: AppColors.errorRed,
-      );
-    }
+      }
+    showApiSnackBar(statusCode: response.statusCode, data: response.data);
     isLoading.value = false;
   }
 

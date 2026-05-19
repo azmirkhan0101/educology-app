@@ -17,6 +17,7 @@ class ContentDetailsModel {
   final DateTime? endDate;
   final String? endTime;
   final String? classLink;
+  final String? recordingLink;
   final String? startUrl;
   final String? details;
 
@@ -33,6 +34,7 @@ class ContentDetailsModel {
     required this.endDate,
     required this.endTime,
     required this.classLink,
+    required this.recordingLink,
     required this.startUrl,
     required this.details
   });
@@ -51,6 +53,7 @@ class ContentDetailsModel {
       endDate: null,
       endTime: null,
       classLink: classModel.link,
+        recordingLink: classModel.recordingLink,
       startUrl: classModel.startUrl,
       details: classModel.details
     );
@@ -72,6 +75,7 @@ class ContentDetailsModel {
       endDate: homeworkExamModel.endDate,
       endTime: homeworkExamModel.endTime,
       classLink: null,
+        recordingLink: null,
       startUrl: null,
       details: homeworkExamModel.details
     );
