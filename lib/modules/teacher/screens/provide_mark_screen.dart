@@ -43,74 +43,78 @@ class ProvideMarkScreen extends StatelessWidget {
         child: Form(
           key: formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Upload Corrected Answer paper",
-                  style: TextStyle(fontSize: 14, color: Colors.grey)),
-              const SizedBox(height: 10),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Upload Corrected Answer paper",
+                          style: TextStyle(fontSize: 14, color: Colors.grey)),
+                      const SizedBox(height: 10),
 
-              // Upload Box
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF8F9FA),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade200),
-                ),
-                child: Column(
-                  children: [
-                    SvgPicture.asset(Assets.icons.upload),
-                    const Text("Max file size: 5 MB",
-                        style: TextStyle(fontSize: 12, color: Colors.grey)),
-                    const SizedBox(height: 15),
-                    IntrinsicWidth(
-                      child: ButtonWidget(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
-                        label: AppStrings.uploadFile,
-                        fontSize: 14,
-                        buttonHeight: 40,
-                        backgroundColor: AppColors.secondaryDarkBlue,
-                        onPressed: (){
-                          pickPdfFile();
+                      // Upload Box
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF8F9FA),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.grey.shade200),
+                        ),
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(Assets.icons.upload),
+                            const Text("Max file size: 5 MB",
+                                style: TextStyle(fontSize: 12, color: Colors.grey)),
+                            const SizedBox(height: 15),
+                            IntrinsicWidth(
+                              child: ButtonWidget(
+                                padding: EdgeInsets.symmetric(horizontal: 30),
+                                label: AppStrings.uploadFile,
+                                fontSize: 14,
+                                buttonHeight: 40,
+                                backgroundColor: AppColors.secondaryDarkBlue,
+                                onPressed: (){
+                                  pickPdfFile();
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                        Obx((){
+                          if( pdfFileName.value.isEmpty ){
+                            return SizedBox.shrink();
+                          }
+                          return DocumentItemWidget(pdfUrl: pdfFileName.value);
+                        }
+                        ),
+                      const SizedBox(height: 12),
+                      CustomTextField(
+                        label: AppStrings.provideMark,
+                        controller: controller.marksController,
+                        keyboardType: TextInputType.number,
+                        hintText: AppStrings.provideHere,
+                        validator: (value){
+                          if( value == null || value.isEmpty ){
+                            return "Mark is required";
+                          }
+                          return null;
                         },
                       ),
-                    )
-                  ],
+                      const SizedBox(height: 15),
+                      CustomTextField(
+                        label: AppStrings.provideAShortFeedback,
+                        controller: controller.feedbackController,
+                        hintText: AppStrings.provideHere,
+                        maxLines: 3,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(height: 10,),
-                Obx((){
-                  if( pdfFileName.value.isEmpty ){
-                    return SizedBox.shrink();
-                  }
-                  return DocumentItemWidget(pdfUrl: pdfFileName.value);
-                }
-                ),
-              const SizedBox(height: 12),
-              CustomTextField(
-                label: AppStrings.provideMark,
-                controller: controller.marksController,
-                keyboardType: TextInputType.number,
-                hintText: AppStrings.provideHere,
-                validator: (value){
-                  if( value == null || value.isEmpty ){
-                    return "Mark is required";
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 15),
-              CustomTextField(
-                label: AppStrings.provideAShortFeedback,
-                controller: controller.feedbackController,
-                hintText: AppStrings.provideHere,
-                maxLines: 3,
-              ),
-
-              const Spacer(),
-
-              // Update Button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 28.0),
                 child: Obx((){

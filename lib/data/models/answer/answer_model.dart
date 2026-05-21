@@ -1,4 +1,5 @@
 import 'package:dr_dina_educology/data/models/staff/staff_model.dart';
+import 'package:get/get.dart';
 
 class AnswerModel {
   final String answerId;
@@ -8,7 +9,7 @@ class AnswerModel {
   final String answerPdf;
   final String submissionStatus;
   final int marks;
-  final bool isMarked;
+  RxBool isMarked;
   final DateTime createdAt;
 
   AnswerModel({
@@ -26,13 +27,13 @@ class AnswerModel {
   factory AnswerModel.fromJson(Map<String, dynamic> json) {
     return AnswerModel(
       answerId: json['_id'] ?? json['id'] ?? '',
-      taskId: json['task'] != null ? json['task']['_id'] ?? '' : '',
+      taskId: json['task'] is Map ? (json['task']['_id'] ?? '') : (json['task']?.toString() ?? ''),
       student: StaffModel.fromJson(json['student'] ?? {}),
-      courseId: json['course'] ?? '',
+      courseId: json['course'] is Map ? (json['course']['_id'] ?? '') : (json['course']?.toString() ?? ''),
       answerPdf: json['answerPdf'] ?? '',
       submissionStatus: json['submissionStatus'] ?? '',
       marks: json['marks'] is int ? json['marks'] : 0,
-      isMarked: json['isMarked'] ?? false,
+      isMarked: (json['isMarked'] as bool? ?? false).obs,
       createdAt: json['createdAt'] != null
           ? DateTime.parse(json['createdAt'])
           : DateTime.now(),
@@ -48,7 +49,7 @@ class AnswerModel {
       'answerPdf': answerPdf,
       'submissionStatus': submissionStatus,
       'marks': marks,
-      'isMarked': isMarked,
+      'isMarked': isMarked.value,
       'createdAt': createdAt.toIso8601String()
     };
   }

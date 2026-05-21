@@ -70,11 +70,11 @@ class ApiEndpoints {
   static String provideMark({required String submissionId}){
     return "/submit/mark/$submissionId";
   }
-  static String getTaskAnswer({required String taskId, required bool isExam}){
+  static String getTaskAnswer({required int page, required String taskId, required bool isExam}){
     if( isExam ){
-      return "/submit/task/$taskId?type=exam";
+      return "/submit/task/$taskId?type=exam&page=$page&limit=10";
     }else{
-      return "/submit/task/$taskId?type=homework";
+      return "/submit/task/$taskId?type=homework&page=$page&limit=10";
     }
   }
   //==================ADD CONTENTS===================

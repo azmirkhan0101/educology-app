@@ -114,6 +114,7 @@ class SigninController extends GetxController {
     } else if (response.statusCode == 423) {//ACCOUNT IS NOT APPROVED YET BY ADMIN
       Get.offAndToNamed(AppRoutes.accountApproval);
     }
+    print("${response.statusCode} ${response.data}");
     showApiSnackBar(statusCode: response.statusCode, data: response.data);
   }
 

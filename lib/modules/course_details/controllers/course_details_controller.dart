@@ -72,6 +72,17 @@ class CourseDetailsController extends GetxController
     super.onInit();
   }
 
+  //MARK INDEXED TASK AS DONE ON HW OR EXAM SUBMIT BY STUDENT
+  void markExamAsDone({required int index}){
+    examHelper.items[index].userStatus = "done";
+    examHelper.items.refresh();
+  }
+  //MARK INDEXED TASK AS DONE ON HW OR EXAM SUBMIT BY STUDENT
+  void markHomeWorkAsDone({required int index}){
+    homeworkHelper.items[index].userStatus = "done";
+    homeworkHelper.items.refresh();
+  }
+
   //INIT PAGINATION HELPERS
   void initPaginationHelpers() {
     List<dynamic>? extractor(data) => data['data']['result'] as List<dynamic>?;
@@ -156,17 +167,17 @@ class CourseDetailsController extends GetxController
 
   //GET CLASSES
   Future<void> getClasses() async {
-    await classesHelper.fetch(isRefresh: true, shouldPrint: true);
+    await classesHelper.fetch(isRefresh: true);
   }
 
   //GET HOMEWORKS
   Future<void> getHomeworks() async {
-    await homeworkHelper.fetch(isRefresh: true);
+    await homeworkHelper.fetch(isRefresh: true, shouldPrint: true);
   }
 
   //GET EXAMS
   Future<void> getExams() async {
-    await examHelper.fetch(isRefresh: true);
+    await examHelper.fetch(isRefresh: true, shouldPrint: true);
   }
 
   //GET ANNOUNCEMENTS

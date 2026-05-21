@@ -57,7 +57,7 @@ class HomeworkExamItemWidget extends StatelessWidget {
                   Text(
                     title,
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 13,
                       fontWeight: FontWeight.bold,
                       color: AppColors.secondaryDarkBlue,
                     ),
@@ -69,7 +69,7 @@ class HomeworkExamItemWidget extends StatelessWidget {
                       color: taskStatus.taskStatusColor,
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                    child: TextWidget(text: taskStatus.label, fontSize: 12, fontColor: Colors.white,),
+                    child: TextWidget(text: taskStatus.label, fontSize: 8, fontColor: Colors.white,),
                   )
                 ],
               ),

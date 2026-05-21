@@ -121,24 +121,29 @@ class ContentDetailsScreen extends StatelessWidget {
               ),
             //===============SUBMIT ANSWER FOR STUDENT IF EXAM================
             if (isExam && isStudent)
-              ButtonWidget(
-                label: AppStrings.submitAnswer,
-                gradient: AppColors.primaryButtonGradient,
-                prefixIcon: Icons.file_upload_outlined,
-                fontSize: 14,
-                buttonHeight: 45,
-                onPressed: () {
-                  print("Course id: ${controller.contentDetailsModel.courseId}");
-                  print("Task id: ${controller.contentDetailsModel.contentId}");
-                  Get.toNamed(
-                      AppRoutes.submitAnswer,
-                    arguments: {
-                        "taskId" : controller.contentDetailsModel.contentId,
-                      "courseId" : controller.contentDetailsModel.courseId
-                    }
-                  );
-                },
-              ),
+              Obx((){
+                return ButtonWidget(
+                  label: controller.isSubmitted.value ? "Submitted" : AppStrings.submitAnswer,
+                  gradient: AppColors.primaryButtonGradient,
+                  isEnabled: !controller.isSubmitted.value,
+                  prefixIcon:  controller.isSubmitted.value ? Icons.done : Icons.file_upload_outlined,
+                  fontSize: 14,
+                  buttonHeight: 45,
+                  onPressed: () {
+                    print("Course id: ${controller.contentDetailsModel.courseId}");
+                    print("Task id: ${controller.contentDetailsModel.contentId}");
+                    Get.toNamed(
+                        AppRoutes.submitAnswer,
+                        arguments: {
+                          "taskId" : controller.contentDetailsModel.contentId,
+                          "courseId" : controller.contentDetailsModel.courseId,
+                          "index" : controller.index,
+                          "contentType" : controller.contentDetailsType
+                        }
+                    );
+                  },
+                );
+              }),
             //===============JOIN CLASS FOR STUDENT IF CLASS  ================
             if (!isExam && isStudent)
               ButtonWidget(

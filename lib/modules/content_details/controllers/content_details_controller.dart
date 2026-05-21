@@ -25,10 +25,14 @@ class ContentDetailsController extends GetxController{
   final RoleService roleService = Get.find<RoleService>();
   late Role role;
   late ContentDetailsModel contentDetailsModel;
+  late int index;
   final RxList<String> documents = <String>[].obs;
   final RxList<CommentModel> comments = <CommentModel>[].obs;
 
   TextEditingController commentController = TextEditingController();
+
+  //SUBMIT STATUS FOR STUDENT
+  RxBool isSubmitted = false.obs;
 
   @override
   void onInit() async{
@@ -36,6 +40,8 @@ class ContentDetailsController extends GetxController{
     arguments = Get.arguments;
     contentDetailsType = arguments["contentDetailsType"];
     contentDetailsModel = arguments["contentDetailsModel"];
+    isSubmitted.value = contentDetailsModel.userStatus == "done";
+    index = arguments["index"];
     comments.value = contentDetailsModel.comments;
 
     print("Details print classId: ${contentDetailsModel.contentId}");
@@ -47,6 +53,12 @@ class ContentDetailsController extends GetxController{
     documents.value = contentDetailsModel.documents;
 
     super.onInit();
+  }
+
+  //MARK STUDENT TASK AS DONE FOR EXAM OR HOMEWORK
+  void markTaskAsDone() async {
+    contentDetailsModel.userStatus = "done";
+    isSubmitted.value = true;
   }
 
   //========================POST COMMENT================================

@@ -1,5 +1,6 @@
 
 import 'package:dr_dina_educology/data/models/answer/answer_model.dart';
+import 'package:dr_dina_educology/modules/teacher/controllers/check_answer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -16,10 +17,11 @@ import '../../content_details/screens/view_document_screen.dart';
 class AnswerCard extends StatelessWidget {
 
   final AnswerModel answerModel;
+  final int index;
 
   const AnswerCard({
     super.key,
-    required this.answerModel
+    required this.answerModel, required this.index
   });
 
   @override
@@ -118,23 +120,29 @@ class AnswerCard extends StatelessWidget {
             ),
             const SizedBox(width: 4),
             Expanded(
-              child: ButtonWidget(label: AppStrings.provideMark,
-                backgroundColor: AppColors.white,
-                borderColor: AppColors.secondaryDarkBlue,
-                textColor: AppColors.secondaryDarkBlue,
-                borderWidth: 2,
-                buttonHeight: 40,
-                fontSize: 14,
-                padding: EdgeInsets.zero,
-                onPressed: (){
-                  Get.toNamed(
-                      AppRoutes.provideMark,
-                    arguments: {
-                        "submissionId" : answerModel.answerId
-                    }
-                  );
-                },
-              ),
+              child: Obx((){
+                return ButtonWidget(
+                  label: answerModel.isMarked.value ? "Mark provided" : AppStrings.provideMark,
+                  backgroundColor: AppColors.white,
+                  isEnabled: !answerModel.isMarked.value,
+                  borderColor: AppColors.secondaryDarkBlue,
+                  icon: answerModel.isMarked.value ? Icons.done : null,
+                  textColor: AppColors.secondaryDarkBlue,
+                  borderWidth: 2,
+                  buttonHeight: 40,
+                  fontSize: 14,
+                  padding: EdgeInsets.zero,
+                  onPressed: (){
+                    Get.toNamed(
+                        AppRoutes.provideMark,
+                        arguments: {
+                          "submissionId" : answerModel.answerId,
+                          "index": index
+                        }
+                    );
+                  },
+                );
+              }),
             ),
           ],
         ),

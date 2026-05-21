@@ -32,7 +32,7 @@ class ApiService extends GetxService {
     required bool isAuthRequired,
     required String endPoint,
     Map<String, dynamic>? body,
-    int timeout = 12,
+    int timeout = 25,
     bool shouldPrint = false
   }) async {
     var result;
@@ -144,7 +144,7 @@ class ApiService extends GetxService {
     File? image,
     File? pdfFile,
     List<File>? multiplePdfFiles,
-    int timeout = 20,
+    int timeout = 30,
     String? imageKey,
     String? pdfKey
   }) async {

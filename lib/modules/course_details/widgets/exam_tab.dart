@@ -107,7 +107,8 @@ class ExamTab extends StatelessWidget {
                     AppRoutes.contentDetails,
                     arguments: {
                       "contentDetailsType": ContentDetailsType.exam,
-                      "contentDetailsModel": ContentDetailsModel.fromHomeworkExamModel(model)
+                      "contentDetailsModel": ContentDetailsModel.fromHomeworkExamModel(model),
+                      "index" : index
                     },
                   );
                 },

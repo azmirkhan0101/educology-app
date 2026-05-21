@@ -17,6 +17,7 @@ class HomeworkExamModel {
   final String status;
   final List<String> documents;
   final List<CommentModel> comments;
+  String? userStatus;//"done" IF ROLE IS STUDENT AND STUDENT SUBMITTED THE TASK IN HW AND CLASS
 
   HomeworkExamModel({
     required this.id,
@@ -33,6 +34,7 @@ class HomeworkExamModel {
     required this.status,
     required this.documents,
     required this.comments,
+    required this.userStatus
   });
 
   factory HomeworkExamModel.fromJson(Map<String, dynamic> json) {
@@ -51,6 +53,7 @@ class HomeworkExamModel {
       // Parsing full ISO 8601 timestamps
       createdAt: DateTime.parse(json['createdAt']),
       status: json['status'] ?? "",
+      userStatus: json['userStatus']?.toString().toLowerCase(),
       documents: json['documents'] != null
           ? (json['documents'] as List<dynamic>?)
                     ?.map((document) => document as String)

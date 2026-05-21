@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../../core/utils/show_snackbar.dart';
 
 class ViewDocumentScreen extends StatefulWidget {
   final String url;
@@ -73,6 +76,11 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         centerTitle: true,
+        actions: [
+          IconButton(onPressed: (){
+            openLinkInBrowser(classLink: widget.url);
+          }, icon: Icon(Icons.download))
+        ],
       ),
       body: isLoading
           ? Center(
@@ -100,5 +108,28 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
       )
           : PDFView(filePath: localPath),
     );
+  }
+
+  //OPEN CLASS LINK IN BROWSER
+  Future<void> openLinkInBrowser({required String classLink}) async {
+    final Uri? url = Uri.tryParse(classLink);
+
+    if (url == null || !url.hasScheme) {
+      showSnackBar(title: "Cannot open", message: "Invalid URL format", backgroundColor: AppColors.errorRed);
+      return;
+    }
+
+    try {
+      if (await canLaunchUrl(url)) {
+        await launchUrl(
+          url,
+          mode: LaunchMode.externalApplication,
+        );
+      } else {
+        showSnackBar(title: "Failed", message: "No application found to handle this link.", backgroundColor: AppColors.errorRed);
+      }
+    } catch (e) {
+      showSnackBar(title: "Cannot open link", message: "Error launching URL", backgroundColor: AppColors.errorRed);
+    }
   }
 }

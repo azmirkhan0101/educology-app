@@ -20,6 +20,7 @@ class ContentDetailsModel {
   final String? recordingLink;
   final String? startUrl;
   final String? details;
+  String? userStatus;
 
   ContentDetailsModel({
     required this.contentId,
@@ -36,7 +37,8 @@ class ContentDetailsModel {
     required this.classLink,
     required this.recordingLink,
     required this.startUrl,
-    required this.details
+    required this.details,
+    required this.userStatus
   });
 
   factory ContentDetailsModel.fromClassModel(ClassModel classModel) {
@@ -55,7 +57,8 @@ class ContentDetailsModel {
       classLink: classModel.link,
         recordingLink: classModel.recordingLink,
       startUrl: classModel.startUrl,
-      details: classModel.details
+      details: classModel.details,
+      userStatus: null,
     );
   }
 
@@ -77,7 +80,8 @@ class ContentDetailsModel {
       classLink: null,
         recordingLink: null,
       startUrl: null,
-      details: homeworkExamModel.details
+      details: homeworkExamModel.details,
+      userStatus: homeworkExamModel.userStatus
     );
   }
 }

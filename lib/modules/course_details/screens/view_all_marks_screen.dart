@@ -4,9 +4,12 @@ import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/data/models/marks/marks_model.dart';
 import 'package:dr_dina_educology/modules/course_details/controllers/view_marks_controller.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/view_marks_item_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/widgets/button_widget.dart';
+import '../../../core/widgets/text_widget.dart';
 import '../../content_details/screens/view_document_screen.dart';
 
 class ViewAllMarksScreen extends StatelessWidget {
@@ -53,26 +56,11 @@ class ViewAllMarksScreen extends StatelessWidget {
                           imageUrl: model.teacher.image,
                           isMarked: model.isMarked,
                           onViewAnswer: (){
-                            final pdfUrl = model.answerPdf;
-                            if (pdfUrl != null && pdfUrl.isNotEmpty) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ViewDocumentScreen(
-                                    url: pdfUrl,
-                                    title: "Answer",
-                                  ),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("No answer found."),
-                                  backgroundColor: Colors.redAccent,
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
-                            }
+                            showAnswerTypeSelectionDialog(
+                                context: context,
+                                submittedAnswerUrl: model.answerPdf,
+                                correctAnswerUrl: model.correctAnswerPdf
+                            );
                           }
                       );
                       });
@@ -81,6 +69,102 @@ class ViewAllMarksScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  //SHOW DIALOG - SUBMITTED ANSWER | CORRECT ANSWER
+  Future<void> showAnswerTypeSelectionDialog({
+    required BuildContext context,
+    required String? submittedAnswerUrl,
+    required String? correctAnswerUrl
+}) async{
+    Get.dialog(
+        AlertDialog(
+          backgroundColor: AppColors.greyB2,
+          content: Column(
+            spacing: 5,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const TextWidget(
+                text: AppStrings.viewAnswer,
+                fontColor: AppColors.secondaryDarkBlue,
+                fontWeight: FontWeight.bold,
+              ),
+              const TextWidget(
+                text: "Select which answer you want to view.",
+                fontColor: AppColors.grey4E,
+                fontSize: 14
+              )
+            ],
+          ),
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          actionsPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          actions: [
+            Column(
+              spacing: 10,
+              children: [
+                ButtonWidget(
+                  buttonHeight: 40,
+                  label: "Submitted Answer",
+                  fontSize: 14,
+                  backgroundColor: AppColors.secondaryDarkBlue,
+                  onPressed: (){
+                    Get.back();
+                    final pdfUrl = submittedAnswerUrl;
+                    if (pdfUrl != null && pdfUrl.isNotEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ViewDocumentScreen(
+                            url: pdfUrl,
+                            title: "Submitted Answer",
+                          ),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("No answer found."),
+                          backgroundColor: Colors.redAccent,
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    }
+                  },
+                ),
+                ButtonWidget(
+                  buttonHeight: 40,
+                  label: "Correct Answer",
+                  fontSize: 14,
+                  gradient: AppColors.primaryButtonGradient,
+                  onPressed: (){
+                    Get.back();
+                    final pdfUrl = correctAnswerUrl;
+                    if (pdfUrl != null && pdfUrl.isNotEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ViewDocumentScreen(
+                            url: pdfUrl,
+                            title: "Correct Answer",
+                          ),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("No answer found."),
+                          backgroundColor: Colors.redAccent,
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
+            )
+          ],
+        )
     );
   }
 }

@@ -104,7 +104,8 @@ Widget mainBody(BuildContext context){
                     AppRoutes.contentDetails,
                     arguments: {
                       "contentDetailsType": ContentDetailsType.homeWork,
-                      "contentDetailsModel": ContentDetailsModel.fromHomeworkExamModel(model)
+                      "contentDetailsModel": ContentDetailsModel.fromHomeworkExamModel(model),
+                      "index" : index
                     },
                   );
                 },
