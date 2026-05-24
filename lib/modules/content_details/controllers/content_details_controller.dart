@@ -41,7 +41,7 @@ class ContentDetailsController extends GetxController{
     contentDetailsType = arguments["contentDetailsType"];
     contentDetailsModel = arguments["contentDetailsModel"];
     isSubmitted.value = contentDetailsModel.userStatus == "done";
-    index = arguments["index"];
+    index = arguments?["index"] as int? ?? -1;
     comments.value = contentDetailsModel.comments;
 
     print("Details print classId: ${contentDetailsModel.contentId}");
