@@ -25,13 +25,5 @@ void main() async{
   );
   await FirebaseNotificationService.instance.initialize();
 
-  String? token;
-  if( Platform.isAndroid ){
-  token = await FirebaseMessaging.instance.getToken();
-  }else{
-    token = await FirebaseMessaging.instance.getAPNSToken();
-  }
-  print("Token: $token");
-
   runApp( const EducologyMainApp() );
 }
