@@ -19,7 +19,6 @@ class ProvideMarkScreen extends StatelessWidget {
 
   final ProvideMarkController controller = Get.find<ProvideMarkController>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  RxString pdfFileName = "".obs;
 
   @override
   Widget build(BuildContext context) {
@@ -85,10 +84,10 @@ class ProvideMarkScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 10,),
                         Obx((){
-                          if( pdfFileName.value.isEmpty ){
+                          if( controller.pdfFileName.value.isEmpty ){
                             return SizedBox.shrink();
                           }
-                          return DocumentItemWidget(pdfUrl: pdfFileName.value);
+                          return DocumentItemWidget(pdfUrl: controller.pdfFileName.value);
                         }
                         ),
                       const SizedBox(height: 12),
@@ -169,7 +168,7 @@ class ProvideMarkScreen extends StatelessWidget {
 
     if (result != null && result.files.single.path != null) {
       String fileName = result.files.single.name;
-      pdfFileName.value = fileName;
+      controller.pdfFileName.value = fileName;
       controller.pdfFile = File(result.files.single.path!);
     }
   }

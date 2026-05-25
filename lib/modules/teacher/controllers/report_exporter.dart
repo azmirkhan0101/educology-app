@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:open_filex/open_filex.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -239,7 +239,7 @@ class AnalyticsExporter {
   }
 
   Future<void> _openDownloadedFile(String filePath) async {
-    final result = await OpenFilex.open(filePath);
+    final result = await OpenFile.open(filePath);
 
     if (result.type != ResultType.done) {
       // Handle errors (e.g., file not found or no app to open it)

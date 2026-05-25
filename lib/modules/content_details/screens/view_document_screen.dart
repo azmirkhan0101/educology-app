@@ -1,17 +1,25 @@
 import 'dart:io';
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
+import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:nextgen_pdf_editor/nextgen_pdf_editor.dart'; // Imported editor package
 
 import '../../../core/utils/show_snackbar.dart';
+import '../../../routes/app_pages.dart';
 
 class ViewDocumentScreen extends StatefulWidget {
   final String url;
   final String? title;
-  const ViewDocumentScreen({super.key, required this.url, this.title});
+  final bool showEditIcon;
+  final String? submissionId;
+  final int? index;
+  const ViewDocumentScreen({super.key, required this.url, this.title, this.showEditIcon = false, this.submissionId, this.index});
 
   @override
   State<ViewDocumentScreen> createState() => _ViewDocumentScreenState();
@@ -21,6 +29,7 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
   String? localPath;
   double _progress = 0;
   bool isLoading = true;
+  File? correctedAnswer;
 
   @override
   void initState() {
@@ -33,7 +42,6 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
       final request = http.Request('GET', Uri.parse(url));
       final response = await http.Client().send(request);
 
-      // Get the total size of the file from headers
       final contentLength = response.contentLength ?? 0;
       int downloadedLength = 0;
       List<int> bytes = [];
@@ -43,7 +51,6 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
           setState(() {
             bytes.addAll(chunk);
             downloadedLength += chunk.length;
-            // Calculate percentage (0.0 to 1.0)
             _progress = contentLength > 0 ? downloadedLength / contentLength : 0;
           });
         },
@@ -57,11 +64,47 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
             isLoading = false;
           });
         },
-        onError: (e) => debugPrint(e.toString()),
+        onError: (e) {
+          debugPrint(e.toString());
+          setState(() => isLoading = false);
+        },
         cancelOnError: true,
       );
     } catch (e) {
       debugPrint("Download Error: $e");
+      setState(() => isLoading = false);
+    }
+  }
+
+  // Action method to open the editor
+  Future<void> _editPDF() async {
+    if (localPath == null) return;
+
+    try {
+      final File originalFile = File(localPath!);
+
+      // Opens the Editor View overlay on the PDF
+      final File? editedFile = await NGPdf.openEditor(context, originalFile);
+
+      if (editedFile != null) {
+        correctedAnswer = editedFile;
+        setState(() {
+          // Update the local path with the newly saved PDF
+          localPath = editedFile.path;
+        });
+        showSnackBar(
+          title: "Saved",
+          message: "PDF edited and saved successfully!",
+          backgroundColor: Colors.green,
+        );
+      }
+    } catch (e) {
+      debugPrint("Editing Error: $e");
+      showSnackBar(
+        title: "Error",
+        message: "Failed to open editor: $e",
+        backgroundColor: AppColors.errorRed,
+      );
     }
   }
 
@@ -71,15 +114,28 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
-          title: Text(
-              widget.title ?? "View Document",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+        title: Text(
+          widget.title ?? "View Document",
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         actions: [
-          IconButton(onPressed: (){
-            openLinkInBrowser(classLink: widget.url);
-          }, icon: Icon(Icons.download))
+          // Show the edit button only after the file has finished downloading [4.1.4]
+          if ( widget.showEditIcon && !isLoading && localPath != null)
+            IconButton(
+              onPressed: _editPDF,
+              icon: const Icon(Icons.edit, color: AppColors.primaryGold),
+              tooltip: "Edit PDF",
+            ),
+          IconButton(
+            onPressed: () {
+              // Note: Opens original URL in browser.
+              // Alternatively, you could share the localPath if edited.
+              openLinkInBrowser(classLink: widget.url);
+            },
+            icon: const Icon(Icons.download),
+            tooltip: "Download original",
+          ),
         ],
       ),
       body: isLoading
@@ -90,32 +146,67 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               LinearProgressIndicator(
-                  value: _progress,
+                value: _progress,
                 backgroundColor: Colors.white,
                 color: AppColors.primaryGold,
               ),
               const SizedBox(height: 20),
               Text(
-                  "${(_progress * 100).toStringAsFixed(0)}% downloaded",
-                style: TextStyle(
+                "${(_progress * 100).toStringAsFixed(0)}% downloaded",
+                style: const TextStyle(
                   fontWeight: FontWeight.w700,
-                  color: AppColors.primaryGold
+                  color: AppColors.primaryGold,
                 ),
               ),
             ],
           ),
         ),
       )
-          : PDFView(filePath: localPath),
+          : Column(
+            children: [
+              Expanded(
+                child: PDFView(
+                        // Using ValueKey(localPath) forces the PDFView widget to dispose and
+                        // completely reload the newly updated file path after changes are saved.
+                        key: ValueKey(localPath),
+                        filePath: localPath,
+                      ),
+              ),
+              if( widget.showEditIcon && correctedAnswer != null )...[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                  child: ButtonWidget(
+                    label: "Provide Mark",
+                    buttonHeight: 40.h,
+                    onPressed: (){
+                      Get.offAndToNamed(
+                          AppRoutes.provideMark,
+                          arguments: {
+                            "submissionId" : widget.submissionId,
+                            "index": widget.index,
+                            "correctedAnswer": correctedAnswer
+                          }
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox( height: 30,)
+              ]
+            ],
+          ),
     );
   }
 
-  //OPEN CLASS LINK IN BROWSER
+  // OPEN CLASS LINK IN BROWSER
   Future<void> openLinkInBrowser({required String classLink}) async {
     final Uri? url = Uri.tryParse(classLink);
 
     if (url == null || !url.hasScheme) {
-      showSnackBar(title: "Cannot open", message: "Invalid URL format", backgroundColor: AppColors.errorRed);
+      showSnackBar(
+        title: "Cannot open",
+        message: "Invalid URL format",
+        backgroundColor: AppColors.errorRed,
+      );
       return;
     }
 
@@ -126,10 +217,18 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
           mode: LaunchMode.externalApplication,
         );
       } else {
-        showSnackBar(title: "Failed", message: "No application found to handle this link.", backgroundColor: AppColors.errorRed);
+        showSnackBar(
+          title: "Failed",
+          message: "No application found to handle this link.",
+          backgroundColor: AppColors.errorRed,
+        );
       }
     } catch (e) {
-      showSnackBar(title: "Cannot open link", message: "Error launching URL", backgroundColor: AppColors.errorRed);
+      showSnackBar(
+        title: "Cannot open link",
+        message: "Error launching URL",
+        backgroundColor: AppColors.errorRed,
+      );
     }
   }
 }

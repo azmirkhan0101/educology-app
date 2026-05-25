@@ -16,6 +16,7 @@ class ProvideMarkController extends GetxController {
   final CheckAnswerController checkAnswerController = Get.find<CheckAnswerController>();
 
   File? pdfFile;
+  RxString pdfFileName = "".obs;
   int? mark;
   TextEditingController marksController = TextEditingController();
   TextEditingController feedbackController = TextEditingController();
@@ -28,6 +29,10 @@ class ProvideMarkController extends GetxController {
 
     submissionId = Get.arguments?['submissionId'] ?? "";
     index = Get.arguments['index'] ?? 0;
+    pdfFile = Get.arguments['correctedAnswer'] as File?;
+    if( pdfFile != null ){
+      pdfFileName.value = pdfFile!.path.split('/').last;
+    }
 
     super.onInit();
   }

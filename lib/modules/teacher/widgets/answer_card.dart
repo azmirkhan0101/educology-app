@@ -89,7 +89,8 @@ class AnswerCard extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: ButtonWidget(label: AppStrings.viewAnswer,
+              child: ButtonWidget(
+                label: AppStrings.viewAnswer,
                 backgroundColor: AppColors.secondaryDarkBlue,
                 buttonHeight: 40,
                 fontSize: 14,
@@ -103,6 +104,9 @@ class AnswerCard extends StatelessWidget {
                         builder: (context) => ViewDocumentScreen(
                           url: pdfUrl,
                           title: "Answer",
+                          index: index,
+                          showEditIcon: true,
+                          submissionId: answerModel.answerId
                         ),
                       ),
                     );
