@@ -1,0 +1,31 @@
+name: nextgen_pdf_editor
+description: A lightweight, feature-rich PDF editing toolkit for Flutter. Supports text, drawing, image addition, and annotations.
+version: 1.2.0
+repository: https://github.com/StillSomehowSane/nextgen_pdf_editor
+license: BSD-3-Clause
+
+environment:
+  sdk: ^3.7.2
+  flutter: ">=1.17.0"
+
+platforms:
+  android:
+  ios:
+
+dependencies:
+  flutter:
+    sdk: flutter
+  syncfusion_flutter_pdf: ^29.1.37
+  syncfusion_flutter_pdfviewer: ^29.1.37
+  path_provider: ^2.1.5
+  open_file: ^3.5.10
+  flutter_drawing_board: ^0.9.5
+  flutter_colorpicker: ^1.1.0
+  image_picker: ^1.1.2
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+

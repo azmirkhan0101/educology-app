@@ -984,10 +984,9 @@ packages:
   nextgen_pdf_editor:
     dependency: "direct main"
     description:
-      name: nextgen_pdf_editor
-      sha256: "4b2cd8271022ab42af453d154b410891ba05f2b8a6b89d823bfcc53901f5cf96"
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/nextgen_pdf_editor"
+      relative: true
+    source: path
     version: "1.2.0"
   octo_image:
     dependency: transitive

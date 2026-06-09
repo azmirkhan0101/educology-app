@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:nextgen_pdf_editor/nextgen_pdf_editor.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:nextgen_pdf_editor/nextgen_pdf_editor.dart'; // Imported editor package
+//import 'package:nextgen_pdf_editor/nextgen_pdf_editor.dart'; // Imported editor package
 
 import '../../../core/utils/show_snackbar.dart';
 import '../../../routes/app_pages.dart';

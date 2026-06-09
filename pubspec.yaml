@@ -48,7 +48,8 @@ dependencies:
   pdf: ^3.12.0
   printing: ^5.14.3
   flutter_web_auth_2: ^5.0.2
-  nextgen_pdf_editor: ^1.2.0
+  nextgen_pdf_editor:
+    path: ./packages/nextgen_pdf_editor
   open_file: ^3.5.11
 
 dev_dependencies:
