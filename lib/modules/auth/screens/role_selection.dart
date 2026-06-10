@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/extensions.dart';
 
 class RoleSelectionScreen extends StatefulWidget {
   const RoleSelectionScreen({super.key});
@@ -25,6 +26,9 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -50,7 +54,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                         text: "Welcome to ",
                         style: TextStyle(
                           color: AppColors.secondaryGreen,
-                          fontSize: 26,
+                          fontSize: isTab ? 18.sp : 26,
                           fontWeight: FontWeight.bold
                         )
                       ),
@@ -58,7 +62,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                           text: "educology",
                           style: TextStyle(
                               color: AppColors.secondaryDarkBlue,
-                              fontSize: 26,
+                              fontSize: isTab ? 18.sp : 26,
                               fontWeight: FontWeight.bold
                           )
                       )
@@ -66,17 +70,17 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                   )
               ),
               const SizedBox(height: 8),
-              const Text(
+               Text(
                 AppStrings.manageYourClasses,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: AppColors.grey4E),
+                style: TextStyle(fontSize: isTab ? 12.sp :  14, color: AppColors.grey4E),
               ),
               const SizedBox(height: 12),
 
-              const Text(
+               Text(
                 AppStrings.selectYourRole,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: isTab ? 12.sp :  18,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF4A6D65),
                 ),
@@ -122,6 +126,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
 
   Widget _buildRoleCard(String title, String assetPath, VoidCallback onSelect) {
     bool isSelected = _selectedRole == title;
+    bool isTab = context.isTab;
 
     return GestureDetector(
       onTap: (){
@@ -143,8 +148,8 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
           children: [
             // Icon Container
             Container(
-              width: 60,
-              height: 60,
+              width: isTab ? 90 : 60,
+              height: isTab ? 90 : 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -161,7 +166,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                   Text(
                     "I'm $title",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: isTab ? 12.sp : 16,
                       fontWeight: FontWeight.bold,
                       color: isSelected ? const Color(0xFF4A6D65) : Colors.grey[700],
                     ),
@@ -170,7 +175,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                     'Sign in / Sign up as $title',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                    style: TextStyle(fontSize: isTab ? 10.sp : 12, color: Colors.grey[500]),
                   ),
                 ],
               ),

@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../routes/app_pages.dart';
 
 class HomeHeaderWidget extends StatelessWidget {
@@ -24,6 +25,9 @@ class HomeHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Row(
@@ -37,8 +41,8 @@ class HomeHeaderWidget extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  width: 45.w,
-                  height: 45.h,
+                  width: isTab ? 70 : 45.w,
+                  height: isTab ? 70 : 45.h,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,

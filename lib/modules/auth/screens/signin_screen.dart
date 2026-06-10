@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 import '../../../core/utils/app_validator.dart';
+import '../../../core/utils/extensions.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
@@ -22,6 +23,7 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    bool isTab = context.isTab;
     controller.setFormKey(signInFormKey);
 
     return Scaffold(
@@ -29,9 +31,9 @@ class SignInScreen extends StatelessWidget {
       appBar: AppBar(
         forceMaterialTransparency: true,
         elevation: 0,
-        toolbarHeight: 30,
+        toolbarHeight: 35,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.black, size: isTab ? 30 : null,),
           onPressed: () => Get.back(),
         ),
       ),
@@ -72,9 +74,9 @@ class SignInScreen extends StatelessWidget {
                   )
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 AppStrings.signInToAccessYourAccount,
-                style: TextStyle(color: AppColors.grey4E, fontSize: 15),
+                style: TextStyle(color: AppColors.grey4E, fontSize: isTab ? 12.sp : 15),
               ),
               const SizedBox(height: 12),
 
@@ -119,7 +121,7 @@ class SignInScreen extends StatelessWidget {
                   },
                   child: TextWidget(
                       text: AppStrings.forgotPassword,
-                    fontSize: 14,
+                    fontSize: isTab ? 12.sp : 14,
                     fontColor: AppColors.grey92,
                   ),
                 ),
@@ -143,16 +145,17 @@ class SignInScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Don\'t have an account? '),
+                  Text('Don\'t have an account? ', style: TextStyle(fontSize: isTab ? 12.sp : null),),
                   GestureDetector(
                     onTap: () {
                       Get.toNamed(AppRoutes.roleSelection);
                     },
-                    child: const Text(
+                    child: Text(
                       'Sign Up',
                       style: TextStyle(
                         color: AppColors.secondaryDarkBlue,
                         fontWeight: FontWeight.bold,
+                        fontSize: isTab ? 12.sp : null
                       ),
                     ),
                   ),

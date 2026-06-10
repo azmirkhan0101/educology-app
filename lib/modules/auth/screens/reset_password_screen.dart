@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 import '../../../core/utils/app_validator.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/custom_text_field.dart';
 import '../controllers/reset_password_controller.dart';
 
@@ -24,6 +25,7 @@ class ResetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    bool isTab = context.isTab;
     controller.setFormKey(resetPasswordFormKey);
 
     return Scaffold(
@@ -32,7 +34,7 @@ class ResetPasswordScreen extends StatelessWidget {
         forceMaterialTransparency: true,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.black, size: isTab ? 40 : null,),
           onPressed: () => Get.back(),
         ),
       ),
@@ -60,7 +62,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                       text: "Reset your ",
                                       style: TextStyle(
                                           color: AppColors.secondaryGreen,
-                                          fontSize: 24,
+                                          fontSize: isTab ? 14.sp : 24,
                                           fontWeight: FontWeight.bold
                                       )
                                   ),
@@ -68,7 +70,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                       text: "Password",
                                       style: TextStyle(
                                           color: AppColors.secondaryDarkBlue,
-                                          fontSize: 24,
+                                          fontSize: isTab ? 14.sp : 24,
                                           fontWeight: FontWeight.bold
                                       )
                                   )
@@ -76,8 +78,8 @@ class ResetPasswordScreen extends StatelessWidget {
                             )
                         ),
                         const SizedBox(height: 8),
-                        const TextWidget(text: AppStrings.passwordMustHave,
-                          fontSize: 14,
+                        TextWidget(text: AppStrings.passwordMustHave,
+                          fontSize: isTab ? 12.sp : 14,
                         ),
                         const SizedBox(height: 32),
 

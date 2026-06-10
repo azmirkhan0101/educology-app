@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../utils/app_colors.dart';
+import '../utils/extensions.dart';
 
 class CustomTextField extends StatefulWidget {
 
@@ -56,7 +57,7 @@ class CustomTextField extends StatefulWidget {
     this.validator,
     this.label,
     this.hintText,
-    this.hintStyle = const TextStyle(color: Colors.grey, fontSize: 14),
+    this.hintStyle,
     this.fillColor = const Color(0xFFF9F9F9),
     this.borderRadius = 12,
     this.borderColor = Colors.transparent,
@@ -80,13 +81,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if( widget.label != null )
         Text(
           widget.label!,
-          style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.black87),
+          style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black87, fontSize: isTab ? 12.sp : null),
         ),
         if( widget.label != null )
         const SizedBox(height: 8),
@@ -102,7 +106,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           keyboardType: widget.keyboardType,
           textInputAction: widget.textInputAction,
           cursorColor: widget.cursorColor,
-          style: widget.inputTextStyle,
+          style: widget.inputTextStyle ?? TextStyle(fontSize: isTab ? 12.sp : null),
           onChanged: widget.onChanged,
           maxLines: widget.maxLines,
           obscureText: widget.isPassword ? obscureText : false,
@@ -115,10 +119,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
             isDense: widget.isDens,
             errorMaxLines: 2,
             hintText: widget.hintText,
-            hintStyle: widget.hintStyle,
+            hintStyle: widget.hintStyle ?? TextStyle(color: Colors.grey, fontSize: isTab ? 12.sp : 14),
             fillColor: widget.fillColor,
             filled: true,
-
+            errorStyle: isTab ? TextStyle(fontSize: 10.sp) : null,
             //Prefix Icon
             prefixIcon: widget.prefixIcon != null
                 ? Padding(

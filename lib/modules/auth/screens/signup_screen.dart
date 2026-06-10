@@ -13,6 +13,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 import '../../../core/utils/app_validator.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/custom_text_field.dart';
 import '../../profile/widgets/photo_edit_widget.dart';
 
@@ -26,17 +27,18 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    bool isTab = context.isTab;
     controller.setFormKey(signUpFormKey);
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
-        toolbarHeight: 30,
+        toolbarHeight: 35,
         leading: IconButton(
             onPressed: (){
               Get.back();
-            }, icon: Icon(Icons.arrow_back)
+            }, icon: Icon(Icons.arrow_back, size: isTab ? 30 : null,)
         ),
       ),
       body: SingleChildScrollView(
@@ -58,7 +60,7 @@ class SignupScreen extends StatelessWidget {
                             text: "Create an ",
                             style: TextStyle(
                                 color: AppColors.secondaryGreen,
-                                fontSize: 24,
+                                fontSize: isTab ? 16.sp : 24,
                                 fontWeight: FontWeight.bold
                             )
                         ),
@@ -66,7 +68,7 @@ class SignupScreen extends StatelessWidget {
                             text: "account",
                             style: TextStyle(
                                 color: AppColors.secondaryDarkBlue,
-                                fontSize: 24,
+                                fontSize: isTab ? 16.sp : 24,
                                 fontWeight: FontWeight.bold
                             )
                         )
@@ -74,9 +76,9 @@ class SignupScreen extends StatelessWidget {
                   )
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 AppStrings.fillIn,
-                style: TextStyle(color: AppColors.grey4E, fontSize: 16),
+                style: TextStyle(color: AppColors.grey4E, fontSize: isTab ? 12.sp : 16),
               ),
               const SizedBox(height: 12),
               //=========================PHOTO WIDGET=============================
@@ -91,6 +93,7 @@ class SignupScreen extends StatelessWidget {
               // Form Fields
               Row(
                 spacing: 3,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: CustomTextField(
@@ -142,7 +145,7 @@ class SignupScreen extends StatelessWidget {
                 child: Text(
                  AppStrings.phone,
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.black87),
+                  style:  TextStyle( fontSize: isTab ? 12.sp :null, fontWeight: FontWeight.w500, color: Colors.black87),
                 ),
               ),
               const SizedBox(height: 8),
@@ -164,10 +167,12 @@ class SignupScreen extends StatelessWidget {
                 decoration: InputDecoration(
                     fillColor: const Color(0xFFF9F9F9),
                     filled: true,
+                    prefixStyle: TextStyle(fontSize: isTab ? 12.sp : null),
+                    counterStyle: TextStyle(fontSize: isTab ? 10.sp : null),
                     labelText: 'Phone Number',
-                    labelStyle: TextStyle( fontSize: 16.sp),
+                    labelStyle: TextStyle( fontSize: isTab ? 12.sp : 16.sp),
                     floatingLabelBehavior: FloatingLabelBehavior.never,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 12),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: isTab ? 24 : 12),
                     maintainHintSize: true,
                     border: OutlineInputBorder(
                       borderSide: const BorderSide(),
@@ -235,6 +240,7 @@ class SignupScreen extends StatelessWidget {
                     child: Text.rich(
                       TextSpan(
                         text: 'I agree with this ',
+                        style: TextStyle(fontSize: isTab ? 12.sp : null),
                         children: [
                           TextSpan(
                             text: 'Terms of Use',
@@ -283,16 +289,17 @@ class SignupScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Already have an account? '),
+                  Text('Already have an account? ', style: TextStyle(fontSize: isTab ? 12.sp : null),),
                   GestureDetector(
                     onTap: () {
                       Get.toNamed(AppRoutes.signIn);
                     },
-                    child: const Text(
+                    child: Text(
                       'Sign In',
                       style: TextStyle(
                         color: AppColors.secondaryDarkBlue,
                         fontWeight: FontWeight.bold,
+                        fontSize: isTab ? 12.sp : null
                       ),
                     ),
                   ),

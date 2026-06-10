@@ -11,6 +11,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/extensions.dart';
 
 class PhotoEditWidget extends StatelessWidget {
   final String? imageUrl;
@@ -21,6 +22,9 @@ class PhotoEditWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Center(
       child: Stack(
         alignment: Alignment.bottomRight,
@@ -47,7 +51,7 @@ class PhotoEditWidget extends StatelessWidget {
             top: 0,
             right: 0,
             bottom: 0,
-            child: _EditIcon(size: 34.r, iconSize: 18.r, onTap: _pickImage),
+            child: _EditIcon(size: isTab ? 60 : 34.r, iconSize: isTab ? 40 : 18.r, onTap: _pickImage),
           ),
         ],
       ),
@@ -97,6 +101,9 @@ class _EditIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Container(
       margin: EdgeInsets.all(2),
       decoration: BoxDecoration(
@@ -107,15 +114,14 @@ class _EditIcon extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             onTap.call();
-            print("Edit Photo");
           },
           child: Container(
-            padding: EdgeInsets.all(12),
+            padding: EdgeInsets.all( isTab ? 20 :  12),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: AppColors.white,
             ),
-            child: SvgPicture.asset(Assets.icons.editPhoto),
+            child: SvgPicture.asset(Assets.icons.editPhoto, height: isTab ? 30 : null,),
           ),
         ),
       ),

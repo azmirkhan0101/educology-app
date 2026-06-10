@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/app_constants.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../routes/app_pages.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -23,6 +24,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     bool isStaff = controller.role == Role.teacher || controller.role == Role.assistant;
     bool isStudent = controller.role == Role.student;
     bool isParent = controller.role == Role.parent;

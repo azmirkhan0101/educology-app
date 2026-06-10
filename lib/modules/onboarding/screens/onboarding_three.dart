@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../routes/app_pages.dart';
 
 class OnboardingThree extends StatelessWidget {
@@ -13,6 +14,9 @@ class OnboardingThree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       // Gradient background to match the image
@@ -31,31 +35,31 @@ class OnboardingThree extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Column(
                 children: [
-                  const Text(
+                   Text(
                     AppStrings.trackProgress,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: isTab ? 14.sp : 20,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF34547B),
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const Text(
+                   Text(
                     AppStrings.submitHomework,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: isTab ? 12.sp : 15,
                       color: Color(0xFF5E6D7E),
                       height: 1.5,
                     ),
                   ),
                   const SizedBox(height: 4),
-                  const Text(
+                   Text(
                     AppStrings.everythingYouNeed,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: isTab ? 12.sp : 15,
                       color: Color(0xFF5E6D7E),
                       height: 1.5,
                     ),
@@ -93,7 +97,7 @@ class OnboardingThree extends StatelessWidget {
                             Get.offAndToNamed(AppRoutes.roleSelection);
                           },
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                            padding: EdgeInsets.symmetric(horizontal: isTab ? 20 : 12.w, vertical: isTab ? 12 : 8.h),
                             decoration: BoxDecoration(
                               gradient: AppColors.primaryButtonGradient,
                                 borderRadius: BorderRadius.circular(100),
@@ -109,7 +113,7 @@ class OnboardingThree extends StatelessWidget {
                             child: Row(
                               spacing: 8.w,
                               children: [
-                                const Text( AppStrings.getStarted, style: TextStyle( fontSize: 16, color: AppColors.white, fontWeight: FontWeight.bold),),
+                                Text( AppStrings.getStarted, style: TextStyle( fontSize: isTab ? 12.sp : 16, color: AppColors.white, fontWeight: FontWeight.bold),),
                             Container(
                                   padding: const EdgeInsets.all(6),
                                   decoration: const BoxDecoration(

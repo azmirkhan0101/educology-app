@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../utils/app_colors.dart';
+import '../utils/extensions.dart';
 
 class ButtonWidget extends StatelessWidget {
   final String label;
@@ -64,18 +65,20 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isTab = context.isTab;
     // Logic to determine the background color based on state
     final Color effectiveBackgroundColor = isEnabled
         ? backgroundColor
         : disabledColor;
 
     return Container(
-      height: buttonHeight.h,
+      height: isTab ? buttonHeight + 10 : buttonHeight.h,
       width: buttonWidth?.w,
       decoration: BoxDecoration(
         // We only show the gradient if enabled and provided
         gradient: isEnabled ? gradient : null,
-        color: (isEnabled && gradient != null)
+        color: (isEnabled && gradient != null
+        )
             ? null
             : effectiveBackgroundColor,
         borderRadius: BorderRadius.circular(buttonRadius.r),
@@ -128,7 +131,7 @@ class ButtonWidget extends StatelessWidget {
                     fontColor: isEnabled
                         ? textColor
                         : textColor.withValues(alpha: 0.6),
-                    fontSize: fontSize.sp,
+                    fontSize: isTab ? (fontSize - 4).sp : fontSize.sp,
                     fontWeight: fontWeight,
                   ),
                   if (icon != null) const SizedBox(width: 12),

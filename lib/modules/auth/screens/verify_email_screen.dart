@@ -1,9 +1,11 @@
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/button_widget.dart';
 import '../../../core/widgets/pin_field_widget.dart';
 import '../controllers/otp_verify_controller.dart';
@@ -15,6 +17,8 @@ class VerifyEmailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -50,7 +54,7 @@ class VerifyEmailScreen extends StatelessWidget {
                               text: "Verify your ",
                               style: TextStyle(
                                 color: AppColors.secondaryGreen,
-                                fontSize: 24,
+                                fontSize: isTab ? 14.sp : 24,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -58,7 +62,7 @@ class VerifyEmailScreen extends StatelessWidget {
                               text: "email",
                               style: TextStyle(
                                 color: AppColors.secondaryDarkBlue,
-                                fontSize: 24,
+                                fontSize: isTab ? 14.sp : 24,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -67,10 +71,10 @@ class VerifyEmailScreen extends StatelessWidget {
                       ),
 
                       const SizedBox(height: 16),
-                      const Text(
+                      Text(
                         AppStrings.weveSentAnEmail,
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: AppColors.grey4E, fontSize: 15),
+                        style: TextStyle(color: AppColors.grey4E, fontSize: isTab ? 12.sp : 15),
                       ),
 
                       const SizedBox(height: 40),
@@ -86,7 +90,7 @@ class VerifyEmailScreen extends StatelessWidget {
                           visible: controller.isTimerCounting.value,
                           child: Text(
                             "00:${controller.seconds.value}",
-                            style: const TextStyle(color: Colors.grey),
+                            style: TextStyle(color: Colors.grey, fontSize: isTab ? 12.sp : null),
                           ),
                         );
                       }),
@@ -97,9 +101,9 @@ class VerifyEmailScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             "Didn't get the code?",
-                            style: TextStyle(color: Colors.grey),
+                            style: TextStyle(color: Colors.grey, fontSize: isTab ? 12.sp : null),
                           ),
                           TextButton(
                             onPressed: () {
@@ -107,11 +111,12 @@ class VerifyEmailScreen extends StatelessWidget {
                                 controller.resendOtp();
                               }
                             },
-                            child: const Text(
+                            child: Text(
                               "Resend",
                               style: TextStyle(
                                 color: Color(0xFF3B566E),
                                 fontWeight: FontWeight.bold,
+                                fontSize: isTab ? 12.sp : null
                               ),
                             ),
                           ),
@@ -137,10 +142,10 @@ class VerifyEmailScreen extends StatelessWidget {
                       const SizedBox(height: 12),
                       RichText(
                         textAlign: TextAlign.center,
-                        text: const TextSpan(
+                        text: TextSpan(
                           style: TextStyle(
                             color: Colors.grey,
-                            fontSize: 14,
+                            fontSize: isTab ? 10.sp : 14,
                             height: 1.5,
                           ),
                           children: [

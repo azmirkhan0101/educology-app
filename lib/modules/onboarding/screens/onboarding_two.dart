@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../routes/app_pages.dart';
 
 class OnboardingTwo extends StatelessWidget {
@@ -13,6 +14,9 @@ class OnboardingTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       // Gradient background to match the image
@@ -25,9 +29,9 @@ class OnboardingTwo extends StatelessWidget {
                 onPressed: () {
                   Get.offAndToNamed(AppRoutes.onBoardingThree);
                 },
-                child: const Text(
+                child: Text(
                   "Skip",
-                  style: TextStyle(color: Color(0xFF647c90), fontSize: 15),
+                  style: TextStyle(color: Color(0xFF647c90), fontSize: isTab ? 12.sp : 15),
                 ),
               ),
             ),
@@ -43,31 +47,31 @@ class OnboardingTwo extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Column(
                 children: [
-                  const Text(
+                   Text(
                     AppStrings.attendClasses,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: isTab ? 14.sp : 20,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF34547B),
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const Text(
+                   Text(
                     AppStrings.classStudentManagement,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: isTab ? 12.sp : 15,
                       color: Color(0xFF5E6D7E),
                       height: 1.5,
                     ),
                   ),
                   const SizedBox(height: 4),
-                  const Text(
+                   Text(
                     AppStrings.manageClasses,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: isTab ? 12.sp : 15,
                       color: Color(0xFF5E6D7E),
                       height: 1.5,
                     ),
@@ -105,7 +109,7 @@ class OnboardingTwo extends StatelessWidget {
                                 Get.offAndToNamed(AppRoutes.onBoardingThree);
                               },
                               child: Container(
-                                padding: const EdgeInsets.all(12),
+                                padding:  EdgeInsets.all( isTab ? 20 : 12),
                                 decoration: const BoxDecoration(
                                     gradient: AppColors.primaryButtonGradient,
                                     shape: BoxShape.circle,

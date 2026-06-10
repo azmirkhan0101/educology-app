@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 import '../../../core/utils/app_validator.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/custom_text_field.dart';
 
 // --- Main Screen ---
@@ -25,13 +26,15 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.black, size: isTab ? 40 : null,),
           onPressed: () => Get.back(),
         ),
       ),
@@ -66,7 +69,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                       text: "Forgot your ",
                                       style: TextStyle(
                                           color: AppColors.secondaryGreen,
-                                          fontSize: 24,
+                                          fontSize: isTab ? 12.sp : 24,
                                           fontWeight: FontWeight.bold
                                       )
                                   ),
@@ -74,7 +77,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                       text: "password?",
                                       style: TextStyle(
                                           color: AppColors.secondaryDarkBlue,
-                                          fontSize: 24,
+                                          fontSize: isTab ? 12.sp : 24,
                                           fontWeight: FontWeight.bold
                                       )
                                   )
@@ -82,9 +85,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                             )
                         ),
                         const SizedBox(height: 8),
-                        const TextWidget(
+                        TextWidget(
                           text: AppStrings.enterYourEmailAddress,
-                          fontSize: 14,
+                          fontSize: isTab ? 10.sp : 14,
                         ),
                         const SizedBox(height: 20),
                         //=========================EMAIL====================================
