@@ -7,12 +7,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/extensions.dart';
 
 class SupportScreen extends StatelessWidget {
   const SupportScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -20,12 +24,12 @@ class SupportScreen extends StatelessWidget {
         centerTitle: true,
         title: TextWidget(
             text: AppStrings.support,
-          fontSize: 18,
+          fontSize: isTab ? 12.sp : 18,
           fontWeight: FontWeight.w700,
         ),
         leading: IconButton(onPressed: (){
           Get.back();
-        }, icon: Icon(Icons.arrow_back_sharp)
+        }, icon: Icon(Icons.arrow_back_sharp ,size: isTab ? 30 : null,)
         ),
       ),
       body: Padding(padding: EdgeInsets.symmetric(horizontal: 20),

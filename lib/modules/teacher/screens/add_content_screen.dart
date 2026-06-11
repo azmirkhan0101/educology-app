@@ -23,6 +23,7 @@ import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 import '../../../core/utils/app_constants.dart';
+import '../../../core/utils/extensions.dart';
 
 class AddContentScreen extends StatefulWidget {
   const AddContentScreen({super.key});
@@ -42,6 +43,9 @@ class _AddContentScreenState extends State<AddContentScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -49,7 +53,13 @@ class _AddContentScreenState extends State<AddContentScreen> {
         centerTitle: true,
         title: Text(
           controller.appTitle,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+          style: TextStyle(fontSize: isTab ? 12.sp : 16, fontWeight: FontWeight.w700),
+        ),
+        leading: IconButton(
+          onPressed: (){
+            Get.back();
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.black, size: isTab ? 30 : null,),
         ),
       ),
       body: SingleChildScrollView(
@@ -78,7 +88,9 @@ class _AddContentScreenState extends State<AddContentScreen> {
                 if( controller.contentType != AddContentType.announcement )
                   buildLabel(controller.contentType == AddContentType.cClass ?
                   AppStrings.expectedLiveClass
-                      : AppStrings.startDateAndTime),
+                      : AppStrings.startDateAndTime,
+                  isTab
+                  ),
                 if( controller.contentType != AddContentType.announcement )
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,7 +187,8 @@ class _AddContentScreenState extends State<AddContentScreen> {
                     controller.contentType == AddContentType.cClass ? AppStrings.addClassDetails
                         : controller.contentType == AddContentType.exam ? AppStrings.addExamDetails
                         : controller.contentType == AddContentType.homeWork ? AppStrings.addHomeworkDetails
-                        : AppStrings.addAnnouncement
+                        : AppStrings.addAnnouncement,
+                  isTab
                 ),
                 //========================QUILL TOOLBAR=======================
                 Row(
@@ -204,7 +217,8 @@ class _AddContentScreenState extends State<AddContentScreen> {
                 //=======================UPLOAD PDF SECTION=====================
                 buildLabel(
                     controller.contentType == AddContentType.cClass || controller.contentType == AddContentType.announcement ? "Attached Document (Optional)"
-                        : "Attached Question"
+                        : "Attached Question",
+                  isTab
                 ),
                 uploadPdfSection(),
                 SizedBox(height: 10,),
@@ -260,7 +274,7 @@ class _AddContentScreenState extends State<AddContentScreen> {
                     },
                   )
                 ],
-                const SizedBox(height: 25),
+                const SizedBox(height: 35),
                 //=======================UPLOAD BUTTON=====================
                 Obx((){
                   return ButtonWidget(
@@ -284,7 +298,8 @@ class _AddContentScreenState extends State<AddContentScreen> {
                       },
                       label: AppStrings.upload,
                       gradient: AppColors.primaryButtonGradient,
-                      buttonHeight: 50
+                      buttonHeight: 50,
+                    buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                   );
                 }),
                 SizedBox(height: 40),
@@ -297,7 +312,7 @@ class _AddContentScreenState extends State<AddContentScreen> {
   }
 
   // Helper widget to build labels
-  Widget buildLabel(String text) {
+  Widget buildLabel(String text, bool isTab) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Align(
@@ -305,8 +320,8 @@ class _AddContentScreenState extends State<AddContentScreen> {
         child: Text(
           textAlign: TextAlign.left,
           text,
-          style: const TextStyle(
-            fontSize: 16,
+          style: TextStyle(
+            fontSize: isTab ? 12.sp : 16,
             fontWeight: FontWeight.w500,
             color: AppColors.grey4E,
           ),

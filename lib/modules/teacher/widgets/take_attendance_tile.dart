@@ -1,4 +1,5 @@
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
+import 'package:dr_dina_educology/core/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -40,8 +41,11 @@ class _StudentTileState extends State<TakeAttendanceTile> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: Color(0xFFF0F0F0))),
       ),
@@ -55,8 +59,8 @@ class _StudentTileState extends State<TakeAttendanceTile> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: Container(
-                    height: 28.h,
-                    width: 28.w,
+                    height: isTab ? 65 : 28.h,
+                    width: isTab ? 65 : 28.w,
                     color: AppColors.greyEB,
                     child: CachedImageWidget(
                       imageUrl: widget.imageUrl,
@@ -71,13 +75,14 @@ class _StudentTileState extends State<TakeAttendanceTile> {
                     Text(
                       widget.name,
                       style: TextStyle(
+                        fontSize: isTab ? 10.sp : null,
                         fontWeight: FontWeight.w500,
                         color: Color(0xFF5BA381),
                       ),
                     ),
                     Text(
                       widget.phone,
-                      style: TextStyle(fontSize: 10, color: Colors.grey),
+                      style: TextStyle(fontSize: isTab ? 9.sp : 10, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -88,7 +93,7 @@ class _StudentTileState extends State<TakeAttendanceTile> {
           Expanded(
             flex: 2,
             child: Center(
-              child: Text(widget.time, style: TextStyle(color: Colors.grey)),
+              child: Text(widget.time, style: TextStyle(fontSize: isTab ? 9.sp : null, color: Colors.grey)),
             ),
           ),
           // Attendance Dropdown
@@ -107,7 +112,7 @@ class _StudentTileState extends State<TakeAttendanceTile> {
                             ? Colors.orange
                             : Colors.red),
                   fontWeight: FontWeight.w500,
-                  fontSize: 12
+                  fontSize: isTab ? 9.sp : 12
                 ),
                 onChanged: (String? newValue) {
                   widget.onSelection(newValue);

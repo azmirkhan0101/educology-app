@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/cached_image_widget.dart';
 
 class UserCommentWidget extends StatelessWidget {
@@ -21,6 +22,9 @@ class UserCommentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -30,8 +34,8 @@ class UserCommentWidget extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: Container(
-                height: 35.h,
-                width: 35.w,
+                height: isTab ? 70 : 35.h,
+                width:  isTab ? 70 : 35.w,
                 color: AppColors.greyEB,
                 child: CachedImageWidget(
                     imageUrl: userImageUrl,
@@ -48,12 +52,12 @@ class UserCommentWidget extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: AppColors.secondaryGreen,
-                    fontSize: 13,
+                    fontSize: isTab ? 10.sp : 13,
                   ),
                 ),
                 Text(
                   DateFormat("dd MMM, yyyy | hh:mm a").format(dateTime.toLocal()),
-                  style: TextStyle(color: Colors.grey.shade500, fontSize: 11),
+                  style: TextStyle(color: Colors.grey.shade500, fontSize: isTab ? 9.sp : 11),
                 ),
               ],
             ),
@@ -62,7 +66,7 @@ class UserCommentWidget extends StatelessWidget {
         const SizedBox(height: 10),
          Text(
           comment,
-          style: TextStyle(color: Colors.grey, fontSize: 14),
+          style: TextStyle(color: Colors.grey, fontSize: isTab ? 10.sp : 14),
         ),
         SizedBox(height: 4),
       ],

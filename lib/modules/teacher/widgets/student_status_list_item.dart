@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../core/utils/extensions.dart';
+
 class StudentStatusListItem extends StatelessWidget {
   final String name;
   final String phoneNumber;
@@ -26,6 +28,7 @@ class StudentStatusListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    bool isTab = context.isTab;
     StudentStatus status = StudentStatus.values.firstWhere((element) => element.label3 == studentStatus);;
 
     return Container(
@@ -38,8 +41,8 @@ class StudentStatusListItem extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
             child: Container(
-              height: 35.h,
-              width: 35.w,
+              height: isTab ? 70 : 35.h,
+              width: isTab ? 70 : 35.w,
               color: Colors.grey.shade200,
               child: CachedImageWidget(imageUrl: imageUrl, iconSize: 26),
             ),
@@ -54,15 +57,15 @@ class StudentStatusListItem extends StatelessWidget {
               children: [
                 Text(
                   name,
-                  style: const TextStyle(
-                    fontSize: 14,
+                  style: TextStyle(
+                    fontSize: isTab ? 10.sp : 14,
                     fontWeight: FontWeight.w500,
                     color: Color(0xff5A8A70),
                   ),
                 ),
                 Text(
                   phoneNumber,
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  style: TextStyle(fontSize: isTab ? 9.sp : 12, color: Colors.grey[600]),
                 ),
               ],
             ),
@@ -82,7 +85,7 @@ class StudentStatusListItem extends StatelessWidget {
               Text(
                 status.label2,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: isTab ? 9.sp : 12,
                   color: status.primaryColor,
                   fontWeight: FontWeight.w400,
                 ),
@@ -93,8 +96,8 @@ class StudentStatusListItem extends StatelessWidget {
           ButtonWidget(
             label: AppStrings.view,
           backgroundColor: AppColors.secondaryDarkBlue,
-            padding: EdgeInsets.all(0),
-            fontSize: 16,
+            padding: EdgeInsets.symmetric( horizontal: isTab ? 15 : 0),
+            fontSize: isTab ? 7.sp : 16,
             buttonHeight: 30,
             onPressed: onViewPressed,
           ),

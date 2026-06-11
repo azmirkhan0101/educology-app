@@ -2,6 +2,10 @@ import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../core/utils/extensions.dart';
+
+import '../../../core/utils/extensions.dart';
+
 class HomeBanner extends StatelessWidget {
 
   final bool isParent;
@@ -10,6 +14,9 @@ class HomeBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Container(
       // Height and width can be adjusted based on your layout needs
       width: double.infinity,
@@ -35,11 +42,11 @@ class HomeBanner extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'Welcome to Educology',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: isTab ? 14.sp : 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -52,7 +59,7 @@ class HomeBanner extends StatelessWidget {
                     'student progress from one place.',
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.8),
-                  fontSize: 12,
+                  fontSize: isTab ? 10.sp : 12,
                 ),
               ),
             ],
@@ -62,9 +69,9 @@ class HomeBanner extends StatelessWidget {
           Expanded(
             child: Image.asset(
               'assets/images/home_banner.png',
-              height: 105.h,
-              width: 105.w,
-              fit: BoxFit.cover,
+              height: isTab ? 170 : 105.h,
+              width: isTab ? 170 : 105.w,
+              fit: isTab ? BoxFit.contain : BoxFit.cover,
             ),
           ),
         ],

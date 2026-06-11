@@ -1,7 +1,9 @@
 import 'package:dr_dina_educology/modules/teacher/controllers/student_report_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/extensions.dart';
 import '../../../data/models/student_report/student_report_model.dart';
 
 class StudentsReportScreen extends StatelessWidget {
@@ -11,6 +13,9 @@ class StudentsReportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -19,15 +24,15 @@ class StudentsReportScreen extends StatelessWidget {
           onPressed: (){
             Get.back();
           },
-            icon: Icon(Icons.arrow_back, color: Colors.black)),
-        title: const Text(
+            icon: Icon(Icons.arrow_back, color: Colors.black, size: isTab ? 30 : null,)),
+        title: Text(
           'Students Report',
-          style: TextStyle(color: Color(0xFF4A6572), fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: isTab ? 12.sp : null, color: Color(0xFF4A6572), fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.file_download_outlined, color: Colors.black),
+            icon: Icon(Icons.file_download_outlined, color: Colors.black, size: isTab ? 30 : null,),
             onPressed: () {
               controller.exportToPdf();
             },
@@ -39,8 +44,10 @@ class StudentsReportScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: TextField(
+              style: TextStyle(fontSize: isTab ? 10.sp : null,),
               decoration: InputDecoration(
                 hintText: 'Search by name',
+                hintStyle: TextStyle(fontSize: isTab ? 10.sp : null,),
                 prefixIcon: const Icon(Icons.search, color: Color(0xFF4A6572)),
                 filled: true,
                 fillColor: Colors.white,
@@ -115,13 +122,16 @@ class HeaderCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Expanded(
       flex: flex,
       child: Text(
         label,
         textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 11,
+        style: TextStyle(
+          fontSize: isTab ? 10.sp : 11,
           fontWeight: FontWeight.bold,
           color: Color(0xFF4A6572),
         ),
@@ -149,6 +159,7 @@ class StudentRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
       child: Row(
@@ -172,13 +183,16 @@ class DataCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Expanded(
       flex: flex,
       child: Text(
         text,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 11,
+          fontSize: isTab ? 10.sp : 11,
           color: isName ? Colors.black87 : Colors.grey[600],
           fontWeight: isName ? FontWeight.w500 : FontWeight.normal,
         ),

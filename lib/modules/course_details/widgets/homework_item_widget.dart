@@ -8,6 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/utils/extensions.dart';
+
 class HomeworkExamItemWidget extends StatelessWidget {
   final String title;
   final StaffModel staff;
@@ -37,6 +39,7 @@ class HomeworkExamItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    bool isTab = context.isTab;
     TaskStatus taskStatus = TaskStatus.values.firstWhereOrNull((element) => element.label2 == status) ?? TaskStatus.active;
 
     return GestureDetector(
@@ -56,8 +59,8 @@ class HomeworkExamItemWidget extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      fontSize: 13,
+                    style: TextStyle(
+                      fontSize: isTab ? 12.sp : 13,
                       fontWeight: FontWeight.bold,
                       color: AppColors.secondaryDarkBlue,
                     ),
@@ -69,7 +72,7 @@ class HomeworkExamItemWidget extends StatelessWidget {
                       color: taskStatus.taskStatusColor,
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                    child: TextWidget(text: taskStatus.label, fontSize: 8, fontColor: Colors.white,),
+                    child: TextWidget(text: taskStatus.label, fontSize: isTab ? 9.sp : 8, fontColor: Colors.white,),
                   )
                 ],
               ),
@@ -80,8 +83,8 @@ class HomeworkExamItemWidget extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Container(
-                      height: 35.h,
-                      width: 35.w,
+                      height: isTab ? 70 : 35.h,
+                      width: isTab ? 70 : 35.w,
                       color: Colors.grey.shade200,
                       child: CachedImageWidget(imageUrl: staff.image, iconSize: 30),
                     ),
@@ -92,15 +95,15 @@ class HomeworkExamItemWidget extends StatelessWidget {
                     children: [
                       Text(
                         staff.fullName,
-                        style: const TextStyle(
-                          fontSize: 16,
+                        style: TextStyle(
+                          fontSize: isTab ? 10.sp : 16,
                           fontWeight: FontWeight.w600,
                           color: AppColors.secondaryGreen,
                         ),
                       ),
                       Text(
                         "${DateFormat("dd MMM yyyy").format(startDate)} | $startTime",
-                        style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                        style: TextStyle(fontSize: isTab ? 9.sp : 14, color: Colors.grey.shade600),
                       ),
                     ],
                   ),
@@ -119,32 +122,32 @@ class HomeworkExamItemWidget extends StatelessWidget {
                   // Comment Count
                   Row(
                     children: [
-                      const Icon(
+                       Icon(
                         Icons.comment_outlined,
-                        size: 20,
+                        size: isTab ? 30 : 20,
                         color: Colors.black87,
                       ),
                       const SizedBox(width: 8),
                       Text(
                         commentCount.toString().padLeft(2, '0'),
-                        style: const TextStyle(fontWeight: FontWeight.w500),
+                        style: TextStyle(fontSize: isTab ? 10.sp : null, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
                   // Due Date
                   RichText(
                     text: TextSpan(
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.secondaryDarkBlue,
-                        fontSize: 12,
+                        fontSize: isTab ? 9.sp : 12,
                       ),
                       children: [
                         const TextSpan(text: 'Due Date: '),
                         TextSpan(
                           text: "${DateFormat("dd MMM yyyy").format(endDate)} | $endTime",
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 12,
+                            fontSize: isTab ? 9.sp : 12,
                             color: AppColors.secondaryDarkBlue
                           ),
                         ),

@@ -11,6 +11,7 @@ import 'package:dr_dina_educology/modules/home/widgets/home_banner.dart';
 import 'package:dr_dina_educology/modules/home/widgets/home_header_widget.dart';
 import 'package:dr_dina_educology/modules/home/widgets/learning_journey_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/app_constants.dart';
@@ -45,7 +46,8 @@ class HomeScreen extends StatelessWidget {
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15),
               sliver: SliverList(
-                delegate: SliverChildListDelegate([
+                delegate: SliverChildListDelegate(
+                    [
                   const SizedBox(height: 22),
                   Obx(() {
                     return HomeHeaderWidget(
@@ -62,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                       child: TextWidget(
                         text: AppStrings.yourChild,
                         textAlignment: TextAlign.left,
-                        fontSize: 16,
+                        fontSize: isTab ? 12.sp : 16,
                         fontWeight: FontWeight.w600,
                         fontColor: AppColors.secondaryDarkBlue,
                       ),
@@ -100,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                           ? "My Courses"
                           : "Enrolled Courses",
                       textAlignment: TextAlign.left,
-                      fontSize: 16,
+                      fontSize: isTab ? 12.sp : 16,
                       fontWeight: FontWeight.w600,
                       fontColor: AppColors.secondaryDarkBlue,
                     ),
@@ -121,7 +123,7 @@ class HomeScreen extends StatelessWidget {
                 return SliverToBoxAdapter(
                   child: controller.role == Role.student
                       ? LearningJourneyWidget()
-                      : const Center(child: Text("No Courses Found")),
+                      : Center(child: Text("No Courses Found", style: TextStyle(fontSize: isTab ? 12.sp : null),)),
                 );
               }
 

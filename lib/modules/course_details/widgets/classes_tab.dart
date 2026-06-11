@@ -6,8 +6,10 @@ import 'package:dr_dina_educology/data/models/class/class_model.dart';
 import 'package:dr_dina_educology/data/models/content_details/content_details_model.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/extensions.dart';
 import 'class_item_widget.dart';
 
 class ClassesTab extends StatelessWidget {
@@ -33,6 +35,9 @@ class ClassesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return RefreshIndicator(
       backgroundColor: Colors.white,
       color: AppColors.primaryGold,
@@ -49,6 +54,7 @@ class ClassesTab extends StatelessWidget {
                 prefixIcon: Icons.add,
                 gradient: AppColors.primaryButtonGradient,
                 buttonHeight: 45,
+                buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                 onPressed: () {
                   onAddClass();
                 },
@@ -61,10 +67,10 @@ class ClassesTab extends StatelessWidget {
               : classes.isEmpty
               ? SizedBox(
             height: 180,
-            child: const Center(
+            child: Center(
               child: Text(
                 "No classes found.",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                style: TextStyle(fontSize: isTab ? 10.sp : 14, fontWeight: FontWeight.w700),
               ),
             ),
           )

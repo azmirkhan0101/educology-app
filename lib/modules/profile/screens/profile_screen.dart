@@ -1,6 +1,7 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
+import 'package:dr_dina_educology/core/utils/extensions.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:dr_dina_educology/modules/profile/controllers/profile_controller.dart';
@@ -24,6 +25,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    bool isTab = context.isTab;
     bool isStudent = controller.role == Role.student;
 
     return Scaffold(
@@ -32,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
         forceMaterialTransparency: true,
         centerTitle: true,
         title: TextWidget(text: AppStrings.profile,
-        fontSize: 18,
+        fontSize: isTab ? 12.sp : 18,
           fontWeight: FontWeight.w700,
         ),
       ),
@@ -63,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
             Obx((){
               return TextWidget(
                 text: controller.profileModel.value?.fullName ?? "",
-                fontSize: 20,
+                fontSize: isTab ? 12.sp : 20,
                 fontWeight: FontWeight.bold,
                 fontColor: AppColors.secondaryDarkBlue,
               );
@@ -71,17 +73,19 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(height: 10,),
             //========================EMAIL=====================
             Row(
-              spacing: 3,
+              spacing: 6,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset(
                     Assets.icons.email,
+                  height: isTab ? 20 : null,
+                  width: isTab ? 20 : null,
                   colorFilter: ColorFilter.mode(AppColors.secondaryGreen, BlendMode.srcIn),
                 ),
                 Obx((){
                   return TextWidget(
                     text: controller.profileModel.value?.email ?? "",
-                    fontSize: 16,
+                    fontSize: isTab ? 10.sp : 16,
                     fontWeight: FontWeight.w600,
                     fontColor: AppColors.secondaryGreen,
                   );
@@ -89,7 +93,7 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 8,),
-            Center(child: TextWidget(text: controller.profileModel.value?.about ?? "")),
+            Center(child: TextWidget(text: controller.profileModel.value?.about ?? "", fontSize: isTab ? 10.sp : null,)),
             SizedBox(height: 15,),
             //========================ADD PARENT TILE IF STUDENT==========================
             if( isStudent )

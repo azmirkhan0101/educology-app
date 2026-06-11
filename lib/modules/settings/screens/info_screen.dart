@@ -14,6 +14,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:shimmer/shimmer.dart';
 
+import '../../../core/utils/extensions.dart';
+
 class InfoScreen extends StatelessWidget {
   InfoScreen({super.key});
 
@@ -21,16 +23,19 @@ class InfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
         centerTitle: true,
         title: TextWidget(text: controller.pageType.label,
-        fontSize: 18,
+        fontSize: isTab ? 12.sp : 18,
           fontWeight: FontWeight.w700,
         ),
-        leading: const BackButton(),
+        leading: BackButton(style: ButtonStyle(iconSize: isTab ? WidgetStatePropertyAll(30) : WidgetStatePropertyAll(0)),),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -41,7 +46,7 @@ class InfoScreen extends StatelessWidget {
             );
           }else{
             if( controller.info.value.isEmpty ){
-              return const Center( child: Text("No data found"),);
+              return Center( child: Text("No data found", style: TextStyle( fontSize:isTab ? 10.sp : null),),);
             }else{
               return SingleChildScrollView(
                   child: Padding(
@@ -50,7 +55,7 @@ class InfoScreen extends StatelessWidget {
                         data: controller.info.value,
                         style: {
                           "body": Style(
-                            fontSize: FontSize(14),
+                            fontSize: FontSize( isTab ? 10.sp : 14),
                             lineHeight: const LineHeight(1.6),
                             color: Theme.of(context).textTheme.bodyMedium?.color,
                           ),

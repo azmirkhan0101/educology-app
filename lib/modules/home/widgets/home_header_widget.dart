@@ -56,13 +56,14 @@ class HomeHeaderWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Welcome Back!',
-                        style: TextStyle(fontSize: 13, color: AppColors.secondaryGreen, fontFamily: FontFamily.poppins)
+                    Text(
+                        'Welcome Back!',
+                        style: TextStyle(fontSize: isTab ? 12.sp : 13, color: AppColors.secondaryGreen, fontFamily: FontFamily.poppins)
                     ),
                     SizedBox(height: 2.h),
                     Text(
                       userName == null || userName!.isEmpty ? "User"  : userName!,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: FontFamily.poppins)
+                      style: TextStyle(fontSize: isTab ? 12.sp : 18, fontWeight: FontWeight.bold, fontFamily: FontFamily.poppins)
                     ),
                   ],
                 ),

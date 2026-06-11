@@ -5,7 +5,10 @@ import 'package:dr_dina_educology/data/models/notification/notification_model.da
 import 'package:dr_dina_educology/modules/home/controllers/notification_controller.dart';
 import 'package:dr_dina_educology/modules/home/widgets/notification_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import '../../../core/utils/extensions.dart';
 
 class NotificationScreen extends StatelessWidget {
   NotificationScreen({super.key});
@@ -14,6 +17,9 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -22,7 +28,7 @@ class NotificationScreen extends StatelessWidget {
         title: TextWidget(
             text:AppStrings.notification,
           fontWeight: FontWeight.w600,
-          fontSize: 18,
+          fontSize: isTab ? 12.sp : 18,
         ),
       ),
       body: RefreshIndicator(
@@ -41,9 +47,9 @@ class NotificationScreen extends StatelessWidget {
             }else if( controller.notificationHelper.items.isEmpty ){
               return ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                children: const [
+                children:  [
                   SizedBox(height: 200), // Adjust to center the text
-                  Center(child: Text("No notifications found")),
+                  Center(child: Text("No notifications found", style: TextStyle(fontSize: isTab ? 10.sp : null),)),
                 ],
               );
             }else{

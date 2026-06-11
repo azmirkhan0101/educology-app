@@ -5,10 +5,12 @@ import 'package:dr_dina_educology/modules/teacher/widgets/status_card.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/student_status_list_item.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../data/models/course_overview/student_status_model.dart';
 
 class CourseOverviewScreen extends StatelessWidget {
@@ -18,6 +20,9 @@ class CourseOverviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -25,12 +30,12 @@ class CourseOverviewScreen extends StatelessWidget {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.black, size: isTab ? 30 : null,),
         ),
-        title: const Text(
+        title: Text(
           'Course Overview',
           style: TextStyle(
-            fontSize: 18,
+            fontSize: isTab ? 12.sp : 18,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -48,7 +53,7 @@ class CourseOverviewScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 crossAxisSpacing: 5,
                 mainAxisSpacing: 5,
-                childAspectRatio: 1.65,
+                childAspectRatio: isTab ? 3 : 1.65,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   StatusCard(status: StudentStatus.onTrack, count: controller.courseOverviewStat.value?.onTrack ?? 0),
@@ -65,20 +70,20 @@ class CourseOverviewScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                 Text(
                   'Student',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: isTab ? 10.sp : 18, fontWeight: FontWeight.bold),
                 ),
                 Obx((){
                   return Text(
                     '${controller.filteredStudentList.length} Student(s)',
-                    style: TextStyle(fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: isTab ? 10.sp : null, fontWeight: FontWeight.w500),
                   );
                 }),
                 // Filter SVG Icon
                 PopupMenuButton<String>(
                   color: Colors.white,
-                  icon: SvgPicture.asset(Assets.icons.sort),
+                  icon: SvgPicture.asset(Assets.icons.sort, height: isTab ? 30 : null, width: isTab ? 30 : null,),
                   onSelected: (String result) {
                     controller.selectedFilter.value = result;
                   },
@@ -117,7 +122,7 @@ class CourseOverviewScreen extends StatelessWidget {
                   return Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
                 }
                 if( controller.filteredStudentList.isEmpty ){
-                  return Center(child: Text("No Data Found"));
+                  return Center(child: Text("No Data Found", style: TextStyle(fontSize: isTab ? 10.sp : null),));
                 }
                 return ListView.separated(
                   itemCount: controller.filteredStudentList.length,

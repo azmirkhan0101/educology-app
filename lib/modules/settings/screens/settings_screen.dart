@@ -15,6 +15,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../core/utils/app_constants.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/button_widget.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -25,6 +26,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    bool isTab = context.isTab;
     bool isStaff = controller.role == Role.teacher || controller.role == Role.assistant;
 
     return Scaffold(
@@ -33,7 +35,7 @@ class SettingsScreen extends StatelessWidget {
         forceMaterialTransparency: true,
         centerTitle: true,
         title: TextWidget(text: AppStrings.settings,
-        fontSize: 18,
+        fontSize: isTab ? 12.sp : 18,
           fontWeight: FontWeight.w700,
         ),
       ),

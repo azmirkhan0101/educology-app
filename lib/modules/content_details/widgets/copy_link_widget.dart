@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../core/utils/extensions.dart';
 
 class CopyLinkWidget extends StatelessWidget {
 
@@ -14,6 +17,9 @@ class CopyLinkWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
@@ -26,7 +32,7 @@ class CopyLinkWidget extends StatelessWidget {
           Expanded(
             child: RichText(
               text: TextSpan(
-                style: const TextStyle(color: Colors.grey, fontSize: 14),
+                style: TextStyle(color: Colors.grey, fontSize: isTab ? 9.sp : 14),
                 children: [
                   TextSpan(text: isClassLink ? 'Class link: ' : 'Recording link: '),
                   TextSpan(

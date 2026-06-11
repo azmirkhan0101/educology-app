@@ -15,6 +15,7 @@ import 'package:dr_dina_educology/core/widgets/percentage_card.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/participant_list_item.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
@@ -26,13 +27,16 @@ class StudentProgressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
-        title: const TextWidget(
+        title: TextWidget(
           text: AppStrings.studentProgress,
-          fontSize: 18,
+          fontSize: isTab ? 12.sp : 18,
           fontWeight: FontWeight.w600,
         ),
         centerTitle: true,
@@ -40,7 +44,7 @@ class StudentProgressScreen extends StatelessWidget {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_sharp),
+          icon: Icon(Icons.arrow_back_sharp, size: isTab ? 30 : null,),
         ),
       ),
       body: Padding(
@@ -52,7 +56,7 @@ class StudentProgressScreen extends StatelessWidget {
               child: Text(
                 textAlign: TextAlign.left,
                 'Student',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: isTab ? 10.sp : 16, fontWeight: FontWeight.bold),
               ),
             ),
             Divider(),
@@ -71,7 +75,7 @@ class StudentProgressScreen extends StatelessWidget {
               child: Text(
                 textAlign: TextAlign.left,
                 'Parent',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: isTab ? 10.sp : 16, fontWeight: FontWeight.bold),
               ),
             ),
             Divider(),
@@ -99,11 +103,11 @@ class StudentProgressScreen extends StatelessWidget {
               return TextWidget(
                 text: controller.alertMessage.value,
                 fontColor: AppColors.errorRed,
-                fontSize: 14,
+                fontSize: isTab ? 9.sp : 14,
               );
             }),
             SizedBox(height: 18,),
-            attendanceExamButtons(),
+            attendanceExamButtons(isTab),
           ],
         ),
       ),
@@ -115,7 +119,7 @@ class StudentProgressScreen extends StatelessWidget {
     required double attendance,
     required double homework,
     required double avgGrade,
-    required double overdue
+    required double overdue,
   }) {
     return Column(
       spacing: 5,
@@ -163,9 +167,9 @@ class StudentProgressScreen extends StatelessWidget {
   }
 
   //ATTENDANCE | EXAM BUTTONS
-  Row attendanceExamButtons() {
+  Row attendanceExamButtons(bool isTab) {
     return Row(
-      spacing: 2,
+      spacing: isTab ? 40 : 2,
       children: [
         Expanded(
           child: ButtonWidget(

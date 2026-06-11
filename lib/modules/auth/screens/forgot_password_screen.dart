@@ -113,6 +113,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         Obx((){
                           return ButtonWidget(
                             label: AppStrings.getVerificationCode,
+                            buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                             isLoading: controller.isForgotPasswordLoading.value,
                             gradient: AppColors.primaryButtonGradient,
                             onPressed: (){

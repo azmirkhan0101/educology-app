@@ -1,5 +1,6 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
+import 'package:dr_dina_educology/core/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -76,6 +77,9 @@ class _CustomDatePickerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,9 +87,10 @@ class _CustomDatePickerView extends StatelessWidget {
         if( label != null )
         Text(
           label!,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w500,
             color: Colors.black87,
+            fontSize: isTab ? 12.sp : null,
           ),
         ),
         if( label != null )
@@ -102,7 +107,7 @@ class _CustomDatePickerView extends StatelessWidget {
           ),
           elevation: 0,
           child: Padding(
-            padding: EdgeInsets.only(left: 12.w),
+            padding: EdgeInsets.only(left: 12.w, top: isTab ? 10 : 0, bottom: isTab ? 10 : 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -112,11 +117,11 @@ class _CustomDatePickerView extends StatelessWidget {
                       : AppStrings.ddmmyyyy,
                   style: TextStyle(
                     color: state.value == null ? Colors.grey : Colors.black,
-                    fontSize: 12,
+                    fontSize: isTab ? 10.sp : 12,
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.calendar_month, color: AppColors.grey92, size: 16,),
+                  icon: Icon(Icons.calendar_month, color: AppColors.grey92, size: isTab ? 30 : 16,),
                   onPressed: () {
                     showCustomDatePicker(
                       context: context,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../utils/app_colors.dart';
@@ -9,7 +10,8 @@ void showCommentDialog({
   required String title,
   required String subTitle,
   required TextEditingController controller,
-  required Function(String) onSubmit
+  required Function(String) onSubmit,
+  required bool isTab
 }) {
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -32,7 +34,7 @@ void showCommentDialog({
               Text(
                 title,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: isTab ? 10.sp : 16,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                 ),
@@ -42,6 +44,7 @@ void showCommentDialog({
               TextFormField(
                 controller: controller,
                 maxLines: 4,
+                style: TextStyle(fontSize: isTab ? 10.sp : null),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a comment';
@@ -50,7 +53,7 @@ void showCommentDialog({
                 },
                 decoration: InputDecoration(
                   hintText: subTitle,
-                  hintStyle: const TextStyle(color: AppColors.grey4E),
+                  hintStyle: TextStyle(fontSize: isTab ? 10.sp : null, color: AppColors.grey4E),
                   filled: true,
                   fillColor: Colors.grey.shade100,
                   contentPadding: const EdgeInsets.all(16),
@@ -73,6 +76,7 @@ void showCommentDialog({
                     label: AppStrings.cancel,
                     backgroundColor: Colors.black54,
                     buttonHeight: 45,
+                    fontSize: isTab ? 14 : 18,
                     onPressed: (){
                       Get.back();
                     },
@@ -81,6 +85,7 @@ void showCommentDialog({
                     label: AppStrings.submit,
                     gradient: AppColors.primaryButtonGradient,
                     buttonHeight: 45,
+                    fontSize: isTab ? 14 : 18,
                     onPressed: (){
                       if( formKey.currentState!.validate() ){
                         Get.back();

@@ -1,12 +1,18 @@
 import 'package:dr_dina_educology/modules/main_nav/controllers/main_nav_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import '../../../core/utils/extensions.dart';
 
 class CustomBottomNav extends GetView<MainNavController> {
   const CustomBottomNav({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return GetBuilder<MainNavController>(
       builder: (controller) {
         return Padding(
@@ -22,10 +28,10 @@ class CustomBottomNav extends GetView<MainNavController> {
                     () => Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildNavItem(0, Icons.home_rounded, "Home"),
-                    _buildNavItem(1, Icons.notifications_rounded, "Notifications"),
-                    _buildNavItem(2, Icons.settings_rounded, "Settings"),
-                    _buildNavItem(3, Icons.person_rounded, "Profile"),
+                    _buildNavItem(0, isTab, Icons.home_rounded, "Home"),
+                    _buildNavItem(1, isTab, Icons.notifications_rounded, "Notifications"),
+                    _buildNavItem(2, isTab, Icons.settings_rounded, "Settings"),
+                    _buildNavItem(3, isTab, Icons.person_rounded, "Profile"),
                   ],
                 ),
               ),
@@ -36,7 +42,7 @@ class CustomBottomNav extends GetView<MainNavController> {
     );
   }
 
-  Widget _buildNavItem(int index, IconData icon, String label) {
+  Widget _buildNavItem(int index, bool isTab, IconData icon, String label) {
 
     final bool isSelected = controller.currentIndex.value == index;
 
@@ -63,7 +69,7 @@ class CustomBottomNav extends GetView<MainNavController> {
             children: [
               Icon(
                 icon,
-                size: 22,
+                size: isTab ? 35 : 22,
                 color: isSelected
                     ? const Color(0xFF344E67)
                     : Colors.grey[700],
@@ -82,8 +88,8 @@ class CustomBottomNav extends GetView<MainNavController> {
                       label,
                       maxLines: 1,
                       softWrap: false,
-                      style: const TextStyle(
-                        fontSize: 13,
+                      style: TextStyle(
+                        fontSize: isTab ? 10.sp : 13,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF344E67),
                       ),

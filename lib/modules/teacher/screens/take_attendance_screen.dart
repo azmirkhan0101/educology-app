@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/extensions.dart';
 import '../../../data/models/take_attendance/attendance_form_model.dart';
 
 class TakeAttendanceScreen extends StatelessWidget {
@@ -17,6 +18,9 @@ class TakeAttendanceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -25,8 +29,8 @@ class TakeAttendanceScreen extends StatelessWidget {
             onPressed: (){
               Get.back();
             },
-            icon: Icon(Icons.arrow_back, color: Colors.black)),
-        title: const Text("Take Attendance", style: TextStyle( fontSize: 18, fontWeight: FontWeight.bold)),
+            icon: Icon(Icons.arrow_back, color: Colors.black, size: isTab ? 30 : null,)),
+        title:  Text("Take Attendance", style: TextStyle( fontSize: isTab ? 12.sp : 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: [
           IconButton(
@@ -53,6 +57,7 @@ class TakeAttendanceScreen extends StatelessWidget {
           const SizedBox(height: 20),
           Obx((){
             return _buildStatsHeader(
+              isTab: isTab,
                 onTime: controller.attendanceStat.value?.onTimeCount ?? 0,
                 late: controller.attendanceStat.value?.lateCount ?? 0,
                 absent: controller.attendanceStat.value?.absentCount ?? 0,
@@ -62,7 +67,7 @@ class TakeAttendanceScreen extends StatelessWidget {
             );
           }),
           const SizedBox(height: 20),
-          _buildTableHeader(),
+          _buildTableHeader(isTab),
           Expanded(
             child: Obx((){
               if( controller.isFormLoading.value ){
@@ -76,7 +81,6 @@ class TakeAttendanceScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
 
                   final AttendanceFormModel model = controller.attendanceForm[index];
-                  //TODO: PASS STATUS IN THIS WIDGET
                   return TakeAttendanceTile(
                       imageUrl: model.student.image,
                       name: model.student.fullName,
@@ -84,7 +88,6 @@ class TakeAttendanceScreen extends StatelessWidget {
                       phone: model.student.contact,
                     status: model.status,
                     onSelection: (String? status) {
-                        print("Statusssssssssssssssssssss: $status");
                         if( status != null && status != TakeAttendanceStatus.notMarked.label ){
                           controller.addAttendanceSubmitList(status: status, studentId: model.student.id);
                         }
@@ -99,39 +102,39 @@ class TakeAttendanceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatsHeader({required int onTime, required int late, required int absent, required double onTimePercentage, required double latePercentage, required double absentPercentage}) {
+  Widget _buildStatsHeader({required bool isTab, required int onTime, required int late, required int absent, required double onTimePercentage, required double latePercentage, required double absentPercentage}) {
     return IntrinsicHeight(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _statColumn("Total: $onTime", "$onTimePercentage%", Colors.green),
+          _statColumn("Total: $onTime", "$onTimePercentage%", Colors.green, isTab),
           const VerticalDivider(thickness: 1, color: Colors.grey, indent: 5, endIndent: 5),
-          _statColumn("Late: $late", "$latePercentage%", Colors.orange),
+          _statColumn("Late: $late", "$latePercentage%", Colors.orange, isTab),
           const VerticalDivider(thickness: 1, color: Colors.grey, indent: 5, endIndent: 5),
-          _statColumn("Absent: $absent", "$absentPercentage%", Colors.red),
+          _statColumn("Absent: $absent", "$absentPercentage%", Colors.red, isTab),
         ],
       ),
     );
   }
 
-  Widget _statColumn(String top, String bottom, Color color) {
+  Widget _statColumn(String top, String bottom, Color color, bool isTab) {
     return Column(
       children: [
-        Text(top, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 16)),
-        Text(bottom, style: TextStyle(color: color, fontSize: 14)),
+        Text(top, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: isTab ? 10.sp : 16)),
+        Text(bottom, style: TextStyle(color: color, fontSize: isTab ? 10.sp : 14)),
       ],
     );
   }
 
-  Widget _buildTableHeader() {
+  Widget _buildTableHeader(bool isTab) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       color: const Color(0xFFF0FAF7),
-      child: const Row(
+      child:  Row(
         children: [
-          Expanded(flex: 3, child: Text("Student", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: 14))),
-          Expanded(flex: 2, child: Center(child: Text("Join Time", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: 14)))),
-          Expanded(flex: 2, child: Center(child: Text("Attendance", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: 14)))),
+          Expanded(flex: 3, child: Text("Student", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: isTab ? 10.sp : 14))),
+          Expanded(flex: 2, child: Center(child: Text("Join Time", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: isTab ? 10.sp : 14)))),
+          Expanded(flex: 2, child: Center(child: Text("Attendance", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D5669), fontSize: isTab ? 10.sp : 14)))),
         ],
       ),
     );

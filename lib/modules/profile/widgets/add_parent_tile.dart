@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/cached_image_widget.dart';
 
 class AddParentTile extends StatelessWidget {
@@ -28,6 +29,9 @@ class AddParentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -51,7 +55,7 @@ class AddParentTile extends StatelessWidget {
               spacing: 8,
               children: [
                 SvgPicture.asset(iconPath),
-                TextWidget(text: title, textAlignment: TextAlign.left),
+                TextWidget(fontSize: isTab ? 10.sp : null, text: title, textAlignment: TextAlign.left),
               ],
             ),
             Divider(),
@@ -83,14 +87,14 @@ class AddParentTile extends StatelessWidget {
                         Text(
                           parent!.fullName,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: isTab ? 10.sp : 16,
                             color: Colors.black87,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         Text(
                           parent!.contact,
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                          style: TextStyle(color: Colors.grey, fontSize: isTab ? 10.sp : 12),
                         ),
                       ],
                     ),
@@ -105,10 +109,11 @@ class AddParentTile extends StatelessWidget {
                 TextWidget(
                   text: AppStrings.addYourParent,
                   textAlignment: TextAlign.left,
+                  fontSize: isTab ? 8.sp : null,
                   fontColor: AppColors.secondaryGreen,
                 ),
                 Spacer(),
-                SvgPicture.asset(Assets.icons.rightTriangle),
+                SvgPicture.asset(Assets.icons.rightTriangle, height: isTab ? 40 : null, width: isTab ? 40 : null,),
               ],
             ),
           ],

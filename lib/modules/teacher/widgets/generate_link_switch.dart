@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/extensions.dart';
 
 class GenerateZoomSwitch extends StatelessWidget {
 
@@ -12,12 +14,15 @@ class GenerateZoomSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children:[
-        const Text(
+         Text(
           "Generate zoom link",
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: isTab ? 12.sp : 16, fontWeight: FontWeight.w500),
         ),
 
         // Wrap the custom switch in Obx

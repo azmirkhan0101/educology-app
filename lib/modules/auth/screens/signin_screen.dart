@@ -133,6 +133,7 @@ class SignInScreen extends StatelessWidget {
                   label: AppStrings.signIn,
                   isLoading: controller.isSigninLoading.value,
                   gradient: AppColors.primaryButtonGradient,
+                  buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                   onPressed: (){
                     if( signInFormKey.currentState!.validate() ){
                       controller.signin();

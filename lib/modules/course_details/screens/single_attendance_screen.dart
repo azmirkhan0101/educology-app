@@ -5,6 +5,7 @@ import 'package:dr_dina_educology/data/models/attendance/single_attendance_model
 import 'package:dr_dina_educology/modules/course_details/controllers/single_attendance_controller.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/single_attendance_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class SingleAttendanceScreen extends StatelessWidget {
@@ -14,14 +15,17 @@ class SingleAttendanceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(onPressed: (){
           Get.back();
         },
-            icon: Icon(Icons.arrow_back, color: Colors.black)),
-        title: const Text("View Attendance", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+            icon: Icon(Icons.arrow_back, color: Colors.black, size: isTab ? 30 : null,)),
+        title: Text("View Attendance", style: TextStyle(fontSize: isTab ? 12.sp : 18, fontWeight: FontWeight.w600)),
         centerTitle: true,
         forceMaterialTransparency: true,
       ),
@@ -29,12 +33,13 @@ class SingleAttendanceScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: Column(
           children: [
+            const SizedBox(height: 15,),
             Obx((){
               return Text(
                   "Total Completed Class : ${controller.totalCompletedClass.value}",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFF34495E)));
+                  style: TextStyle(fontSize: isTab ? 10.sp : 16, fontWeight: FontWeight.w500, color: Color(0xFF34495E)));
             }),
-            const SizedBox(height: 10),
+            const SizedBox(height: 25),
             //======================Summary Section============================
             IntrinsicHeight(
               child: Row(
@@ -75,13 +80,13 @@ class SingleAttendanceScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 5,
-                      child: Text("Class Name", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
+                      child: Text("Class Name", style: TextStyle(fontSize: isTab ? 10.sp : 14, fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
                   Expanded(
                       flex: 5,
-                      child: Text("Class Start", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
+                      child: Text("Class Start", style: TextStyle(fontSize: isTab ? 10.sp : 14,fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
                   Expanded(
                       flex: 3,
-                      child: Text("Attendance", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
+                      child: Text("Attendance", style: TextStyle(fontSize: isTab ? 10.sp : 14,fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
                 ],
               ),
             ),
@@ -93,7 +98,7 @@ class SingleAttendanceScreen extends StatelessWidget {
                   return Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
                 }
                 if( controller.attendanceList.isEmpty ){
-                  return Center(child: Text("No Data Found"));
+                  return Center(child: Text("No Data Found", style: TextStyle(fontSize: isTab ? 10.sp : null),));
                 }
                 return ListView.builder(
                   itemCount: controller.attendanceList.length,
@@ -127,11 +132,14 @@ class SummaryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Column(
       children: [
-        Text(label, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 12)),
+        Text(label, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: isTab ? 10.sp : 12)),
         const SizedBox(height: 4),
-        Text(percent, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 12)),
+        Text(percent, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: isTab ? 10.sp : 12)),
       ],
     );
   }

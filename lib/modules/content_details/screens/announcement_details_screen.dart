@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/cached_image_widget.dart';
 import '../../../core/widgets/showCommentDialog.dart';
 import '../../../data/models/comment/comment_model.dart';
@@ -20,6 +21,9 @@ class AnnouncementDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -28,14 +32,14 @@ class AnnouncementDetailsScreen extends StatelessWidget {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(Icons.arrow_back, color: Colors.black87),
+          icon: Icon(Icons.arrow_back, color: Colors.black87, size: isTab ? 30 : null,),
         ),
-        title: const Text(
+        title: Text(
           'Announcement',
           style: TextStyle(
             color: Color(0xFF344E6D),
             fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: isTab ? 12.sp : 18,
           ),
         ),
         centerTitle: true,
@@ -66,7 +70,7 @@ class AnnouncementDetailsScreen extends StatelessWidget {
                       data: controller.announceModel.announce,
                       style: {
                         "body": Style(
-                          fontSize: FontSize(14),
+                          fontSize: FontSize( isTab ? 10.sp : 14),
                           lineHeight: const LineHeight(1.6),
                           color: Theme.of(context).textTheme.bodyMedium?.color,
                         ),
@@ -94,7 +98,7 @@ class AnnouncementDetailsScreen extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.chat_bubble_outline,
-                        size: 20,
+                        size: isTab ? 30 : 20,
                         color: Colors.black54,
                       ),
                       SizedBox(width: 8),
@@ -107,6 +111,7 @@ class AnnouncementDetailsScreen extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.black54,
                             fontWeight: FontWeight.bold,
+                            fontSize: isTab ? 10.sp : null
                           ),
                         );
                       }),
@@ -115,6 +120,7 @@ class AnnouncementDetailsScreen extends StatelessWidget {
                   TextButton.icon(
                     onPressed: () {
                       showCommentDialog(
+                        isTab: isTab,
                         title: 'Write a comment',
                         subTitle: 'write your comment here...',
                         controller: controller.commentController,
@@ -123,14 +129,14 @@ class AnnouncementDetailsScreen extends StatelessWidget {
                         },
                       );
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.add,
-                      size: 20,
+                      size: isTab ? 30 : 20,
                       color: Colors.black54,
                     ),
-                    label: const Text(
+                    label: Text(
                       'Add Comment',
-                      style: TextStyle(color: Colors.black54),
+                      style: TextStyle( fontSize: isTab ? 10.sp : null, color: Colors.black54),
                     ),
                   ),
                 ],
@@ -150,6 +156,7 @@ class AnnouncementDetailsScreen extends StatelessWidget {
                       comment: comment,
                       onReply: () {
                         showCommentDialog(
+                          isTab: isTab,
                           title: 'Write a reply',
                           subTitle: 'write your reply here...',
                           controller: controller.commentController,
@@ -186,13 +193,16 @@ class UserHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Row(
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(50),
           child: Container(
-            height: 35.h,
-            width: 35.w,
+            height: isTab ? 70 : 35.h,
+            width: isTab ? 70 : 35.w,
             color: AppColors.greyB2,
             child: CachedImageWidget(imageUrl: imageUrl, iconSize: 26.r),
           ),
@@ -203,16 +213,16 @@ class UserHeader extends StatelessWidget {
           children: [
             Text(
               name,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF689F7D),
                 // Matching the green tint in the image
-                fontSize: 14,
+                fontSize: isTab ? 10.sp : 14,
               ),
             ),
             Text(
               DateFormat("dd MMM, yyyy | hh:mm a").format(dateTime.toLocal()),
-              style: const TextStyle(color: Colors.grey, fontSize: 10),
+              style: TextStyle(color: Colors.grey, fontSize: isTab ? 9.sp : 10),
             ),
           ],
         ),

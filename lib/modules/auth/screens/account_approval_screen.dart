@@ -10,12 +10,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/extensions.dart';
 
 class AccountApprovalScreen extends StatelessWidget {
   const AccountApprovalScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Padding(
@@ -38,22 +42,23 @@ class AccountApprovalScreen extends StatelessWidget {
           TextWidget(
               text: AppStrings.accountPendingApproval,
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: isTab ? 12.sp : 20,
           ),
           const SizedBox(height: 10,),
           TextWidget(
             text: AppStrings.yourAccountIs,
-            fontSize: 14,
+            fontSize: isTab ? 10.sp : 14,
             fontColor: AppColors.grey78,
           ),
           TextWidget(
             text: AppStrings.youWillBeAbleToAccess,
-            fontSize: 14,
+            fontSize: isTab ? 10.sp : 14,
             fontColor: AppColors.grey78,
           ),
           const Spacer(),
           ButtonWidget(
             label: AppStrings.gotIt,
+            buttonWidth: isTab ? context.fullWidth * 0.3 : null,
           gradient: AppColors.primaryButtonGradient,
             onPressed: (){
               Get.toNamed(AppRoutes.signIn);

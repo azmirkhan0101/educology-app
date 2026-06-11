@@ -6,8 +6,10 @@ import 'package:dr_dina_educology/modules/course_details/controllers/view_marks_
 import 'package:dr_dina_educology/modules/course_details/widgets/view_marks_item_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/button_widget.dart';
 import '../../../core/widgets/text_widget.dart';
 import '../../content_details/screens/view_document_screen.dart';
@@ -19,12 +21,16 @@ class ViewAllMarksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
         centerTitle: true,
-        title: Text("View All Marks", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),),
+        title: Text("View All Marks", style: TextStyle(fontSize: isTab ? 12.sp : 16, fontWeight: FontWeight.w700),),
+      leading: IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back_rounded, size: isTab ? 30 : null,))
       ),
       body: Padding(padding: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
@@ -35,7 +41,7 @@ class ViewAllMarksScreen extends StatelessWidget {
                     return Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
                   }
                   if( controller.marksList.isEmpty ){
-                    return Center(child: Text("No Marks Found"));
+                    return Center(child: Text("No Marks Found", style: TextStyle(fontSize: isTab ? 10.sp : null),));
                   }
                   return ListView.builder(
                     itemCount: controller.marksList.length,

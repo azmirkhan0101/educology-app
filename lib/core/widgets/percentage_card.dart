@@ -1,5 +1,7 @@
 
+import 'package:dr_dina_educology/core/utils/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PercentageCard extends StatelessWidget {
@@ -20,6 +22,9 @@ class PercentageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
       decoration: BoxDecoration(
@@ -34,13 +39,13 @@ class PercentageCard extends StatelessWidget {
             children: [
               SvgPicture.asset(
                 svgPath,
-                height: 26,
-                width: 26,
+                height: isTab ? 40 : 26,
+                width: isTab ? 40 : 26,
               ),
               Text(
                 percentage,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: isTab ? 12.sp : 20,
                   fontWeight: FontWeight.w700,
                   color: textColor,
                 ),
@@ -51,8 +56,8 @@ class PercentageCard extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: Text(
               label,
-              style: const TextStyle(
-                fontSize: 11,
+              style: TextStyle(
+                fontSize: isTab ? 10.sp : 11,
                 fontWeight: FontWeight.w600,
                 color: Colors.black54,
               ),

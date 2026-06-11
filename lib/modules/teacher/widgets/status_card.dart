@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../core/utils/app_constants.dart';
+import '../../../core/utils/extensions.dart';
 
 class StatusCard extends StatelessWidget {
   final StudentStatus status;
@@ -15,6 +17,9 @@ class StatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
@@ -37,8 +42,8 @@ class StatusCard extends StatelessWidget {
               // Count Number
               Text(
                 count.toString().padLeft(2, "0"),
-                style: const TextStyle(
-                  fontSize: 28,
+                style: TextStyle(
+                  fontSize: isTab ? 16.sp : 28,
                   fontWeight: FontWeight.w400,
                   color: Color(0xFFB08D57),
                 ),
@@ -51,8 +56,8 @@ class StatusCard extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: Text(
               status.label,
-              style: const TextStyle(
-                fontSize: 12,
+              style: TextStyle(
+                fontSize: isTab ? 10.sp : 12,
                 fontWeight: FontWeight.w500,
                 color: Color(0xFF5A6166),
               ),

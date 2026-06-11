@@ -112,6 +112,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                   label: AppStrings.next,
                 gradient: AppColors.primaryButtonGradient,
                 isEnabled: _selectedRole != null,
+                buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                 onPressed: () async{
                     Get.toNamed(AppRoutes.signUp, arguments: role);
                 },

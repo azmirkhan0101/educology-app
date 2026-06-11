@@ -275,6 +275,7 @@ class SignupScreen extends StatelessWidget {
               Obx((){
                 return ButtonWidget(
                   label: AppStrings.signUp,
+                  buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                   gradient: AppColors.primaryButtonGradient,
                   isLoading: controller.isSignupLoading.value,
                   onPressed: (){

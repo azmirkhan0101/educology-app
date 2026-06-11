@@ -12,6 +12,7 @@ import 'package:dr_dina_educology/modules/course_details/widgets/homework_tab.da
 import 'package:dr_dina_educology/core/widgets/percentage_card.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
@@ -23,6 +24,9 @@ class CourseDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     bool isStaff =
         controller.role == Role.teacher || controller.role == Role.assistant;
     bool isStudent = controller.role == Role.student;
@@ -31,9 +35,9 @@ class CourseDetailsScreen extends StatelessWidget {
       backgroundColor: AppColors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
-        title: const TextWidget(
+        title: TextWidget(
           text: 'Course Details',
-          fontSize: 18,
+          fontSize: isTab ? 12.sp : 18,
           fontWeight: FontWeight.w600,
         ),
         centerTitle: true,
@@ -41,7 +45,7 @@ class CourseDetailsScreen extends StatelessWidget {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_sharp),
+          icon: Icon(Icons.arrow_back_sharp, size: isTab ? 30 : null,),
         ),
       ),
       body: Padding(
@@ -53,9 +57,11 @@ class CourseDetailsScreen extends StatelessWidget {
               courseName: controller.courseName,
               subject: controller.subject,
               status: controller.status,
+              isTab: isTab
             ),
             SizedBox(height: 4),
-            if (isStaff)
+            if (isStaff)...[
+              SizedBox(height: isTab ? 25 : 0,),
               Obx(() {
                 return stats(
                   attendance: controller.courseStat.value?.attendanceRate ?? 0,
@@ -64,13 +70,16 @@ class CourseDetailsScreen extends StatelessWidget {
                   overdue: controller.courseStat.value?.overdueRate ?? 0,
                 );
               }),
+            ],
             if (isStaff) SizedBox(height: 10),
-            if (isStaff)
+            if (isStaff)...[
+              SizedBox(height: isTab ? 20 : 0,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: ButtonWidget(
                   label: AppStrings.generateReport,
                   buttonHeight: 45,
+                  buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                   gradient: AppColors.primaryButtonGradient,
                   onPressed: () {
                     Get.toNamed(
@@ -80,11 +89,15 @@ class CourseDetailsScreen extends StatelessWidget {
                   },
                 ),
               ),
+              SizedBox(height: isTab ? 20 : 0,),
+            ],
             SizedBox(height: 10),
-            if (isStaff) overviewParticipantButtons(),
-            if (isStudent) myProgressParticipantButtons(),
+            if (isStaff) overviewParticipantButtons(isTab),
+            if (isStudent) myProgressParticipantButtons(isTab),
+            if( isTab )
+            const SizedBox(height: 20,),
             Expanded(
-              child: tabBar(isTeacher: isStaff, isStudent: isStudent),
+              child: tabBar(isTeacher: isStaff, isStudent: isStudent, isTab: isTab),
             ),
           ],
         ),
@@ -97,6 +110,7 @@ class CourseDetailsScreen extends StatelessWidget {
     required String subject,
     required String courseName,
     required String status,
+    required bool isTab,
   }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -110,8 +124,8 @@ class CourseDetailsScreen extends StatelessWidget {
                 courseName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 16,
+                style: TextStyle(
+                  fontSize: isTab ? 10.sp : 16,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF2C5364),
                 ),
@@ -119,15 +133,15 @@ class CourseDetailsScreen extends StatelessWidget {
               const SizedBox(height: 3),
               Text(
                 subject,
-                style: const TextStyle(fontSize: 14, color: Colors.grey),
+                style:  TextStyle(fontSize: isTab ? 10.sp : 14, color: Colors.grey),
               ),
               const SizedBox(height: 4),
               if (isStaff)
                 Obx(() {
                   return Text(
                     'Total Enrolled Student: ${controller.courseStat.value?.totalEnrolled ?? 0}',
-                    style: const TextStyle(
-                      fontSize: 12,
+                    style:  TextStyle(
+                      fontSize: isTab ? 10.sp : 12,
                       color: AppColors.secondaryGreen,
                       fontWeight: FontWeight.w500,
                     ),
@@ -145,7 +159,8 @@ class CourseDetailsScreen extends StatelessWidget {
           ),
           child: Text(
             status,
-            style: const TextStyle(
+            style: TextStyle(
+              fontSize: isTab ? 10.sp : null,
               color: Color(0xFF0277BD), // Darker blue text
               fontWeight: FontWeight.w500,
             ),
@@ -208,9 +223,9 @@ class CourseDetailsScreen extends StatelessWidget {
   }
 
   //OVERVIEW | PARTICIPANT BUTTONS FOR TEACHER AND ASSISTANT
-  Row overviewParticipantButtons() {
+  Row overviewParticipantButtons(bool isTab) {
     return Row(
-      spacing: 2,
+      spacing: isTab ? 40 : 2,
       children: [
         Expanded(
           child: ButtonWidget(
@@ -255,9 +270,9 @@ class CourseDetailsScreen extends StatelessWidget {
   }
 
   //MY PROGRESS | PARTICIPANT BUTTONS FOR STUDENT
-  Row myProgressParticipantButtons() {
+  Row myProgressParticipantButtons(bool isTab) {
     return Row(
-      spacing: 2,
+      spacing: isTab ? 40 : 2,
       children: [
         Expanded(
           child: ButtonWidget(
@@ -305,21 +320,21 @@ class CourseDetailsScreen extends StatelessWidget {
   }
 
   //TAB BAR
-  Column tabBar({required bool isTeacher, required bool isStudent}) {
+  Column tabBar({required bool isTeacher, required bool isStudent, required bool isTab}) {
     return Column(
       children: [
         TabBar(
           isScrollable: true,
-          tabAlignment: TabAlignment.start,
+          tabAlignment: isTab ? TabAlignment.center : TabAlignment.start,
           controller: controller.tabController,
           indicatorColor: AppColors.black,
           labelColor: Colors.black,
           unselectedLabelColor: AppColors.grey78,
           indicatorSize: TabBarIndicatorSize.tab,
-          labelStyle: const TextStyle(
+          labelStyle: TextStyle(
             fontWeight: FontWeight.w900,
             color: AppColors.black,
-            fontSize: 14,
+            fontSize: isTab ? 10.sp : 14,
           ),
           tabs: const [
             Tab(text: AppStrings.classes),
@@ -328,6 +343,8 @@ class CourseDetailsScreen extends StatelessWidget {
             Tab(text: AppStrings.announcement),
           ],
         ),
+        if( isTab )
+          SizedBox(height: 20,),
         Expanded(
           child: TabBarView(
             controller: controller.tabController,

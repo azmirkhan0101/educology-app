@@ -3,9 +3,11 @@ import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/data/models/course_overview/student_status_model.dart';
 import 'package:dr_dina_educology/modules/course_details/controllers/participants_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/app_constants.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/text_widget.dart';
 import '../widgets/participant_list_item.dart';
 
@@ -16,13 +18,16 @@ class ParticipantScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
-        title: const TextWidget(
+        title: TextWidget(
           text: "Participants",
-          fontSize: 18,
+          fontSize: isTab ? 12.sp : 18,
           fontWeight: FontWeight.w600,
         ),
         centerTitle: true,
@@ -30,7 +35,7 @@ class ParticipantScreen extends StatelessWidget {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_sharp),
+          icon: Icon(Icons.arrow_back_sharp, size: isTab ? 30 : null),
         ),
       ),
       body: Padding(
@@ -44,9 +49,10 @@ class ParticipantScreen extends StatelessWidget {
                 onChanged: (query){
                   controller.filterParticipants(query);
                 },
+                style: TextStyle(fontSize: isTab ? 10.sp : null),
                 decoration: InputDecoration(
                   hintText: 'Search by name or phone no.',
-                  hintStyle: TextStyle(color: Colors.grey.shade400),
+                  hintStyle: TextStyle( fontSize: isTab ? 10.sp : null, color: Colors.grey.shade400),
                   prefixIcon: const Icon(Icons.search, color: Color(0xFF4A6572)),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -64,7 +70,7 @@ class ParticipantScreen extends StatelessWidget {
               child: Text(
                 textAlign: TextAlign.left,
                 "Teacher",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: isTab ? 10.sp : 16, fontWeight: FontWeight.bold),
               ),
             ),
             Divider(),
@@ -84,7 +90,7 @@ class ParticipantScreen extends StatelessWidget {
               child: Text(
                 textAlign: TextAlign.left,
                 AppStrings.assistants,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: isTab ? 10.sp : 16, fontWeight: FontWeight.bold),
               ),
             ),
             Divider(),
@@ -105,7 +111,7 @@ class ParticipantScreen extends StatelessWidget {
                 Obx(() {
                   return Text(
                     'Student( ${controller.participantsList.value.length} Students )',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: isTab ? 10.sp : 16, fontWeight: FontWeight.bold),
                   );
                 }),
               ],

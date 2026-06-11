@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/utils/extensions.dart';
+
 class ClassItemWidget extends StatelessWidget {
   final String title;
   final DateTime startDate;
@@ -26,6 +28,9 @@ class ClassItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return GestureDetector(
       onTap: onClick,
       child: Card(
@@ -40,8 +45,8 @@ class ClassItemWidget extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 16,
+                style: TextStyle(
+                  fontSize: isTab ? 12.sp : 16,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF344E64),
                 ),
@@ -50,7 +55,7 @@ class ClassItemWidget extends StatelessWidget {
               Text(
                 'Live Class starting Time : ${DateFormat("dd MMM yyyy").format(startDate.toLocal())} | $startTime',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: isTab ? 9.sp : 12,
                   color: Colors.grey[700],
                 ),
               ),
@@ -61,8 +66,8 @@ class ClassItemWidget extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Container(
-                      height: 35.h,
-                      width: 35.w,
+                      height: isTab ? 70 : 35.h,
+                      width: isTab ? 70 : 35.w,
                       color: Colors.grey.shade200,
                       child: CachedImageWidget(
                           imageUrl: staff.image,
@@ -70,14 +75,14 @@ class ClassItemWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         staff.fullName,
-                        style: const TextStyle(
-                          fontSize: 16,
+                        style: TextStyle(
+                          fontSize: isTab ? 10.sp : 16,
                           fontWeight: FontWeight.w800,
                           color: Color(0xFF5A8F7B),
                         ),
@@ -85,7 +90,7 @@ class ClassItemWidget extends StatelessWidget {
                       Text(
                         DateFormat("dd MMM yyyy | hh:mm a").format(createdAt.toLocal()),
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: isTab ? 9.sp : 12,
                           color: Colors.grey[600],
                         ),
                       ),
@@ -100,11 +105,11 @@ class ClassItemWidget extends StatelessWidget {
               // Comments Footer
               Row(
                 children: [
-                  const Icon(Icons.comment_outlined, size: 20, color: Colors.black87),
+                   Icon(Icons.comment_outlined, size: isTab ? 30 : 20, color: Colors.black87),
                   const SizedBox(width: 8),
                   Text(
                     commentCount.toString().padLeft(2, '0'),
-                    style: const TextStyle(fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: isTab ? 10.sp : null, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),

@@ -754,332 +754,334 @@ class _OPdfEditScreenState extends State<NGPdfEditScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            SingleChildScrollView(
-              reverse: true, // Scroll view is reversed
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 1.414,
-                    width: MediaQuery.of(context).size.width,
-                    child: Stack(
-                      children: [
-                        // PDF Viewer: Display PDF content with user interaction disabled in specific modes
-                        IgnorePointer(
-                          ignoring: _isZoomMode
-                              ? false
-                               : _selectedIndex != -1 &&
-                              _selectedIndex != 2 &&
-                              _selectedIndex != 3,
-                          child: Opacity(
-                            opacity: _isSaving ? 0 : 1, // Hide PDF when saving
-                            child: SfPdfViewer.file(
-                              key: _pdfViewerKey,
-                              pdfFile,
-                              controller: _pdfViewerController,
-                              pageLayoutMode: PdfPageLayoutMode.single,
-                              scrollDirection: PdfScrollDirection.horizontal,
-                              canShowScrollHead: false,
-                              canShowPaginationDialog: false,
-                              canShowTextSelectionMenu: false,
-                              pageSpacing: 0,
-                              maxZoomLevel: _isZoomMode ? 3.0 : 1.0,
-                              onTextSelectionChanged: (details) {
-                                setState(() {
-                                  // Check if text is selected
-                                  isTextSelected = details.selectedText != null;
-                                });
-                              },
-                              onDocumentLoaded: (details) {
-                                setState(() {
-                                  _totalPages =
-                                      details
-                                          .document
-                                          .pages
-                                          .count; // Update page count
-                                  _isPageLoaded = true;
-                                });
-                                _highlightController.setPage(_currentPage);
-                                _underlineController.setPage(_currentPage);
-                              },
-                              onPageChanged: (details) {
-                                setState(() {
-                                  _currentPage =
-                                      details
-                                          .newPageNumber; // Update current page number
-                                  _isPageLoaded =
-                                      false; // Reset page load state
-                                });
-                                _drawingController.setPage(_currentPage);
-                                _highlightController.setPage(_currentPage);
-                                _underlineController.setPage(_currentPage);
-                                Future.delayed(
-                                  const Duration(milliseconds: 400),
-                                  () {
-                                    setState(() {
-                                      _isPageLoaded =
-                                          true; // Allow page to fully load
-                                    });
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        // Drawing Canvas: Handle user input (drawing, text, etc.) on the canvas
-                        Positioned.fill(
-                          child: Opacity(
-                            opacity: !_isPageLoaded || revertView ? 0 : 1,
-                            child: IgnorePointer(
-                              ignoring: _isZoomMode || _selectedIndex == -1,
-                              child: DrawingCanvas(
-                                drawingController: _drawingController,
-                                textBoxController: _textBoxController,
-                                imageController: _imageController,
-                                currentPage: _currentPage,
-                                selectedMode: selectedMode,
-                                callback: () {
-                                  setState(() {});
+            Expanded(
+              child: SingleChildScrollView(
+                reverse: true, // Scroll view is reversed
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 1.414,
+                      width: MediaQuery.of(context).size.width,
+                      child: Stack(
+                        children: [
+                          // PDF Viewer: Display PDF content with user interaction disabled in specific modes
+                          IgnorePointer(
+                            ignoring: _isZoomMode
+                                ? false
+                                 : _selectedIndex != -1 &&
+                                _selectedIndex != 2 &&
+                                _selectedIndex != 3,
+                            child: Opacity(
+                              opacity: _isSaving ? 0 : 1, // Hide PDF when saving
+                              child: SfPdfViewer.file(
+                                key: _pdfViewerKey,
+                                pdfFile,
+                                controller: _pdfViewerController,
+                                pageLayoutMode: PdfPageLayoutMode.single,
+                                scrollDirection: PdfScrollDirection.horizontal,
+                                canShowScrollHead: false,
+                                canShowPaginationDialog: false,
+                                canShowTextSelectionMenu: false,
+                                pageSpacing: 0,
+                                maxZoomLevel: _isZoomMode ? 3.0 : 1.0,
+                                onTextSelectionChanged: (details) {
+                                  setState(() {
+                                    // Check if text is selected
+                                    isTextSelected = details.selectedText != null;
+                                  });
+                                },
+                                onDocumentLoaded: (details) {
+                                  setState(() {
+                                    _totalPages =
+                                        details
+                                            .document
+                                            .pages
+                                            .count; // Update page count
+                                    _isPageLoaded = true;
+                                  });
+                                  _highlightController.setPage(_currentPage);
+                                  _underlineController.setPage(_currentPage);
+                                },
+                                onPageChanged: (details) {
+                                  setState(() {
+                                    _currentPage =
+                                        details
+                                            .newPageNumber; // Update current page number
+                                    _isPageLoaded =
+                                        false; // Reset page load state
+                                  });
+                                  _drawingController.setPage(_currentPage);
+                                  _highlightController.setPage(_currentPage);
+                                  _underlineController.setPage(_currentPage);
+                                  Future.delayed(
+                                    const Duration(milliseconds: 400),
+                                    () {
+                                      setState(() {
+                                        _isPageLoaded =
+                                            true; // Allow page to fully load
+                                      });
+                                    },
+                                  );
                                 },
                               ),
                             ),
                           ),
-                        ),
-                        // Toggle visibility button: Hide or show content based on user interaction
-                        if (_drawingController.hasContent() ||
-                            _textBoxController.hasContent() ||
-                            _imageController.hasContent() ||
-                            _highlightController.hasContent() ||
-                            _underlineController.hasContent())
-                          Positioned(
-                            right: 15,
-                            bottom: 15,
-                            child: GestureDetector(
-                              onTapDown: (_) {
-                                _underlineController.hide(_pdfViewerController);
-                                _highlightController.hide(_pdfViewerController);
-                                setState(() {
-                                  revertView = true; // Toggle visibility flag
-                                });
-                              },
-                              onTapCancel: () {
-                                Future.delayed(
-                                  const Duration(milliseconds: 100),
-                                  () {
-                                    _underlineController.unhide(
-                                      _pdfViewerController,
-                                    );
-                                    _highlightController.unhide(
-                                      _pdfViewerController,
-                                    );
-                                    setState(() {
-                                      revertView =
-                                          false; // Reset visibility flag
-                                    });
+                          // Drawing Canvas: Handle user input (drawing, text, etc.) on the canvas
+                          Positioned.fill(
+                            child: Opacity(
+                              opacity: !_isPageLoaded || revertView ? 0 : 1,
+                              child: IgnorePointer(
+                                ignoring: _isZoomMode || _selectedIndex == -1,
+                                child: DrawingCanvas(
+                                  drawingController: _drawingController,
+                                  textBoxController: _textBoxController,
+                                  imageController: _imageController,
+                                  currentPage: _currentPage,
+                                  selectedMode: selectedMode,
+                                  callback: () {
+                                    setState(() {});
                                   },
-                                );
-                              },
-                              onTapUp: (_) {
-                                Future.delayed(
-                                  const Duration(milliseconds: 100),
-                                  () {
-                                    _underlineController.unhide(
-                                      _pdfViewerController,
-                                    );
-                                    _highlightController.unhide(
-                                      _pdfViewerController,
-                                    );
-                                    setState(() {
-                                      revertView =
-                                          false; // Reset visibility flag
-                                    });
-                                  },
-                                );
-                              },
-                              child: AnimatedContainer(
-                                margin: EdgeInsets.all(8),
-                                duration: const Duration(milliseconds: 200),
-                                decoration: BoxDecoration(
-                                  color:
-                                      revertView
-                                          ? Colors.grey.shade700.withOpacity(
-                                            0.5,
-                                          )
-                                          : Colors.grey.withOpacity(0.5),
-                                  borderRadius: BorderRadius.circular(50),
-                                  border: Border.all(
+                                ),
+                              ),
+                            ),
+                          ),
+                          // Toggle visibility button: Hide or show content based on user interaction
+                          if (_drawingController.hasContent() ||
+                              _textBoxController.hasContent() ||
+                              _imageController.hasContent() ||
+                              _highlightController.hasContent() ||
+                              _underlineController.hasContent())
+                            Positioned(
+                              right: 15,
+                              bottom: 15,
+                              child: GestureDetector(
+                                onTapDown: (_) {
+                                  _underlineController.hide(_pdfViewerController);
+                                  _highlightController.hide(_pdfViewerController);
+                                  setState(() {
+                                    revertView = true; // Toggle visibility flag
+                                  });
+                                },
+                                onTapCancel: () {
+                                  Future.delayed(
+                                    const Duration(milliseconds: 100),
+                                    () {
+                                      _underlineController.unhide(
+                                        _pdfViewerController,
+                                      );
+                                      _highlightController.unhide(
+                                        _pdfViewerController,
+                                      );
+                                      setState(() {
+                                        revertView =
+                                            false; // Reset visibility flag
+                                      });
+                                    },
+                                  );
+                                },
+                                onTapUp: (_) {
+                                  Future.delayed(
+                                    const Duration(milliseconds: 100),
+                                    () {
+                                      _underlineController.unhide(
+                                        _pdfViewerController,
+                                      );
+                                      _highlightController.unhide(
+                                        _pdfViewerController,
+                                      );
+                                      setState(() {
+                                        revertView =
+                                            false; // Reset visibility flag
+                                      });
+                                    },
+                                  );
+                                },
+                                child: AnimatedContainer(
+                                  margin: EdgeInsets.all(8),
+                                  duration: const Duration(milliseconds: 200),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        revertView
+                                            ? Colors.grey.shade700.withOpacity(
+                                              0.5,
+                                            )
+                                            : Colors.grey.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(50),
+                                    border: Border.all(
+                                      color:
+                                          revertView
+                                              ? Colors.grey.shade700
+                                              : Colors.grey.shade900,
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Icon(
+                                    revertView
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
                                     color:
                                         revertView
                                             ? Colors.grey.shade700
                                             : Colors.grey.shade900,
+                                    size: 20,
                                   ),
-                                ),
-                                padding: const EdgeInsets.all(4.0),
-                                child: Icon(
-                                  revertView
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
-                                  color:
-                                      revertView
-                                          ? Colors.grey.shade700
-                                          : Colors.grey.shade900,
-                                  size: 20,
                                 ),
                               ),
                             ),
-                          ),
-                        // Floating Zoom/Pan Toggle Button: Displayed during editing
-                        if (_selectedIndex != -1)
-                          Positioned(
-                            left: 15,
-                            bottom: 15,
-                            child: GestureDetector(
-                              onTap: _toggleZoomMode,
-                              child: AnimatedContainer(
-                                margin: const EdgeInsets.all(8),
-                                duration: const Duration(milliseconds: 200),
-                                decoration: BoxDecoration(
-                                  color: _isZoomMode
-                                      ? Colors.blue.withOpacity(0.8)
-                                      : Colors.grey.withOpacity(0.5),
-                                  borderRadius: BorderRadius.circular(50),
-                                  border: Border.all(
+                          // Floating Zoom/Pan Toggle Button: Displayed during editing
+                          if (_selectedIndex != -1)
+                            Positioned(
+                              left: 15,
+                              bottom: 15,
+                              child: GestureDetector(
+                                onTap: _toggleZoomMode,
+                                child: AnimatedContainer(
+                                  margin: const EdgeInsets.all(8),
+                                  duration: const Duration(milliseconds: 200),
+                                  decoration: BoxDecoration(
                                     color: _isZoomMode
-                                        ? Colors.blue
-                                        : Colors.grey.shade900,
+                                        ? Colors.blue.withOpacity(0.8)
+                                        : Colors.grey.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(50),
+                                    border: Border.all(
+                                      color: _isZoomMode
+                                          ? Colors.blue
+                                          : Colors.grey.shade900,
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    _isZoomMode ? Icons.zoom_in : Icons.zoom_out_map,
+                                    color: Colors.white,
+                                    size: 20,
                                   ),
                                 ),
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  _isZoomMode ? Icons.zoom_in : Icons.zoom_out_map,
+                              ),
+                            ),
+                          // Saving Indicator: Show a loading spinner when saving
+                          if (_isSaving)
+                            Positioned.fill(
+                              child: Opacity(
+                                opacity: _isSaving ? 1 : 0,
+                                child: Container(
+                                  color: Colors.black,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(height: 10),
+                                        ValueListenableBuilder<int>(
+                                          valueListenable:
+                                              _savePdfController.pages,
+                                          builder: (context, value, _) {
+                                            return Text(
+                                              'Processing $value',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    // Page navigation controls
+                    Container(
+                      color: Colors.black,
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            child: Center(
+                              child: Text(
+                                'Page $_currentPage of $_totalPages',
+                                style: const TextStyle(
                                   color: Colors.white,
-                                  size: 20,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ),
-                        // Saving Indicator: Show a loading spinner when saving
-                        if (_isSaving)
-                          Positioned.fill(
-                            child: Opacity(
-                              opacity: _isSaving ? 1 : 0,
-                              child: Container(
-                                color: Colors.black,
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CircularProgressIndicator(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Previous Button
+                              Opacity(
+                                opacity: _currentPage > 1 ? 1.0 : 0.5,
+                                child: TextButton(
+                                  onPressed:
+                                      _currentPage > 1 ? _goToPreviousPage : null,
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                  ),
+                                  child: Row(
+                                    children: const [
+                                      Icon(
+                                        Icons.arrow_back_ios,
                                         color: Colors.white,
+                                        size: 14,
                                       ),
-                                      SizedBox(height: 10),
-                                      ValueListenableBuilder<int>(
-                                        valueListenable:
-                                            _savePdfController.pages,
-                                        builder: (context, value, _) {
-                                          return Text(
-                                            'Processing $value',
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          );
-                                        },
+                                      SizedBox(width: 4),
+                                      Text(
+                                        'Previous',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  // Page navigation controls
-                  Container(
-                    color: Colors.black,
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Stack(
-                      children: [
-                        Positioned.fill(
-                          child: Center(
-                            child: Text(
-                              'Page $_currentPage of $_totalPages',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Previous Button
-                            Opacity(
-                              opacity: _currentPage > 1 ? 1.0 : 0.5,
-                              child: TextButton(
-                                onPressed:
-                                    _currentPage > 1 ? _goToPreviousPage : null,
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                ),
-                                child: Row(
-                                  children: const [
-                                    Icon(
-                                      Icons.arrow_back_ios,
-                                      color: Colors.white,
-                                      size: 14,
-                                    ),
-                                    SizedBox(width: 4),
-                                    Text(
-                                      'Previous',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
 
-                            // Next Button
-                            Opacity(
-                              opacity: _currentPage < _totalPages ? 1.0 : 0.5,
-                              child: InkWell(
-                                onTap:
-                                    _currentPage < _totalPages
-                                        ? _goToNextPage
-                                        : null,
-                                child: Row(
-                                  children: const [
-                                    Text(
-                                      'Next',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
+                              // Next Button
+                              Opacity(
+                                opacity: _currentPage < _totalPages ? 1.0 : 0.5,
+                                child: InkWell(
+                                  onTap:
+                                      _currentPage < _totalPages
+                                          ? _goToNextPage
+                                          : null,
+                                  child: Row(
+                                    children: const [
+                                      Text(
+                                        'Next',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: 4),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.white,
-                                      size: 14,
-                                    ),
-                                  ],
+                                      SizedBox(width: 4),
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.white,
+                                        size: 14,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             getAppBarContent(),

@@ -1,10 +1,12 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
+import 'package:dr_dina_educology/core/utils/extensions.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/core/widgets/custom_text_field.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:dr_dina_educology/modules/settings/controllers/settings_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/app_validator.dart';
@@ -17,6 +19,9 @@ class ChangePasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -24,11 +29,11 @@ class ChangePasswordScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: TextWidget(text: AppStrings.changePassword,
-        fontSize: 18,
+        fontSize: isTab ? 12.sp : 18,
           fontWeight: FontWeight.w600,
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.black, size: isTab ? 30 : null,),
           onPressed: () => Get.back(),
         ),
       ),
@@ -48,8 +53,8 @@ class ChangePasswordScreen extends StatelessWidget {
                       children: [
                         // Logo Section
                         const SizedBox(height: 35),
-                        const TextWidget(text: AppStrings.passwordMustBe,
-                          fontSize: 14,
+                        TextWidget(text: AppStrings.passwordMustBe,
+                          fontSize: isTab ? 10.sp : 14,
                         ),
                         const SizedBox(height: 32),
                         //=======================CURRENT PASSWORD===================

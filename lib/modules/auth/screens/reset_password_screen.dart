@@ -119,6 +119,7 @@ class ResetPasswordScreen extends StatelessWidget {
                         Obx((){
                           return ButtonWidget(
                             label: AppStrings.confirm,
+                            buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                             isLoading: controller.isPasswordChanging.value,
                             gradient: AppColors.primaryButtonGradient,
                             onPressed: (){

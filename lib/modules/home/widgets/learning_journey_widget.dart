@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../core/utils/extensions.dart';
 
 class LearningJourneyWidget extends StatelessWidget {
   const LearningJourneyWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
     // Custom colors based on the image
     const Color primaryBlue = Color(0xFF2E5B7D);
     const Color textGrey = Color(0xFF666666);
@@ -27,26 +32,26 @@ class LearningJourneyWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
+          Text(
             'Your learning journey will begin soon.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: isTab ? 12.sp : 16,
               fontWeight: FontWeight.w600,
               color: primaryBlue,
             ),
           ),
           const SizedBox(height: 10),
-          const Text(
+          Text(
             'Your account has been created successfully, but you haven\'t been enrolled in any courses yet.',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14, color: textGrey, height: 1.5),
+            style: TextStyle(fontSize: isTab ? 10.sp : 14, color: textGrey, height: 1.5),
           ),
           const SizedBox(height: 10),
-          const Text(
+          Text(
             'Courses are added by the admin. Once you are assigned to a course, it will appear here automatically.',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 15, color: textGrey, height: 1.5),
+            style: TextStyle(fontSize: isTab ? 10.sp : 15, color: textGrey, height: 1.5),
           ),
           const SizedBox(height: 10),
 
@@ -60,31 +65,31 @@ class LearningJourneyWidget extends StatelessWidget {
             ),
             child: Column(
               children: [
-                const Text(
+                Text(
                   'Helpful Note',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: isTab ? 12.sp : 16,
                     fontWeight: FontWeight.bold,
                     color: primaryBlue,
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
+               Text(
                   'If you think this is a mistake, please contact your school or administrator.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, color: textGrey, height: 1.4),
+                  style: TextStyle(fontSize: isTab ? 10.sp : 14, color: textGrey, height: 1.4),
                 ),
                 const SizedBox(height: 8),
-                const Text('Email', style: TextStyle(fontSize: 12, color: textGrey)),
-                const Text(
+                Text('Email', style: TextStyle(fontSize: isTab ? 10.sp : 12, color: textGrey)),
+                Text(
                   'info@carerfinderau.com',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: primaryBlue),
+                  style: TextStyle(fontSize: isTab ? 10.sp : 14, fontWeight: FontWeight.bold, color: primaryBlue),
                 ),
-                const SizedBox(height: 8),
-                const Text('Phone', style: TextStyle(fontSize: 12, color: textGrey)),
-                const Text(
+                SizedBox(height: 8),
+                Text('Phone', style: TextStyle(fontSize: isTab ? 10.sp : 12, color: textGrey)),
+                Text(
                   '(880)1634425785',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: primaryBlue),
+                  style: TextStyle(fontSize: isTab ? 10.sp : 14, fontWeight: FontWeight.bold, color: primaryBlue),
                 ),
               ],
             ),

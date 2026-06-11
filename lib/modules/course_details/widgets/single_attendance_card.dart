@@ -1,6 +1,9 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../core/utils/extensions.dart';
 
 class SingleAttendanceCard extends StatelessWidget {
   final String className;
@@ -17,6 +20,7 @@ class SingleAttendanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    bool isTab = context.isTab;
     AttendanceStatus attendanceStatus = AttendanceStatus.values.firstWhere((element) => element.label2 == status);
 
     return Container(
@@ -33,7 +37,7 @@ class SingleAttendanceCard extends StatelessWidget {
             child: Text(
               maxLines: 2,
               className,
-              style: const TextStyle(color: AppColors.grey4E, fontSize: 13),
+              style: TextStyle(color: AppColors.grey4E, fontSize: isTab ? 10.sp : 13),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -41,7 +45,7 @@ class SingleAttendanceCard extends StatelessWidget {
             flex: 4,
             child: Text(
               classTime,
-              style: const TextStyle(color: AppColors.grey4E, fontSize: 13),
+              style: TextStyle(color: AppColors.grey4E, fontSize: isTab ? 9.sp : 13),
             ),
           ),
           Expanded(
@@ -52,7 +56,7 @@ class SingleAttendanceCard extends StatelessWidget {
               style: TextStyle(
                 color: attendanceStatus.statusColor,
                 fontWeight: FontWeight.w500,
-                fontSize: 13,
+                fontSize: isTab ? 10.sp : 13,
               ),
             ),
           ),

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/extensions.dart';
 
 class ProfileMenuTile extends StatelessWidget {
   final String title;
@@ -24,6 +25,9 @@ class ProfileMenuTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       decoration: BoxDecoration(
@@ -39,16 +43,19 @@ class ProfileMenuTile extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-        leading: isZoomIcon ? ClipRRect(borderRadius: BorderRadius.circular(50),
+        leading: isZoomIcon
+            ? ClipRRect(
+          borderRadius: BorderRadius.circular(50),
           child: Container(
             color: AppColors.secondaryDarkBlue,
-            height: 22.h,
-            width: 22.w,
-            child: Icon(Icons.videocam_rounded, color: Colors.white, size: 15.r,),
+            height: isTab ? 40 : 22.h,
+            width: isTab ? 40 : 22.w,
+            child: Icon(Icons.videocam_rounded, color: Colors.white, size: isTab ? 30 :15.r,),
           ),
-        ) : SvgPicture.asset( iconPath ),
-        title: TextWidget(text: title, textAlignment: TextAlign.left,),
-        trailing: SvgPicture.asset(Assets.icons.rightTriangle),
+        )
+            : SvgPicture.asset( iconPath , height: isTab ? 45 : null, width: isTab ? 45 : null,),
+        title: TextWidget(text: title, textAlignment: TextAlign.left, fontSize: isTab ? 10.sp : null,),
+        trailing: SvgPicture.asset(Assets.icons.rightTriangle, height: isTab ? 40 : null, width: isTab ? 40 : null,),
         onTap: onTap,
       ),
     );

@@ -1,11 +1,13 @@
 import 'package:dr_dina_educology/data/models/announcement/announce_model.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/announce_item_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_constants.dart';
 import '../../../core/utils/app_strings.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/button_widget.dart';
 import '../../../routes/app_pages.dart';
 
@@ -32,6 +34,9 @@ class AnnounceTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return RefreshIndicator(
       onRefresh: () async{
         onRefresh();
@@ -48,6 +53,7 @@ class AnnounceTab extends StatelessWidget {
                 prefixIcon: Icons.add,
                 gradient: AppColors.primaryButtonGradient,
                 buttonHeight: 45,
+                buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                 onPressed: () {
                   onAddAnnouncement();
                 },
@@ -65,10 +71,10 @@ class AnnounceTab extends StatelessWidget {
               : announcements.isEmpty
               ? SizedBox(
                   height: 180,
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       "No announcements found.",
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                      style: TextStyle(fontSize: isTab ? 10.sp : 14, fontWeight: FontWeight.w700),
                     ),
                   ),
                 )

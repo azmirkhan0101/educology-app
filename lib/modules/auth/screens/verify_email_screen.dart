@@ -128,6 +128,7 @@ class VerifyEmailScreen extends StatelessWidget {
                       Obx((){
                         return ButtonWidget(
                           label: AppStrings.confirmCode,
+                          buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                           isLoading: controller.isOtpVerifying.value,
                           gradient: AppColors.primaryButtonGradient,
                           onPressed: () {

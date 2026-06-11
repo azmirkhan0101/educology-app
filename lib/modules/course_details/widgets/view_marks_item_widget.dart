@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/utils/extensions.dart';
+
 class ViewMarksItemWidget extends StatelessWidget {
   final String status;
   final String title;
@@ -35,6 +37,8 @@ class ViewMarksItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
 
     AnswerSubmissionStatus submissionStatus = AnswerSubmissionStatus.values
         .firstWhere((element) => element.label2 == status);
@@ -71,16 +75,16 @@ class ViewMarksItemWidget extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                        fontSize: isTab ? 12.sp : 16,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF2C4E68),
                       ),
                     ),
                     const SizedBox(height: 4),
-                    const Text(
+                     Text(
                       "Exam",
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                      style: TextStyle(color: Colors.grey, fontSize: isTab ? 10.sp : 16),
                     ),
                   ],
                 ),
@@ -93,7 +97,7 @@ class ViewMarksItemWidget extends StatelessWidget {
                 ),
                 child: Text(
                   submissionStatus.label,
-                  style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 13),
+                  style: TextStyle(color: Color(0xFFFFFFFF), fontSize: isTab ? 9.sp : 13),
                 ),
               ),
             ],
@@ -101,7 +105,8 @@ class ViewMarksItemWidget extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             deadline,
-            style: const TextStyle(
+            style: TextStyle(
+              fontSize: isTab ? 9.sp : null,
               color: Color(0xFF2C4E68),
               fontWeight: FontWeight.w500,
             ),
@@ -114,7 +119,7 @@ class ViewMarksItemWidget extends StatelessWidget {
               child: Center(
                 child: Text(
                   "You did not attend or submit this exam",
-                  style: TextStyle(color: Colors.yellow.shade900, fontSize: 14, fontWeight: FontWeight.w500,),
+                  style: TextStyle(color: Colors.yellow.shade900, fontSize: isTab ? 9.sp : 14, fontWeight: FontWeight.w500,),
                 ),
               ),
             ),
@@ -124,19 +129,19 @@ class ViewMarksItemWidget extends StatelessWidget {
               child: Center(
                 child: Text(
                   "Result will be published soon",
-                  style: TextStyle(color: AppColors.primaryGold, fontSize: 14, fontWeight: FontWeight.w500,),
+                  style: TextStyle(color: AppColors.primaryGold, fontSize: isTab ? 10.sp : 14, fontWeight: FontWeight.w500,),
                 ),
               ),
             ),
           if( showMarksSection )
-            marksSection(),
+            marksSection(isTab),
         ],
       ),
     );
   }
 
   //MARKS SECTION
-  Widget marksSection() {
+  Widget marksSection(bool isTab) {
     return Column(
       children: [
         Row(
@@ -144,8 +149,8 @@ class ViewMarksItemWidget extends StatelessWidget {
           children: [
             Text(
               "Marks : $marksObtained",
-              style: const TextStyle(
-                fontSize: 14,
+              style: TextStyle(
+                fontSize: isTab ? 10.sp : 14,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF2C4E68),
               ),
@@ -163,7 +168,7 @@ class ViewMarksItemWidget extends StatelessWidget {
         // Feedback Section
         Text(
           feedback,
-          style: const TextStyle(fontSize: 14, color: Color(0xFF2C4E68)),
+          style: TextStyle(fontSize: isTab ? 10.sp : 14, color: Color(0xFF2C4E68)),
         ),
         const SizedBox(height: 12),
 
@@ -173,10 +178,12 @@ class ViewMarksItemWidget extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: Container(
-                height: 35.h,
-                width: 35.w,
+                height: isTab ? 70 : 35.h,
+                width: isTab ? 70 : 35.w,
                 color: Colors.grey.shade400,
-                child: CachedImageWidget(imageUrl: imageUrl, iconSize: 30),
+                child: imageUrl.isNotEmpty
+                    ? CachedImageWidget(imageUrl: imageUrl, iconSize: 30)
+                : SizedBox.shrink(),
               ),
             ),
             const SizedBox(width: 10),
@@ -185,15 +192,15 @@ class ViewMarksItemWidget extends StatelessWidget {
               children: [
                 Text(
                   instructorName,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF5D8A75),
-                    fontSize: 16,
+                    fontSize: isTab ? 10.sp : 16,
                   ),
                 ),
                 Text(
                   DateFormat("dd MMM yyyy hh:mm a").format(postedAt),
-                  style: const TextStyle(color: Colors.grey, fontSize: 12),
+                  style: TextStyle(color: Colors.grey, fontSize: isTab ? 10.sp : 12),
                 ),
               ],
             ),

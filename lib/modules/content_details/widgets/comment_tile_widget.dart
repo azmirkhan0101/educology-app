@@ -2,9 +2,11 @@ import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:dr_dina_educology/modules/content_details/widgets/replies_section.dart';
 import 'package:dr_dina_educology/modules/content_details/widgets/user_comment_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/showCommentDialog.dart';
 import '../../../data/models/comment/comment_model.dart';
 
@@ -22,6 +24,9 @@ class CommentTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(12),
@@ -62,6 +67,7 @@ class CommentTileWidget extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
+                      fontSize: isTab ? 10.sp : null
                     ),
                   ),
                 ),
@@ -76,6 +82,7 @@ class CommentTileWidget extends StatelessWidget {
                       text: isExpanded.value ? "Hide replies" : "View replies",
                       fontColor: AppColors.primaryGold,
                       fontWeight: FontWeight.w700,
+                      fontSize: isTab ? 10.sp : null,
                     ),
                   );
                 }),

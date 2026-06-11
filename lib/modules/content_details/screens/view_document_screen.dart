@@ -11,6 +11,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:url_launcher/url_launcher.dart';
 //import 'package:nextgen_pdf_editor/nextgen_pdf_editor.dart'; // Imported editor package
 
+import '../../../core/utils/extensions.dart';
 import '../../../core/utils/show_snackbar.dart';
 import '../../../routes/app_pages.dart';
 
@@ -111,21 +112,27 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
         title: Text(
           widget.title ?? "View Document",
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle( fontSize: isTab ? 12.sp : null, fontWeight: FontWeight.bold),
         ),
+        leading: IconButton(onPressed: (){
+          Get.back();
+        }, icon: Icon(Icons.arrow_back, color: Colors.black87, size: isTab ? 30 : null,)),
         centerTitle: true,
         actions: [
           // Show the edit button only after the file has finished downloading [4.1.4]
           if ( widget.showEditIcon && !isLoading && localPath != null)
             IconButton(
               onPressed: _editPDF,
-              icon: const Icon(Icons.edit, color: AppColors.primaryGold),
+              icon: Icon(Icons.edit, color: AppColors.primaryGold, size: isTab ? 30 : null,),
               tooltip: "Edit PDF",
             ),
           IconButton(
@@ -134,7 +141,7 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
               // Alternatively, you could share the localPath if edited.
               openLinkInBrowser(classLink: widget.url);
             },
-            icon: const Icon(Icons.download),
+            icon: Icon(Icons.download, size: isTab ? 30 : null,),
             tooltip: "Download original",
           ),
         ],
@@ -154,7 +161,8 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
               const SizedBox(height: 20),
               Text(
                 "${(_progress * 100).toStringAsFixed(0)}% downloaded",
-                style: const TextStyle(
+                style: TextStyle(
+                  fontSize: isTab ? 12.sp : 16,
                   fontWeight: FontWeight.w700,
                   color: AppColors.primaryGold,
                 ),
@@ -179,6 +187,7 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
                   child: ButtonWidget(
                     label: "Provide Mark",
                     buttonHeight: 40.h,
+                    buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                     onPressed: (){
                       Get.offAndToNamed(
                           AppRoutes.provideMark,

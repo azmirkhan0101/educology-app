@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../core/utils/extensions.dart';
+
 class CustomTimePicker extends FormField<String> {
   final String? label;
   final Function(String?) onTimeSelected;
@@ -42,6 +44,9 @@ class _CustomTimePickerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,9 +54,10 @@ class _CustomTimePickerView extends StatelessWidget {
         if (label != null)
           Text(
             label!,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.w500,
               color: Colors.black87,
+              fontSize: isTab ? 12.sp : null
             ),
           ),
         if (label != null) const SizedBox(height: 8),
@@ -66,7 +72,7 @@ class _CustomTimePickerView extends StatelessWidget {
           ),
           elevation: 0,
           child: Padding(
-            padding: EdgeInsets.only(left: 12.w),
+            padding: EdgeInsets.only(left: 12.w, top: isTab ? 10 : 0, bottom: isTab ? 10 : 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -74,11 +80,11 @@ class _CustomTimePickerView extends StatelessWidget {
                   state.value ?? "Select Time",
                   style: TextStyle(
                     color: state.value == null ? Colors.grey : Colors.black,
-                    fontSize: 14,
+                    fontSize: isTab ? 10.sp : 14,
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.access_time, color: Colors.grey),
+                  icon: Icon(Icons.access_time, color: Colors.grey, size: isTab ? 30 : null,),
                   onPressed: () => _pickTime(context),
                 ),
               ],

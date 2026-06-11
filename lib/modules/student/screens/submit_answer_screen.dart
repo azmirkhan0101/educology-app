@@ -7,10 +7,12 @@ import 'package:dr_dina_educology/core/widgets/custom_text_field.dart';
 import 'package:dr_dina_educology/modules/student/controllers/submit_answer_controller.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/extensions.dart';
 import '../../content_details/widgets/document_item_widget.dart';
 
 class SubmitAnswerScreen extends StatelessWidget {
@@ -22,6 +24,9 @@ class SubmitAnswerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -30,10 +35,10 @@ class SubmitAnswerScreen extends StatelessWidget {
           onPressed: (){
             Get.back();
           },
-            icon: Icon(Icons.arrow_back, color: Colors.black)),
-        title: const Text(
+            icon: Icon(size: isTab ? 30 : null, Icons.arrow_back, color: Colors.black)),
+        title: Text(
           'Submit Answer',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: isTab ? 12.sp : 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -42,8 +47,8 @@ class SubmitAnswerScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Upload your answer(pdf)",
-                style: TextStyle(fontSize: 14, color: Colors.grey)),
+             Text("Upload your answer(pdf)",
+                style: TextStyle(fontSize: isTab ? 10.sp : 14, color: Colors.grey)),
             const SizedBox(height: 10),
 
             // Upload Box
@@ -58,8 +63,8 @@ class SubmitAnswerScreen extends StatelessWidget {
               child: Column(
                 children: [
                   SvgPicture.asset(Assets.icons.upload),
-                  const Text("Max file size: 5 MB",
-                      style: TextStyle(fontSize: 12, color: Colors.grey)),
+                   Text("Max file size: 5 MB",
+                      style: TextStyle(fontSize: isTab ? 9.sp : 12, color: Colors.grey)),
                   const SizedBox(height: 15),
                   IntrinsicWidth(
                     child: ButtonWidget(
@@ -91,15 +96,18 @@ class SubmitAnswerScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 28.0),
               child: Obx((){
-                return ButtonWidget(
-                  label: AppStrings.submit,
-                  isLoading: controller.isUploading.value,
-                  gradient: AppColors.primaryButtonGradient,
-                  buttonHeight: 50,
-                  fontSize: 16,
-                  onPressed: (){
-                    controller.submitAnswer();
-                  },
+                return Center(
+                  child: ButtonWidget(
+                    label: AppStrings.submit,
+                    isLoading: controller.isUploading.value,
+                    gradient: AppColors.primaryButtonGradient,
+                    buttonHeight: 50,
+                    buttonWidth: isTab ? context.fullWidth * 0.3 : null,
+                    fontSize: 16,
+                    onPressed: (){
+                      controller.submitAnswer();
+                    },
+                  ),
                 );
               }),
             ),

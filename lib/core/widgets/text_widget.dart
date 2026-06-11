@@ -7,7 +7,7 @@ class TextWidget extends StatelessWidget {
 
   final String text;
   final FontWeight fontWeight;
-  final double fontSize;
+  final double? fontSize;
   final FontStyle fontStyle;
   final Color fontColor;
   final TextOverflow? overflow;

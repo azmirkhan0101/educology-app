@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_constants.dart';
 import '../../../core/utils/app_strings.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/button_widget.dart';
 import '../../../core/widgets/cached_image_widget.dart';
 import '../../../routes/app_pages.dart';
@@ -27,6 +28,7 @@ class AnswerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    bool isTab = context.isTab;
     AnswerSubmissionStatus submissionStatus = AnswerSubmissionStatus.values.firstWhere(
       (status) => status.label2 == answerModel.submissionStatus
     );
@@ -34,14 +36,14 @@ class AnswerCard extends StatelessWidget {
     return Column(
       children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Profile Image
             ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: SizedBox(
-                height: 35.h,
-                width: 35.w,
+                height: isTab ? 70 : 35.h,
+                width: isTab ? 70 : 35.w,
                 child: CachedImageWidget(imageUrl: answerModel.student.image),
               ),
             ),
@@ -56,12 +58,12 @@ class AnswerCard extends StatelessWidget {
                     style: TextStyle(
                       color: Color(0xFF6DA382),
                       fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                      fontSize: isTab ? 10.sp : 14,
                     ),
                   ),
                   Text(
                     DateFormat("dd MMM yyyy").format(answerModel.createdAt.toLocal()),
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                    style: TextStyle(color: Colors.grey, fontSize: isTab ? 9.sp : 12),
                   ),
                 ],
               ),
@@ -76,7 +78,7 @@ class AnswerCard extends StatelessWidget {
               child: Text(
                 submissionStatus.label,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: isTab ? 9.sp : 12,
                   color: submissionStatus.statusColor,
                   fontWeight: FontWeight.w500,
                 ),

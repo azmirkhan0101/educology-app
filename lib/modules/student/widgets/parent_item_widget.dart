@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/cached_image_widget.dart';
 
 class ParentItemWidget extends StatelessWidget {
@@ -14,6 +15,9 @@ class ParentItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return InkWell(
       onTap: (){
         onPressed();
@@ -26,9 +30,9 @@ class ParentItemWidget extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: Container(
-                height: 45.h,
-                width: 45.w,
-                color: AppColors.greyB2,
+                height: isTab ? 60 : 45.h,
+                width: isTab ? 60 : 45.w,
+                color: AppColors.greyEB,
                 child: CachedImageWidget(
                   imageUrl: staffModel.image,
                   iconSize: 28,
@@ -42,14 +46,14 @@ class ParentItemWidget extends StatelessWidget {
                 Text(
                   staffModel.fullName,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: isTab ? 10.sp : 16,
                     color: isSelected ? const Color(0xFF6BA587) : Colors.black87,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                  Text(
                   staffModel.contact,
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                  style: TextStyle(color: Colors.grey, fontSize: isTab ? 10.sp : 12),
                 ),
               ],
             ),

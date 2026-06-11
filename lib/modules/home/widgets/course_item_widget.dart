@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/extensions.dart';
+
 class CourseItemWidget extends StatelessWidget {
   final String imageUrl;
   final String title;
@@ -29,6 +31,9 @@ class CourseItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return IntrinsicHeight(
       child: GestureDetector(
         onTap: onClick,
@@ -73,8 +78,8 @@ class CourseItemWidget extends StatelessWidget {
                       title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 14,
+                      style: TextStyle(
+                        fontSize: isTab ? 12.sp : 14,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF2C5364), // Dark blue-grey
                       ),
@@ -82,8 +87,8 @@ class CourseItemWidget extends StatelessWidget {
                     const SizedBox(height: 3),
                     Text(
                       subject,
-                      style: const TextStyle(
-                        fontSize: 12,
+                      style: TextStyle(
+                        fontSize: isTab ? 10.sp : 12,
                         color: AppColors.grey78,
                       ),
                     ),
@@ -98,9 +103,10 @@ class CourseItemWidget extends StatelessWidget {
                       ),
                       child: Text(
                         status,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Color(0xFF0277BD), // Darker blue text
                           fontWeight: FontWeight.w500,
+                          fontSize: isTab ? 10.sp : null
                         ),
                       ),
                     ),
@@ -108,8 +114,8 @@ class CourseItemWidget extends StatelessWidget {
 
                     Text(
                       isStaff ? 'Total Enrolled Student : $enrolledCount' : 'Assign teacher: $teacherName',
-                      style: const TextStyle(
-                        fontSize: 12,
+                      style: TextStyle(
+                        fontSize: isTab ? 10.sp : 12,
                         color: AppColors.secondaryGreen, //Muted green
                         fontWeight: FontWeight.w500,
                       ),

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/cached_image_widget.dart';
 
 class StaffInfoWidget extends StatelessWidget {
@@ -19,13 +20,16 @@ class StaffInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Row(
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(50),
           child: Container(
-            height: 35.h,
-            width: 35.w,
+            height: isTab ? 70 : 35.h,
+            width:  isTab ? 70 : 35.w,
             color: AppColors.greyB2,
             child: CachedImageWidget(
               imageUrl: staff.image,
@@ -41,6 +45,7 @@ class StaffInfoWidget extends StatelessWidget {
               Text(
                 staff.fullName,
                 style: TextStyle(
+                  fontSize: isTab ? 10.sp : null,
                   fontWeight: FontWeight.bold,
                   color: AppColors.secondaryGreen,
                 ),
@@ -49,7 +54,7 @@ class StaffInfoWidget extends StatelessWidget {
                 DateFormat("dd MMM yyyy | hh:mm a").format(
                   createdAt.toLocal(),
                 ),
-                style: TextStyle(color: Colors.grey, fontSize: 12),
+                style: TextStyle(color: Colors.grey, fontSize: isTab ? 9.sp : 12),
               ),
             ],
           ),

@@ -16,6 +16,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:shimmer/shimmer.dart';
 
+import '../../../core/utils/extensions.dart';
 import '../controllers/profile_controller.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -26,6 +27,9 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -33,14 +37,14 @@ class EditProfileScreen extends StatelessWidget {
         centerTitle: true,
         title: TextWidget(
           text: AppStrings.editProfile,
-          fontSize: 18,
+          fontSize: isTab ? 12.sp : 18,
           fontWeight: FontWeight.w700,
         ),
         leading: IconButton(
           onPressed: () {
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_sharp),
+          icon: Icon(Icons.arrow_back_sharp, size: isTab ? 30 : null,),
         ),
       ),
       body: SingleChildScrollView(
@@ -117,7 +121,7 @@ class EditProfileScreen extends StatelessWidget {
                 SizedBox(height: 10),
                 //========================GENDER============================
                 Obx((){
-                  return genderDropdown(selectedValue: controller.gender.value);
+                  return genderDropdown(selectedValue: controller.gender.value, isTab: isTab);
                 }),
                 SizedBox(height: 10),
                 //=======================ABOUT ME============================
@@ -131,7 +135,7 @@ class EditProfileScreen extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: TextWidget(
                     text: AppStrings.max200Word,
-                    fontSize: 14,
+                    fontSize: isTab ? 10.sp : 14,
                     fontColor: AppColors.grey92,
                   ),
                 ),
@@ -157,7 +161,7 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget genderDropdown({required String selectedValue}) {
+  Widget genderDropdown({required String selectedValue, required bool isTab}) {
     return Obx(() {
       // Ensure the current value exists in our list to avoid "assertion failed" errors
       List<String> options = ['select', 'male', 'female', 'others'];
@@ -173,9 +177,10 @@ class EditProfileScreen extends StatelessWidget {
         children: [
           Text(
             AppStrings.gender,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.w500,
               color: Colors.black87,
+              fontSize: isTab ? 12.sp : null
             ),
           ),
           const SizedBox(height: 8),
@@ -196,7 +201,7 @@ class EditProfileScreen extends StatelessWidget {
               fillColor: const Color(0xFFF9F9F9),
             ),
             icon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
-            style: const TextStyle(color: Colors.black87, fontSize: 16),
+            style: TextStyle(color: Colors.black87, fontSize: isTab ? 10.sp : 16),
             dropdownColor: Colors.white,
             // FIX: Assign 'value' to the specific string from the list, not 'selectedValue'
             items: options.map((String val) {

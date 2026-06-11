@@ -2,6 +2,8 @@ import 'package:dr_dina_educology/modules/teacher/widgets/custom_quill_color_dia
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
+import '../../../core/utils/extensions.dart';
+
 class CustomQuillToolbar extends StatelessWidget {
   final QuillController controller;
 
@@ -9,6 +11,9 @@ class CustomQuillToolbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
@@ -25,6 +30,7 @@ class CustomQuillToolbar extends StatelessWidget {
               children: [
                 QuillToolbarSelectHeaderStyleDropdownButton(
                   controller: controller,
+                  options: QuillToolbarSelectHeaderStyleDropdownButtonOptions(iconSize: isTab ? 20 : null),
                 ),
 
                 _divider(),
@@ -32,17 +38,17 @@ class CustomQuillToolbar extends StatelessWidget {
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.leftAlignment,
-                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_align_left, iconSize: 12),
+                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_align_left, iconSize: isTab ? 20 : 12),
                 ),
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.centerAlignment,
-                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_align_center,  iconSize: 12),
+                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_align_center,  iconSize: isTab ? 20 : 12),
                 ),
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.rightAlignment,
-                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_align_right,  iconSize: 12),
+                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_align_right,  iconSize: isTab ? 20 : 12),
                 ),
                 // QuillToolbarToggleStyleButton(
                 //   controller: controller,
@@ -55,12 +61,12 @@ class CustomQuillToolbar extends StatelessWidget {
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.ol,
-                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_list_numbered,  iconSize: 12),
+                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_list_numbered,  iconSize: isTab ? 20 : 12),
                 ),
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.ul,
-                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_list_bulleted,  iconSize: 12),
+                  options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_list_bulleted,  iconSize: isTab ? 20 : 12),
                 ),
               ],
             ),
@@ -77,7 +83,7 @@ class CustomQuillToolbar extends StatelessWidget {
                   controller: controller,
                   isBackground: false,
                   options: QuillToolbarColorButtonOptions(
-                    iconSize: 12,
+                    iconSize: isTab ? 20 :  12,
                     customOnPressedCallback: (controller, isBackground) async{
                       showDialog(
                           context: context,
@@ -114,7 +120,7 @@ class CustomQuillToolbar extends StatelessWidget {
                   controller: controller,
                   isBackground: true,
                   options: QuillToolbarColorButtonOptions(
-                    iconSize: 12,
+                    iconSize: isTab ? 20 :  12,
                     customOnPressedCallback: (controller, isBackground) async{
                       showDialog(
                           context: context,
@@ -151,22 +157,22 @@ class CustomQuillToolbar extends StatelessWidget {
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.bold,
-                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_bold,  iconSize: 12)
+                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_bold,  iconSize: isTab ? 20 :  12)
                 ),
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.italic,
-                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_italic,  iconSize: 12)
+                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_italic,  iconSize: isTab ? 20 :  12)
                 ),
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.underline,
-                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_underline,  iconSize: 12)
+                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_underline,  iconSize: isTab ? 20 :  12)
                 ),
                 QuillToolbarToggleStyleButton(
                   controller: controller,
                   attribute: Attribute.strikeThrough,
-                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_strikethrough,  iconSize: 12)
+                    options: QuillToolbarToggleStyleButtonOptions(iconData: Icons.format_strikethrough,  iconSize: isTab ? 20 :  12)
                 ),
 
                 _divider(),

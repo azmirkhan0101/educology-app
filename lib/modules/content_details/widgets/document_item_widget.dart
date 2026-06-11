@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
+import '../../../core/utils/extensions.dart';
 import '../screens/view_document_screen.dart';
 
 class DocumentItemWidget extends StatelessWidget {
@@ -12,6 +14,7 @@ class DocumentItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    bool isTab = context.isTab;
     final Uri uri = Uri.parse(pdfUrl);
     final String pdfFileName = uri.pathSegments.last;
 
@@ -41,7 +44,7 @@ class DocumentItemWidget extends StatelessWidget {
           leading: SvgPicture.asset(Assets.icons.document),
           title: Text(
             pdfFileName,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle( fontSize: isTab ? 10.sp : null, fontWeight: FontWeight.bold),
           ),
         ),
       ),

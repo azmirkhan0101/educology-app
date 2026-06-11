@@ -1,6 +1,7 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
+import 'package:dr_dina_educology/core/utils/extensions.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:dr_dina_educology/data/models/staff/staff_model.dart';
@@ -19,6 +20,9 @@ class AddParentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isTab = context.isTab;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -27,10 +31,10 @@ class AddParentScreen extends StatelessWidget {
             onPressed: (){
               Get.back();
             },
-            icon: Icon(Icons.arrow_back, color: Colors.black)),
-        title: const Text(
+            icon: Icon(Icons.arrow_back, color: Colors.black, size: isTab ? 30 : null,)),
+        title: Text(
           'People',
-          style: TextStyle(color: Color(0xFF4A6572), fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: isTab ? 12.sp : null, color: Color(0xFF4A6572), fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -41,12 +45,13 @@ class AddParentScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: TextField(
+              style: TextStyle(fontSize: isTab ? 10.sp : null),
               onChanged: (query){
                 controller.filterParents(query);
               },
               decoration: InputDecoration(
                 hintText: 'Search by name or phone no.',
-                hintStyle: TextStyle(color: Colors.grey.shade400),
+                hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: isTab ? 10.sp : null),
                 prefixIcon: const Icon(Icons.search, color: Color(0xFF4A6572)),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -59,11 +64,11 @@ class AddParentScreen extends StatelessWidget {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
             child: Text(
               'Find your Parents',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: isTab ? 12.sp : 18, fontWeight: FontWeight.bold),
             ),
           ),
 
@@ -76,7 +81,7 @@ class AddParentScreen extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
               }
               if( controller.filteredParents.isEmpty ){
-                return const Center(child: Text("No Parents Found"));
+                return Center(child: Text("No Parents Found", style: TextStyle(fontSize: isTab ? 10.sp : null),));
               }
               return ListView.separated(
                 itemCount: controller.filteredParents.length,
@@ -124,6 +129,7 @@ class AddParentScreen extends StatelessWidget {
               );
             })
           ),
+          const SizedBox(height: 30,)
         ],
       ),
     );
