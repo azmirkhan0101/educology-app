@@ -56,7 +56,7 @@ class FirebaseNotificationService {
 
     const initSettings = InitializationSettings(
       android: androidSettings,
-      iOS: iosSettings,
+      iOS: iosSettings
     );
 
     await _localNotifications.initialize(

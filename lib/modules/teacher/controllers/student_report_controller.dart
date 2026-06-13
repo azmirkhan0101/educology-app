@@ -35,7 +35,7 @@ class StudentReportController extends GetxController {
       );
       return;
     }
-    AnalyticsExporter exporter = AnalyticsExporter();
+    ReportExporter exporter = ReportExporter();
     exporter.exportToPDF(studentReportList);
   }
 

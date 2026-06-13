@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
+import 'package:dr_dina_educology/modules/teacher/controllers/report_exporter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -136,10 +137,12 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
               tooltip: "Edit PDF",
             ),
           IconButton(
-            onPressed: () {
-              // Note: Opens original URL in browser.
-              // Alternatively, you could share the localPath if edited.
-              openLinkInBrowser(classLink: widget.url);
+            onPressed: () async{
+              //openLinkInBrowser(classLink: widget.url);
+              ReportExporter exporter = ReportExporter();
+              File savedFile = File(localPath!);
+              final bytes = await savedFile.readAsBytes();
+              await exporter.saveFile( bytes, "educology_exported.pdf", isBytes: true);
             },
             icon: Icon(Icons.download, size: isTab ? 30 : null,),
             tooltip: "Download original",

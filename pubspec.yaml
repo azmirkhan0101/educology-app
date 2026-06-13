@@ -52,6 +52,7 @@ dependencies:
     path: ./packages/nextgen_pdf_editor
   open_file: ^3.5.11
   flutter_launcher_icons: ^0.14.4
+  flutter_file_dialog: ^3.0.3
 
 dev_dependencies:
   flutter_test:
