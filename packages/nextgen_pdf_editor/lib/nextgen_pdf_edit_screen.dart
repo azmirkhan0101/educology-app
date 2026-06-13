@@ -183,7 +183,7 @@ class _OPdfEditScreenState extends State<NGPdfEditScreen> {
   }
 
   /// Opens a color picker and sets the drawing color.
-  selectColor() async {
+  Future<void> selectColor() async {
     Color selectedColor = await showColorPicker(
       context,
       _drawingController.getCurrentColor,
@@ -193,7 +193,7 @@ class _OPdfEditScreenState extends State<NGPdfEditScreen> {
   }
 
   /// Pops the screen and returns the edited PDF file.
-  popWithResult(File? file) {
+  void popWithResult(File? file) {
     Navigator.pop(context, file);
   }
 
@@ -432,7 +432,7 @@ class _OPdfEditScreenState extends State<NGPdfEditScreen> {
   }
 
   // Add a blank page at a specific index and adjust the page settings.
-  addPageAt(int index) async {
+  Future<void> addPageAt(int index) async {
     var val = await _savePdfController.addBlankPageAt(index, pdfFile);
     if (val != null) {
       pdfFile = val; // Update the file with the new page
@@ -457,7 +457,7 @@ class _OPdfEditScreenState extends State<NGPdfEditScreen> {
   }
 
   // Remove a page at the specified index and adjust the related settings.
-  removePageAt(int index) async {
+  Future<void> removePageAt(int index) async {
     var val = await _savePdfController.removePage(index, pdfFile);
     if (val != null) {
       pdfFile = val; // Update the file after removing the page

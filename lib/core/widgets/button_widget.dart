@@ -95,7 +95,7 @@ class ButtonWidget extends StatelessWidget {
           shadowColor: Colors.transparent,
           // Defines the look when isEnabled is false
           disabledBackgroundColor: Colors.transparent,
-          disabledForegroundColor: textColor.withOpacity(0.6),
+          disabledForegroundColor: textColor.withValues(alpha: 0.6),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(buttonRadius.r),
           ),
@@ -140,7 +140,7 @@ class ButtonWidget extends StatelessWidget {
                       icon,
                       color: isEnabled
                           ? (iconColor ?? textColor)
-                          : (iconColor ?? textColor).withOpacity(0.5),
+                          : (iconColor ?? textColor).withValues(alpha: 0.5),
                       size: iconSize ?? fontSize,
                     ),
                 ],

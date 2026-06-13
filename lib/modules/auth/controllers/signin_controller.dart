@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -9,7 +8,6 @@ import 'package:get_storage/get_storage.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
-import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_constants.dart';
 import '../../../core/utils/show_snackbar.dart';
 import '../../../data/models/profile/profile_model.dart';
@@ -66,11 +64,8 @@ class SigninController extends GetxController {
 
     try{
       token = await FirebaseMessaging.instance.getToken();
-    }catch(e){
-      print("FCM error: $e");
+    }catch(_){
     }
-
-    print("FCM Token: $token");
 
     Map<String, dynamic> credentials = {
       "email": emailController.text.trim(),
@@ -114,7 +109,6 @@ class SigninController extends GetxController {
     } else if (response.statusCode == 423) {//ACCOUNT IS NOT APPROVED YET BY ADMIN
       Get.offAndToNamed(AppRoutes.accountApproval);
     }
-    print("${response.statusCode} ${response.data}");
     showApiSnackBar(statusCode: response.statusCode, data: response.data);
   }
 

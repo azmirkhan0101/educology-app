@@ -139,8 +139,6 @@ class ContentDetailsScreen extends StatelessWidget {
                     buttonHeight: 45,
                     buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                     onPressed: () {
-                      print("Course id: ${controller.contentDetailsModel.courseId}");
-                      print("Task id: ${controller.contentDetailsModel.contentId}");
                       Get.toNamed(
                           AppRoutes.submitAnswer,
                           arguments: {

@@ -113,8 +113,6 @@ class AnalyticsExporter {
       }
       if( directory != null ){
         return directory;
-      }else{
-        return null;
       }
     } catch (e) {
       showSnackBar(title: 'Error', message: 'Failed to save PDF to storage: $e', backgroundColor: AppColors.errorRed);
@@ -203,15 +201,6 @@ class AnalyticsExporter {
     }
   }
 
-  // Helper: Permissions
-  Future<bool> _requestPermission() async {
-    var status = await Permission.storage.request();
-    if (status.isDenied) {
-      status = await Permission.manageExternalStorage.request();
-    }
-    return status.isGranted;
-  }
-
   final FlutterLocalNotificationsPlugin _notificationsPlugin = FlutterLocalNotificationsPlugin();
 
   AnalyticsExporter() {
@@ -269,7 +258,7 @@ class AnalyticsExporter {
     await _notificationsPlugin.show(
       id: 0, // Notification ID
       title: 'File Saved Successfully',
-      body: '$fileName', // The body shows the filename
+      body: fileName, // The body shows the filename
       notificationDetails: platformChannelSpecifics,
       payload: path, // We pass the path so tapping the notification can open the file
     );

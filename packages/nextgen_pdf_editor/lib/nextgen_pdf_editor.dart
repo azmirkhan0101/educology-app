@@ -39,7 +39,7 @@ class NGPdf {
     return result;
   }
 
- static lauchPdf(File pdfFile) async {
+ static Future<void> lauchPdf(File pdfFile) async {
     // Get the application's document directory
     final directory = await getApplicationDocumentsDirectory();
     // Create a new file path for the edited PDF

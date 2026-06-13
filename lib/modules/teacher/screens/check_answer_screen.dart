@@ -1,6 +1,5 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/extensions.dart';
-import 'package:dr_dina_educology/data/models/answer/answer_model.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/answer_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -2,7 +2,6 @@ import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:get/get.dart';
 
 import '../../../core/services/api_service.dart';
-import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
 
 class InfoController extends GetxController{

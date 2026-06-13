@@ -4,14 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../core/services/api_service.dart';
-import '../../../core/utils/api_endpoints.dart';
-import '../../../core/utils/api_response.dart';
 
 class SearchController extends GetxController {
 
   Timer? _debounce;
   final ApiService apiService = ApiService();
- // RxList<ProductModel> searchResults = <ProductModel>[].obs;
   RxBool isLoading = false.obs;
   TextEditingController searchController = TextEditingController();
 
@@ -39,7 +36,7 @@ class SearchController extends GetxController {
   }
 
   //SEARCH
-searchProducts({required String query}) async{
+Future<void> searchProducts({required String query}) async{
 
     isLoading.value = true;
     // ApiResponse response = await apiService.networkRequest(

@@ -122,16 +122,7 @@ class ApiService extends GetxService {
     } on TimeoutException {
       return ApiResponse(statusCode: 408);
     } catch (e) {
-      if( shouldPrint ){
-        print("🛑 Error: $e");
-      }
       return ApiResponse(statusCode: 500);
-    }finally{
-      if( shouldPrint ){
-        print("🌐 Endpoint: $endPoint");
-        print("🟢 Code: $code");
-        logPrettyJson(result.toString());
-      }
     }
   }
 
@@ -206,7 +197,6 @@ class ApiService extends GetxService {
 
       // Send request
       var response = await request.send().timeout(Duration(seconds: timeout));
-      print("🟢 Code: ${response.statusCode}");
       var responseBody = await response.stream.bytesToString();
       result = responseBody;
       if( response.statusCode == 401 && isAuthRequired ) {
@@ -233,46 +223,33 @@ class ApiService extends GetxService {
     } on TimeoutException {
       return ApiResponse(statusCode: 408);
     } catch (e) {
-      print("🛑 Error: $e");
       return ApiResponse(statusCode: 500);
-    }finally{
-      print("🌐 Endpoint: $endPoint");
-      logPrettyJson(result.toString());
     }
   }
 
   //REFRESH TOKEN
   Future<bool> refreshTokenOnce() async {
     if (_isRefreshing) {
-      print("Isrefreshing");
       return _refreshCompleter?.future ?? Future.value(false);
     }
-
-    print("Refresh start");
 
     _isRefreshing = true;
     _refreshCompleter = Completer<bool>();
 
     try {
       final refreshToken = storage.read(refreshTokenKey);
-      print("Refresh token: $refreshToken");
       if (refreshToken == null) {
-        print("Refresh token is null");
         await _forceLogout();
         _refreshCompleter!.complete(false);
         return false;
       }
-
-      print("refresh token is not null");
       final response = await http.post(
         Uri.parse("${ApiEndpoints.baseUrl}${ApiEndpoints.refreshToken}"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"refreshToken": refreshToken}),
       );
 
-      print("Refresh call finish");
       if (response.statusCode == 200) {
-        print("Refresh api call successssssssssssss");
         final data = jsonDecode(response.body);
 
         storage.write(accessTokenKey, data['data']['accessToken']);
@@ -284,13 +261,11 @@ class ApiService extends GetxService {
         _refreshCompleter!.complete(true);
         return true;
       } else {
-        print("refresh api call not success ${response.statusCode} ${response.body}");
         await _forceLogout();
         _refreshCompleter!.complete(false);
         return false;
       }
     } catch (e) {
-      print("Refresh errorrrrrrrrr: $e");
       await _forceLogout();
       if (!_refreshCompleter!.isCompleted) {
         _refreshCompleter!.complete(false);

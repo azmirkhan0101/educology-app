@@ -8,7 +8,6 @@ import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/show_snackbar.dart';
 import 'package:dr_dina_educology/modules/course_details/controllers/course_details_controller.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 

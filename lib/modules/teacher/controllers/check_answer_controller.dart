@@ -43,13 +43,7 @@ class CheckAnswerController extends GetxController {
   Future<void> getAnswers() async {
     try {
       await answerHelper.fetch(isRefresh: true, shouldPrint: true);
-      print("Fetch completed. Items count: ${answerHelper.items.length}");
-      
-      if (answerHelper.items.isNotEmpty) {
-        print("First Item isMarked: ${answerHelper.items[0].isMarked.value}");
-      }
-    } catch (e) {
-      print("Huge error in getAnswers: $e");
+    } catch (_) {
     }
   }
 }

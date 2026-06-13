@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 
 import '../../../core/assets_gen/assets.gen.dart';
 import '../../../core/utils/extensions.dart';
-import '../../../routes/app_pages.dart';
 
 class HomeHeaderWidget extends StatelessWidget {
 

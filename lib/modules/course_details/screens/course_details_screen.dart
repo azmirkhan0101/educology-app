@@ -1,15 +1,14 @@
-import 'package:dr_dina_educology/core/services/role_service.dart';
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
+import 'package:dr_dina_educology/core/widgets/percentage_card.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:dr_dina_educology/modules/course_details/controllers/course_details_controller.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/announce_tab.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/classes_tab.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/exam_tab.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/homework_tab.dart';
-import 'package:dr_dina_educology/core/widgets/percentage_card.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -18,7 +18,7 @@ bool isPhoneNumberValid({required String number}) {
   PhoneNumber? phoneNumber = PhoneNumber.fromCompleteNumber(
     completeNumber: number,
   );
-  if (phoneNumber == null || phoneNumber.number.isEmpty) {
+  if ( phoneNumber.number.isEmpty) {
     return false;
   }
   try {

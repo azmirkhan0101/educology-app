@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/extensions.dart';
-import '../../../core/widgets/showCommentDialog.dart';
 import '../../../data/models/comment/comment_model.dart';
 
 class CommentTileWidget extends StatelessWidget {

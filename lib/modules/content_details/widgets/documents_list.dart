@@ -1,4 +1,3 @@
-import 'package:dr_dina_educology/data/models/document/documents_model.dart';
 import 'package:dr_dina_educology/modules/content_details/widgets/document_item_widget.dart';
 import 'package:flutter/material.dart';
 

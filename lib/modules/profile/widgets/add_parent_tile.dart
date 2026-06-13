@@ -1,5 +1,4 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
-import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:dr_dina_educology/data/models/staff/staff_model.dart';

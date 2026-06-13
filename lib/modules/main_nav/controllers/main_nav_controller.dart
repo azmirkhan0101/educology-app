@@ -1,6 +1,3 @@
-import 'package:dr_dina_educology/modules/home/screens/home_screen.dart';
-import 'package:dr_dina_educology/modules/profile/screens/profile_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 

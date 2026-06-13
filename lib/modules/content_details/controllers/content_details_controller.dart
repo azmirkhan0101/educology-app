@@ -2,7 +2,6 @@ import 'package:dr_dina_educology/core/services/role_service.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/data/models/comment/comment_model.dart';
 import 'package:dr_dina_educology/data/models/content_details/content_details_model.dart';
-import 'package:dr_dina_educology/data/models/document/documents_model.dart';
 import 'package:dr_dina_educology/modules/course_details/controllers/course_details_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -43,9 +42,6 @@ class ContentDetailsController extends GetxController{
     isSubmitted.value = contentDetailsModel.userStatus == "done";
     index = arguments?["index"] as int? ?? -1;
     comments.value = contentDetailsModel.comments;
-
-    print("Details print classId: ${contentDetailsModel.contentId}");
-    print("Details print courseId: ${contentDetailsModel.courseId}");
 
     appTitle = contentDetailsType.label;
     role = roleService.getUpdatedRole();
@@ -192,7 +188,6 @@ class ContentDetailsController extends GetxController{
         return "";
       }
     } catch (e) {
-      print("Error fetching file size: $e");
       return "";
     }
   }

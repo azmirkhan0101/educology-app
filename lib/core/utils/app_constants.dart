@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../assets_gen/assets.gen.dart';

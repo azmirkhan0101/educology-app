@@ -29,7 +29,7 @@ class StudentStatusListItem extends StatelessWidget {
   Widget build(BuildContext context) {
 
     bool isTab = context.isTab;
-    StudentStatus status = StudentStatus.values.firstWhere((element) => element.label3 == studentStatus);;
+    StudentStatus status = StudentStatus.values.firstWhere((element) => element.label3 == studentStatus);
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),

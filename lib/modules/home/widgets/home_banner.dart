@@ -1,8 +1,5 @@
-import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../core/utils/extensions.dart';
 
 import '../../../core/utils/extensions.dart';
 
@@ -10,7 +7,7 @@ class HomeBanner extends StatelessWidget {
 
   final bool isParent;
 
-  HomeBanner({super.key, required this.isParent}){}
+  const HomeBanner({super.key, required this.isParent});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +55,7 @@ class HomeBanner extends StatelessWidget {
                     'Manage your classes, lessons, and\n'
                     'student progress from one place.',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withValues(alpha: 0.8),
                   fontSize: isTab ? 10.sp : 12,
                 ),
               ),

@@ -5,16 +5,9 @@ import 'package:dr_dina_educology/core/widgets/custom_date_picker.dart';
 import 'package:dr_dina_educology/core/widgets/custom_text_field.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:dr_dina_educology/modules/profile/widgets/photo_edit_widget.dart';
-import 'package:dr_dina_educology/modules/profile/widgets/profile_menu_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
-import '../../../core/assets_gen/assets.gen.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-
-import 'package:shimmer/shimmer.dart';
 
 import '../../../core/utils/extensions.dart';
 import '../controllers/profile_controller.dart';
@@ -103,7 +96,6 @@ class EditProfileScreen extends StatelessWidget {
                   initialDate: controller.dateOfBirth,
                   label: AppStrings.dateOfBirth,
                   onDateSelected: (date) {
-                    print(date?.toIso8601String());
                     controller.dateOfBirth = date;
                   },
                   firstDay: DateTime(1900),

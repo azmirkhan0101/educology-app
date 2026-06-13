@@ -1,6 +1,5 @@
 
 import 'package:dr_dina_educology/data/models/answer/answer_model.dart';
-import 'package:dr_dina_educology/modules/teacher/controllers/check_answer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -99,7 +98,7 @@ class AnswerCard extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 onPressed: (){
                   final pdfUrl = answerModel.answerPdf;
-                  if (pdfUrl != null && pdfUrl.isNotEmpty) {
+                  if (pdfUrl.isNotEmpty) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(

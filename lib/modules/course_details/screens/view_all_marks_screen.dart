@@ -1,10 +1,8 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
-import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/data/models/marks/marks_model.dart';
 import 'package:dr_dina_educology/modules/course_details/controllers/view_marks_controller.dart';
 import 'package:dr_dina_educology/modules/course_details/widgets/view_marks_item_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

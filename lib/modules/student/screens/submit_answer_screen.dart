@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
-import 'package:dr_dina_educology/core/widgets/custom_text_field.dart';
 import 'package:dr_dina_educology/modules/student/controllers/submit_answer_controller.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';

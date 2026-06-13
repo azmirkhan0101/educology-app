@@ -88,7 +88,7 @@ class ExamTab extends StatelessWidget {
   }
 
   //MAIN BODY
-  mainBody(BuildContext context) {
+  Column mainBody(BuildContext context) {
     return Column(
       children: [
         Expanded(

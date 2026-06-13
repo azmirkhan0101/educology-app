@@ -1,6 +1,5 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
-import 'package:dr_dina_educology/core/widgets/cached_image_widget.dart';
 import 'package:dr_dina_educology/modules/teacher/controllers/take_attendance_controller.dart';
 import 'package:dr_dina_educology/modules/teacher/widgets/take_attendance_tile.dart';
 import 'package:flutter/material.dart';

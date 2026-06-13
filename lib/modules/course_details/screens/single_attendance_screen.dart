@@ -1,5 +1,4 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
-import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/extensions.dart';
 import 'package:dr_dina_educology/data/models/attendance/single_attendance_model.dart';
 import 'package:dr_dina_educology/modules/course_details/controllers/single_attendance_controller.dart';

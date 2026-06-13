@@ -162,7 +162,7 @@ class TextBoxController extends ChangeNotifier {
   }
 
   /// Clears all pages' content (text boxes, history, undo stack).
-  clearAllPages() {
+  void clearAllPages() {
     _history.clear();
     _undoStack.clear();
     _textBoxes.clear();

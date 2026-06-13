@@ -4,13 +4,10 @@ import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/core/widgets/text_widget.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../../../core/assets_gen/assets.gen.dart';
 import '../../../core/utils/app_validator.dart';
 import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/custom_text_field.dart';
@@ -185,53 +182,6 @@ class ResetPasswordScreen extends StatelessWidget {
             )
           ],
         )
-    );
-  }
-
-  // Helper method for text fields to keep code clean
-  Widget _buildTextField({
-    required String label,
-    required String hint,
-    bool isPassword = false,
-    bool obscureText = false,
-    VoidCallback? onToggle,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.black87),
-        ),
-        const SizedBox(height: 8),
-        TextField(
-          obscureText: obscureText,
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
-            filled: true,
-            fillColor: const Color(0xFFF9F9F9),
-            suffixIcon: isPassword
-                ? IconButton(
-              icon: Icon(
-                obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                color: Colors.grey,
-              ),
-              onPressed: onToggle,
-            )
-                : null,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

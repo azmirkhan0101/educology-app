@@ -70,7 +70,7 @@ class SettingsController extends GetxController {
           'Success!',
           'Zoom account connected successfully.',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Get.theme.primaryColor.withOpacity(0.1),
+          backgroundColor: Get.theme.primaryColor.withValues(alpha: 0.1),
         );
       } else {
         Get.snackbar(

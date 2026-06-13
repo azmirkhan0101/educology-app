@@ -1,4 +1,3 @@
-import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/show_snackbar.dart';
 import 'package:dr_dina_educology/data/models/take_attendance/attendance_submit_model.dart';
@@ -96,8 +95,6 @@ class TakeAttendanceController extends GetxController{
     Map<String, dynamic> payLoad = {
       "attendances": mapList
     };
-
-    print(payLoad);
 
     ApiResponse response = await apiService.networkRequest(
       method: "POST",

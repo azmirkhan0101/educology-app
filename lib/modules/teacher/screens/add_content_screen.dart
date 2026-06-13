@@ -14,7 +14,6 @@ import 'package:dr_dina_educology/modules/teacher/widgets/generate_link_switch.d
 import 'package:dr_dina_educology/modules/teacher/widgets/quill_toolbar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -269,7 +268,6 @@ class _AddContentScreenState extends State<AddContentScreen> {
                   GenerateZoomSwitch(
                     onChanged: (enabled){
                       controller.isZoomEnabled = enabled;
-                      print("Zoom enabled: ${controller.isZoomEnabled}");
                       _formKey.currentState?.validate();
                     },
                   )
@@ -383,7 +381,6 @@ class _AddContentScreenState extends State<AddContentScreen> {
   Future<TimeOfDay> pickTime(BuildContext context) async {
     await Future.delayed(Duration.zero);
 
-    print("Showing picker");
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
@@ -392,14 +389,8 @@ class _AddContentScreenState extends State<AddContentScreen> {
     if (picked != null) {
       // We use 'mounted' check to ensure context is still valid after await
       if (!context.mounted) return TimeOfDay.now();
-
-      print("Picked: $picked");
-
-      String formattedTime = picked.format(context);
       return picked;
-      print("Selected: $formattedTime");
     } else {
-      print("Time is null");
       return TimeOfDay.now();
     }
   }

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dr_dina_educology/data/models/staff/staff_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,7 +9,6 @@ import '../../../core/services/api_service.dart';
 import '../../../core/services/role_service.dart';
 import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
-import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_constants.dart';
 import '../../../core/utils/show_snackbar.dart';
 import '../../../data/models/profile/profile_model.dart';
@@ -42,8 +40,6 @@ class ProfileController extends GetxController{
     }else{
       getProfile();
     }
-
-    print("Parent: ${profileModel.value?.parent?.fullName}");
 
     super.onInit();
   }

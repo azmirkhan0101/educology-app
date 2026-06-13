@@ -101,10 +101,8 @@ class SignUpController extends GetxController {
 
     try{
       token = await FirebaseMessaging.instance.getToken();
-    }catch(e){
-      print("FCM error: $e");
+    }catch(_){
     }
-    print("FCM token: $token");
 
     Map<String, dynamic> signupPayload = {
       "role": role.name,
