@@ -52,8 +52,8 @@ class HomeBanner extends StatelessWidget {
                 isParent ?
                     "Stay connected with your child’s\nlearning journey. Track class\nactivities, attendance, tasks, and\nacademic progress—all in one place." :
                 'Your teaching space is ready.\n'
-                    'Manage your classes, lessons, and\n'
-                    'student progress from one place.',
+                    'Manage your modules, topics, and\n'
+                    'learner progress from one place.',
                 style: TextStyle(
                   color: Colors.white.withValues(alpha: 0.8),
                   fontSize: isTab ? 10.sp : 12,

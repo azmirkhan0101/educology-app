@@ -26,7 +26,7 @@ class StudentsReportScreen extends StatelessWidget {
           },
             icon: Icon(Icons.arrow_back, color: Colors.black, size: isTab ? 30 : null,)),
         title: Text(
-          'Students Report',
+          'Learners Report',
           style: TextStyle(fontSize: isTab ? 12.sp : null, color: Color(0xFF4A6572), fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -70,11 +70,11 @@ class StudentsReportScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                HeaderCell(label: 'Student Name', flex: 2),
+                HeaderCell(label: 'Learner Name', flex: 2),
                 HeaderCell(label: 'Attendance', flex: 2),
-                HeaderCell(label: 'H.w. Completed', flex: 2),
-                HeaderCell(label: 'H.w. Pending', flex: 2),
-                HeaderCell(label: 'Exam Grade', flex: 2),
+                HeaderCell(label: 'Task Completed', flex: 2),
+                HeaderCell(label: 'Task Pending', flex: 2),
+                HeaderCell(label: 'Assessment Grade', flex: 2),
               ],
             ),
           ),

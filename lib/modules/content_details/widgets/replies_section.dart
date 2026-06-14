@@ -6,8 +6,10 @@ import '../../../core/utils/app_colors.dart';
 
 class RepliesSection extends StatelessWidget {
   final List<CommentModel> replies;
+  final bool isMyComment;
+  final Function(int index)? onReplyReportTap;
 
-  const RepliesSection({super.key, required this.replies});
+  const RepliesSection({super.key, required this.replies, required this.isMyComment, this.onReplyReportTap});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,9 @@ class RepliesSection extends StatelessWidget {
             comment: model.comment,
             userImageUrl: model.user!.image,
             userName: model.user!.fullName,
-            dateTime: model.createdAt
+            dateTime: model.createdAt,
+            isMyComment: isMyComment,
+            onReportTap: onReplyReportTap?.call(index)
           );
         }),
       )

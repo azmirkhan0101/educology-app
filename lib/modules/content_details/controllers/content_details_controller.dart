@@ -13,6 +13,7 @@ import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/show_snackbar.dart';
+import '../../profile/controllers/profile_controller.dart';
 
 class ContentDetailsController extends GetxController{
 
@@ -29,6 +30,11 @@ class ContentDetailsController extends GetxController{
   final RxList<CommentModel> comments = <CommentModel>[].obs;
 
   TextEditingController commentController = TextEditingController();
+
+  final ProfileController profileController = Get.isRegistered<ProfileController>()
+      ? Get.find<ProfileController>()
+      : Get.put(ProfileController());
+  late String myUserId;
 
   //SUBMIT STATUS FOR STUDENT
   RxBool isSubmitted = false.obs;
@@ -47,6 +53,8 @@ class ContentDetailsController extends GetxController{
     role = roleService.getUpdatedRole();
 
     documents.value = contentDetailsModel.documents;
+
+    myUserId = profileController.profileModel.value?.id ?? "";
 
     super.onInit();
   }

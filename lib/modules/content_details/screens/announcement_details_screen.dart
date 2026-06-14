@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/extensions.dart';
+import '../../../core/utils/show_snackbar.dart';
 import '../../../core/widgets/cached_image_widget.dart';
 import '../../../core/widgets/showCommentDialog.dart';
 import '../../../data/models/comment/comment_model.dart';
@@ -147,13 +148,34 @@ class AnnouncementDetailsScreen extends StatelessWidget {
             Expanded(
               child: Obx(() {
                 return ListView.builder(
+                  reverse: true,
                   itemCount: controller.comments.length,
                   itemBuilder: (context, index) {
                     final CommentModel comment =
                         controller.comments.value[index];
 
+                    bool isMyComment = controller.myUserId == comment.user?.id;
+
                     return CommentTileWidget(
                       comment: comment,
+                      isMyComment: isMyComment,
+                      onReportTap: (){
+                        //report comment
+                        controller.comments.removeAt(index);
+                        showSnackBar(
+                            title: "Reported!",
+                            message: "This comment has been reported!",
+                            backgroundColor: AppColors.warningYellow
+                        );
+                      },
+                      onReplyReportTap: (index2){
+                        controller.comments[index].replies.removeAt(index2);
+                        showSnackBar(
+                            title: "Reported!",
+                            message: "This comment has been reported!",
+                            backgroundColor: AppColors.warningYellow
+                        );
+                      },
                       onReply: () {
                         showCommentDialog(
                           isTab: isTab,

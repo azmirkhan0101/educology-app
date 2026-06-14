@@ -111,7 +111,7 @@ class CourseItemWidget extends StatelessWidget {
                     const SizedBox(height: 6),
 
                     Text(
-                      isStaff ? 'Total Enrolled Student : $enrolledCount' : 'Assign teacher: $teacherName',
+                      isStaff ? 'Total Enrolled Learners : $enrolledCount' : 'Assigned instructor: $teacherName',
                       style: TextStyle(
                         fontSize: isTab ? 10.sp : 12,
                         color: AppColors.secondaryGreen, //Muted green

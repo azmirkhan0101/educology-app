@@ -44,7 +44,7 @@ class ChildrenDropdown extends StatelessWidget {
                     child: DropdownButton<StaffModel>(
                       dropdownColor: Colors.white,
                       value: selectedChild,
-                      hint: Text("Select Child"),
+                      hint: Text("Select Learner"),
                       icon: Icon(
                         Icons.arrow_drop_down,
                         color: Colors.black,

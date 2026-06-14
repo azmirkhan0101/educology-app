@@ -71,12 +71,12 @@ class CourseOverviewScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                  Text(
-                  'Student',
+                  'Learner',
                   style: TextStyle(fontSize: isTab ? 10.sp : 18, fontWeight: FontWeight.bold),
                 ),
                 Obx((){
                   return Text(
-                    '${controller.filteredStudentList.length} Student(s)',
+                    '${controller.filteredStudentList.length} Learner(s)',
                     style: TextStyle(fontSize: isTab ? 10.sp : null, fontWeight: FontWeight.w500),
                   );
                 }),

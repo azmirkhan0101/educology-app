@@ -28,7 +28,7 @@ class InfoScreen extends StatelessWidget {
         fontSize: isTab ? 12.sp : 18,
           fontWeight: FontWeight.w700,
         ),
-        leading: BackButton(style: ButtonStyle(iconSize: isTab ? WidgetStatePropertyAll(30) : WidgetStatePropertyAll(0)),),
+        leading: BackButton(style: ButtonStyle(iconSize: isTab ? WidgetStatePropertyAll(30) : WidgetStatePropertyAll(20)), color: Colors.black,),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),

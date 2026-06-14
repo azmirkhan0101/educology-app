@@ -68,7 +68,7 @@ class ParticipantScreen extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Text(
                 textAlign: TextAlign.left,
-                "Teacher",
+                "Instructor",
                 style: TextStyle(fontSize: isTab ? 10.sp : 16, fontWeight: FontWeight.bold),
               ),
             ),
@@ -109,7 +109,7 @@ class ParticipantScreen extends StatelessWidget {
               children: [
                 Obx(() {
                   return Text(
-                    'Student( ${controller.participantsList.value.length} Students )',
+                    'Learner( ${controller.participantsList.value.length} Learners )',
                     style: TextStyle(fontSize: isTab ? 10.sp : 16, fontWeight: FontWeight.bold),
                   );
                 }),

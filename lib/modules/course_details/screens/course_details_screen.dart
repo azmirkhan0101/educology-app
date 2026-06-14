@@ -138,7 +138,7 @@ class CourseDetailsScreen extends StatelessWidget {
               if (isStaff)
                 Obx(() {
                   return Text(
-                    'Total Enrolled Student: ${controller.courseStat.value?.totalEnrolled ?? 0}',
+                    'Total Enrolled Learners: ${controller.courseStat.value?.totalEnrolled ?? 0}',
                     style:  TextStyle(
                       fontSize: isTab ? 10.sp : 12,
                       color: AppColors.secondaryGreen,

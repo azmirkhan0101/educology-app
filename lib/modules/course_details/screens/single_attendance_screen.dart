@@ -35,7 +35,7 @@ class SingleAttendanceScreen extends StatelessWidget {
             const SizedBox(height: 15,),
             Obx((){
               return Text(
-                  "Total Completed Class : ${controller.totalCompletedClass.value}",
+                  "Total Completed Modules : ${controller.totalCompletedClass.value}",
                   style: TextStyle(fontSize: isTab ? 10.sp : 16, fontWeight: FontWeight.w500, color: Color(0xFF34495E)));
             }),
             const SizedBox(height: 25),
@@ -79,10 +79,10 @@ class SingleAttendanceScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 5,
-                      child: Text("Class Name", style: TextStyle(fontSize: isTab ? 10.sp : 14, fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
+                      child: Text("Module Name", style: TextStyle(fontSize: isTab ? 10.sp : 14, fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
                   Expanded(
                       flex: 5,
-                      child: Text("Class Start", style: TextStyle(fontSize: isTab ? 10.sp : 14,fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
+                      child: Text("Module Start", style: TextStyle(fontSize: isTab ? 10.sp : 14,fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),
                   Expanded(
                       flex: 3,
                       child: Text("Attendance", style: TextStyle(fontSize: isTab ? 10.sp : 14,fontWeight: FontWeight.bold, color: Color(0xFF34495E)))),

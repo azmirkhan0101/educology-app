@@ -1,6 +1,7 @@
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/core/utils/app_constants.dart';
 import 'package:dr_dina_educology/core/utils/app_strings.dart';
+import 'package:dr_dina_educology/core/utils/show_snackbar.dart';
 import 'package:dr_dina_educology/core/widgets/button_widget.dart';
 import 'package:dr_dina_educology/modules/content_details/controllers/content_details_controller.dart';
 import 'package:dr_dina_educology/modules/content_details/widgets/comment_tile_widget.dart';
@@ -81,7 +82,7 @@ class ContentDetailsScreen extends StatelessWidget {
             //====================CLASS START TIME============================
             if (!isExam)
               Text(
-                'Live class starting time: ${DateFormat("dd MMM yyyy").format(controller.contentDetailsModel.startDate)} | ${controller.contentDetailsModel.startTime}',
+                'Live module starting time: ${DateFormat("dd MMM yyyy").format(controller.contentDetailsModel.startDate)} | ${controller.contentDetailsModel.startTime}',
                 style: TextStyle(color: Colors.grey, fontSize: isTab ? 9.sp : 14),
               ),
             //======================CLASS LINK==============================
@@ -284,13 +285,32 @@ class ContentDetailsScreen extends StatelessWidget {
             Expanded(
               child: Obx((){
                 return ListView.builder(
+                  reverse: true,
                   itemCount: controller.comments.value.length,
                   itemBuilder: (context, index) {
                     final CommentModel comment =
                     controller.comments.value[index];
+                    bool isMyComment = controller.myUserId == comment.user?.id;
 
                     return CommentTileWidget(
                       comment: comment,
+                      isMyComment: isMyComment,
+                      onReportTap: (){
+                        //report comment
+                        showSnackBar(
+                            title: "Reported!",
+                            message: "This comment has been reported!",
+                            backgroundColor: AppColors.warningYellow
+                        );
+                      },
+                      onReplyReportTap: (index2){
+                        controller.comments[index].replies.removeAt(index2);
+                        showSnackBar(
+                            title: "Reported!",
+                            message: "This comment has been reported!",
+                            backgroundColor: AppColors.warningYellow
+                        );
+                      },
                       onReply: () {
                         showCommentDialog(
                           isTab: isTab,

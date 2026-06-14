@@ -8,6 +8,7 @@ import 'package:dr_dina_educology/core/utils/show_snackbar.dart';
 import 'package:dr_dina_educology/data/models/announcement/announce_model.dart';
 import 'package:dr_dina_educology/data/models/comment/comment_model.dart';
 import 'package:dr_dina_educology/modules/course_details/controllers/course_details_controller.dart';
+import 'package:dr_dina_educology/modules/profile/controllers/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,12 +22,18 @@ class AnnounceDetailsController extends GetxController {
   final RxList<CommentModel> comments = <CommentModel>[].obs;
 
   TextEditingController commentController = TextEditingController();
+  final ProfileController profileController = Get.isRegistered<ProfileController>()
+  ? Get.find<ProfileController>()
+      : Get.put(ProfileController());
+  late String myUserId;
 
   @override
   void onInit() async{
     announceModel = Get.arguments;
     comments.value = announceModel.comments;
     role = roleService.getUpdatedRole();
+
+    myUserId = profileController.profileModel.value?.id ?? "";
 
     super.onInit();
   }

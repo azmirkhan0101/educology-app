@@ -53,7 +53,7 @@ class ClassItemWidget extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Live Class starting Time : ${DateFormat("dd MMM yyyy").format(startDate.toLocal())} | $startTime',
+                'Live module starting Time : ${DateFormat("dd MMM yyyy").format(startDate.toLocal())} | $startTime',
                 style: TextStyle(
                   fontSize: isTab ? 9.sp : 12,
                   color: Colors.grey[700],

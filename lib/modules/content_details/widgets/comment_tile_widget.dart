@@ -14,11 +14,17 @@ class CommentTileWidget extends StatelessWidget {
   final CommentModel comment;
   final VoidCallback onReply;
   final RxBool isExpanded = false.obs;
+  final bool isMyComment;
+  final VoidCallback? onReportTap;
+  final Function(int index)? onReplyReportTap;
 
   CommentTileWidget({
     super.key,
     required this.comment,
-    required this.onReply
+    required this.onReply,
+    required this.isMyComment,
+    this.onReportTap,
+    this.onReplyReportTap
   });
 
   @override
@@ -40,7 +46,9 @@ class CommentTileWidget extends StatelessWidget {
             comment: comment.comment,
             userImageUrl: comment.user?.image ?? "",
             userName: comment.user?.fullName ?? "",
-            dateTime: comment.createdAt
+            dateTime: comment.createdAt,
+            isMyComment: isMyComment,
+            onReportTap: onReportTap,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,7 +104,13 @@ class CommentTileWidget extends StatelessWidget {
                     ? Column(
                   children: [
                     const Divider().paddingSymmetric(vertical: 8),
-                    RepliesSection(replies: comment.replies),
+                    RepliesSection(
+                      replies: comment.replies,
+                      isMyComment: isMyComment,
+                      onReplyReportTap :(index){
+                        onReplyReportTap?.call(index);
+                      },
+                    ),
                   ],
                 )
                     : const SizedBox.shrink(),

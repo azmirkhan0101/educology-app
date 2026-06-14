@@ -83,7 +83,7 @@ class ViewMarksItemWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                      Text(
-                      "Exam",
+                      "Assessment",
                       style: TextStyle(color: Colors.grey, fontSize: isTab ? 10.sp : 16),
                     ),
                   ],

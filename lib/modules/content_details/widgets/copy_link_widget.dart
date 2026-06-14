@@ -34,7 +34,7 @@ class CopyLinkWidget extends StatelessWidget {
               text: TextSpan(
                 style: TextStyle(color: Colors.grey, fontSize: isTab ? 9.sp : 14),
                 children: [
-                  TextSpan(text: isClassLink ? 'Class link: ' : 'Recording link: '),
+                  TextSpan(text: isClassLink ? 'Module link: ' : 'Recording link: '),
                   TextSpan(
                     text: link,
                     style: const TextStyle(

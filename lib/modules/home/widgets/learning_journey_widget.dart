@@ -75,7 +75,7 @@ class LearningJourneyWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                Text(
-                  'If you think this is a mistake, please contact your school or administrator.',
+                  'If you think this is a mistake, please contact support or administrator.',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: isTab ? 10.sp : 14, color: textGrey, height: 1.4),
                 ),

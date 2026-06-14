@@ -28,6 +28,29 @@ class NotificationCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     bool isTab = context.isTab;
+    String displayTitle = title
+    // Handle Capitalized versions
+        .replaceAll('EXAM', 'Assessment')
+        .replaceAll('HOMEWORK', 'Task')
+        .replaceAll('CLASS', 'Module')
+        .replaceAll('Exam', 'Assessment')
+        .replaceAll('Homework', 'Task')
+        .replaceAll('Class', 'Module')
+    // Handle lowercase versions just in case
+        .replaceAll('exam', 'assessment')
+        .replaceAll('homework', 'task')
+        .replaceAll('class', 'module');
+
+    String displayDescription = description
+        .replaceAll('EXAM', 'Assessment')
+        .replaceAll('HOMEWORK', 'Task')
+        .replaceAll('CLASS', 'Module')
+        .replaceAll('Exam', 'Assessment')
+        .replaceAll('Homework', 'Task')
+        .replaceAll('Class', 'Module')
+        .replaceAll('exam', 'assessment')
+        .replaceAll('homework', 'task')
+        .replaceAll('class', 'module');
 
     return GestureDetector(
       onTap: onClick,
@@ -47,10 +70,10 @@ class NotificationCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextWidget(text: title, fontColor: AppColors.secondaryDarkBlue, fontWeight: FontWeight.bold, fontSize: isTab ? 12.sp : null,),
+                  TextWidget(text: displayTitle, fontColor: AppColors.secondaryDarkBlue, fontWeight: FontWeight.bold, fontSize: isTab ? 12.sp : null,),
                   const SizedBox(height: 4),
                   Text(
-                    description,
+                    displayDescription,
                     style: TextStyle(color: Color(0xFF546E7A), fontSize: isTab ? 10.sp : 14),
                   ),
                   const SizedBox(height: 4),

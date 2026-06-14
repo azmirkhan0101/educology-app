@@ -75,7 +75,7 @@ class ExamTab extends StatelessWidget {
                   height: 180,
                   child:  Center(
                     child: Text(
-                      "No exams found.",
+                      "No assessments found.",
                       style: TextStyle(fontSize: isTab ? 10.sp :
                       14, fontWeight: FontWeight.w700),
                     ),

@@ -69,7 +69,7 @@ class ClassesTab extends StatelessWidget {
             height: 180,
             child: Center(
               child: Text(
-                "No classes found.",
+                "No modules found.",
                 style: TextStyle(fontSize: isTab ? 10.sp : 14, fontWeight: FontWeight.w700),
               ),
             ),

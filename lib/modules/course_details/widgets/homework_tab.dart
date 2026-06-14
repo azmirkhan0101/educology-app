@@ -71,7 +71,7 @@ class HomeworkTab extends StatelessWidget {
             height: 180,
             child: Center(
               child: Text(
-                "No homeworks found.",
+                "No tasks found.",
                 style: TextStyle(fontSize: isTab ? 10.sp : 14, fontWeight: FontWeight.w700),
               ),
             ),

@@ -48,7 +48,7 @@ class StudentProgressScreen extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Text(
                 textAlign: TextAlign.left,
-                'Student',
+                'Learner',
                 style: TextStyle(fontSize: isTab ? 10.sp : 16, fontWeight: FontWeight.bold),
               ),
             ),
@@ -67,7 +67,7 @@ class StudentProgressScreen extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Text(
                 textAlign: TextAlign.left,
-                'Parent',
+                'Supervisor',
                 style: TextStyle(fontSize: isTab ? 10.sp : 16, fontWeight: FontWeight.bold),
               ),
             ),

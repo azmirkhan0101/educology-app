@@ -128,6 +128,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/parents.svg
   String get parents => 'assets/icons/parents.svg';
 
+  /// File path: assets/icons/parents2.svg
+  String get parents2 => 'assets/icons/parents2.svg';
+
   /// File path: assets/icons/participants.svg
   String get participants => 'assets/icons/participants.svg';
 
@@ -225,6 +228,7 @@ class $AssetsIconsGen {
     onboardingTwo,
     overdueTasks,
     parents,
+    parents2,
     participants,
     phone,
     plus,
@@ -250,6 +254,10 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/app_icon.png
+  AssetGenImage get appIcon =>
+      const AssetGenImage('assets/images/app_icon.png');
+
   /// File path: assets/images/home_banner.png
   AssetGenImage get homeBanner =>
       const AssetGenImage('assets/images/home_banner.png');
@@ -259,7 +267,7 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/splash_logo.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [homeBanner, splashLogo];
+  List<AssetGenImage> get values => [appIcon, homeBanner, splashLogo];
 }
 
 class Assets {

@@ -266,18 +266,18 @@ enum AddContentType{ cClass, exam, homeWork, announcement }
 extension AddContentTypeExtension on AddContentType {
   String get label {
     switch (this) {
-      case AddContentType.cClass: return "Add Class";
-      case AddContentType.exam: return "Add Exam";
-      case AddContentType.homeWork: return "Add Homework";
+      case AddContentType.cClass: return "Add Module";
+      case AddContentType.exam: return "Add Assessment";
+      case AddContentType.homeWork: return "Add Task";
       case AddContentType.announcement: return "Add Announcement";
     }
   }
 
   String get hint {
     switch (this) {
-      case AddContentType.cClass: return "Enter class name";
-      case AddContentType.exam: return "Enter exam name";
-      case AddContentType.homeWork: return "Enter homework name";
+      case AddContentType.cClass: return "Enter module name";
+      case AddContentType.exam: return "Enter assessment name";
+      case AddContentType.homeWork: return "Enter task name";
       case AddContentType.announcement: return "Enter announcement title";
     }
   }
@@ -288,9 +288,9 @@ enum ContentDetailsType{ cClass, exam, homeWork }
 extension ContentDetailsTypeExtension on ContentDetailsType {
   String get label {
     switch (this) {
-      case ContentDetailsType.cClass: return "Class Details";
-      case ContentDetailsType.exam: return "Exam";
-      case ContentDetailsType.homeWork: return "Homework";
+      case ContentDetailsType.cClass: return "Module Details";
+      case ContentDetailsType.exam: return "Assessment";
+      case ContentDetailsType.homeWork: return "Task";
     }
   }
 }

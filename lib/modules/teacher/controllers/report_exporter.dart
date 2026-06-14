@@ -46,10 +46,10 @@ class ReportExporter {
               cellAlignment: pw.Alignment.centerLeft,
               headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
               headers: [
-                "Student Name",
+                "Learner Name",
                 "Attendance",
-                "HW Done",
-                "HW Pending",
+                "Task Done",
+                "Task Pending",
                 "Grade"
               ],
               data: reports.map((student) => [
@@ -64,7 +64,7 @@ class ReportExporter {
             pw.Padding(
               padding: const pw.EdgeInsets.only(top: 20),
               child: pw.Text(
-                "Total Students: ${reports.length}",
+                "Total Learners: ${reports.length}",
                 style: const pw.TextStyle(color: PdfColors.grey700, fontSize: 12),
               ),
             ),
@@ -211,7 +211,7 @@ class ReportExporter {
       channelDescription: 'Notifications for saved PDF files',
       importance: Importance.max,
       priority: Priority.high,
-      showWhen: true,
+      showWhen: true
     );
 
     //iOS Specific: Configure iOS native notification presentation options

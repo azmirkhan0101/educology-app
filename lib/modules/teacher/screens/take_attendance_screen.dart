@@ -51,7 +51,7 @@ class TakeAttendanceScreen extends StatelessWidget {
       body: Column(
         children: [
           Obx((){
-            return Text("Total Students : ${controller.totalStudents.value}", style: TextStyle(fontSize: 18, color: Color(0xFF2D5669)));
+            return Text("Total Learners : ${controller.totalStudents.value}", style: TextStyle(fontSize: 18, color: Color(0xFF2D5669)));
           }),
           const SizedBox(height: 20),
           Obx((){

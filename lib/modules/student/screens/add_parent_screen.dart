@@ -65,7 +65,7 @@ class AddParentScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
             child: Text(
-              'Find your Parents',
+              'Find your Supervisors',
               style: TextStyle(fontSize: isTab ? 12.sp : 18, fontWeight: FontWeight.bold),
             ),
           ),
@@ -79,7 +79,7 @@ class AddParentScreen extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
               }
               if( controller.filteredParents.isEmpty ){
-                return Center(child: Text("No Parents Found", style: TextStyle(fontSize: isTab ? 10.sp : null),));
+                return Center(child: Text("No Supervisors Found", style: TextStyle(fontSize: isTab ? 10.sp : null),));
               }
               return ListView.separated(
                 itemCount: controller.filteredParents.length,

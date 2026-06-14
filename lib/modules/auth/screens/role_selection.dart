@@ -90,16 +90,16 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
               Expanded(
                 child: ListView(
                   children: [
-                    _buildRoleCard('a Student', Assets.icons.student, (){
+                    _buildRoleCard('a Learner', Assets.icons.student, (){
                       role = Role.student;
                     }),
-                    _buildRoleCard('a Parent', Assets.icons.parents, (){
+                    _buildRoleCard('a Supervisor', Assets.icons.parents2, (){
                       role = Role.parent;
                     }),
-                    _buildRoleCard('a Teacher', Assets.icons.teacher, (){
+                    _buildRoleCard('an Instructor', Assets.icons.teacher, (){
                       role = Role.teacher;
                     }),
-                    _buildRoleCard('an Assistant', Assets.icons.assistant, (){
+                    _buildRoleCard('a Co-Instructor', Assets.icons.assistant, (){
                       role = Role.assistant;
                     }),
                   ],
