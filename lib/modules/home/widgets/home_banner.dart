@@ -63,14 +63,14 @@ class HomeBanner extends StatelessWidget {
           ),
 
           // Image Section
-          Expanded(
-            child: Image.asset(
-              'assets/images/home_banner.png',
-              height: isTab ? 170 : 105.h,
-              width: isTab ? 170 : 105.w,
-              fit: isTab ? BoxFit.contain : BoxFit.cover,
-            ),
-          ),
+          // Expanded(
+          //   child: Image.asset(
+          //     'assets/images/home_banner.png',
+          //     height: isTab ? 170 : 105.h,
+          //     width: isTab ? 170 : 105.w,
+          //     fit: isTab ? BoxFit.contain : BoxFit.cover,
+          //   ),
+          // ),
         ],
       ),
     );
