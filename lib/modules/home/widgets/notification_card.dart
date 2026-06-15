@@ -36,12 +36,14 @@ class NotificationCard extends StatelessWidget {
         .replaceAll('Exam', 'Assessment')
         .replaceAll('Homework', 'Task')
         .replaceAll('Class', 'Module')
+        .replaceAll('Student', 'Learner')
     // Handle lowercase versions just in case
         .replaceAll('exam', 'assessment')
         .replaceAll('homework', 'task')
         .replaceAll('class', 'module');
 
     String displayDescription = description
+        .replaceAll('parent', 'supervisor')
         .replaceAll('EXAM', 'Assessment')
         .replaceAll('HOMEWORK', 'Task')
         .replaceAll('CLASS', 'Module')

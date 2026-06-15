@@ -98,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                           ? AppStrings.myAssignCourses
                           : isStudent
                           ? "My Courses"
-                          : "Enrolled Courses",
+                          : "Learner's Enrolled Courses",
                       textAlignment: TextAlign.left,
                       fontSize: isTab ? 12.sp : 16,
                       fontWeight: FontWeight.w600,
