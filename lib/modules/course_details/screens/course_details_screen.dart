@@ -337,7 +337,7 @@ class CourseDetailsScreen extends StatelessWidget {
           ),
           tabs: const [
             Tab(text: AppStrings.classes),
-            Tab(text: "Homework"),
+            Tab(text: "Task"),
             Tab(text: AppStrings.examination),
             Tab(text: AppStrings.announcement),
           ],

@@ -10,6 +10,7 @@ import '../../../core/utils/api_response.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_constants.dart';
 import '../../../core/utils/show_snackbar.dart';
+import '../../../data/models/profile/profile_model.dart';
 import '../../../routes/app_pages.dart';
 
 class OtpVerifyController extends GetxController {
@@ -80,18 +81,69 @@ class OtpVerifyController extends GetxController {
         endPoint: ApiEndpoints.verifySignupOtp,
       body: payLoad
     );
-    isOtpVerifying.value = false;
+
+    if( response.statusCode != 200 ){
+      isOtpVerifying.value = false;
+    }
 
     if( response.statusCode == 200 ){
       storage.write( requireVerificationKey, false );
       saveTokens( response.data );
-
-      Get.offAllNamed( AppRoutes.mainNav );
+      //GET PROFILE, SAVE ROLE AND GO TO MAIN NAV
+      getProfileData();
     }else if( response.statusCode == 423 ){//NOT APPROVED BY ADMIN
       Get.offAndToNamed( AppRoutes.accountApproval );
       }
 
     showApiSnackBar(statusCode: response.statusCode, data: response.data );
+  }
+
+  Future<void> getProfileData() async {
+
+    ApiResponse response = await apiService.networkRequest(
+        method: "GET",
+        isAuthRequired: true,
+        endPoint: ApiEndpoints.getProfile
+    );
+
+    isOtpVerifying.value = false;
+
+    if (response.statusCode == 200) {
+      storage.write(requireVerificationKey, false);
+      //FETCHED PROFILE DATA
+      ProfileModel model = ProfileModel.fromJson(
+          response.data['data']
+      );
+      //SAVE PROFILE DATA IN STORAGE
+      storage.write(profileModelKey, model.toJson());
+      Role role = model.role;
+      storage.write(roleKey, role.name);
+
+      UserStatus status = model.status;
+      if( status == UserStatus.blocked ){
+        return;
+      }
+      if( status == UserStatus.pending ) {
+        //storage.write(requireVerificationKey, true);
+        storage.write(emailKey, "");
+        Map<String, dynamic> arguments = {
+          emailKey: "",
+          isSignupKey: true,
+        };
+        Get.offAndToNamed(AppRoutes.accountApproval, arguments: arguments);
+        return;
+      }
+      if( status == UserStatus.inProgress ){
+        Get.offAllNamed(AppRoutes.mainNav);
+      }
+    } else if (response.statusCode == 401) {
+      storage.erase();
+      //ACCESS TOKEN INVALID
+    }else if (response.statusCode == 403) {//ACCOUNT IS NOT VERIFIED
+      Get.offAndToNamed(AppRoutes.accountApproval);
+    }else{
+      storage.erase();
+    }
   }
 
 

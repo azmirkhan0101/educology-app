@@ -50,7 +50,11 @@ class HomeBanner extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 isParent ?
-                    "Stay connected with your child’s\nlearning journey. Track class\nactivities, attendance, tasks, and\nacademic progress—all in one place." :
+                    "Stay connected with your assigned learner’s"
+                        "\nlearning journey. Track module"
+                        "\nactivities, attendance, tasks, and"
+                        "\nprogress—all in one place."
+                    :
                 'Your teaching space is ready.\n'
                     'Manage your modules, topics, and\n'
                     'learner progress from one place.',
