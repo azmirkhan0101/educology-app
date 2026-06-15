@@ -23,10 +23,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     bool isTab = context.isTab;
 
-    bool isStaff = controller.role == Role.teacher || controller.role == Role.assistant;
+    bool isStaff =
+        controller.role == Role.teacher || controller.role == Role.assistant;
     bool isStudent = controller.role == Role.student;
     bool isParent = controller.role == Role.parent;
 
@@ -40,17 +40,27 @@ class HomeScreen extends StatelessWidget {
         },
         child: CustomScrollView(
           controller: controller.coursesScrollController,
-          slivers:[
+          slivers: [
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12.0,
+                vertical: 15,
+              ),
               sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                    [
-                  const SizedBox(height: 22),
+                delegate: SliverChildListDelegate([
+                  const SizedBox(height: 30),
                   Obx(() {
                     return HomeHeaderWidget(
-                        profileImageUrl: controller.profileController.profileImageUrl.value,
-                        userName: controller.profileController.profileModel.value?.fullName ?? "");
+                      profileImageUrl:
+                          controller.profileController.profileImageUrl.value,
+                      userName:
+                          controller
+                              .profileController
+                              .profileModel
+                              .value
+                              ?.fullName ??
+                          "",
+                    );
                   }),
                   const SizedBox(height: 20),
                   HomeBanner(isParent: isParent),
@@ -73,23 +83,27 @@ class HomeScreen extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: ChildrenDropdown(
-                            children: controller.children.value,
-                            selectedChild: controller.selectedChild.value,
-                            onItemSelected: (child) {
-                              controller.selectedChild.value = child;
-                              controller.refreshChildCourses();
-                            }),
+                          children: controller.children.value,
+                          selectedChild: controller.selectedChild.value,
+                          onItemSelected: (child) {
+                            controller.selectedChild.value = child;
+                            controller.refreshChildCourses();
+                          },
+                        ),
                       );
                     }),
                   //===================COURSE COUNTS FOR STAFF===================
                   if (isStaff)
-                    Obx(
-                          () {
-                        return teacherCourseCount(
-                            totalCourse: controller.staffCourseStats.value?.totalCourses ?? 0,
-                            totalStudents: controller.staffCourseStats.value?.totalStudents ?? 0);
-                      },
-                    ),
+                    Obx(() {
+                      return teacherCourseCount(
+                        totalCourse:
+                            controller.staffCourseStats.value?.totalCourses ??
+                            0,
+                        totalStudents:
+                            controller.staffCourseStats.value?.totalStudents ??
+                            0,
+                      );
+                    }),
                   const SizedBox(height: 20),
                   Align(
                     alignment: Alignment.centerLeft,
@@ -114,61 +128,88 @@ class HomeScreen extends StatelessWidget {
             Obx(() {
               if (controller.courseHelper.isLoading.value) {
                 return const SliverFillRemaining(
-                  child: Center(child: CircularProgressIndicator(color: AppColors.primaryGold)),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryGold,
+                    ),
+                  ),
                 );
               }
               if (controller.courseHelper.items.isEmpty) {
                 return SliverToBoxAdapter(
                   child: controller.role == Role.student
                       ? LearningJourneyWidget()
-                      : Center(child: Text("No Courses Found", style: TextStyle(fontSize: isTab ? 12.sp : null),)),
+                      : Center(
+                          child: Text(
+                            "No Courses Found",
+                            style: TextStyle(fontSize: isTab ? 12.sp : null),
+                          ),
+                        ),
                 );
               }
 
               // 3. This replaces the ListView.builder
               return SliverList(
-                delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                    final CourseModel model = controller.courseHelper.items[index];
-                    return CourseItemWidget(
-                      title: model.className,
-                      imageUrl: model.imageUrl,
-                      subject: model.subjectName,
-                      status: model.status,
-                      isStaff: isStaff,
-                      teacherName: model.teacher.fullName,
-                      enrolledCount: model.totalEnrolled,
-                      onClick: () {
-                        if (isParent) {
-                          Get.toNamed(AppRoutes.studentProgress, arguments: {
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final CourseModel model =
+                      controller.courseHelper.items[index];
+                  return CourseItemWidget(
+                    title: model.className,
+                    imageUrl: model.imageUrl,
+                    subject: model.subjectName,
+                    status: model.status,
+                    isStaff: isStaff,
+                    teacherName: model.teacher.fullName,
+                    enrolledCount: model.totalEnrolled,
+                    onClick: () {
+                      if (isParent) {
+                        Get.toNamed(
+                          AppRoutes.studentProgress,
+                          arguments: {
                             'courseId': model.id,
-                            'studentId': controller.selectedChild.value?.id ?? ""
-                          });
-                        } else {
-                          Get.toNamed(AppRoutes.courseDetails, arguments: {
+                            'studentId':
+                                controller.selectedChild.value?.id ?? "",
+                          },
+                        );
+                      } else {
+                        Get.toNamed(
+                          AppRoutes.courseDetails,
+                          arguments: {
                             "courseId": model.id,
                             "courseName": model.className,
                             "subject": model.subjectName,
                             "status": model.status,
-                            "studentId": isStudent ? controller.profileController.profileModel.value?.id ?? "" : ""
-                          });
-                        }
-                      },
-                    );
-                  },
-                  childCount: controller.courseHelper.items.length,
-                ),
+                            "studentId": isStudent
+                                ? controller
+                                          .profileController
+                                          .profileModel
+                                          .value
+                                          ?.id ??
+                                      ""
+                                : "",
+                          },
+                        );
+                      }
+                    },
+                  );
+                }, childCount: controller.courseHelper.items.length),
               );
             }),
 
             // 4. Loading indicator at the bottom
             SliverToBoxAdapter(
-              child: Obx(() => controller.courseHelper.isMoreLoading.value
-                  ? const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Center(child: CircularProgressIndicator(color: AppColors.primaryGold)),
-              )
-                  : const SizedBox.shrink()),
+              child: Obx(
+                () => controller.courseHelper.isMoreLoading.value
+                    ? const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.primaryGold,
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ),
             ),
           ],
         ),
@@ -177,7 +218,10 @@ class HomeScreen extends StatelessWidget {
   }
 
   //FOR TEACHER AND ASSISTANT
-  Row teacherCourseCount({required int totalCourse, required int totalStudents}) {
+  Row teacherCourseCount({
+    required int totalCourse,
+    required int totalStudents,
+  }) {
     return Row(
       spacing: 8,
       children: [
