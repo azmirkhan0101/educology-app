@@ -88,7 +88,7 @@ class LearningJourneyWidget extends StatelessWidget {
                 SizedBox(height: 8),
                 Text('Phone', style: TextStyle(fontSize: isTab ? 10.sp : 12, color: textGrey)),
                 Text(
-                  '(880)1634425785',
+                  '+20 101 234 5678',
                   style: TextStyle(fontSize: isTab ? 10.sp : 14, fontWeight: FontWeight.bold, color: primaryBlue),
                 ),
               ],

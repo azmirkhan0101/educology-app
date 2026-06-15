@@ -102,7 +102,7 @@ class AppStrings {
   static const String participate = "Participate";
   static const String searchByNameOrPhoneNo = "Search by name or phone no.";
   static const String assistants = "Co-Instructors";
-  static const String studentProgress = "Leaner Progress";
+  static const String studentProgress = "Learner Progress";
   static const String viewAttendance = "View Attendance";
   static const String viewExams = "View Assessments";
   static const String totalCompletedClass = "Total Completed Modules:";

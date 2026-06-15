@@ -33,7 +33,9 @@ class RepliesSection extends StatelessWidget {
             userName: model.user!.fullName,
             dateTime: model.createdAt,
             isMyComment: isMyComment,
-            onReportTap: onReplyReportTap?.call(index)
+            onReportTap: (){
+              onReplyReportTap?.call(index);
+            }
           );
         }),
       )
