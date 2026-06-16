@@ -8,11 +8,13 @@ class CopyLinkWidget extends StatelessWidget {
 
   final String link;
   final bool isClassLink;
+  final VoidCallback? onLinkClick;
 
   const CopyLinkWidget({
     super.key,
     required this.link,
-    required this.isClassLink
+    required this.isClassLink,
+    this.onLinkClick
   });
 
   @override
@@ -30,20 +32,25 @@ class CopyLinkWidget extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: RichText(
-              text: TextSpan(
-                style: TextStyle(color: Colors.grey, fontSize: isTab ? 9.sp : 14),
-                children: [
-                  TextSpan(text: isClassLink ? 'Module link: ' : 'Recording link: '),
-                  TextSpan(
-                    text: link,
-                    style: const TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.w600,
-                      decoration: TextDecoration.underline,
+            child: GestureDetector(
+              onTap: (){
+                onLinkClick?.call();
+              },
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(color: Colors.grey, fontSize: isTab ? 9.sp : 14),
+                  children: [
+                    TextSpan(text: isClassLink ? 'Module link: ' : 'Recording link: '),
+                    TextSpan(
+                      text: link,
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w600,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

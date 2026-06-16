@@ -92,6 +92,9 @@ class ContentDetailsScreen extends StatelessWidget {
               CopyLinkWidget(
                 link: controller.contentDetailsModel.classLink!,
                 isClassLink: true,
+                onLinkClick: (){
+                  controller.openLinkInBrowser(classLink: controller.contentDetailsModel.classLink! );
+                },
               ),
             ],
             //==============CLASS RECORDING LINK IF CLASS, AND RECORDING LINK EXISTS==============
