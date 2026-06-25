@@ -153,7 +153,8 @@ class SignupScreen extends StatelessWidget {
               IntlPhoneField(
                 validator: (phone){
                   if( phone == null || phone.number.isEmpty ){
-                    return "Phone number is required";
+                    //return "Phone number is required";
+                    return null;
                   }
                   try{
                     if( !phone.isValidNumber() ){

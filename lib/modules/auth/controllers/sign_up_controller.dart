@@ -72,14 +72,14 @@ class SignUpController extends GetxController {
 
   //SIGN UP
   Future<void> signup() async {
-    if (!isPhoneNumberValid(number: contactNumber)) {
-      showSnackBar(
-        title: "Phone number is required!",
-        message: "",
-        backgroundColor: AppColors.warningYellow,
-      );
-      return;
-    }
+    // if (!isPhoneNumberValid(number: contactNumber)) {
+    //   showSnackBar(
+    //     title: "Phone number is required!",
+    //     message: "",
+    //     backgroundColor: AppColors.warningYellow,
+    //   );
+    //   return;
+    // }
 
     if (isSignupLoading.value) {
       return;
@@ -122,6 +122,8 @@ class SignUpController extends GetxController {
         method: "POST",
       image: profileImage.value
     );
+
+    print("Response: ${response.data}");
 
     isSignupLoading.value = false;
 
