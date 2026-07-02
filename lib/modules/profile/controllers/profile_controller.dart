@@ -111,7 +111,6 @@ class ProfileController extends GetxController{
         imageKey: "image",
       image: profileImage.value,
     );
-    print("Edit response: ${response.data}");
     isEditProfileLoading.value = false;
     profileImage.value = null;
 

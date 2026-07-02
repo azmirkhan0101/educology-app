@@ -16,6 +16,7 @@ import '../../../core/utils/app_validator.dart';
 import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/custom_text_field.dart';
 import '../../profile/widgets/photo_edit_widget.dart';
+import '../widgets/password_requirement_widget.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({super.key});
@@ -204,6 +205,9 @@ class SignupScreen extends StatelessWidget {
                 hintText: AppStrings.enterYourPassword.tr,
                 controller: controller.passwordController,
                 isPassword: true,
+                onChanged: (value){
+                  controller.checkRequirements(value);
+                },
                 validator: (value){
                   if( !isPasswordValid(password: controller.passwordController.text.trim() ) ){
                     return "Password must be at least 8 characters long";
@@ -212,8 +216,17 @@ class SignupScreen extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 10),
+              ///required text
+              Obx((){
+                return PasswordRequirements(
+                  isEightCharacters: controller.isEightCharacters.value,
+                  isBothCasesPresent: controller.isBothCasesPresent.value,
+                  isNumeralPresent: controller.isNumeralPresent.value,
+                  isSpecialCharPresent: controller.isSpecialCharPresent.value,
+                );
+              }),
+              const SizedBox(height: 10),
               //=========================CONFIRM PASSWORD=====================================
-              // Password Field
               CustomTextField(
                 label: AppStrings.confirmPassword,
                 hintText: AppStrings.enterYourPassword.tr,
