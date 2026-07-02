@@ -122,11 +122,11 @@ class ApiEndpoints {
   static String getNotifications({required int page}){
     return "/notification/my-notifications/?page=$page&limit=10";
   }
+  //=========================ABOUT US===========================
+
   static String notificationMarkAsRead({required String notificationId}){
     return "/notification/mark-as-read/$notificationId";
   }
-
-  //=========================ABOUT US===========================
   static const String aboutUs = "/about/retrive";
   //=========================PRIVACY POLICY========================
   static const String privacyPolicy = "/privacy/retrive";

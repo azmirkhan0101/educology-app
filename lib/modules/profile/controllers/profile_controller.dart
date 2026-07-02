@@ -96,8 +96,11 @@ class ProfileController extends GetxController{
     Map<String, dynamic> payLoad = {
       "firstName": firstNameController.text.trim(),
       "lastName": lastNameController.text.trim(),
+      if( dateOfBirth != null )
       "dob": dateOfBirth?.toIso8601String(),
+      if( gender.value != "select" )
       "gender": gender.value,
+      if( aboutMeController.text.trim().isNotEmpty )
       "about": aboutMeController.text.trim()
     };
     ApiResponse response = await apiService.multipartRequest(
@@ -106,8 +109,9 @@ class ProfileController extends GetxController{
         isAuthRequired: true,
         fields: payLoad,
         imageKey: "image",
-      image: profileImage.value
+      image: profileImage.value,
     );
+    print("Edit response: ${response.data}");
     isEditProfileLoading.value = false;
     profileImage.value = null;
 

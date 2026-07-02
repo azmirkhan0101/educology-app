@@ -202,6 +202,8 @@ class ApiService extends GetxService {
       if( response.statusCode == 401 && isAuthRequired ) {
         bool isRefreshed = await refreshTokenOnce();
 
+        print("Response: ${responseBody}");
+
         if (isRefreshed) {
           return await multipartRequest(
               method: method,

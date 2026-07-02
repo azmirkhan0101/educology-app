@@ -103,12 +103,12 @@ class EditProfileScreen extends StatelessWidget {
                   initialYear: DateTime.now().year,
                   firstYear: 1900,
                   lastYear: DateTime.now().year,
-                  validator: (date){
-                    if( date == null ){
-                      return "Date of birth required";
-                    }
-                    return null;
-                  },
+                  // validator: (date){
+                  //   if( date == null ){
+                  //     return "Date of birth required";
+                  //   }
+                  //   return null;
+                  // },
                 ),
                 SizedBox(height: 10),
                 //========================GENDER============================
