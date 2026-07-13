@@ -51,12 +51,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyB3PdLYwnA0g00SiwaECtpwSWZ1NYDr3Uw',
-    appId: '1:804793355673:android:57f455f9122f242ce39708',
+    appId: '1:804793355673:android:2bbf82535468b93ce39708',
     messagingSenderId: '804793355673',
     projectId: 'educology-a328f',
     storageBucket: 'educology-a328f.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDv82xZUs8gw06FWYKNAmTxYjYDJFWQh_8',
     appId: '1:804793355673:ios:b9c39357c7f770b6e39708',
