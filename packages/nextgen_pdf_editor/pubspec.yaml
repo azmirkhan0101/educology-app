@@ -15,8 +15,8 @@ platforms:
 dependencies:
   flutter:
     sdk: flutter
-  syncfusion_flutter_pdf: ^29.1.37
-  syncfusion_flutter_pdfviewer: ^29.1.37
+  syncfusion_flutter_pdf: ^31.2.3
+  syncfusion_flutter_pdfviewer: ^31.2.3
   path_provider: ^2.1.5
   open_file: ^3.5.10
   flutter_drawing_board: ^0.9.5

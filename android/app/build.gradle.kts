@@ -58,6 +58,17 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+
+    // ADDED: Configuration to enforce 16 KB page size / uncompressed native alignment
+    packaging {
+        jniLibs {
+            useLegacyPackaging = false
+        }
+    }
+
+    androidResources {
+        noCompress("so") // CRITICAL: Prevents breaking 16KB alignment
+    }
 }
 
 flutter {
