@@ -4,7 +4,8 @@ class ApiEndpoints {
 
   //=======================BASE====================================
   //BASE URL
-  static const baseUrl = "http://13.48.155.154/api/v1";
+  static const baseUrl = "https://api.educology.app/api/v1";
+  //static const baseUrl = "http://13.48.155.154/api/v1";
   //static const baseUrl = "https://lms-orpin-five.vercel.app/api/v1";
   //static const baseUrl = "http://10.10.20.34:5009/api/v1";
   //=======================AUTH====================================

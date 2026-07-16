@@ -23,5 +23,8 @@ void main() async{
   );
   await FirebaseNotificationService.instance.initialize();
 
+  String? token = await FirebaseMessaging.instance.getToken();
+  print("FCM Token: $token");
+
   runApp( const EducologyMainApp() );
 }
