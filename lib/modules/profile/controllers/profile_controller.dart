@@ -121,6 +121,28 @@ class ProfileController extends GetxController{
     showApiSnackBar(statusCode: response.statusCode, data: response.data);
   }
 
+  //REMOVE PARENT
+  Future<void> removeParent({required String parentId}) async{
+
+    final Map<String, String> payLoad = {
+      "parentId": parentId
+    };
+
+    ApiService apiService = Get.find<ApiService>();
+    ApiResponse response = await apiService.networkRequest(
+        method: "PATCH",
+        isAuthRequired: true,
+        endPoint: ApiEndpoints.removeParent,
+      body: payLoad,
+      shouldPrint: true
+    );
+    showApiSnackBar(statusCode: response.statusCode, data: response.data);
+
+    if( response.statusCode == 200 || response.statusCode == 201 ){
+      getProfile();
+    }
+  }
+
   //LOGOUT
   Future<void> logOut() async{
     await storage.erase();

@@ -15,7 +15,9 @@ class AddParentTile extends StatelessWidget {
   final String iconPath;
   final VoidCallback onTap;
   final bool isDelete;
-  final List<StaffModel?>? parents; // Changed from StaffModel? to List<StaffModel>
+  final List<StaffModel?>?
+  parents; // Changed from StaffModel? to List<StaffModel>
+  final Function(String parentId)? onParentRemove;
 
   const AddParentTile({
     super.key,
@@ -23,7 +25,8 @@ class AddParentTile extends StatelessWidget {
     required this.iconPath,
     required this.onTap,
     this.isDelete = false,
-    required this.parents, // Marked as required list
+    required this.parents,
+    this.onParentRemove,
   });
 
   @override
@@ -54,13 +57,17 @@ class AddParentTile extends StatelessWidget {
               spacing: 8,
               children: [
                 SvgPicture.asset(iconPath),
-                TextWidget(fontSize: isTab ? 10.sp : null, text: title, textAlignment: TextAlign.left),
+                TextWidget(
+                  fontSize: isTab ? 10.sp : null,
+                  text: title,
+                  textAlignment: TextAlign.left,
+                ),
               ],
             ),
             const Divider(),
 
             // Dynamic Parent List
-            if ( parents != null && parents!.isNotEmpty) ...[
+            if (parents != null && parents!.isNotEmpty) ...[
               Column(
                 children: parents!.map((parent) {
                   return Container(
@@ -106,12 +113,21 @@ class AddParentTile extends StatelessWidget {
                             ],
                           ),
                         ),
+                        IconButton(
+                          onPressed: () {
+                            if (onParentRemove != null && parent?.id != null) {
+                              onParentRemove!(parent!.id);
+                            }
+                          },
+                          icon: Icon(Icons.remove_circle),
+                        ),
                       ],
                     ),
                   );
                 }).toList(),
               ),
-              const Divider(), // Divider between the parent list and the action button
+              const Divider(),
+              // Divider between the parent list and the action button
             ],
 
             // Add Action Row

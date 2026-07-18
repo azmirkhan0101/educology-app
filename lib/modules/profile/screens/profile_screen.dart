@@ -104,7 +104,10 @@ class ProfileScreen extends StatelessWidget {
                     parents: controller.profileModel.value?.parents,
                     onTap: (){
                       Get.toNamed(AppRoutes.addParent);
-                    }
+                    },
+                  onParentRemove: (parentId){
+                      controller.removeParent(parentId: parentId);
+                  },
                 );
               }),
             ProfileMenuTile(

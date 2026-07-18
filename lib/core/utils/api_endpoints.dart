@@ -89,6 +89,7 @@ class ApiEndpoints {
   static const comment = "/announcements/comment";
   static const getAllParents = "/user/all?role=parent";
   static const addParent = "/user/assign-parent";
+  static const removeParent = "/user/remove-parent";
   static String myMarks({required String courseId}){
     return "/report/my-marks-history/$courseId";
   }
