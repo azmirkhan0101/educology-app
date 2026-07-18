@@ -53,6 +53,7 @@ dependencies:
   open_file: ^3.5.11
   flutter_launcher_icons: ^0.14.4
   flutter_file_dialog: ^3.0.3
+  flutter_secure_storage: ^10.3.1
 
 dev_dependencies:
   flutter_test:

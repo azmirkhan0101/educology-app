@@ -146,8 +146,6 @@ class SignUpController extends GetxController {
       image: profileImage.value
     );
 
-    print("Response: ${response.data}");
-
     isSignupLoading.value = false;
 
     if ( response.statusCode == 201 ) {//ACCOUNT CREATED

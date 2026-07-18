@@ -25,7 +25,6 @@ class ProfileMenuTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     bool isTab = context.isTab;
 
     return Container(
@@ -41,22 +40,45 @@ class ProfileMenuTile extends StatelessWidget {
           ),
         ],
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-        leading: isZoomIcon
-            ? ClipRRect(
-          borderRadius: BorderRadius.circular(50),
-          child: Container(
-            color: AppColors.secondaryDarkBlue,
-            height: isTab ? 40 : 22.h,
-            width: isTab ? 40 : 22.w,
-            child: Icon(Icons.videocam_rounded, color: Colors.white, size: isTab ? 30 :15.r,),
+      // Wrapped ListTile with Material to resolve the ink splash rendering issue
+      child: Material(
+        color: Colors.transparent, // Allows Container background color to show
+        type: MaterialType.button,
+        clipBehavior: Clip.antiAlias, // Keeps the tap splash inside the rounded corners
+        borderRadius: BorderRadius.circular(15), // Matches the Container's border radius
+        child: ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+          leading: isZoomIcon
+              ? ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Container(
+              color: AppColors.secondaryDarkBlue,
+              height: isTab ? 40 : 22.h,
+              width: isTab ? 40 : 22.w,
+              child: Icon(
+                Icons.videocam_rounded,
+                color: Colors.white,
+                size: isTab ? 30 : 15.r,
+              ),
+            ),
+          )
+              : SvgPicture.asset(
+            iconPath,
+            height: isTab ? 45 : null,
+            width: isTab ? 45 : null,
           ),
-        )
-            : SvgPicture.asset( iconPath , height: isTab ? 45 : null, width: isTab ? 45 : null,),
-        title: TextWidget(text: title, textAlignment: TextAlign.left, fontSize: isTab ? 10.sp : null,),
-        trailing: SvgPicture.asset(Assets.icons.rightTriangle, height: isTab ? 40 : null, width: isTab ? 40 : null,),
-        onTap: onTap,
+          title: TextWidget(
+            text: title,
+            textAlignment: TextAlign.left,
+            fontSize: isTab ? 10.sp : null,
+          ),
+          trailing: SvgPicture.asset(
+            Assets.icons.rightTriangle,
+            height: isTab ? 40 : null,
+            width: isTab ? 40 : null,
+          ),
+          onTap: onTap,
+        ),
       ),
     );
   }

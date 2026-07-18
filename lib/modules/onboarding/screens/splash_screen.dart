@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dr_dina_educology/core/services/secure_storage_service.dart';
 import 'package:dr_dina_educology/core/utils/app_colors.dart';
 import 'package:dr_dina_educology/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +19,10 @@ class SplashScreen extends StatelessWidget {
 
   Future<AuthStatus> checkAuthStatus() async {
 
-    await Future.delayed(const Duration(milliseconds: 1500));
+    await Future.delayed(const Duration(milliseconds: 200));
 
     // Read the token and verification status
-    final String? token = storage.read( accessTokenKey );
+    final String? token = await secureStorage.read( key: accessTokenKey );
 
     final bool verificationRequired = storage.read( requireVerificationKey ) ?? false;
 

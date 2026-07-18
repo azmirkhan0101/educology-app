@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../core/services/api_service.dart';
+import '../../../core/services/secure_storage_service.dart';
 import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
 import '../../../core/utils/app_constants.dart';
@@ -87,7 +88,7 @@ class SigninController extends GetxController {
 
     if (response.statusCode == 200) {
       //LOGIN SUCCESSFUL
-      saveTokens(response.data);
+      await saveTokens(response.data);
       getProfileData();
     } else if (response.statusCode == 403) {
       //NOT VERIFIED OR ACCOUNT IS BLOCKED
@@ -152,22 +153,24 @@ class SigninController extends GetxController {
         Get.offAllNamed(AppRoutes.mainNav);
       }
     } else if (response.statusCode == 401) {
-      storage.erase();
+      await storage.erase();
+      await secureStorage.deleteAll();
       //ACCESS TOKEN INVALID
     }else if (response.statusCode == 403) {//ACCOUNT IS NOT VERIFIED
       Get.offAndToNamed(AppRoutes.accountApproval);
     }else{
-      storage.erase();
+      await storage.erase();
+      await secureStorage.deleteAll();
     }
   }
 
-  //SAVE TOKENS IN STORAGE
-  void saveTokens(Map<String, dynamic> response) {
+  // SAVE TOKENS IN STORAGE (Now requires async/await)
+  Future<void> saveTokens(Map<String, dynamic> response) async {
     final accessToken = response["data"]["accessToken"];
     final refreshToken = response["data"]["refreshToken"];
 
-    storage.write(accessTokenKey, accessToken);
-    storage.write(refreshTokenKey, refreshToken);
+    await secureStorage.write(key: accessTokenKey, value: accessToken);
+    await secureStorage.write(key: refreshTokenKey, value: refreshToken);
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../core/services/api_service.dart';
+import '../../../core/services/secure_storage_service.dart';
 import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
 import '../../../core/utils/app_colors.dart';
@@ -88,7 +89,7 @@ class OtpVerifyController extends GetxController {
 
     if( response.statusCode == 200 ){
       storage.write( requireVerificationKey, false );
-      saveTokens( response.data );
+      await saveTokens( response.data );
       //GET PROFILE, SAVE ROLE AND GO TO MAIN NAV
       getProfileData();
     }else if( response.statusCode == 423 ){//NOT APPROVED BY ADMIN
@@ -137,12 +138,14 @@ class OtpVerifyController extends GetxController {
         Get.offAllNamed(AppRoutes.mainNav);
       }
     } else if (response.statusCode == 401) {
-      storage.erase();
+      await storage.erase();
+      await secureStorage.deleteAll();
       //ACCESS TOKEN INVALID
     }else if (response.statusCode == 403) {//ACCOUNT IS NOT VERIFIED
       Get.offAndToNamed(AppRoutes.accountApproval);
     }else{
-      storage.erase();
+      await storage.erase();
+      await secureStorage.deleteAll();
     }
   }
 
@@ -199,15 +202,12 @@ Future<void> verifyForgotPasswordOtp() async{
     showApiSnackBar(statusCode: response.statusCode, data: response.data);
   }
 
-
-
-  //SAVE TOKENS IN STORAGE
-  void saveTokens(Map<String, dynamic> response) {
-
+  // SAVE TOKENS IN STORAGE (Now requires async/await)
+  Future<void> saveTokens(Map<String, dynamic> response) async {
     final accessToken = response["data"]["accessToken"];
     final refreshToken = response["data"]["refreshToken"];
 
-    storage.write( accessTokenKey, accessToken);
-    storage.write( refreshTokenKey, refreshToken);
+    await secureStorage.write(key: accessTokenKey, value: accessToken);
+    await secureStorage.write(key: refreshTokenKey, value: refreshToken);
   }
 }

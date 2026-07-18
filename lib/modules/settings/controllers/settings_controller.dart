@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../core/services/api_service.dart';
 import '../../../core/services/role_service.dart';
+import '../../../core/services/secure_storage_service.dart';
 import '../../../core/utils/api_endpoints.dart';
 import '../../../core/utils/api_response.dart';
 import '../../../core/utils/app_colors.dart';
@@ -113,7 +114,7 @@ class SettingsController extends GetxController {
     isChangePasswordLoading.value = false;
 
     if( response.statusCode == 200 ){
-      saveTokens( response.data );
+      await saveTokens( response.data );
       currentPassword.clear();
       newPassword.clear();
       confirmPassword.clear();
@@ -133,6 +134,7 @@ class SettingsController extends GetxController {
     );
     if( response.statusCode == 200 ){
       await storage.erase();
+      await secureStorage.deleteAll();
       if( Get.isDialogOpen ?? false ){
         Get.back();
       }
@@ -202,14 +204,13 @@ class SettingsController extends GetxController {
     );
   }
 
-  //======================SAVE TOKENS IN STORAGE=====================
-  void saveTokens(Map<String, dynamic> response) {
-
+  // SAVE TOKENS IN STORAGE (Now requires async/await)
+  Future<void> saveTokens(Map<String, dynamic> response) async {
     final accessToken = response["data"]["accessToken"];
     final refreshToken = response["data"]["refreshToken"];
 
-    storage.write( accessTokenKey, accessToken);
-    storage.write( refreshTokenKey, refreshToken);
+    await secureStorage.write(key: accessTokenKey, value: accessToken);
+    await secureStorage.write(key: refreshTokenKey, value: refreshToken);
   }
 
   @override

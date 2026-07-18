@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:io';
 
+import 'package:dr_dina_educology/core/services/secure_storage_service.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -42,9 +43,10 @@ class ApiService extends GetxService {
       late Map<String, String> headers;
 
       if (isAuthRequired) {
+        String token = await secureStorage.read(key: accessTokenKey) ?? "";
         headers = {
           "Content-Type": "application/json",
-          "Authorization": "Bearer ${storage.read(accessTokenKey)}",
+          "Authorization": "Bearer $token",
         };
       } else {
         headers = {
@@ -152,9 +154,10 @@ class ApiService extends GetxService {
 
       request.fields["body"] = jsonEncode(fields);
       if( isAuthRequired ){
+        String token = await secureStorage.read(key: accessTokenKey) ?? "";
         Map<String, String> headers = {
           "Content-Type": "application/json",
-          "Authorization": "Bearer ${storage.read( accessTokenKey )}",
+          "Authorization": "Bearer $token",
         };
         request.headers.addAll(headers);
       }
@@ -207,8 +210,6 @@ class ApiService extends GetxService {
       if( response.statusCode == 401 && isAuthRequired ) {
         bool isRefreshed = await refreshTokenOnce();
 
-        print("Response: ${responseBody}");
-
         if (isRefreshed) {
           return await multipartRequest(
               method: method,
@@ -244,7 +245,7 @@ class ApiService extends GetxService {
     _refreshCompleter = Completer<bool>();
 
     try {
-      final refreshToken = storage.read(refreshTokenKey);
+      final refreshToken = await secureStorage.read(key: refreshTokenKey);
       if (refreshToken == null) {
         await _forceLogout();
         _refreshCompleter!.complete(false);
@@ -259,10 +260,10 @@ class ApiService extends GetxService {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
 
-        storage.write(accessTokenKey, data['data']['accessToken']);
+        await secureStorage.write(key: accessTokenKey, value: data['data']['accessToken']);
 
         if (data['data']['refreshToken'] != null) {
-          storage.write(refreshTokenKey, data['data']['refreshToken']);
+          await secureStorage.write(key: refreshTokenKey, value: data['data']['refreshToken']);
         }
 
         _refreshCompleter!.complete(true);
@@ -286,6 +287,7 @@ class ApiService extends GetxService {
 
   Future<void> _forceLogout() async {
     await storage.erase();
+    await secureStorage.deleteAll();
     if (Get.currentRoute != AppRoutes.onBoardingOne) {
       Get.offAllNamed(AppRoutes.onBoardingOne);
     }
