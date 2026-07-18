@@ -1,4 +1,4 @@
-package com.educologyapps.educology
+package com.educologyapps.educologyy
 
 import io.flutter.embedding.android.FlutterActivity
 
