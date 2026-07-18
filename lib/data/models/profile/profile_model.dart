@@ -4,7 +4,7 @@ import '../../../core/utils/app_constants.dart';
 
 class ProfileModel {
   final String? id;
-  final StaffModel? parent;
+  final List<StaffModel?> parents;
   final String firstName;
   final String lastName;
   final String fullName;
@@ -22,7 +22,7 @@ class ProfileModel {
 
   ProfileModel({
     this.id,
-    this.parent,
+    required this.parents,
     required this.firstName,
     required this.lastName,
     required this.fullName,
@@ -40,9 +40,15 @@ class ProfileModel {
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
+
+    final rawParents = json['parentIds'] as List<dynamic>? ?? [];
+
     return ProfileModel(
       id: json['_id'] as String?,
-        parent: json['parentId'] != null ? StaffModel.fromJson(json['parentId']) : null,
+        parents: rawParents
+            .where((element) => element is Map<String, dynamic>)
+            .map((item) => StaffModel.fromJson(item as Map<String, dynamic>))
+            .toList(),
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
       fullName: json['fullName'] ?? '',
@@ -63,7 +69,7 @@ class ProfileModel {
   Map<String, dynamic> toJson() {
     return {
       '_id': id,
-      'parentId': parent?.toJson(),
+      'parentIds': parents.map((parent) => parent?.toJson()).toList(),
       'firstName': firstName,
       'lastName': lastName,
       'fullName': fullName,

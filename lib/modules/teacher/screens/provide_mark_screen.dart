@@ -110,6 +110,19 @@ class ProvideMarkScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 15),
                       CustomTextField(
+                        label: "Total Marks",
+                        controller: controller.totalMarksController,
+                        keyboardType: TextInputType.number,
+                        hintText: "total marks",
+                        validator: (value){
+                          if( value == null || value.isEmpty ){
+                            return "Total mark is required";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 15),
+                      CustomTextField(
                         label: AppStrings.provideAShortFeedback,
                         controller: controller.feedbackController,
                         hintText: AppStrings.provideHere,

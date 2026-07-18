@@ -15,7 +15,7 @@ class AddParentTile extends StatelessWidget {
   final String iconPath;
   final VoidCallback onTap;
   final bool isDelete;
-  final StaffModel? parent;
+  final List<StaffModel?>? parents; // Changed from StaffModel? to List<StaffModel>
 
   const AddParentTile({
     super.key,
@@ -23,12 +23,11 @@ class AddParentTile extends StatelessWidget {
     required this.iconPath,
     required this.onTap,
     this.isDelete = false,
-    required this.parent,
+    required this.parents, // Marked as required list
   });
 
   @override
   Widget build(BuildContext context) {
-
     bool isTab = context.isTab;
 
     return GestureDetector(
@@ -38,7 +37,6 @@ class AddParentTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
         decoration: BoxDecoration(
           color: isDelete ? AppColors.red10Percent : const Color(0xFFF1FDF8),
-          // Light mint background
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
@@ -49,7 +47,9 @@ class AddParentTile extends StatelessWidget {
           ],
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
+            // Header Row
             Row(
               spacing: 8,
               children: [
@@ -57,62 +57,81 @@ class AddParentTile extends StatelessWidget {
                 TextWidget(fontSize: isTab ? 10.sp : null, text: title, textAlignment: TextAlign.left),
               ],
             ),
-            Divider(),
-            if (parent != null )
-              Container(
-                color: Colors.transparent,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 12,
-                ),
-                child: Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Container(
-                        height: 45.h,
-                        width: 45.w,
-                        color: AppColors.greyB2,
-                        child: CachedImageWidget(
-                          imageUrl: parent!.image,
-                          iconSize: 28,
-                        ),
-                      ),
+            const Divider(),
+
+            // Dynamic Parent List
+            if ( parents != null && parents!.isNotEmpty) ...[
+              Column(
+                children: parents!.map((parent) {
+                  return Container(
+                    color: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 8,
                     ),
-                    const SizedBox(width: 15),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
                       children: [
-                        Text(
-                          parent!.fullName,
-                          style: TextStyle(
-                            fontSize: isTab ? 10.sp : 16,
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w500,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Container(
+                            height: 45.h,
+                            width: 45.w,
+                            color: AppColors.greyB2,
+                            child: CachedImageWidget(
+                              imageUrl: parent?.image ?? "",
+                              iconSize: 28,
+                            ),
                           ),
                         ),
-                        Text(
-                          parent!.contact,
-                          style: TextStyle(color: Colors.grey, fontSize: isTab ? 10.sp : 12),
+                        const SizedBox(width: 15),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                parent?.fullName ?? "",
+                                style: TextStyle(
+                                  fontSize: isTab ? 10.sp : 16,
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                parent?.contact ?? "",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: isTab ? 10.sp : 12,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  );
+                }).toList(),
               ),
+              const Divider(), // Divider between the parent list and the action button
+            ],
+
+            // Add Action Row
             Row(
               children: [
-                SizedBox(width: 10),
-                Icon(Icons.add, color: AppColors.secondaryGreen),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
+                const Icon(Icons.add, color: AppColors.secondaryGreen),
+                const SizedBox(width: 10),
                 TextWidget(
                   text: AppStrings.addYourParent,
                   textAlignment: TextAlign.left,
                   fontSize: isTab ? 8.sp : null,
                   fontColor: AppColors.secondaryGreen,
                 ),
-                Spacer(),
-                SvgPicture.asset(Assets.icons.rightTriangle, height: isTab ? 40 : null, width: isTab ? 40 : null,),
+                const Spacer(),
+                SvgPicture.asset(
+                  Assets.icons.rightTriangle,
+                  height: isTab ? 40 : null,
+                  width: isTab ? 40 : null,
+                ),
               ],
             ),
           ],

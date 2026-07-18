@@ -117,7 +117,8 @@ class SigninController extends GetxController {
     ApiResponse response = await apiService.networkRequest(
         method: "GET",
         isAuthRequired: true,
-        endPoint: ApiEndpoints.getProfile
+        endPoint: ApiEndpoints.getProfile,
+      shouldPrint: true
     );
 
     isSigninLoading.value = false;

@@ -18,7 +18,9 @@ class ProvideMarkController extends GetxController {
   File? pdfFile;
   RxString pdfFileName = "".obs;
   int? mark;
+  int? totalMarks;
   TextEditingController marksController = TextEditingController();
+  TextEditingController totalMarksController = TextEditingController();
   TextEditingController feedbackController = TextEditingController();
 
   late String submissionId;
@@ -49,9 +51,11 @@ class ProvideMarkController extends GetxController {
     }
 
     mark = int.tryParse(marksController.text) ?? 0;
+    totalMarks = int.tryParse(totalMarksController.text) ?? 0;
 
     Map<String, dynamic> payLoad = {
       "marks" : mark,
+      "totalMarks" : totalMarks,
       "feedback" : feedbackController.text.trim()
     };
 

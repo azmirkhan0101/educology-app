@@ -98,6 +98,11 @@ class ApiService extends GetxService {
       }
       result = response.body;
       code = response.statusCode;
+
+      if( shouldPrint ){
+        logPrettyJson(response.body);
+      }
+
       if( response.statusCode == 401 && isAuthRequired ) {
         bool isRefreshed = await refreshTokenOnce();
 

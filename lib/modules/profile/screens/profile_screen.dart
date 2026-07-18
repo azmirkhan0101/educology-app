@@ -101,7 +101,7 @@ class ProfileScreen extends StatelessWidget {
                 return AddParentTile(
                     title: AppStrings.myParent,
                     iconPath: Assets.icons.myParent,
-                    parent: controller.profileModel.value?.parent,
+                    parents: controller.profileModel.value?.parents,
                     onTap: (){
                       Get.toNamed(AppRoutes.addParent);
                     }

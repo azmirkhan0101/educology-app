@@ -47,11 +47,14 @@ class SettingsController extends GetxController {
     }
 
     //LIVE URL
-    final String authUrl = 'https://zoom.us/oauth/authorize'
-        '?response_type=code'
-        '&client_id=0amFVARESkaqpI3ui42ohA'
-        '&redirect_uri=https://lms-orpin-five.vercel.app/api/v1/zoom/callback'
-        '&state=$id';
+    // final String authUrl = 'https://zoom.us/oauth/authorize'
+    //     '?response_type=code'
+    //     '&client_id=0amFVARESkaqpI3ui42ohA'
+    //     '&redirect_uri=https://lms-orpin-five.vercel.app/api/v1/zoom/callback'
+    //     '&state=$id';
+
+
+    final String authUrl = "https://zoom.us/oauth/authorize?response_type=code&client_id=0amFVARESkaqpI3ui42ohA&redirect_uri=https://api.educology.app/api/v1/zoom/callback&state=$id";
 
     //The Custom Scheme registered in your Android/iOS native files
     //TRACK: educology://zoom-success
