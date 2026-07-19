@@ -63,5 +63,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+    <string>Educology needs camera access so you can take photos to upload in the app.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Educology may access your location to support certain features in the app.</string>
 </dict>
 </plist>
