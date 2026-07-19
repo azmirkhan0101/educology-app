@@ -250,3 +250,29 @@ Add Parent
 Stay connected with your child’s learning journey. Track class activities, attendance, tasks, and academic progress—all in one place.
 View Progress
 Your Child
+
+
+
+
+//GET ALL PARENTS
+  // Future<void> getAllParents() async {
+  //   if (isParentsLoading.value) {
+  //     return;
+  //   }
+  //
+  //   isParentsLoading.value = true;
+  //   ApiResponse response = await apiService.networkRequest(
+  //     method: "GET",
+  //     isAuthRequired: true,
+  //     endPoint: ApiEndpoints.getAllParents,
+  //     shouldPrint: true
+  //   );
+  //   isParentsLoading.value = false;
+  //   if (response.statusCode == 200) {
+  //     final tempList = response.data['data']['result'] as List<dynamic>?;
+  //     if (tempList is List && tempList.isNotEmpty) {
+  //       parents.value = tempList.map((e) => StaffModel.fromJson(e)).toList();
+  //       filteredParents.assignAll(parents);
+  //     }
+  //   }
+  // }

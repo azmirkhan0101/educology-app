@@ -87,7 +87,12 @@ class ApiEndpoints {
   //#############################################################
   //=========================STUDENTS============================
   static const comment = "/announcements/comment";
-  static const getAllParents = "/user/all?role=parent";
+  static String getAllParents({required int page, String? search}) {
+    if (search != null && search.isNotEmpty) {
+      return "/user/all?role=parent&page=$page&limit=10&search=$search";
+    }
+    return "/user/all?role=parent&page=$page&limit=10";
+  }
   static const addParent = "/user/assign-parent";
   static const removeParent = "/user/remove-parent";
   static String myMarks({required String courseId}){

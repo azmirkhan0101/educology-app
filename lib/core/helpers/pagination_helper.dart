@@ -114,6 +114,8 @@ class PaginationHelper<T> {
         } else {
           currentPage++;
         }
+      }else{
+        hasMore = false;
       }
     }else{
       if( _showMessageOnError ){

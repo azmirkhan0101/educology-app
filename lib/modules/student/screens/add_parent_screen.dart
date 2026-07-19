@@ -13,12 +13,9 @@ class AddParentScreen extends StatelessWidget {
   AddParentScreen({super.key});
 
   final AddParentController controller = Get.find<AddParentController>();
-  //Observable variable to track the selected index
-  //final RxInt selectedIndex = 0.obs;
 
   @override
   Widget build(BuildContext context) {
-
     bool isTab = context.isTab;
 
     return Scaffold(
@@ -26,13 +23,20 @@ class AddParentScreen extends StatelessWidget {
       appBar: AppBar(
         forceMaterialTransparency: true,
         leading: IconButton(
-            onPressed: (){
+            onPressed: () {
               Get.back();
             },
-            icon: Icon(Icons.arrow_back, color: Colors.black, size: isTab ? 30 : null,)),
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+              size: isTab ? 30 : null,
+            )),
         title: Text(
           'People',
-          style: TextStyle(fontSize: isTab ? 12.sp : null, color: Color(0xFF4A6572), fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: isTab ? 12.sp : null,
+              color: const Color(0xFF4A6572),
+              fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -44,12 +48,14 @@ class AddParentScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: TextField(
               style: TextStyle(fontSize: isTab ? 10.sp : null),
-              onChanged: (query){
+              onChanged: (query) {
                 controller.filterParents(query);
               },
               decoration: InputDecoration(
                 hintText: 'Search by name or phone no.',
-                hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: isTab ? 10.sp : null),
+                hintStyle: TextStyle(
+                    color: Colors.grey.shade400,
+                    fontSize: isTab ? 10.sp : null),
                 prefixIcon: const Icon(Icons.search, color: Color(0xFF4A6572)),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -66,7 +72,8 @@ class AddParentScreen extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
             child: Text(
               'Find your Supervisors',
-              style: TextStyle(fontSize: isTab ? 12.sp : 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: isTab ? 12.sp : 18, fontWeight: FontWeight.bold),
             ),
           ),
 
@@ -74,26 +81,54 @@ class AddParentScreen extends StatelessWidget {
 
           //===================List of Parents========================
           Expanded(
-            child: Obx((){
-              if( controller.isParentsLoading.value ){
-                return const Center(child: CircularProgressIndicator(color: AppColors.primaryGold,));
+            child: Obx(() {
+              if (controller.parentListHelper.isLoading.value) {
+                return const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryGold,
+                    ));
               }
-              if( controller.filteredParents.isEmpty ){
-                return Center(child: Text("No Supervisors Found", style: TextStyle(fontSize: isTab ? 10.sp : null),));
+              if (controller.filteredParents.isEmpty) {
+                return Center(
+                    child: Text(
+                      "No Supervisors Found",
+                      style: TextStyle(fontSize: isTab ? 10.sp : null),
+                    ));
               }
+
+              final isMoreLoading = controller.parentListHelper.isMoreLoading.value;
+
               return ListView.separated(
-                itemCount: controller.filteredParents.length,
-                separatorBuilder: (context, index) => const Divider(height: 1),
+                controller: controller.scrollController,
+                itemCount: controller.filteredParents.length + (isMoreLoading ? 1 : 0),
+                separatorBuilder: (context, index) {
+                  if (index >= controller.filteredParents.length - 1) {
+                    return const SizedBox.shrink();
+                  }
+                  return const Divider(height: 1);
+                },
                 itemBuilder: (context, index) {
+                  // Bottom loading spinner for pagination
+                  if (index == controller.filteredParents.length) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primaryGold,
+                          strokeWidth: 2.5,
+                        ),
+                      ),
+                    );
+                  }
 
                   final StaffModel staffModel = controller.filteredParents[index];
 
                   return Obx(() {
-
-                    final isSelected = controller.selectedParentId.value == staffModel.id;
+                    final isSelected =
+                        controller.selectedParentId.value == staffModel.id;
 
                     return ParentItemWidget(
-                        onPressed: (){
+                        onPressed: () {
                           controller.selectedParentId.value = staffModel.id;
                           controller.filteredParents.refresh();
                         },
@@ -103,31 +138,30 @@ class AddParentScreen extends StatelessWidget {
                             fullName: staffModel.fullName,
                             image: staffModel.image,
                             email: staffModel.email,
-                            contact: staffModel.contact
-                        )
-                    );
+                            contact: staffModel.contact));
                   });
                 },
               );
-            })
+            }),
           ),
           // Bottom Button
           Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Obx((){
-              return ButtonWidget(
-                isLoading: controller.isUploading.value,
-                label: AppStrings.addParent,
-                fontSize: 16,
-                buttonHeight: 48,
-                gradient: AppColors.primaryButtonGradient,
-                onPressed: (){
-                  controller.addParent();
-                },
-              );
-            })
-          ),
-          const SizedBox(height: 30,)
+              padding: const EdgeInsets.all(20.0),
+              child: Obx(() {
+                return ButtonWidget(
+                  isLoading: controller.isUploading.value,
+                  label: AppStrings.addParent,
+                  fontSize: 16,
+                  buttonHeight: 48,
+                  gradient: AppColors.primaryButtonGradient,
+                  onPressed: () {
+                    controller.addParent();
+                  },
+                );
+              })),
+          const SizedBox(
+            height: 30,
+          )
         ],
       ),
     );
