@@ -59,7 +59,8 @@ class AddParentController extends GetxController {
         ),
         fromJson: (json) => StaffModel.fromJson(json),
         listExtractor: (data) => data['data']['result'] as List<dynamic>?,
-        scrollController: scrollController);
+        scrollController: scrollController
+    );
   }
 
   // GET PARENTS LIST

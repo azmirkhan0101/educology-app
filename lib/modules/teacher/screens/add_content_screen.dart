@@ -108,10 +108,10 @@ class _AddContentScreenState extends State<AddContentScreen> {
                                   controller.startDate = date;
                                 }
                               },
-                              firstDay: DateTime.now().toLocal(),
+                              firstDay: DateTime(DateTime.now().year - 1).toLocal(),
                               lastDay: DateTime(DateTime.now().year + 1, 12),
                               initialYear: DateTime.now().year,
-                              firstYear: DateTime.now().year,
+                              firstYear: DateTime.now().year - 1,
                               lastYear: DateTime.now().year + 1
                           )
                       ),

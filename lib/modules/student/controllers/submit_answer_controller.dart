@@ -58,8 +58,9 @@ class SubmitAnswerController extends GetxController {
         endPoint: ApiEndpoints.submitAnswer,
       fields: payLoad,
       pdfFile: pdfFile,
-      pdfKey: "answerPdf"
+      pdfKey: "answerPdf",
     );
+    print("Submit response: ${response.statusCode} ${response.data}");
     isUploading.value = false;
 
     if (response.statusCode == 201) {

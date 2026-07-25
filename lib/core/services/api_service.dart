@@ -222,6 +222,9 @@ class ApiService extends GetxService {
           return ApiResponse(statusCode: 401);
         }
       }
+
+      logPrettyJson(responseBody);
+
       return ApiResponse(
         statusCode: response.statusCode,
         data: jsonDecode(responseBody),

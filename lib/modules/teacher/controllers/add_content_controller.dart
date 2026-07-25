@@ -79,7 +79,7 @@ class AddContentController extends GetxController {
       endPoint: ApiEndpoints.uploadClass,
       fields: payLoad,
       multiplePdfFiles: pdfFiles.value,
-      pdfKey: "documents"
+      pdfKey: "documents",
     );
 
     if (response.statusCode == 201) {
