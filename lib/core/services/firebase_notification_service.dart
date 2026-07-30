@@ -22,10 +22,7 @@ class FirebaseNotificationService {
       await _createNotificationChannel();
 
       _setupMessageHandlers();
-
-      debugPrint('Firebase Notification Service initialized successfully');
-    } catch (e) {
-      debugPrint('Error initializing Firebase Notification Service: $e');
+    } catch (_) {
     }
   }
 
@@ -37,7 +34,6 @@ class FirebaseNotificationService {
         badge: true,
         sound: true,
       );
-      debugPrint('Notification permission status: ${settings.authorizationStatus}');
     } else if (Platform.isAndroid && (await _firebaseMessaging.getNotificationSettings()).authorizationStatus != AuthorizationStatus.authorized) {
       await _firebaseMessaging.requestPermission();
     }
@@ -99,7 +95,6 @@ class FirebaseNotificationService {
 
   /// Foreground messages
   Future<void> _handleForegroundMessage(RemoteMessage message) async {
-    debugPrint('Foreground message received: ${message.messageId}');
     if (message.notification != null) {
       await _showLocalNotification(message);
     }

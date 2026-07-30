@@ -36,7 +36,7 @@ class NotificationController extends GetxController{
 
   //GET NOTIFICATIONS
   Future<void> getNotifications() async{
-    await notificationHelper.fetch(isRefresh: true, shouldPrint: true);
+    await notificationHelper.fetch(isRefresh: true);
   }
 
   //NOTIFICATION MARK AS READ

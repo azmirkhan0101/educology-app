@@ -38,8 +38,6 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
   void initState() {
     super.initState();
 
-    print("Pdf url: ${widget.url}");
-
     _downloadWithProgress(widget.url);
   }
 

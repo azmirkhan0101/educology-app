@@ -74,6 +74,8 @@ class _StudentTileState extends State<TakeAttendanceTile> {
                   children: [
                     Text(
                       widget.name,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                       style: TextStyle(
                         fontSize: isTab ? 10.sp : null,
                         fontWeight: FontWeight.w500,

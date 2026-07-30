@@ -60,7 +60,6 @@ class SubmitAnswerController extends GetxController {
       pdfFile: pdfFile,
       pdfKey: "answerPdf",
     );
-    print("Submit response: ${response.statusCode} ${response.data}");
     isUploading.value = false;
 
     if (response.statusCode == 201) {

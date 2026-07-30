@@ -102,7 +102,10 @@ class ContentDetailsScreen extends StatelessWidget {
               SizedBox(height: 10,),
               CopyLinkWidget(
                 link: controller.contentDetailsModel.recordingLink!,
-                isClassLink: true,
+                isClassLink: false,
+                onLinkClick: (){
+                  controller.openLinkInBrowser(classLink: controller.contentDetailsModel.recordingLink! );
+                },
               ),
             ],
             SizedBox(height: isTab ? 25 : 12),
