@@ -303,19 +303,21 @@ class ContentDetailsScreen extends StatelessWidget {
                       isMyComment: isMyComment,
                       onReportTap: (){
                         //report comment
-                        showSnackBar(
-                            title: "Reported!",
-                            message: "This comment has been reported!",
-                            backgroundColor: AppColors.warningYellow
-                        );
+                        controller.reportComment(commentId: comment.id);
+                        // showSnackBar(
+                        //     title: "Reported!",
+                        //     message: "This comment has been reported!",
+                        //     backgroundColor: AppColors.warningYellow
+                        // );
                       },
                       onReplyReportTap: (index2){
-                        controller.comments[index].replies.removeAt(index2);
-                        showSnackBar(
-                            title: "Reported!",
-                            message: "This comment has been reported!",
-                            backgroundColor: AppColors.warningYellow
-                        );
+                        controller.reportComment(commentId: controller.comments[index].replies[index2].id);
+                        // controller.comments[index].replies.removeAt(index2);
+                        // showSnackBar(
+                        //     title: "Reported!",
+                        //     message: "This comment has been reported!",
+                        //     backgroundColor: AppColors.warningYellow
+                        // );
                       },
                       onReply: () {
                         showCommentDialog(

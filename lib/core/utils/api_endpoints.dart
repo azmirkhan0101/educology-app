@@ -87,6 +87,9 @@ class ApiEndpoints {
   //#############################################################
   //=========================STUDENTS============================
   static const comment = "/announcements/comment";
+  static String reportComment({required String commentId}){
+    return "/announcements/comment/$commentId/report";
+  }
   static String getAllParents({required int page, String? search}) {
     if (search != null && search.isNotEmpty) {
       return "/user/all?role=parent&page=$page&limit=10&search=$search";

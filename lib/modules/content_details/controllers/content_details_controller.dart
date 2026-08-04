@@ -154,6 +154,25 @@ class ContentDetailsController extends GetxController{
     commentController.clear();
   }
 
+  //========================REPORT COMMENT====================
+  Future<void> reportComment({required String commentId}) async{
+    ApiResponse response = await apiService.networkRequest(
+        method: "POST",
+        isAuthRequired: true,
+        endPoint: ApiEndpoints.reportComment(commentId: commentId),
+      body: {
+        "reason": "Contains inappropriate language"
+      },
+      shouldPrint: true
+    );
+
+    if( response.statusCode == 200 ){
+      showSnackBar(title: "Reported!", message: "This comment has been reported!", backgroundColor: AppColors.warningYellow);
+    }else{
+      showApiSnackBar(statusCode: response.statusCode, data: response.data);
+    }
+  }
+
   //OPEN CLASS LINK IN BROWSER
   Future<void> openLinkInBrowser({required String classLink}) async {
     final Uri? url = Uri.tryParse(classLink);
