@@ -37,6 +37,7 @@ class AppRoutes {
   static const String contentDetails = '/content_details';
   static const String checkAnswer = '/check_answer';
   static const String provideMark = '/provide_mark';
+  static const String provideOfflineMark = '/provide_offline_mark';
 
   static const String addParent = '/add_parent';
   static const String submitAnswer = '/submit_answer';

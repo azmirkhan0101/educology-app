@@ -142,6 +142,7 @@ class AppStrings {
   static const String taskExam = "Assessment/ Task";
   static const String timeOver = "Time Over";
   static const String checkAnswer = "Check Answer";
+  static const String provideOfflineMark = "Provide Offline Mark";
   static const String hereInPdfHasYourQuestion = "Here In pdf has your question. Check this question. And provide your Answer in a pdf with in due time. After due time any one cannot submit there answer";
   static const String homeworkExam = "Task/ Assessment";
   static const String inTime = "In Time";

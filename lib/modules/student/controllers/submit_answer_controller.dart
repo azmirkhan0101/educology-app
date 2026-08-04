@@ -23,10 +23,14 @@ class SubmitAnswerController extends GetxController {
   late String taskId;
   late int index;
   late ContentDetailsType contentDetailsType;
+  late bool isSubmitted;
+  late String submissionID;
 
   @override
   void onInit() {
 
+    isSubmitted = Get.arguments?['isSubmitted'] ?? false;
+    submissionID = Get.arguments?['submissionId'] ?? "";
     courseId = Get.arguments?['courseId'] ?? "";
     taskId = Get.arguments?['taskId'] ?? "";
     index = Get.arguments?['index'] ?? 0;
@@ -35,7 +39,7 @@ class SubmitAnswerController extends GetxController {
     super.onInit();
   }
 
-  //============================GET ANSWERS======================
+  //============================SUBMIT ANSWER======================
   Future<void> submitAnswer() async {
     if (isUploading.value) {
       return;
@@ -73,5 +77,42 @@ class SubmitAnswerController extends GetxController {
       }
 
     showApiSnackBar(statusCode: response.statusCode, data: response.data);
+  }
+
+  //==========================UPDATE SUBMITTED ANSWER==============
+Future<void> updateAnswer() async {
+    if (isUploading.value) {
+    return;
+  }
+
+    if( pdfFile == null ){
+    showSnackBar(title: "Failed", message: "Please upload your answer", backgroundColor: AppColors.errorRed);
+    return;
+  }
+
+    isUploading.value = true;
+
+    ApiResponse response = await apiService.multipartRequest(
+        method: "POST",
+        isAuthRequired: true,
+        endPoint: ApiEndpoints.updateSubmittedAnswer(submissionId: submissionID),
+        pdfFile: pdfFile,
+        pdfKey: "answerPdf",
+        fields: {}
+    );
+
+    isUploading.value = false;
+
+    if( response.statusCode == 200 || response.statusCode == 201 ){
+      Get.back();
+    }
+    showApiSnackBar(statusCode: response.statusCode, data: response.data);
+
+}
+
+@override
+  void onClose() {
+    pdfFile = null;
+    super.onClose();
   }
 }

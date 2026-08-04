@@ -69,7 +69,8 @@ class ProvideMarkScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             SvgPicture.asset(Assets.icons.upload),
-                             Text("Max file size: 5 MB",
+                             Text(
+                                 "Max file size: 100 MB",
                                 style: TextStyle(fontSize: isTab ? 9.sp : 12, color: Colors.grey)),
                             const SizedBox(height: 15),
                             IntrinsicWidth(

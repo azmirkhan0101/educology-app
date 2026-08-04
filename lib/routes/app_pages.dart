@@ -40,6 +40,7 @@ import 'package:dr_dina_educology/modules/student/screens/submit_answer_screen.d
 import 'package:dr_dina_educology/modules/teacher/bindings/add_content_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/bindings/check_answer_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/bindings/course_overview_binding.dart';
+import 'package:dr_dina_educology/modules/teacher/bindings/provide__offline_mark_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/bindings/provide_mark_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/bindings/student_report_binding.dart';
 import 'package:dr_dina_educology/modules/teacher/bindings/take_attendance_binding.dart';
@@ -47,6 +48,7 @@ import 'package:dr_dina_educology/modules/teacher/screens/add_content_screen.dar
 import 'package:dr_dina_educology/modules/teacher/screens/check_answer_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/course_overview_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/provide_mark_screen.dart';
+import 'package:dr_dina_educology/modules/teacher/screens/provide_offline_mark_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/students_report_screen.dart';
 import 'package:dr_dina_educology/modules/teacher/screens/take_attendance_screen.dart';
 import 'package:get/get.dart';
@@ -268,6 +270,13 @@ class AppPages {
         return ProvideMarkScreen();
       },
       binding: ProvideMarkBinding()
+    ),
+    GetPage(
+        name: AppRoutes.provideOfflineMark,
+        page: (){
+          return ProvideOfflineMarkScreen();
+        },
+        binding: ProvideOfflineMarkBinding()
     ),
   ];
 }

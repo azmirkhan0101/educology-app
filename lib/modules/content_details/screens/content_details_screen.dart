@@ -116,7 +116,7 @@ class ContentDetailsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             //==============CHECK ANSWER FOR TEACHER IF EXAM================
-            if (isExam && isTeacher)
+            if (isExam && isTeacher)...[
               ButtonWidget(
                 label: AppStrings.checkAnswer,
                 gradient: AppColors.primaryButtonGradient,
@@ -133,22 +133,52 @@ class ContentDetailsScreen extends StatelessWidget {
                   );
                 },
               ),
+              const SizedBox( height: 10,),
+              //==================PROVIDE MARK FOR TEACHER================
+              ButtonWidget(
+                label: AppStrings.provideOfflineMark,
+                gradient: AppColors.primaryButtonGradient,
+                prefixIcon: Icons.offline_pin_outlined,
+                fontSize: 14,
+                buttonHeight: 45,
+                onPressed: () {
+                  Get.toNamed(
+                      AppRoutes.provideOfflineMark,
+                      arguments: {
+                        "courseId" : controller.contentDetailsModel.courseId,
+                        "taskId" : controller.contentDetailsModel.contentId,
+                        "isExam" : controller.contentDetailsType == ContentDetailsType.exam
+                      }
+                  );
+                  // Get.toNamed(
+                  //     AppRoutes.checkAnswer,
+                  //     arguments: {
+                  //       "taskId" : controller.contentDetailsModel.contentId,
+                  //       "isExam" : controller.contentDetailsType == ContentDetailsType.exam
+                  //     }
+                  // );
+                },
+              ),
+            ],
             //===============SUBMIT ANSWER FOR STUDENT IF EXAM================
             if (isExam && isStudent)
               Obx((){
                 return Center(
                   child: ButtonWidget(
-                    label: controller.isSubmitted.value ? "Submitted" : AppStrings.submitAnswer,
+                    label: controller.isSubmitted.value ? "Edit" : AppStrings.submitAnswer,
                     gradient: AppColors.primaryButtonGradient,
-                    isEnabled: !controller.isSubmitted.value,
-                    prefixIcon:  controller.isSubmitted.value ? Icons.done : Icons.file_upload_outlined,
+                    //isEnabled: !controller.isSubmitted.value,
+                    isEnabled: true,
+                    prefixIcon:  controller.isSubmitted.value ? Icons.edit : Icons.file_upload_outlined,
                     fontSize: 14,
                     buttonHeight: 45,
                     buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                     onPressed: () {
+
                       Get.toNamed(
                           AppRoutes.submitAnswer,
                           arguments: {
+                            "isSubmitted" : controller.isSubmitted.value,
                             "taskId" : controller.contentDetailsModel.contentId,
                             "courseId" : controller.contentDetailsModel.courseId,
                             "index" : controller.index,
@@ -325,7 +355,7 @@ class ContentDetailsScreen extends StatelessWidget {
                             onSubmit: (value) {
                               controller.postReply(
                                 commentIndex: index,
-                                reply: value,
+                                reply: value
                               );
                             }
                         );

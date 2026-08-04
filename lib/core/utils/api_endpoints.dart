@@ -41,7 +41,10 @@ class ApiEndpoints {
   static String courseOverviewStats({required String courseId}){
     return "/report/course-overview/$courseId";
   }
-  static String studentStatusList({required String courseId}){
+  static String studentStatusList({required String courseId, String? search}){
+    if( search != null && search.isNotEmpty ){
+      return "/report/student-list/$courseId?search=$search";
+    }
     return "/report/student-list/$courseId";
   }
   static String singleStudentProgress({required String courseId, required String studentId}){
@@ -72,6 +75,7 @@ class ApiEndpoints {
   static String provideMark({required String submissionId}){
     return "/submit/mark/$submissionId";
   }
+  static const provideOfflineMark = "/submit/offline-mark";
   static String getTaskAnswer({required int page, required String taskId, required bool isExam}){
     if( isExam ){
       return "/submit/task/$taskId?type=exam&page=$page&limit=10";
@@ -105,6 +109,9 @@ class ApiEndpoints {
     return "/report/my-attendance-history/$courseId";
   }
   static const submitAnswer = "/submit/task";
+  static String updateSubmittedAnswer({required String submissionId}){
+    return "/submit/task/$submissionId";
+  }
 
   //#############################################################
   //=========================PARENT==============================

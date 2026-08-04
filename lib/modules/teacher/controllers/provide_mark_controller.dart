@@ -39,7 +39,7 @@ class ProvideMarkController extends GetxController {
     super.onInit();
   }
 
-  //============================GET ANSWERS======================
+  //============================UPLOAD MARK======================
   Future<void> uploadMark() async {
     if (isUploading.value) {
       return;
@@ -75,5 +75,19 @@ class ProvideMarkController extends GetxController {
       Get.back();
       }
     showApiSnackBar(statusCode: response.statusCode, data: response.data);
+  }
+
+  @override
+  void onClose() {
+
+    marksController.dispose();
+    totalMarksController.dispose();
+    feedbackController.dispose();
+    pdfFile = null;
+    pdfFileName.value = "";
+    mark = null;
+    totalMarks = null;
+
+    super.onClose();
   }
 }

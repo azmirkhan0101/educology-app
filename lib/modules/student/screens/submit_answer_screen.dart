@@ -36,7 +36,7 @@ class SubmitAnswerScreen extends StatelessWidget {
           },
             icon: Icon(size: isTab ? 30 : null, Icons.arrow_back, color: Colors.black)),
         title: Text(
-          'Submit Answer',
+          controller.isSubmitted ? "Edit Answer" : 'Submit Answer',
           style: TextStyle(fontSize: isTab ? 12.sp : 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -62,7 +62,7 @@ class SubmitAnswerScreen extends StatelessWidget {
               child: Column(
                 children: [
                   SvgPicture.asset(Assets.icons.upload),
-                   Text("Max file size: 5 MB",
+                   Text("Max file size: 100 MB",
                       style: TextStyle(fontSize: isTab ? 9.sp : 12, color: Colors.grey)),
                   const SizedBox(height: 15),
                   IntrinsicWidth(
@@ -97,14 +97,18 @@ class SubmitAnswerScreen extends StatelessWidget {
               child: Obx((){
                 return Center(
                   child: ButtonWidget(
-                    label: AppStrings.submit,
+                    label: controller.isSubmitted ? "Update" : AppStrings.submit,
                     isLoading: controller.isUploading.value,
                     gradient: AppColors.primaryButtonGradient,
                     buttonHeight: 50,
                     buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                     fontSize: 16,
                     onPressed: (){
-                      controller.submitAnswer();
+                      if( controller.isSubmitted ){
+                        controller.updateAnswer();
+                      }else{
+                        controller.submitAnswer();
+                      }
                     },
                   ),
                 );

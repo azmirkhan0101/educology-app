@@ -177,11 +177,11 @@ class CourseDetailsController extends GetxController
 
   //GET EXAMS
   Future<void> getExams() async {
-    await examHelper.fetch(isRefresh: true);
+    await examHelper.fetch(isRefresh: true, shouldPrint: true);
   }
 
   //GET ANNOUNCEMENTS
   Future<void> getAnnouncements() async {
-    await announcementHelper.fetch(isRefresh: true);
+    await announcementHelper.fetch(isRefresh: true, shouldPrint: true);
   }
 }
