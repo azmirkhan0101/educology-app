@@ -155,7 +155,7 @@ class ContentDetailsController extends GetxController{
   }
 
   //========================REPORT COMMENT====================
-  Future<void> reportComment({required String commentId}) async{
+  Future<void> reportComment({required String commentId, required int commentIndex, int replyIndex = -1, bool isReply = false}) async{
     ApiResponse response = await apiService.networkRequest(
         method: "POST",
         isAuthRequired: true,
@@ -167,6 +167,11 @@ class ContentDetailsController extends GetxController{
     );
 
     if( response.statusCode == 200 ){
+      if( isReply ){
+        comments.value[commentIndex].replies.removeAt(replyIndex);
+      }else {
+        comments.removeAt(commentIndex);
+      }
       showSnackBar(title: "Reported!", message: "This comment has been reported!", backgroundColor: AppColors.warningYellow);
     }else{
       showApiSnackBar(statusCode: response.statusCode, data: response.data);

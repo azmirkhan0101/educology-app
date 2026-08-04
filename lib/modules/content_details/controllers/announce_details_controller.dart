@@ -90,4 +90,38 @@ class AnnounceDetailsController extends GetxController {
 
     commentController.clear();
   }
+
+
+  //========================REPORT COMMENT====================
+  Future<void> reportComment({required String commentId, required int commentIndex, int replyIndex = -1, bool isReply = false}) async{
+    ApiResponse response = await apiService.networkRequest(
+        method: "POST",
+        isAuthRequired: true,
+        endPoint: ApiEndpoints.reportComment(commentId: commentId),
+        body: {
+          "reason": "Contains inappropriate language"
+        },
+        shouldPrint: true
+    );
+
+    if( response.statusCode == 200 ){
+      if( isReply ){
+        comments.value[commentIndex].replies.removeAt(replyIndex);
+      }else {
+        comments.removeAt(commentIndex);
+      }
+      showSnackBar(title: "Reported!", message: "This comment has been reported!", backgroundColor: AppColors.warningYellow);
+    }else{
+      showApiSnackBar(statusCode: response.statusCode, data: response.data);
+    }
+  }
+
+  @override
+  void onClose() {
+
+    commentController.dispose();
+    comments.clear();
+
+    super.onClose();
+  }
 }

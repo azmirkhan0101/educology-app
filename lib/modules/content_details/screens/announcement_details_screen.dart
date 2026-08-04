@@ -160,20 +160,17 @@ class AnnouncementDetailsScreen extends StatelessWidget {
                       comment: comment,
                       isMyComment: isMyComment,
                       onReportTap: (){
-                        //report comment
-                        controller.comments.removeAt(index);
-                        showSnackBar(
-                            title: "Reported!",
-                            message: "This comment has been reported!",
-                            backgroundColor: AppColors.warningYellow
+                        controller.reportComment(
+                            commentId: comment.id,
+                          commentIndex: index
                         );
                       },
-                      onReplyReportTap: (index2){
-                        controller.comments[index].replies.removeAt(index2);
-                        showSnackBar(
-                            title: "Reported!",
-                            message: "This comment has been reported!",
-                            backgroundColor: AppColors.warningYellow
+                      onReplyReportTap: (replyIndex){
+                        controller.reportComment(
+                            commentId: comment.id,
+                            commentIndex: index,
+                          isReply: true,
+                          replyIndex: replyIndex
                         );
                       },
                       onReply: () {
