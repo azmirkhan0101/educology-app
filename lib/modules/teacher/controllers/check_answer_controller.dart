@@ -42,7 +42,7 @@ class CheckAnswerController extends GetxController {
   //============================GET ANSWERS======================
   Future<void> getAnswers() async {
     try {
-      await answerHelper.fetch(isRefresh: true, shouldPrint: true);
+      await answerHelper.fetch(isRefresh: true);
     } catch (_) {
     }
   }

@@ -69,24 +69,26 @@ class _StudentTileState extends State<TakeAttendanceTile> {
                   ),
                 ),
                 SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.name,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: isTab ? 10.sp : null,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF5BA381),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.name,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: isTab ? 10.sp : null,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF5BA381),
+                        ),
                       ),
-                    ),
-                    Text(
-                      widget.phone,
-                      style: TextStyle(fontSize: isTab ? 9.sp : 10, color: Colors.grey),
-                    ),
-                  ],
+                      Text(
+                        widget.phone,
+                        style: TextStyle(fontSize: isTab ? 9.sp : 10, color: Colors.grey),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

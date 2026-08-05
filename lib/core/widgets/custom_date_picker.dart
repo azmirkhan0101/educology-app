@@ -330,9 +330,6 @@ class _CustomDatePickerView extends StatelessWidget {
     required int firstYear,
     required int lastYear,
   }) async {
-    debugPrint("initialYear: $initialYear");
-    debugPrint("firstYear: $firstYear");
-    debugPrint("lastYear: $lastYear");
     return await showDialog<int>(
       context: context,
       builder: (context) {

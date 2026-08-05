@@ -2,9 +2,14 @@ import 'package:dr_dina_educology/modules/content_details/widgets/document_item_
 import 'package:flutter/material.dart';
 
 class DocumentsList extends StatelessWidget {
-
   final List<String> documents;
-  const DocumentsList({super.key, required this.documents});
+  final Function(int index)? onDelete; // Added callback parameter
+
+  const DocumentsList({
+    super.key,
+    required this.documents,
+    this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +18,16 @@ class DocumentsList extends StatelessWidget {
       child: ListView.builder(
         itemCount: documents.length,
         itemBuilder: (context, index) {
-
           final String pdfUrl = documents[index];
 
-
-          return DocumentItemWidget(pdfUrl: pdfUrl);
+          return DocumentItemWidget(
+            pdfUrl: pdfUrl,
+            onDelete: () {
+              if (onDelete != null) {
+                onDelete!(index);
+              }
+            },
+          );
         },
       ),
     );

@@ -223,14 +223,18 @@ class _AddContentScreenState extends State<AddContentScreen> {
                 SizedBox(height: 10,),
                 //=====================LIST OF PICKED PDF FILES if not announcement======================
                 if( controller.contentType != AddContentType.announcement )
-                Obx((){
-                  if( controller.pdfFileNames.isEmpty ){
-                    return SizedBox.shrink();
-                  }
-                  return DocumentsList(
-                      documents: controller.pdfFileNames.value
-                  );
-                }),
+                  Obx(() {
+                    if (controller.pdfFileNames.isEmpty) {
+                      return const SizedBox.shrink();
+                    }
+                    return DocumentsList(
+                      documents: controller.pdfFileNames.toList(), // Use .toList() or pass rx list directly
+                      onDelete: (index) {
+                        // Deletes the item at the specific index from GetX RxList
+                        controller.pdfFileNames.removeAt(index);
+                      },
+                    );
+                  }),
                 //==================SINGLE PDF FILE IF ANNOUNCEMENT
                 if( controller.contentType == AddContentType.announcement )
                 Obx((){

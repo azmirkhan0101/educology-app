@@ -1,6 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:async';
+import 'dart:io';
+
 import 'package:dr_dina_educology/core/services/api_service.dart';
 import 'package:dr_dina_educology/core/utils/api_endpoints.dart';
 import 'package:dr_dina_educology/core/utils/api_response.dart';
@@ -66,8 +66,7 @@ class ProvideOfflineMarkController extends GetxController {
       endPoint: ApiEndpoints.studentStatusList(
         courseId: courseId!,
         search: trimmedQuery,
-      ),
-      shouldPrint: true,
+      )
     );
 
     isSearching.value = false;
@@ -136,8 +135,6 @@ class ProvideOfflineMarkController extends GetxController {
       "feedback": feedbackController.text.trim()
     };
 
-    print(jsonEncode(payLoad));
-
     isUploading.value = true;
     ApiResponse response = await apiService.multipartRequest(
       method: "POST",
@@ -149,12 +146,12 @@ class ProvideOfflineMarkController extends GetxController {
     );
     isUploading.value = false;
 
-    showApiSnackBar(statusCode: response.statusCode, data: response.data);
-
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       studentId = null;
       Get.back();
     }
+
+    showApiSnackBar(statusCode: response.statusCode, data: response.data);
   }
 
   @override

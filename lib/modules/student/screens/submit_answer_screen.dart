@@ -104,11 +104,12 @@ class SubmitAnswerScreen extends StatelessWidget {
                     buttonWidth: isTab ? context.fullWidth * 0.3 : null,
                     fontSize: 16,
                     onPressed: (){
-                      if( controller.isSubmitted ){
-                        controller.updateAnswer();
-                      }else{
-                        controller.submitAnswer();
-                      }
+                      controller.submitAnswer();
+                      // if( controller.isSubmitted ){
+                      //   controller.updateAnswer();
+                      // }else{
+                      //   controller.submitAnswer();
+                      // }
                     },
                   ),
                 );

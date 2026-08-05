@@ -327,13 +327,15 @@ extension TaskStatusExtension on TaskStatus {
 }
 
 //Missing,Not Submitted,in time' , "Submitted on time" , "Late submitted
-enum AnswerSubmissionStatus { missing, notSubmitted, inTime, submittedOnTime, lateSubmitted }
+enum AnswerSubmissionStatus { missing, notSubmitted, inTime, submittedOnTime, lateSubmitted, offline }
 
 extension AnswerSubmissionStatusExtension on AnswerSubmissionStatus {
   String get label {
     switch (this) {
       case AnswerSubmissionStatus.missing:
         return "Missing";
+      case AnswerSubmissionStatus.offline:
+        return "Offline";
       case AnswerSubmissionStatus.notSubmitted:
         return "Not Submitted";
       case AnswerSubmissionStatus.inTime:
@@ -349,10 +351,12 @@ extension AnswerSubmissionStatusExtension on AnswerSubmissionStatus {
     switch (this) {
       case AnswerSubmissionStatus.missing:
         return "Missing";
+      case AnswerSubmissionStatus.offline:
+        return "Offline";
       case AnswerSubmissionStatus.notSubmitted:
         return "Not Submitted";
       case AnswerSubmissionStatus.inTime:
-        return "in time";
+        return "In Time";
       case AnswerSubmissionStatus.submittedOnTime:
         return "Submitted on time";
       default:
@@ -364,6 +368,8 @@ extension AnswerSubmissionStatusExtension on AnswerSubmissionStatus {
     switch (this) {
       case AnswerSubmissionStatus.missing:
         return Colors.orange;
+      case AnswerSubmissionStatus.offline:
+        return Colors.grey;
       case AnswerSubmissionStatus.notSubmitted:
         return Colors.red.shade600;
         case AnswerSubmissionStatus.inTime:

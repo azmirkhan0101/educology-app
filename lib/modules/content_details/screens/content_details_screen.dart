@@ -150,13 +150,6 @@ class ContentDetailsScreen extends StatelessWidget {
                         "isExam" : controller.contentDetailsType == ContentDetailsType.exam
                       }
                   );
-                  // Get.toNamed(
-                  //     AppRoutes.checkAnswer,
-                  //     arguments: {
-                  //       "taskId" : controller.contentDetailsModel.contentId,
-                  //       "isExam" : controller.contentDetailsType == ContentDetailsType.exam
-                  //     }
-                  // );
                 },
               ),
             ],

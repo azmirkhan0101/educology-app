@@ -259,8 +259,7 @@ class ReportExporter {
           }
         }
       }
-    } catch (e) {
-      debugPrint('Error clearing export cache: $e');
+    } catch (_) {
     }
   }
 }

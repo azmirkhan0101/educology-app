@@ -8,7 +8,11 @@ class AnswerModel {
   final String courseId;
   final String answerPdf;
   final String submissionStatus;
-  final int marks;
+  final num marks;
+  final num totalMarks;
+  final num percentage;
+  final String feedback;
+  final String correctAnswerPdf;
   RxBool isMarked;
   final DateTime createdAt;
 
@@ -20,6 +24,10 @@ class AnswerModel {
     required this.answerPdf,
     required this.submissionStatus,
     required this.marks,
+    required this.totalMarks,
+    required this.percentage,
+    required this.feedback,
+    required this.correctAnswerPdf,
     required this.isMarked,
     required this.createdAt,
   });
@@ -32,10 +40,14 @@ class AnswerModel {
       courseId: json['course'] is Map ? (json['course']['_id'] ?? '') : (json['course']?.toString() ?? ''),
       answerPdf: json['answerPdf'] ?? '',
       submissionStatus: json['submissionStatus'] ?? '',
-      marks: json['marks'] is int ? json['marks'] : 0,
+      marks: (json['marks'] as num?) ?? 0,
+      totalMarks: (json['totalMarks'] as num?) ?? 0,
+      percentage: (json['percentage'] as num?) ?? 0,
+      feedback: json['feedback'] ?? '',
+      correctAnswerPdf: json['correctAnswerPdf'] ?? '',
       isMarked: (json['isMarked'] as bool? ?? false).obs,
       createdAt: json['createdAt'] != null
-          ? DateTime.parse(json['createdAt'])
+          ? DateTime.tryParse(json['createdAt'].toString()) ?? DateTime.now()
           : DateTime.now(),
     );
   }
@@ -49,8 +61,12 @@ class AnswerModel {
       'answerPdf': answerPdf,
       'submissionStatus': submissionStatus,
       'marks': marks,
+      'totalMarks': totalMarks,
+      'percentage': percentage,
+      'feedback': feedback,
+      'correctAnswerPdf': correctAnswerPdf,
       'isMarked': isMarked.value,
-      'createdAt': createdAt.toIso8601String()
+      'createdAt': createdAt.toIso8601String(),
     };
   }
 }

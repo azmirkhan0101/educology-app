@@ -131,7 +131,6 @@ class DrawingController extends ChangeNotifier {
       );
       return await finalImage.toByteData(format: ui.ImageByteFormat.png);
     } catch (e) {
-      debugPrint('Error capturing or flipping image: $e');
       return null;
     }
   }

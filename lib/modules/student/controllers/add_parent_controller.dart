@@ -65,7 +65,7 @@ class AddParentController extends GetxController {
 
   // GET PARENTS LIST
   Future<void> getParentList() async {
-    await parentListHelper.fetch(isRefresh: true, shouldPrint: true);
+    await parentListHelper.fetch(isRefresh: true);
   }
 
   // =====================ADD PARENT=========================

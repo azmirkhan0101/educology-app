@@ -334,7 +334,7 @@ class ProvideOfflineMarkScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 28.0),
                 child: Obx(() {
                   return ButtonWidget(
-                    label: AppStrings.update,
+                    label: AppStrings.submit,
                     isLoading: controller.isUploading.value,
                     gradient: AppColors.primaryButtonGradient,
                     buttonHeight: 50,

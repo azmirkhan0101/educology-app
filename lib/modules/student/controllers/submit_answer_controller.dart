@@ -11,10 +11,11 @@ import 'package:dr_dina_educology/modules/course_details/controllers/course_deta
 import 'package:get/get.dart';
 
 class SubmitAnswerController extends GetxController {
-
   final ApiService apiService = Get.find<ApiService>();
-  final CourseDetailsController courseDetailsController = Get.find<CourseDetailsController>();
-  final ContentDetailsController contentDetailsController = Get.find<ContentDetailsController>();
+  final CourseDetailsController courseDetailsController =
+      Get.find<CourseDetailsController>();
+  final ContentDetailsController contentDetailsController =
+      Get.find<ContentDetailsController>();
   RxBool isUploading = false.obs;
 
   File? pdfFile;
@@ -28,7 +29,6 @@ class SubmitAnswerController extends GetxController {
 
   @override
   void onInit() {
-
     isSubmitted = Get.arguments?['isSubmitted'] ?? false;
     submissionID = Get.arguments?['submissionId'] ?? "";
     courseId = Get.arguments?['courseId'] ?? "";
@@ -45,21 +45,22 @@ class SubmitAnswerController extends GetxController {
       return;
     }
 
-    if( pdfFile == null ){
-      showSnackBar(title: "Failed", message: "Please upload your answer", backgroundColor: AppColors.errorRed);
+    if (pdfFile == null) {
+      showSnackBar(
+        title: "Failed",
+        message: "Please upload your answer",
+        backgroundColor: AppColors.errorRed,
+      );
       return;
     }
 
-    Map<String, dynamic> payLoad = {
-      "task" : taskId,
-      "course" : courseId
-    };
+    Map<String, dynamic> payLoad = {"task": taskId, "course": courseId};
 
     isUploading.value = true;
     ApiResponse response = await apiService.multipartRequest(
-        method: "POST",
-        isAuthRequired: true,
-        endPoint: ApiEndpoints.submitAnswer,
+      method: "PATCH",
+      isAuthRequired: true,
+      endPoint: ApiEndpoints.submitAnswer,
       fields: payLoad,
       pdfFile: pdfFile,
       pdfKey: "answerPdf",
@@ -67,50 +68,19 @@ class SubmitAnswerController extends GetxController {
     isUploading.value = false;
 
     if (response.statusCode == 201) {
-      if( contentDetailsType == ContentDetailsType.exam ){
+      if (contentDetailsType == ContentDetailsType.exam) {
         courseDetailsController.markExamAsDone(index: index);
-      }else{
+      } else {
         courseDetailsController.markHomeWorkAsDone(index: index);
       }
       contentDetailsController.markTaskAsDone();
       Get.back();
-      }
-
-    showApiSnackBar(statusCode: response.statusCode, data: response.data);
-  }
-
-  //==========================UPDATE SUBMITTED ANSWER==============
-Future<void> updateAnswer() async {
-    if (isUploading.value) {
-    return;
-  }
-
-    if( pdfFile == null ){
-    showSnackBar(title: "Failed", message: "Please upload your answer", backgroundColor: AppColors.errorRed);
-    return;
-  }
-
-    isUploading.value = true;
-
-    ApiResponse response = await apiService.multipartRequest(
-        method: "POST",
-        isAuthRequired: true,
-        endPoint: ApiEndpoints.updateSubmittedAnswer(submissionId: submissionID),
-        pdfFile: pdfFile,
-        pdfKey: "answerPdf",
-        fields: {}
-    );
-
-    isUploading.value = false;
-
-    if( response.statusCode == 200 || response.statusCode == 201 ){
-      Get.back();
     }
+
     showApiSnackBar(statusCode: response.statusCode, data: response.data);
+  }
 
-}
-
-@override
+  @override
   void onClose() {
     pdfFile = null;
     super.onClose();

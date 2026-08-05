@@ -113,10 +113,8 @@ class SavePdfController extends ChangeNotifier {
           await savePdfDocToFile(pdfDoc!, file);
         });
       }
-      dev.log('All pages processed, PDF saved at $savedPath');
       Navigator.pop(context, file);
     } catch (e) {
-      debugPrint('Error while saving drawing and text: $e');
       rethrow;
     } finally {
       pdfDoc?.dispose();
@@ -438,7 +436,6 @@ class SavePdfController extends ChangeNotifier {
       pdfDoc = PdfDocument(inputBytes: await readFileInChunks(pdfFile));
 
       if (pageIndex < 0 || pageIndex > pdfDoc.pages.count) {
-        debugPrint('Invalid page index: $pageIndex');
         return null;
       }
 

@@ -42,8 +42,7 @@ class ViewMarksController extends GetxController{
       isAuthRequired: true,
       endPoint: isParent ? ApiEndpoints.childAllMarks(courseId: courseId, childId: studentId)
           : isStudent ? ApiEndpoints.myMarks(courseId: courseId)
-          : ApiEndpoints.singleStudentAllMarks(courseId: courseId, studentId: studentId),
-      shouldPrint: true
+          : ApiEndpoints.singleStudentAllMarks(courseId: courseId, studentId: studentId)
     );
     isLoading.value = false;
 

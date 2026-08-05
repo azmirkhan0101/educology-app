@@ -69,13 +69,11 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
           });
         },
         onError: (e) {
-          debugPrint(e.toString());
           setState(() => isLoading = false);
         },
         cancelOnError: true,
       );
     } catch (e) {
-      debugPrint("Download Error: $e");
       setState(() => isLoading = false);
     }
   }
@@ -103,7 +101,6 @@ class _ViewDocumentScreenState extends State<ViewDocumentScreen> {
         );
       }
     } catch (e) {
-      debugPrint("Editing Error: $e");
       showSnackBar(
         title: "Error",
         message: "Failed to open editor: $e",

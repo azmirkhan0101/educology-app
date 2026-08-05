@@ -29,7 +29,8 @@ class AnswerCard extends StatelessWidget {
 
     bool isTab = context.isTab;
     AnswerSubmissionStatus submissionStatus = AnswerSubmissionStatus.values.firstWhere(
-      (status) => status.label2 == answerModel.submissionStatus
+          (status) => status.label2.toLowerCase() == answerModel.submissionStatus.toLowerCase(),
+      orElse: () => AnswerSubmissionStatus.notSubmitted,
     );
 
     return Column(

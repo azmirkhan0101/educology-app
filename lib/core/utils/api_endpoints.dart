@@ -109,9 +109,6 @@ class ApiEndpoints {
     return "/report/my-attendance-history/$courseId";
   }
   static const submitAnswer = "/submit/task";
-  static String updateSubmittedAnswer({required String submissionId}){
-    return "/submit/task/$submissionId";
-  }
 
   //#############################################################
   //=========================PARENT==============================

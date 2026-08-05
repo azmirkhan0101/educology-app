@@ -69,8 +69,7 @@ class ProfileController extends GetxController{
     ApiResponse response = await apiService.networkRequest(
         method: "GET",
         isAuthRequired: true,
-        endPoint: ApiEndpoints.getProfile,
-      shouldPrint: true
+        endPoint: ApiEndpoints.getProfile
     );
 
     if( response.statusCode == 200 ) { //FETCHED PROFILE DATA
@@ -133,8 +132,7 @@ class ProfileController extends GetxController{
         method: "PATCH",
         isAuthRequired: true,
         endPoint: ApiEndpoints.removeParent,
-      body: payLoad,
-      shouldPrint: true
+      body: payLoad
     );
     showApiSnackBar(statusCode: response.statusCode, data: response.data);
 

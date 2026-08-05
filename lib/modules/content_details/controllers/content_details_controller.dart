@@ -162,8 +162,7 @@ class ContentDetailsController extends GetxController{
         endPoint: ApiEndpoints.reportComment(commentId: commentId),
       body: {
         "reason": "Contains inappropriate language"
-      },
-      shouldPrint: true
+      }
     );
 
     if( response.statusCode == 200 ){
