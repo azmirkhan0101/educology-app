@@ -1,5 +1,5 @@
 ####################################
-# ENV / SECRETS (VERY IMPORTANT)
+# ENV / SECRETS (VERY IMPORTANT) 
 ####################################
 .env
 .env.*
